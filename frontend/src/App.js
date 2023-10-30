@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import { Button, Alert, Breadcrumb, Card } from "react-bootstrap";
-
+import Header from "./Components/Header.js";
+import DescriptionBox from "./Components/DescriptionBox.js";
+import { Stack } from "react-bootstrap";
 
 function App() {
   return (
-    <div >
-       <Card >
-          <Card.Img src={logo} />
-          <Card.Body>
-            <Card.Title>Card Example</Card.Title>
-            <Card.Text>This is example of react bootstrap cards</Card.Text>
-          </Card.Body>
-        </Card>
-        <Breadcrumb>
-          <Breadcrumb.Item>Test</Breadcrumb.Item>
-          <Breadcrumb.Item>Test 2</Breadcrumb.Item>
-          <Breadcrumb.Item active>Test 3</Breadcrumb.Item>
-        </Breadcrumb>
-        <Alert variant="primary">This is a button</Alert>
-        <Button>Text button</Button>
-    </div>
+    <>
+      <Stack gap={3}>
+        <div>
+          <Header />
+        </div>
+        <div className="position-absolute w-100 pb-2" style={{ top: 100 }}>
+          <DescriptionBox />
+        </div>
+        <div className="position-absolute w-100 pb-2" style={{ top: 280 }}>
+          <DescriptionBox />
+        </div>
+        <div className="position-absolute w-100 pb-2" style={{ top: 460 }}>
+          <DescriptionBox />
+        </div>
+        <div className="position-absolute w-100 pb-2" style={{ top: 640 }}>
+          <DescriptionBox />
+        </div>
+      </Stack>
+    </>
   );
 }
 
