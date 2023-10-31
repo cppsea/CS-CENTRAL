@@ -6,15 +6,15 @@ import { useState } from "react";
 
 export default function SearchBar() {
 
-  const [description, setDescription] = useState("");
-
+  //const [description, setDescription] = useState("");
+  const description = "test"
   const onSubmitForm = async e =>
   {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/articles", {mode: "no-cors", method: "GET"});
-      //const jsonData = await response.json();
-      console.log(response);
+      const response = await fetch(`http://localhost:5000/api/articles/?title=${description}`, {method: "GET"});
+      const jsonData = await response.json();
+      console.log(jsonData);
     } catch (err) {
       console.error(err.message);
     }
