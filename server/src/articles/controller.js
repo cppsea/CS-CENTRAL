@@ -1,15 +1,10 @@
 const pool = require('../../db.js');
 const queries = require('./queries');
 
-const getArticles = (req,res) =>
+const getArticles = async (req,res) =>
 {
-    pool.query(queries.getArticles , (error, results) =>
-    {
-        if (error) throw error;
-
-        res.status(200).json(results.rows);
-
-    })
+    const articles = await pool.query(queries.getArticles);
+    res.status(200).json(articles.rows);
     console.log('GET ARTIICLES')
 }
 
