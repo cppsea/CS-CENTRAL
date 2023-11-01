@@ -3,14 +3,6 @@ const queries = require('./queries');
 
 const getArticles = async (req,res) =>
 {
-
-    if (req.query.title)
-    {
-        const articles = await pool.query(queries.getArticlesByTitle, [req.query.title]);
-        res.status(200).json(articles.rows);
-        console.log('GET ARTIICLES');
-        return;
-    }
     const articles = await pool.query(queries.getArticles);
     res.status(200).json(articles.rows);
     console.log('GET ARTIICLES')
@@ -24,6 +16,7 @@ const getArticlesById = (req,res) =>
         res.status(200).json(results.rows)
     })
 }
+
 const addArticles = (req,res) =>
 {
     const { title } = req.body;
