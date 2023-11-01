@@ -1,15 +1,18 @@
 const pool = require('../../db.js');
 const queries = require('./queries');
 
-const getArticles = (req,res) =>
+const getArticles = async (req,res) =>
 {
-    pool.query(queries.getArticles , (error, results) =>
+
+    if (req.query.title)
     {
-        if (error) throw error;
-
-        res.status(200).json(results.rows);
-
-    })
+        const articles = await pool.query(queries.getArticlesByTitle, [req.query.title]);
+        res.status(200).json(articles.rows);
+        console.log('GET ARTIICLES');
+        return;
+    }
+    const articles = await pool.query(queries.getArticles);
+    res.status(200).json(articles.rows);
     console.log('GET ARTIICLES')
 }
 
@@ -21,7 +24,6 @@ const getArticlesById = (req,res) =>
         res.status(200).json(results.rows)
     })
 }
-
 const addArticles = (req,res) =>
 {
     const { title } = req.body;
