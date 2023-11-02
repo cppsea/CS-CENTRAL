@@ -19,7 +19,7 @@ export default function Header() {
     <>
       <Stack gap={3}>
         <div>
-          <Navbar expand="lg" fixed="top" style={{ background: "#F65757" }}>
+          <Navbar expand="lg" fixed="top" bg="primary">
             <Stack direction="horizontal" gap={2}>
               <Nav.Link href="#home">
                 <Image className="p-1" src={logo} roundedCircle width={65} />
@@ -41,7 +41,7 @@ export default function Header() {
                     className="text-light fw-medium fs-6"
                     onClick={handleShow}
                   >
-                    Notifications <Badge>8</Badge>
+                    Notifications <Badge bg="secondary">8</Badge>
                   </Nav.Link>
                   <Offcanvas show={show} onHide={handleClose}>
                     <Offcanvas.Header closeButton>
@@ -54,13 +54,13 @@ export default function Header() {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link className="text-light fw-medium fs-6">
-                    Join Wiki Community
+                    Article Catalog
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <NavDropdown
                     className="text-light fw-semibold fs-6"
-                    title="David Lam"
+                    title="Joe Smith"
                     align={{ lg: "end" }}
                   >
                     <NavDropdown.Item>My Profile</NavDropdown.Item>
