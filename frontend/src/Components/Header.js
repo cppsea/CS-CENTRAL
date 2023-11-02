@@ -63,7 +63,7 @@ export default function Header() {
                 <Nav.Item>
                   <NavDropdown
                     className="text-light fw-semibold fs-6"
-                    title="David Lam"
+                    title="Joe Smith"
                     align={{ lg: "end" }}
                   >
                     <NavDropdown.Item>My Profile</NavDropdown.Item>

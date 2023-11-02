@@ -12,15 +12,6 @@ function App() {
         <div className="position-absolute w-100 pb-2" style={{ top: 100 }}>
           <DescriptionBox />
         </div>
-        <div className="position-absolute w-100 pb-2" style={{ top: 280 }}>
-          <DescriptionBox />
-        </div>
-        <div className="position-absolute w-100 pb-2" style={{ top: 460 }}>
-          <DescriptionBox />
-        </div>
-        <div className="position-absolute w-100 pb-2" style={{ top: 640 }}>
-          <DescriptionBox />
-        </div>
       </Stack>
     </>
   );

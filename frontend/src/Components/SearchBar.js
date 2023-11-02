@@ -22,20 +22,24 @@ export default function SearchBar() {
 
   return (
     <>
-      <MDBCol md="10">
+      <MDBCol md="9">
         <Card className="rounded-pill">
-          <Stack direction="horizontal">
-            <Form onSubmit={onSubmitForm}>
+          <Form onSubmit={onSubmitForm}>
+            <Stack direction="horizontal">
               <Form.Control
                 className="rounded-pill border-0"
                 placeholder="Search articles here..."
                 style={{ "box-shadow": "none" }}
               />
-              <Button type="submit">
-                <Search className="mx-1"></Search>
-              </Button>
-            </Form>
-          </Stack>
+              <Form.Control
+                id="hover_color"
+                type="Submit"
+                value={"Search"}
+                className="bg-primary w-auto rounded-pill"
+              />
+              {/* <Search className="m-1"></Search> */}
+            </Stack>
+          </Form>
         </Card>
       </MDBCol>
     </>
