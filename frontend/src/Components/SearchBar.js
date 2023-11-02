@@ -10,10 +10,7 @@ export default function SearchBar() {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/articles/?title=${description}`,
-        { method: "GET" }
-      );
+      const response = await fetch(`http://localhost:5000/api/articles/?title=${description}`,{ method: "GET" });
       const jsonData = await response.json();
       console.log(jsonData);
       //call the next page here with an argument of jsonData
