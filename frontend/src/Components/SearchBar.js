@@ -7,10 +7,10 @@ import DescriptionBox from "./DescriptionBox";
 export default function SearchBar() {
   //const [description, setDescription] = useState("");
   //description should be set to the text from the search bar
-
-  const description = document.getElementById("text_input");
   const onSubmitForm = async (e) => {
+    const description = document.getElementById("text_input");
     console.log(description.value);
+
     e.preventDefault();
     try {
       const response = await fetch(
