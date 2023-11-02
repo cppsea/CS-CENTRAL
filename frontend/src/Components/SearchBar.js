@@ -5,6 +5,7 @@ import { useState } from "react";
 
 export default function SearchBar() {
   //const [description, setDescription] = useState("");
+  //description should be set to the text from the search bar
   const description = "test";
   const onSubmitForm = async (e) => {
     e.preventDefault();
@@ -15,6 +16,8 @@ export default function SearchBar() {
       );
       const jsonData = await response.json();
       console.log(jsonData);
+      //call the next page here with an argument of jsonData
+
     } catch (err) {
       console.error(err.message);
     }
