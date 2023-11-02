@@ -1,4 +1,5 @@
 import logo from "../assets/logo.png";
+// import { Link, Outlet } from "react-router-dom";
 import {
   Nav,
   Navbar,
@@ -41,10 +42,7 @@ export default function Header() {
                     className="text-light fw-medium fs-6"
                     onClick={handleShow}
                   >
-                    Notifications{" "}
-                    <Badge bg="secondary">
-                      8
-                    </Badge>
+                    Notifications <Badge bg="secondary">8</Badge>
                   </Nav.Link>
                   <Offcanvas show={show} onHide={handleClose}>
                     <Offcanvas.Header closeButton>
@@ -57,7 +55,7 @@ export default function Header() {
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link className="text-light fw-medium fs-6">
-                    Join Wiki Community
+                    Article Catalog
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -76,6 +74,7 @@ export default function Header() {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+          {/* <Outlet /> */}
         </div>
       </Stack>
     </>

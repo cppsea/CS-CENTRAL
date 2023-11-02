@@ -4,24 +4,25 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1",
-      "server": "nodemon --quiet server",
-      "client": "npm start --prefix frontend",
-      "dev": "concurrently \"npm run server\" \"npm run client\""
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "nodemon --quiet server",
+        "client": "npm start --prefix frontend",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/cppsea/CS-Catalog.git"
+        "type": "git",
+        "url": "git+https://github.com/cppsea/CS-Catalog.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/cppsea/CS-Catalog/issues"
+        "url": "https://github.com/cppsea/CS-Catalog/issues"
     },
     "homepage": "https://github.com/cppsea/CS-Catalog#readme",
     "devDependencies": {
-      "concurrently": "^8.2.2",
-      "nodemon": "^3.0.1"
+        "concurrently": "^8.2.2",
+        "nodemon": "^3.0.1",
+        "react-router-dom": "^6.18.0"
     }
 }
