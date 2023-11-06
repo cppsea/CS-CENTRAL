@@ -1,28 +1,22 @@
-import { Container, Card, Stack } from "react-bootstrap";
+import { Container, Card, Stack, Image } from "react-bootstrap";
+import logo from "../assets/logo.png";
 
-export default function DescriptionBox({
-  children,
-  title,
-  imgSrc,
-  height,
-  width,
-  fluid
-}) {
+export default function DescriptionBox({ children, title, fluid }) {
   return (
     <>
       <Container fluid={fluid}>
-        <Card bg="info" className="rounded-5">
-          <Stack direction="horizontal">
-            <Card.Img
-              src={imgSrc}
-              style={{ width: width + "em", height: height + "em" }}
-              className="p-1 rounded-5"
-            />
-            <Card.Body>
-              <Card.Title>{title}</Card.Title>
-              <Card.Text>{children}</Card.Text>
-            </Card.Body>
-          </Stack>
+        <Card bg="primary" className="rounded-5">
+          <Card.Body>
+            <Stack direction="horizontal">
+              <div>
+                <Image src={logo} width={200} rounded/>
+              </div>
+              <div className="ps-3">
+                <Card.Title className="fs-2">{title}</Card.Title>
+                <Card.Text className="text-light">{children}</Card.Text>
+              </div>
+            </Stack>
+          </Card.Body>
         </Card>
       </Container>
     </>

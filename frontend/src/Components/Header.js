@@ -21,12 +21,12 @@ export default function Header() {
         <div>
           <Navbar expand="lg" fixed="top" bg="primary">
             <Stack direction="horizontal" gap={2}>
-              <Nav.Link href="#home">
+              <Nav.Link href="/">
                 <Image className="p-1" src={logo} roundedCircle width={65} />
               </Nav.Link>
               <Navbar.Brand
                 className="fs-2 fw-medium text-white"
-                href="#home"
+                href="/"
                 style={{ fontFamily: "Roboto" }}
               >
                 CS Catalog
@@ -53,7 +53,10 @@ export default function Header() {
                   </Offcanvas>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link className="text-light fw-medium fs-6">
+                  <Nav.Link
+                    className="text-light fw-medium fs-6"
+                    href="/article_search_results"
+                  >
                     Article Catalog
                   </Nav.Link>
                 </Nav.Item>

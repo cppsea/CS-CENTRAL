@@ -1,12 +1,23 @@
 import { Card, Stack, Form } from "react-bootstrap";
 import { MDBCol } from "mdbreact";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ArticleList from "../pages/ArticleList";
+import { useParams } from "react-router-dom";
 
 export default function SearchBar() {
-  const [name, setName] = useState("");
+  const [data, setData] = useState("");
+  // const { keyword } = useParams();
+
+  useEffect(() => {
+    fetch("https://api.example.com/data") // modify the API link
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   const submitHandler = (event) => {
     event.preventDefault();
-    alert(`The article you would like to search is: ${name}`);
+    alert(`The article you would like to search is: ${data}`);
   };
 
   return (
@@ -20,8 +31,8 @@ export default function SearchBar() {
                 className="rounded-pill border-0"
                 placeholder="Search articles here..."
                 style={{ boxShadow: "none" }}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={data}
+                onChange={(e) => setData(e.target.value)}
               />
               <Form.Control
                 type="submit"
