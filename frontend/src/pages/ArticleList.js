@@ -9,21 +9,21 @@ export default function ArticleList({  }) {
   const [data,setData] = useState()
   const [searchParams, setSearchParams] = useSearchParams()
   const titleQuery = searchParams.get("title")
-  console.log(titleQuery);
+  //console.log(titleQuery);
 
   useEffect(()=>
   {
     fetch(`http://localhost:5000/api/articles/?title=${titleQuery}`)
-      .then((res) => res.json()
-      .then(data => setData(data)))
+      .then((res) => res.json())
+      .then((res) => setData(res))
   },[titleQuery])
   const { id } = useParams();
 
-  if (data == undefined)
+  if (data == undefined )
   {
     return <>loading...</>
   }
-
+  console.log(data);
   return (
     <>
       <div>
@@ -40,7 +40,7 @@ export default function ArticleList({  }) {
           </div>
           {data.map((item) => (
             <div>
-              <LinkedDescriptionBox title={item.title} variant="secondary">
+              <LinkedDescriptionBox title={item.title} id={item.id} variant="secondary">
                 {item.description}
               </LinkedDescriptionBox>
             </div>
