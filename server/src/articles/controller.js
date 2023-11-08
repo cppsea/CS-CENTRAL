@@ -2,6 +2,7 @@ const pool = require("../../db.js");
 const queries = require("./queries");
 
 const getArticles = async (req, res) => {
+  console.log("BEFORE IF");
   if (req.query.title) {
     const articles = await pool.query(queries.getArticlesByTitle, [
       req.query.title,
