@@ -12,17 +12,17 @@ export default function ArticleList({  }) {
 
   useEffect(()=>
   {
-    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) => res.json())
-      .then((res) => setData(res))
-            },[titleQuery])
+    fetch(`http://localhost:5000/api/articles/?title=${titleQuery}`)
+      .then((res) => res.json()
+      .then(data => setData(data)))
+  },[titleQuery])
   const { id } = useParams();
 
-  if (data == undefined)
+  if (data == undefined )
   {
     return <>loading...</>
   }
-
+  console.log(data);
   return (
     <>
       <div>
@@ -39,7 +39,7 @@ export default function ArticleList({  }) {
           </div>
           {data.map((item) => (
             <div>
-              <LinkedDescriptionBox title={item.title} variant="secondary">
+              <LinkedDescriptionBox title={item.title} id={item.id} variant="secondary">
                 {item.description}
               </LinkedDescriptionBox>
             </div>

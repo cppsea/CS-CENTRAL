@@ -7,6 +7,7 @@ export default function LinkedDescriptionBox({
   fluid,
   disabled,
   variant,
+  id,
 }) {
   return (
     <>
@@ -15,11 +16,11 @@ export default function LinkedDescriptionBox({
           <Card.Body>
             <Card.Title>
               <Button
-                href="/article_view/:name"
+                value={title}
+                href={`/article_view/${id}`}
                 variant={variant}
                 disabled={disabled}
                 className="text-light fs-5"
-                value={title}
               >
                 {title}
               </Button>
