@@ -34,7 +34,7 @@ export default function ArticleList({  }) {
           <div>
             <Card style={{ border: "none" }}>
               <Card.Body>
-                <h4 className="ps-4">Search Results: "{id}"</h4>
+                <h4 className="ps-4">Search Results: "{titleQuery}"</h4>
               </Card.Body>
             </Card>
           </div>
