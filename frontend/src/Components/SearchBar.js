@@ -3,21 +3,24 @@ import { MDBCol } from "mdbreact";
 import { useState, useEffect } from "react";
 import ArticleList from "../pages/ArticleList";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SearchBar() {
   const [data, setData] = useState("");
   // const { keyword } = useParams();
 
-  useEffect(() => {
-    fetch("https://api.example.com/data") // modify the API link
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-  }, []);
+  useEffect((data) => {
+    //console.log("useEffect");
+    // fetch(`http://localhost:5000/api/articles/?title=${data}`) // modify the API link
+    //   .then((response) => {response.json().then((articleData) => {})})
+    //   .catch((error) => console.error(error));
+  }, [data]);
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    alert(`The article you would like to search is: ${data}`);
+    // const response = await fetch(`http://localhost:5000/api/articles/?title=${data}`)
+    // const jsonData = await response.json();
+    // console.log(jsonData);
   };
 
   return (
@@ -34,11 +37,13 @@ export default function SearchBar() {
                 value={data}
                 onChange={(e) => setData(e.target.value)}
               />
-              <Form.Control
-                type="submit"
-                value={"Search"}
-                className="bg-primary w-auto rounded-pill"
-              />
+              <Link to={`/article_search_results/?title=${data}`}>
+                <Form.Control
+                  type="submit"
+                  value={"Search"}
+                  className="bg-primary w-auto rounded-pill"
+                />
+              </Link>
             </Stack>
           </Form>
         </Card>

@@ -2,9 +2,28 @@ import Header from "../Components/Header.js";
 import { Stack, Card } from "react-bootstrap";
 import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.js";
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-export default function ArticleList({ data }) {
+export default function ArticleList({  }) {
+  const [data,setData] = useState()
+  const [searchParams, setSearchParams] = useSearchParams()
+  const titleQuery = searchParams.get("title")
+  console.log(titleQuery);
+
+  useEffect(()=>
+  {
+    fetch(`http://localhost:5000/api/articles/?title=${titleQuery}`)
+      .then((res) => res.json()
+      .then(data => setData(data)))
+  },[titleQuery])
   const { id } = useParams();
+
+  if (data == undefined)
+  {
+    return <>loading...</>
+  }
+
   return (
     <>
       <div>
