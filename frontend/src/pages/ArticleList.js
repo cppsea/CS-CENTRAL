@@ -7,16 +7,47 @@ import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.js";
 export default function ArticleList({  }) {
   const [data,setData] = useState()
   const [searchParams, setSearchParams] = useSearchParams()
+  const [specificArticle, setSpecificArticle] = useState()
   const titleQuery = searchParams.get("title")
   //console.log(titleQuery);
 
   useEffect(()=>
   {
-    fetch(`http://localhost:5000/api/articles/?title=${titleQuery}`)
+    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
       .then((res) => res.json()
       .then(data => setData(data)))
-  },[titleQuery])
+      .catch((error) =>{
+        console.error("error fetching data");
+      })
+
+      if(data.length > 0 ){
+        const specificArticleId = data[0].id;
+      fetch(`http://localhost:3002/api/articles/${specificArticleId}`)
+        .then((res) => res.json())
+        .then((specificArticle) => {
+          setSpecificArticle(specificArticle);
+          console.log("Specific article:", specificArticle);
+        })
+        .catch((error) =>{
+          console.error("error fetching specific article");
+        });
+      }
+  },[titleQuery, setSearchParams])
+
   const { id } = useParams();
+
+ /* const fetchArticle = async () => {
+    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
+    .then((res) => res.json())
+    .then((data) => {
+      setData(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching item data:", error);
+    });
+  } */
+  
 
   if (data == undefined )
   {
@@ -39,7 +70,10 @@ export default function ArticleList({  }) {
           </div>
           {data.map((item) => (
             <div>
-              <LinkedDescriptionBox title={item.title} id={item.id} variant="secondary">
+              <LinkedDescriptionBox
+              title={item.title}
+              id={item.id}
+              variant="secondary">
                 {item.description}
               </LinkedDescriptionBox>
             </div>
