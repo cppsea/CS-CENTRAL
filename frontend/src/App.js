@@ -1,11 +1,9 @@
-import Header from "./Components/Header.js";
-import { Stack } from "react-bootstrap";
-import DescriptionBox from "./Components/DescriptionBox.js";
-import logo from "./assets/logo.png";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/Home.js";
 import ArticleList from "./pages/ArticleList.js";
 import ArticleView from "./pages/ArticleView.js";
+
+
 
 function App() {
   return (
