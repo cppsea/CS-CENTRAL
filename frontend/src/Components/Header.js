@@ -7,6 +7,9 @@ import {
   NavDropdown,
   Badge,
   Offcanvas,
+  Container,
+  Row,
+  Col,
 } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
@@ -31,6 +34,8 @@ export default function Header() {
               >
                 CS Catalog
               </Navbar.Brand>
+            </Stack>
+            <Stack style={{ justifyContent: "center" }} className="px-2">
               <SearchBar />
             </Stack>
             <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
