@@ -11,3 +11,6 @@ UI/UX
 API
 
 Database
+
+ML resources:
+https://yawgmoth.github.io/CS4200/slides/ 
