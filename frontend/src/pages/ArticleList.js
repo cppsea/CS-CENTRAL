@@ -20,7 +20,7 @@ export default function ArticleList({  }) {
         console.error("error fetching data");
       })
 
-      if(data.length > 0 ){
+  /**     if(data && data.length > 0 ){
         const specificArticleId = data[0].id;
       fetch(`http://localhost:3002/api/articles/${specificArticleId}`)
         .then((res) => res.json())
@@ -31,7 +31,7 @@ export default function ArticleList({  }) {
         .catch((error) =>{
           console.error("error fetching specific article");
         });
-      }
+      } */
   },[titleQuery, setSearchParams])
 
   const { id } = useParams();

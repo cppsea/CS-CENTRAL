@@ -1,9 +1,24 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../Components/Header.js";
-import { Stack, Image, Card } from "react-bootstrap";
 
 export default function ArticleView() {
+  const [data,setData] = useState()
   const { name = "" } = useParams();
+  
+  useEffect(()=>
+  {
+    fetch(`http://localhost:3002/api/articles/?name=${name}`)
+      .then((res) => res.json()
+      .then(data => setData(data)))
+      .catch((error) =>{
+        console.error("error fetching data");
+      })
+
+  },[name])
+
+  console.log("ID: ",name);
+  //console.log(data);
   return (
     <>
       <div>
