@@ -1,7 +1,6 @@
 import Header from "../Components/Header.js";
-import { Stack, Image } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import DescriptionBox from "../Components/DescriptionBox.js";
-import logo from "../assets/logo.png";
 
 export default function Home() {
   return (
@@ -10,7 +9,7 @@ export default function Home() {
         <div>
           <Header />
         </div>
-        <div className="position-absolute w-100 pb-2" style={{ top: 100 }}>
+        <div className="w-100 pb-2" style={{ top: 100 }}>
           <DescriptionBox title={"What is CS Catalog?"}>
             CS Catalog is a helpful site where we are seeking to faciliate
             understanding and exposure to Machine Learning (ML), which has been

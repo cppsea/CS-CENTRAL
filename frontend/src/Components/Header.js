@@ -22,7 +22,7 @@ export default function Header() {
     <>
       <Stack gap={3}>
         <div>
-          <Navbar expand="lg" fixed="top" bg="primary">
+          <Navbar expand="lg" fixed="top" className="sticky-top" bg="primary">
             <Stack direction="horizontal" gap={2}>
               <Nav.Link href="/">
                 <Image className="p-1" src={logo} roundedCircle width={65} />
