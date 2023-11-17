@@ -1,5 +1,6 @@
 import { Col, Container, Row, Stack } from "react-bootstrap";
 
+//Component for the title of a article section
 export default function SectionHeader({ header }) {
   return (
     <Container>

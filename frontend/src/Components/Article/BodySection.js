@@ -1,19 +1,14 @@
-import { Container, Row, Col, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
+import SectionHeader from "./SectionHeader";
+import SectionContent from "./SectionContent";
 
-export default function BodySection({ body }) {
+//Component for one of the sections within the body of an article
+//takes in the title and body content
+export default function BodySection({ title, body }) {
   return (
-    <Container>
-      <Row>
-        <Col md={12} className="d-flex">
-          <Stack direction="horizontal">
-            <div className=" body-section-marker-container h-100">
-              <div className="body-section-marker h-100">&nbsp;</div>
-            </div>
-
-            <p className="body-section-text pt-3 ps-3">{body}</p>
-          </Stack>
-        </Col>
-      </Row>
-    </Container>
+    <Stack>
+      <SectionHeader header={title} />
+      <SectionContent content={body} />
+    </Stack>
   );
 }

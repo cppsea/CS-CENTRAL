@@ -9,30 +9,30 @@
   width: calc(100% - 0.7rem);
 }
 
-.body-section-marker-container {
+.section-content-marker-container {
   display: flex;
   width: 0.7rem;
   justify-content: center;
   align-items: stretch;
 }
 
-.body-section-marker {
+.section-content-marker {
   display: inline-block;
   width: 2px;
   background-color: #f65757;
 }
 
-.body-section-text {
+.section-content-text {
   width: calc(100% - 0.7rem);
   font-size: calc(1rem + 0.1vw);
 }
 @media screen and (max-width: 800px) {
-  .body-section-text {
+  .section-content-text {
     font-size: calc(0.65rem + 0.3vw);
   }
 }
 @media screen and (max-width: 500px) {
-  .body-section-text {
+  .section-content-text {
     font-size: calc(0.7rem + 0.3vw);
   }
 }
