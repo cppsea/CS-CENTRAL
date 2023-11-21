@@ -1,4 +1,4 @@
-import {Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 
 //Component for the body content of an article section's content
 export default function SectionContent({ content }) {

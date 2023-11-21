@@ -63,6 +63,12 @@
   }
 }
 
+.table-content-heading {
+  color: #5d5c5c;
+  font-weight: 600;
+  margin: 0;
+}
+
 .section-content-marker-container {
   display: flex;
   width: 0.7rem;
@@ -76,17 +82,17 @@
   background-color: #f65757;
 }
 
-.section-content-text {
+.section-content-text, .table-content-heading {
   width: calc(100% - 0.7rem);
   font-size: calc(1rem + 0.1vw);
 }
 @media screen and (max-width: 800px) {
-  .section-content-text {
+  .section-content-text, .table-content-heading {
     font-size: calc(0.65rem + 0.3vw);
   }
 }
 @media screen and (max-width: 500px) {
-  .section-content-text {
+  .section-content-text, .table-content-heading {
     font-size: calc(0.7rem + 0.3vw);
   }
 }

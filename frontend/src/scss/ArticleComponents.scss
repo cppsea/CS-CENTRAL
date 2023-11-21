@@ -61,6 +61,13 @@
   }
 }
 
+//Table of Contents
+.table-content-heading {
+  color: #5d5c5c;
+  font-weight: 600;
+  margin: 0;
+}
+
 //SectionContent
 .section-content-marker-container {
   display: flex;
@@ -75,7 +82,8 @@
   background-color: $primary;
 }
 
-.section-content-text {
+.section-content-text,
+.table-content-heading {
   width: calc(100% - 0.7rem);
   font-size: calc(1rem + 0.1vw);
 
@@ -89,7 +97,6 @@
 }
 
 //Topics List
-
 .topic-list-title,
 .topic-link {
   font-size: calc(0.65rem + 0.1vw);
