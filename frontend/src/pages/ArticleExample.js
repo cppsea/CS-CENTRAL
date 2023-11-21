@@ -1,13 +1,16 @@
 import BodySection from "../Components/Article/BodySection";
 import TopicList from "../Components/Article/Topics/TopicList";
 import Header from "../Components/Header";
-
+import ImageBanner from "../Components/Article/ImageBanner";
 //ONLY for displaying article components until we can construct the full page
 export default function ArticleExample() {
   return (
     <>
       <Header />
 
+      <div style={{ width: "100%" }}>
+        <ImageBanner image={"/ai_image.jpg"} alt_text={"AI-image"} />
+      </div>
       <div style={{ marginTop: "3rem", width: "70%" }}>
         <BodySection
           title={"Introduction"}
