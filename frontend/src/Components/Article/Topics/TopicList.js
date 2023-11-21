@@ -13,7 +13,6 @@ import { Link } from "react-router-dom";
 }
 */
 export default function TopicList({ topicCategory, topicList }) {
-  console.log(topicList);
   return (
     <Stack>
       {/*Topic Title*/}
@@ -26,7 +25,7 @@ export default function TopicList({ topicCategory, topicList }) {
       {/*Topic Link List */}
       <Stack gap={2} className="ps-4">
         {topicList.map(({ topic, link }) => (
-          <Link className="topic-link fw-normal" to={link}>
+          <Link key={topic} className="topic-link fw-normal" to={link}>
             {topic}
           </Link>
         ))}
