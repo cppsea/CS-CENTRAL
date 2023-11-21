@@ -1,6 +1,6 @@
 //displays a list of topics
 
-import { Col, Container, Row, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 //takes in a title for the list,
@@ -17,32 +17,20 @@ export default function TopicList({ topicCategory, topicList }) {
   return (
     <Stack>
       {/*Topic Title*/}
-      <Container>
-        <Row>
-          <Col md={12} className="d-flex">
-            <Stack direction="horizontal">
-              <h4 className="topic-list-title fw-bold">
-                {topicCategory.toUpperCase()}
-              </h4>
-            </Stack>
-          </Col>
-        </Row>
-      </Container>
+      <Stack direction="horizontal">
+        <h4 className="topic-list-title fw-bold">
+          {topicCategory.toUpperCase()}
+        </h4>
+      </Stack>
 
       {/*Topic Link List */}
-      <Container>
-        <Row>
-          <Col md={12} className="d-flex">
-            <Stack gap={2} className="ps-4">
-              {topicList.map(({ topic, link }) => (
-                <Link className="topic-link fw-normal" to={link}>
-                  {topic}
-                </Link>
-              ))}
-            </Stack>
-          </Col>
-        </Row>
-      </Container>
+      <Stack gap={2} className="ps-4">
+        {topicList.map(({ topic, link }) => (
+          <Link className="topic-link fw-normal" to={link}>
+            {topic}
+          </Link>
+        ))}
+      </Stack>
     </Stack>
   );
 }
