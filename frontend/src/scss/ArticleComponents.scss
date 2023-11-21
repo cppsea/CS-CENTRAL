@@ -4,9 +4,6 @@
   width: 0.7rem;
   background-color: $primary;
 }
-.section-header {
-  width: calc(100% - 0.7rem);
-}
 
 //SectionContent
 .section-content-marker-container {
@@ -33,4 +30,27 @@
   @media screen and (max-width: 500px) {
     font-size: calc(0.7rem + 0.3vw);
   }
+}
+
+//Topics List
+
+.topic-list-title,
+.topic-link {
+  font-size: calc(0.65rem + 0.1vw);
+}
+
+.topic-link {
+  color: $primary;
+  text-decoration: none;
+}
+
+.topic-link:hover {
+  filter: brightness(0.8);
+}
+.topic-link:active {
+  filter: brightness(0.6);
+  text-decoration: underline;
+}
+.section-header {
+  width: calc(100% - 0.7rem);
 }

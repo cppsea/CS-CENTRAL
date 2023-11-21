@@ -5,10 +5,6 @@
   background-color: #f65757;
 }
 
-.section-header {
-  width: calc(100% - 0.7rem);
-}
-
 .section-content-marker-container {
   display: flex;
   width: 0.7rem;
@@ -35,6 +31,29 @@
   .section-content-text {
     font-size: calc(0.7rem + 0.3vw);
   }
+}
+
+.topic-list-title,
+.topic-link {
+  font-size: calc(0.65rem + 0.1vw);
+}
+
+.topic-link {
+  color: #f65757;
+  text-decoration: none;
+}
+
+.topic-link:hover {
+  filter: brightness(0.8);
+}
+
+.topic-link:active {
+  filter: brightness(0.6);
+  text-decoration: underline;
+}
+
+.section-header {
+  width: calc(100% - 0.7rem);
 }
 
 /*!
