@@ -1,6 +1,7 @@
 import { Stack } from "react-bootstrap";
 
 //Component for the title of a article section
+//Component for the title of a article section
 export default function SectionHeader({ header }) {
   return (
     <div className="d-flex">
