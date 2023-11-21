@@ -1,5 +1,6 @@
-//SectionHeader
-.section-header-marker {
+//SectionHeader, ArticleHeaderDesc marker styling
+.section-header-marker,
+.article-desc-marker {
   display: inline-block;
   width: 0.7rem;
   background-color: $primary;
@@ -32,5 +33,30 @@
 
   @media screen and (max-width: 500px) {
     font-size: calc(0.7rem + 0.3vw);
+  }
+}
+
+//ArticleHeaderDesc
+.article-desc {
+  color: #5d5c5c;
+  font-weight: 700;
+  margin: 0;
+  width: calc(100% - 0.7rem);
+  font-size: calc(1rem + 0.1vw);
+}
+
+//ArticleHeaderAuthorDate
+.article-header-author-date {
+  font-size: calc(0.75rem + 0.1vw);
+}
+
+.article-header-author-date,
+.article-desc {
+  @media screen and (max-width: 800px) {
+    font-size: calc(0.625rem + 0.3vw);
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: calc(0.6rem + 0.3vw);
   }
 }
