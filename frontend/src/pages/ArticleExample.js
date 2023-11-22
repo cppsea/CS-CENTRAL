@@ -1,13 +1,65 @@
 import ArticleHeader from "../Components/Article/ArticleHeader/ArticleHeader";
 import BodySection from "../Components/Article/BodySection";
+import RelatedTopicsList from "../Components/Article/Topics/RelatedTopicsList";
 import Header from "../Components/Header";
-import TopicList from "../Components/Article/Topics/TopicList";
+
+//dummy data for related topics list
+const relatedTopicsList = [
+  {
+    topicCategory: "FOUNDATIONAL CONCEPTS",
+    topicList: [
+      {
+        topic:
+          "Artificial Intelligence (AI) and its Intersection with Machine Learning",
+        link: "/",
+      },
+      {
+        topic: "Data Preprocessing and Feature Engineering in Machine Learning",
+        link: "/",
+      },
+    ],
+  },
+  {
+    topicCategory: "TYPES OF MACHINE LEARNING",
+    topicList: [
+      {
+        topic:
+          "Supervised, Unsupervised, and Reinforcement Learning Techniques",
+        link: "/",
+      },
+      {
+        topic: "Deep Learning and Neural Networks",
+        link: "/",
+      },
+      {
+        topic: "Natural Language Processing (NLP) and Machine Learning",
+        link: "/",
+      },
+    ],
+  },
+  {
+    topicCategory: "APPLICATIONS",
+    topicList: [
+      {
+        topic: "Machine Learning in Business and Marketing",
+        link: "/",
+      },
+      {
+        topic: "Machine Learning in Healthcare and Biotechnology",
+        link: "/",
+      },
+      {
+        topic: "The Role of Machine Learning in Automation and Robotics",
+        link: "/",
+      },
+    ],
+  },
+];
 //ONLY for displaying article components until we can construct the full page
 export default function ArticleExample() {
   return (
     <>
       <Header />
-
       <div
         style={{
           marginTop: "3rem",
@@ -27,8 +79,14 @@ export default function ArticleExample() {
           />
         </div>
 
-        <div style={{ display: "flex", marginTop:"2rem" }}>
-          <div style={{ width: "70%" }}>
+        <div
+          style={{
+            display: "flex",
+            marginTop: "2rem",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ width: "60%" }}>
             <BodySection
               title={"Introduction"}
               body={
@@ -37,22 +95,8 @@ export default function ArticleExample() {
             />
           </div>
 
-          <div style={{ width: "30%" }}>
-            <TopicList
-              topicCategory={"Foundational Concepts"}
-              topicList={[
-                {
-                  topic:
-                    "Artificial Intelligence (AI) and its Intersection with Machine Learning",
-                  link: "/",
-                },
-                {
-                  topic:
-                    "Data Preprocessing and Feature Engineering in Machine Learning",
-                  link: "/",
-                },
-              ]}
-            />
+          <div style={{ width: "35%" }}>
+            <RelatedTopicsList topicLists={relatedTopicsList} />
           </div>
         </div>
       </div>

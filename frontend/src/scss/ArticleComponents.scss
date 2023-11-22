@@ -88,11 +88,18 @@
   }
 }
 
-//Topics List
+//Related Topics List
+.related-topics-heading {
+  font-size: calc(0.975rem + 0.1vw);
+  line-height: 2rem;
+  font-weight: 600;
+}
 
+//Topics List
 .topic-list-title,
 .topic-link {
   font-size: calc(0.65rem + 0.1vw);
+  font-weight: 600;
 }
 
 .topic-link {
