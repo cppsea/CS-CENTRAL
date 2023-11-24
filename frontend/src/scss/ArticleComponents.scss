@@ -9,33 +9,6 @@
   width: calc(100% - 0.7rem);
 }
 
-//SectionContent
-.section-content-marker-container {
-  display: flex;
-  width: 0.7rem;
-  justify-content: center;
-  align-items: stretch;
-}
-
-.section-content-marker {
-  display: inline-block;
-  width: 2px;
-  background-color: $primary;
-}
-
-.section-content-text {
-  width: calc(100% - 0.7rem);
-  font-size: calc(1rem + 0.1vw);
-
-  @media screen and (max-width: 800px) {
-    font-size: calc(0.65rem + 0.3vw);
-  }
-
-  @media screen and (max-width: 500px) {
-    font-size: calc(0.7rem + 0.3vw);
-  }
-}
-
 //ArticleHeaderDesc
 .article-desc {
   color: #5d5c5c;
@@ -58,6 +31,41 @@
 
   @media screen and (max-width: 500px) {
     font-size: calc(0.6rem + 0.3vw);
+  }
+}
+
+//Table of Contents
+.table-content-heading {
+  color: #5d5c5c;
+  font-weight: 600;
+  margin: 0;
+}
+
+//SectionContent
+.section-content-marker-container {
+  display: flex;
+  width: 0.7rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.section-content-marker {
+  display: inline-block;
+  width: 2px;
+  background-color: $primary;
+}
+
+.section-content-text,
+.table-content-heading {
+  width: calc(100% - 0.7rem);
+  font-size: calc(1rem + 0.1vw);
+
+  @media screen and (max-width: 800px) {
+    font-size: calc(0.65rem + 0.3vw);
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: calc(0.7rem + 0.3vw);
   }
 }
 
@@ -114,6 +122,39 @@
   filter: brightness(0.6);
   text-decoration: underline;
 }
-.section-header {
-  width: calc(100% - 0.7rem);
+
+//Image Banner
+.article-image-banner {
+  width: 100%;
+  object-fit: cover;
+  height: 25vh;
+  max-height: 400px;
+  min-height: 300px;
+
+  @media screen and (max-width: 800px) {
+    min-height: 200px;
+    max-height: 300px;
+  }
+  @media screen and (max-width: 500px) {
+    min-height: 100px;
+    max-height: 150px;
+  }
+}
+
+//Image Banner
+.article-image-banner {
+  width: 100%;
+  object-fit: cover;
+  height: 25vh;
+  max-height: 400px;
+  min-height: 300px;
+
+  @media screen and (max-width: 800px) {
+    min-height: 200px;
+    max-height: 300px;
+  }
+  @media screen and (max-width: 500px) {
+    min-height: 100px;
+    max-height: 150px;
+  }
 }
