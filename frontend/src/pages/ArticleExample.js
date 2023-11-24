@@ -1,8 +1,10 @@
 import ArticleHeader from "../Components/Article/ArticleHeader/ArticleHeader";
-import BodySection from "../Components/Article/BodySection";
+import BodySection from "../Components/Article/Section/BodySection";
 import Header from "../Components/Header";
 import TopicList from "../Components/Article/Topics/TopicList";
+import TableOfContents from "../Components/Article/Section/TableOfContents";
 import ImageBanner from "../Components/Article/ImageBanner";
+import TableOfContents from "../Components/Article/Section/TableOfContents"
 //ONLY for displaying article components until we can construct the full page
 export default function ArticleExample() {
   return (
@@ -20,8 +22,28 @@ export default function ArticleExample() {
             author={"David Lam"}
             date={"October 29, 2023"}
           />
+
           <div style={{ display: "flex", marginTop: "2rem" }}>
-            <div style={{ width: "70%" }}>
+            <div
+              style={{
+                width: "70%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "2rem",
+              }}
+            >
+              <TableOfContents
+                content_headings={[
+                  "Introduction to Machine Learning",
+                  "The Fundamentals of Machine Learning",
+                  "Types of Machine Learning Algorithms",
+                  "Real-World Applications of Machine Learning",
+                  "Challenges and Limitations in Machine Learning",
+                  "Ethical Considerations in Machine Learning",
+                  "Future Prospects and Developments in Machine Learning",
+                  "Conclusion and Key Takeaways",
+                ]}
+              />
               <BodySection
                 title={"Introduction"}
                 body={
