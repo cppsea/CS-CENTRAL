@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import TopicList from "../Components/Article/Topics/TopicList";
 import TableOfContents from "../Components/Article/Section/TableOfContents";
 import ImageBanner from "../Components/Article/ImageBanner";
+import TableOfContents from "../Components/Article/Section/TableOfContents"
 //ONLY for displaying article components until we can construct the full page
 export default function ArticleExample() {
   return (

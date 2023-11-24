@@ -91,10 +91,6 @@
   text-decoration: underline;
 }
 
-.section-header {
-  width: calc(100% - 0.7rem);
-}
-
 .article-image-banner {
   width: 100%;
   object-fit: cover;
