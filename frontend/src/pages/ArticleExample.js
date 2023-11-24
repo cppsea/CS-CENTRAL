@@ -1,10 +1,63 @@
 import ArticleHeader from "../Components/Article/ArticleHeader/ArticleHeader";
 import BodySection from "../Components/Article/Section/BodySection";
+import RelatedTopicsList from "../Components/Article/Topics/RelatedTopicsList";
 import Header from "../Components/Header";
-import TopicList from "../Components/Article/Topics/TopicList";
 import TableOfContents from "../Components/Article/Section/TableOfContents";
 import ImageBanner from "../Components/Article/ImageBanner";
-import TableOfContents from "../Components/Article/Section/TableOfContents"
+
+//dummy data for related topics list
+const relatedTopicsList = [
+  {
+    topicCategory: "FOUNDATIONAL CONCEPTS",
+    topicList: [
+      {
+        topic:
+          "Artificial Intelligence (AI) and its Intersection with Machine Learning",
+        link: "/",
+      },
+      {
+        topic: "Data Preprocessing and Feature Engineering in Machine Learning",
+        link: "/",
+      },
+    ],
+  },
+  {
+    topicCategory: "TYPES OF MACHINE LEARNING",
+    topicList: [
+      {
+        topic:
+          "Supervised, Unsupervised, and Reinforcement Learning Techniques",
+        link: "/",
+      },
+      {
+        topic: "Deep Learning and Neural Networks",
+        link: "/",
+      },
+      {
+        topic: "Natural Language Processing (NLP) and Machine Learning",
+        link: "/",
+      },
+    ],
+  },
+  {
+    topicCategory: "APPLICATIONS",
+    topicList: [
+      {
+        topic: "Machine Learning in Business and Marketing",
+        link: "/",
+      },
+      {
+        topic: "Machine Learning in Healthcare and Biotechnology",
+        link: "/",
+      },
+      {
+        topic: "The Role of Machine Learning in Automation and Robotics",
+        link: "/",
+      },
+    ],
+  },
+];
+
 //ONLY for displaying article components until we can construct the full page
 export default function ArticleExample() {
   return (
@@ -53,21 +106,7 @@ export default function ArticleExample() {
             </div>
 
             <div style={{ width: "30%" }}>
-              <TopicList
-                topicCategory={"Foundational Concepts"}
-                topicList={[
-                  {
-                    topic:
-                      "Artificial Intelligence (AI) and its Intersection with Machine Learning",
-                    link: "/",
-                  },
-                  {
-                    topic:
-                      "Data Preprocessing and Feature Engineering in Machine Learning",
-                    link: "/",
-                  },
-                ]}
-              />
+              <RelatedTopicsList topicLists={relatedTopicsList} />
             </div>
           </div>
         </div>
