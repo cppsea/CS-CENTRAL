@@ -110,3 +110,21 @@
 .section-header {
   width: calc(100% - 0.7rem);
 }
+
+//Image Banner
+.article-image-banner {
+  width: 100%;
+  object-fit: cover;
+  height: 25vh;
+  max-height: 400px;
+  min-height: 300px;
+
+  @media screen and (max-width: 800px) {
+    min-height: 200px;
+    max-height: 300px;
+  }
+  @media screen and (max-width: 500px) {
+    min-height: 100px;
+    max-height: 150px;
+  }
+}
