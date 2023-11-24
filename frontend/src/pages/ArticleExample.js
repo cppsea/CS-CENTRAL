@@ -57,6 +57,7 @@ export default function ArticleExample() {
         </div>
 
         <div style={{ display: "flex", marginTop: "2rem" }}>
+
           <div style={{ width: "70%" }}>
             <BodySection
               title={"Introduction"}
