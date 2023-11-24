@@ -111,6 +111,26 @@
   }
 }
 
+.article-image-banner {
+  width: 100%;
+  object-fit: cover;
+  height: 25vh;
+  max-height: 400px;
+  min-height: 300px;
+}
+@media screen and (max-width: 800px) {
+  .article-image-banner {
+    min-height: 200px;
+    max-height: 300px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .article-image-banner {
+    min-height: 100px;
+    max-height: 150px;
+  }
+}
+
 /*!
  * Bootstrap  v5.3.2 (https://getbootstrap.com/)
  * Copyright 2011-2023 The Bootstrap Authors
