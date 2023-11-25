@@ -1,5 +1,4 @@
 import { Container, Card, Stack, NavLink, Button } from "react-bootstrap";
-import { useParams } from "react-router-dom";
 
 export default function LinkedDescriptionBox({
   children,
