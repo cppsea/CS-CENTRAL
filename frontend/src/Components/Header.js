@@ -7,9 +7,6 @@ import {
   NavDropdown,
   Badge,
   Offcanvas,
-  Container,
-  Row,
-  Col,
 } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import { useState } from "react";

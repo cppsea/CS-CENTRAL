@@ -1,7 +1,5 @@
 import { Card, Stack, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import ArticleList from "../pages/ArticleList";
-import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 export default function SearchBar() {

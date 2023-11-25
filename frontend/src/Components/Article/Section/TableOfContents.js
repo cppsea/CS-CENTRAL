@@ -13,7 +13,7 @@ export default function TableOfContents({ content_headings }) {
       <SectionHeader header={"Table of Contents"} />
       <Stack className="pt-1 ps-3" gap={2}>
         {content_headings.map((content_heading, index) => (
-          <p className="table-content-heading ps-3">
+          <p className="table-content-heading ps-3" key={content_heading}>
             {index + 1}. {content_heading}
           </p>
         ))}

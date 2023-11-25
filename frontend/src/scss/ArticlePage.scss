@@ -1,0 +1,15 @@
+@import "../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules//bootstrap/scss/mixins";
+
+//Related Topics Container
+.rel-topics-container {
+  @include media-breakpoint-down(md) {
+    border-top: 1px solid black;
+  }
+
+  @include media-breakpoint-up(md) {
+    border-left: 1px solid black;
+  }
+}
