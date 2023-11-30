@@ -1,5 +1,7 @@
 const pool = require("../../db.js");
 const queries = require("./queries");
+const bcrypt = require('bcrypt');
+
 
 const getUsers = async (req, res) => {
     try {
@@ -22,8 +24,10 @@ const getUsersById = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { username, user_password } = req.body;
-        pool.query(queries.createUser, [username, user_password]);
+        const salt = await bcrypt.genSalt()
+        const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
+        const { username } = req.body;
+        pool.query(queries.createUser, [username, hashedPassword]);
         res.status(200).send("User added");
     } catch (err) {
         console.error(err.message);
