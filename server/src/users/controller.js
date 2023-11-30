@@ -27,13 +27,35 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
         const { username } = req.body;
-        pool.query(queries.createUser, [username, hashedPassword]);
+        await pool.query(queries.createUser, [username, hashedPassword]);
         res.status(200).send("User added");
     } catch (err) {
         console.error(err.message);
     }
 
 };
+
+const loginUser = async (req, res) => {
+    const { username, user_password } = req.body;
+    console.log("req body", req.body);
+    console.log("received login request for username:", username);
+    try {
+        const result = await pool.query(queries.getUserByUsername, [username]);
+        if(result.rows.length === 0){
+            return res.status(400).send("Error finding username")
+        }
+        const user = result.rows[0];
+        console.log("password:", user_password);
+        if(await bcrypt.compare(user_password, user.user_password)){
+            res.send("Success");
+        }
+        else{
+            res.send("Not allowed");
+        }
+    } catch (error) {
+        res.status(500).send();
+    }
+}
 
 const changeUser = async (req, res) => {
     try {
@@ -63,5 +85,6 @@ module.exports = {
     getUsersById,
     createUser,
     changeUser,
-    deleteAccount
+    deleteAccount,
+    loginUser,
 }
