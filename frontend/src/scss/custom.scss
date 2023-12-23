@@ -1,6 +1,12 @@
 $primary: #f65757;
 $secondary: #228b22;
+$signin_theme: #68c5fa;
+
+.bg-signin-card {
+  background-color: $signin_theme;
+}
 
 @import "./ArticleComponents.scss";
 @import "./ArticlePage.scss";
+@import "./Signin.scss";
 @import "../../node_modules/bootstrap/scss/bootstrap";
