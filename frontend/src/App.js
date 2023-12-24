@@ -2,12 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.js";
 import ArticleList from "./pages/ArticleList.js";
 import ArticleView from "./pages/ArticleView.js";
+import SigninCard from "./Components/Signin/SigninCard.js";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<SigninCard />} />
         <Route path="/article_search_results">
           <Route index element={<ArticleList />} />
           <Route path=":id" element={<ArticleList />} />
