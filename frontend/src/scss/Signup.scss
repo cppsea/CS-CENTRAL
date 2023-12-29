@@ -1,0 +1,8 @@
+.w-signup {
+  @include media-breakpoint-down(md) {
+    max-width: 350px;
+  }
+  @include media-breakpoint-up(md) {
+    width: 400px;
+  }
+}
