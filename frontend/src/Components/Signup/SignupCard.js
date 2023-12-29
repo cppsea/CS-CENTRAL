@@ -6,37 +6,37 @@ export default function SignupCard() {
   const [formVal, setFormVal] = useState({
     username: "",
     password: "",
-    confirmPass: "",
+    confirmPassword: "",
   });
 
-  // flags
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [isNotMatched, setIsNotMatched] = useState(false);
+  // error messages
+  const [errorMessages, setErrorMessages] = useState([]);
 
   // functions for validating input fields (add more if possible)
   const validationFunctions = {
-    checkEmpty: () => {
-      formVal.username.length > 0 &&
-      formVal.password.length > 0 &&
-      formVal.confirmPass.length > 0
-        ? setIsEmpty(false)
-        : setIsEmpty(true);
-    },
-    checkPasswordMatch: () => {
-      formVal.password !== formVal.confirmPass &&
-      formVal.password.length !== 0 &&
-      formVal.confirmPass.length !== 0
-        ? setIsNotMatched(true)
-        : setIsNotMatched(false);
-    },
+    checkEmpty: (name, field) =>
+      field.length > 0 || `The ${name} should not be empty`,
+
+    checkPasswordMatch: (name, field) =>
+      field === formVal.password ||
+      field.length === 0 ||
+      `The ${name} does not match the password above`,
+
+    checkPasswordLength: (name, field) =>
+      field.length >= 8 ||
+      field.length === 0 ||
+      `The ${name} should be no less than 8 characters in length`,
   };
 
   // an object containing input fields (keys)
   // and their associated validation funciton (values as an array)
   const formValidation = {
     username: [validationFunctions.checkEmpty],
-    password: [validationFunctions.checkEmpty],
-    confirmPass: [
+    password: [
+      validationFunctions.checkEmpty,
+      validationFunctions.checkPasswordLength,
+    ],
+    confirmPassword: [
       validationFunctions.checkEmpty,
       validationFunctions.checkPasswordMatch,
     ],
@@ -52,14 +52,25 @@ export default function SignupCard() {
     });
   };
 
+  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const errMessagesList = [];
+
     for (const fieldName in formValidation) {
       const validationFuncs = formValidation[fieldName];
-      console.log(fieldName);
-      validationFuncs.forEach((validationFunc) => validationFunc());
+
+      validationFuncs.forEach((validationFunc) => {
+        let validateResult = validationFunc(fieldName, formVal[fieldName]);
+
+        if (typeof validateResult === "string") {
+          errMessagesList.push(validateResult);
+        }
+      });
     }
+
+    setErrorMessages(errMessagesList);
   };
 
   return (
@@ -67,16 +78,16 @@ export default function SignupCard() {
       <Card className="rounded-3 w-signup">
         <Card.Body className="bg-signin-card rounded-3">
           <Card.Title className="text-center fs-2 fw-bold">Sign up</Card.Title>
-          {isEmpty && (
-            <Alert dismissible variant="warning" className="my-auto mt-4">
-              &#9888; Fields should not be empty
+          {errorMessages.map((err) => (
+            <Alert
+              key={err}
+              dismissible
+              variant="warning"
+              className="my-auto mt-4"
+            >
+              &#9888; {err}
             </Alert>
-          )}
-          {isNotMatched && (
-            <Alert dismissible variant="warning" className="my-auto mt-4">
-              &#9888; Confirmed password failed to match
-            </Alert>
-          )}
+          ))}
 
           <Form>
             <div className="d-flex justify-content-between gap-2">
@@ -109,8 +120,8 @@ export default function SignupCard() {
             </Form.Group>
             <Form.Group className="my-4">
               <Form.Control
-                name="confirmPass"
-                value={formVal.confirmPass}
+                name="confirmPassword"
+                value={formVal.confirmPassword}
                 type="password"
                 placeholder="Confirm Password"
                 onChange={handleInput}
