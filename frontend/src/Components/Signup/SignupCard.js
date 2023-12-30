@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Card, Form, Button, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import * as auth from "../auth/auth";
 
 export default function SignupCard() {
   const [formVal, setFormVal] = useState({
@@ -11,36 +12,6 @@ export default function SignupCard() {
 
   // error messages
   const [errorMessages, setErrorMessages] = useState([]);
-
-  // functions for validating input fields (add more if possible)
-  const validationFunctions = {
-    checkEmpty: (name, field) =>
-      field.length > 0 || `The ${name} should not be empty`,
-
-    checkPasswordMatch: (name, field) =>
-      field === formVal.password ||
-      field.length === 0 ||
-      `The ${name} does not match the password above`,
-
-    checkPasswordLength: (name, field) =>
-      field.length >= 8 ||
-      field.length === 0 ||
-      `The ${name} should be no less than 8 characters in length`,
-  };
-
-  // an object containing input fields (keys)
-  // and their associated validation funciton (values as an array)
-  const formValidation = {
-    username: [validationFunctions.checkEmpty],
-    password: [
-      validationFunctions.checkEmpty,
-      validationFunctions.checkPasswordLength,
-    ],
-    confirmPassword: [
-      validationFunctions.checkEmpty,
-      validationFunctions.checkPasswordMatch,
-    ],
-  };
 
   // handle input entered
   const handleInput = (e) => {
@@ -57,12 +28,17 @@ export default function SignupCard() {
     e.preventDefault();
 
     const errMessagesList = [];
-
+    const formValidation = auth.formValidation;
+    console.log(formValidation);
     for (const fieldName in formValidation) {
       const validationFuncs = formValidation[fieldName];
 
       validationFuncs.forEach((validationFunc) => {
-        let validateResult = validationFunc(fieldName, formVal[fieldName]);
+        let validateResult = validationFunc(
+          fieldName,
+          formVal[fieldName],
+          formVal.password
+        );
 
         if (typeof validateResult === "string") {
           errMessagesList.push(validateResult);

@@ -1,23 +1,85 @@
-import { Card, Form, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Card, Form, Button, Alert } from "react-bootstrap";
+import * as auth from "../auth/auth";
 
 export default function SigninCard() {
+  const [formVal, setFormVal] = useState({
+    username: "",
+    password: "",
+  });
+
+  // error messages
+  const [errorMessages, setErrorMessages] = useState([]);
+
+  // handle input entered
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+
+    setFormVal({
+      ...formVal,
+      [name]: value,
+    });
+  };
+
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errMessagesList = [];
+    const checkEmpty = auth.validationFunctions.checkEmpty;
+
+    // check empty for now (will add more authentication from backend soon)
+    for (const form in formVal) {
+      let validateResult = checkEmpty(form, formVal[form]);
+
+      if (typeof validateResult === "string") {
+        errMessagesList.push(validateResult);
+      }
+    }
+
+    setErrorMessages(errMessagesList);
+  };
+
   return (
     <div className="d-flex justify-content-center">
       <Card className="rounded-3 w-signin">
         <Card.Body className="bg-signin-card rounded-3">
           <Card.Title className="text-center fs-2 fw-bold">Login</Card.Title>
+          {errorMessages.map((err) => (
+            <Alert
+              key={err}
+              dismissible
+              variant="warning"
+              className="my-auto mt-4"
+            >
+              &#9888; {err}
+            </Alert>
+          ))}
 
           <Form>
             <Form.Group className="my-4">
-              <Form.Control placeholder="Username" />
+              <Form.Control
+                name="username"
+                value={formVal.username}
+                placeholder="Username"
+                onChange={handleInput}
+              />
             </Form.Group>
             <Form.Group className="my-4">
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                name="password"
+                value={formVal.password}
+                type="password"
+                placeholder="Password"
+                onChange={handleInput}
+              />
             </Form.Group>
           </Form>
 
           <div className="d-grid">
-            <Button className="fw-bold text-white">Login</Button>
+            <Button onClick={handleSubmit} className="fw-bold text-white">
+              Login
+            </Button>
             <p className="divider">
               <span className="text-between-divider">or</span>
             </p>
