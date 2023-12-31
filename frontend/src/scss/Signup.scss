@@ -6,3 +6,11 @@
     width: 400px;
   }
 }
+
+.hyperlink {
+  color: rgb(45, 25, 100);
+
+  &:hover {
+    color: rgb(45, 25, 221);
+  }
+}

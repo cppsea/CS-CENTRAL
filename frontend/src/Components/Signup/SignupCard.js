@@ -6,6 +6,9 @@ import * as auth from "../auth/auth";
 export default function SignupCard() {
   const [formVal, setFormVal] = useState({
     username: "",
+    fname: "",
+    lname: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -29,7 +32,7 @@ export default function SignupCard() {
 
     const errMessagesList = [];
     const formValidation = auth.formValidation;
-    console.log(formValidation);
+
     for (const fieldName in formValidation) {
       const validationFuncs = formValidation[fieldName];
 
@@ -68,10 +71,20 @@ export default function SignupCard() {
           <Form>
             <div className="d-flex justify-content-between gap-2">
               <Form.Group className="my-4">
-                <Form.Control name="fname" placeholder="First Name" />
+                <Form.Control
+                  name="fname"
+                  value={formVal.fname}
+                  placeholder="First Name"
+                  onChange={handleInput}
+                />
               </Form.Group>
               <Form.Group className="my-4">
-                <Form.Control name="lname" placeholder="Last Name" />
+                <Form.Control
+                  name="lname"
+                  value={formVal.lname}
+                  placeholder="Last Name"
+                  onChange={handleInput}
+                />
               </Form.Group>
             </div>
             <Form.Group>
@@ -83,7 +96,13 @@ export default function SignupCard() {
               />
             </Form.Group>
             <Form.Group className="my-4">
-              <Form.Control type="email" placeholder="Email" />
+              <Form.Control
+                type="email"
+                name="email"
+                value={formVal.email}
+                placeholder="Email"
+                onChange={handleInput}
+              />
             </Form.Group>
             <Form.Group className="my-4">
               <Form.Control
@@ -111,7 +130,7 @@ export default function SignupCard() {
           </Form>
 
           <div className="text-center mt-2">
-            <Link to={"/signin"} className="text-dark">
+            <Link to={"/signin"} className="hyperlink">
               Already have an account? Sign in here
             </Link>
           </div>
