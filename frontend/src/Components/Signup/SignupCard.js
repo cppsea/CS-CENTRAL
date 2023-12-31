@@ -13,8 +13,11 @@ export default function SignupCard() {
     confirmPassword: "",
   });
 
+  //whether form has run through validation yet
+  const [isValidated, setValidated] = useState(false);
+
   // error messages
-  const [errorMessages, setErrorMessages] = useState([]);
+  const [errorMessages, setErrorMessages] = useState({});
 
   // handle input entered
   const handleInput = (e) => {
@@ -30,7 +33,7 @@ export default function SignupCard() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const errMessagesList = [];
+    const newErrMessages = {};
     const formValidation = auth.formValidation;
 
     for (const fieldName in formValidation) {
@@ -44,12 +47,12 @@ export default function SignupCard() {
         );
 
         if (typeof validateResult === "string") {
-          errMessagesList.push(validateResult);
+          newErrMessages[fieldName] = validateResult;
         }
       });
     }
-
-    setErrorMessages(errMessagesList);
+    setValidated(true);
+    setErrorMessages(newErrMessages);
   };
 
   return (
@@ -57,26 +60,30 @@ export default function SignupCard() {
       <Card className="rounded-3 w-signup">
         <Card.Body className="bg-signin-card rounded-3">
           <Card.Title className="text-center fs-2 fw-bold">Sign up</Card.Title>
-          {errorMessages.map((err) => (
-            <Alert
-              key={err}
-              dismissible
-              variant="warning"
-              className="my-auto mt-4"
-            >
-              &#9888; {err}
-            </Alert>
-          ))}
 
-          <Form>
+          <Form noValidate>
             <div className="d-flex justify-content-between gap-2">
-              <Form.Group className="my-4">
+              <Form.Group className="my-4 is-invalid">
                 <Form.Control
                   name="fname"
                   value={formVal.fname}
                   placeholder="First Name"
                   onChange={handleInput}
+                  isInvalid={errorMessages.hasOwnProperty("fname")}
+                  isValid={
+                    isValidated && !errorMessages.hasOwnProperty("fname")
+                  }
                 />
+
+                <Form.Control.Feedback
+                  type={
+                    errorMessages.hasOwnProperty("fname") ? "invalid" : "valid"
+                  }
+                >
+                  {errorMessages.hasOwnProperty("fname")
+                    ? errorMessages.fname
+                    : "Looks Good"}
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="my-4">
                 <Form.Control
