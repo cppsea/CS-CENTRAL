@@ -1,4 +1,8 @@
 @charset "UTF-8";
+.form-control:valid {
+  background-image: none !important;
+}
+
 .section-header-marker,
 .article-desc-marker {
   display: inline-block;
