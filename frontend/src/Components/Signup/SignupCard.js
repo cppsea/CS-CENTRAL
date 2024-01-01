@@ -23,7 +23,6 @@ export default function SignupCard() {
 
   // error messages
   const [errorMessages, setErrorMessages] = useState({});
-  const [errorMessages, setErrorMessages] = useState({});
 
   // handle input entered
   const handleInput = (e) => {
@@ -189,7 +188,9 @@ export default function SignupCard() {
                   required
                 />
                 <Button
-                  title={showConfirmPassword ? "hide password" : "show password"}
+                  title={
+                    showConfirmPassword ? "hide password" : "show password"
+                  }
                   className="my-auto bg-white border-white"
                   onClick={handleConfirmPasswordToggle}
                 >
