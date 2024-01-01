@@ -23,6 +23,7 @@ export default function SignupCard() {
 
   // error messages
   const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessages, setErrorMessages] = useState({});
 
   // handle input entered
   const handleInput = (e) => {
@@ -88,7 +89,7 @@ export default function SignupCard() {
 
           <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
             <div className="d-flex justify-content-between gap-2">
-              <Form.Group className="my-4 is-invalid">
+              <Form.Group className="my-4">
                 <Form.Control
                   name="fname"
                   value={formVal.fname}
