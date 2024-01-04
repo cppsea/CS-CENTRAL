@@ -72,7 +72,7 @@ export default function Header() {
                     <NavDropdown.Item>Saved Articles</NavDropdown.Item>
                     <NavDropdown.Item>Settings</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item>Sign Out</NavDropdown.Item>
+                    <NavDropdown.Item href="/signin">Sign Out</NavDropdown.Item>
                   </NavDropdown>
                 </Nav.Item>
               </Nav>
