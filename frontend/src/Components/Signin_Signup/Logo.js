@@ -7,13 +7,12 @@ export default function Logo() {
       <Image
         src={logo}
         style={{
-          borderRadius: "20%",
-          width: "50%",
           maxWidth: "200px",
+          borderRadius:"20%"
         }}
-        className="mb-4"
+        className="mb-4 w-50"
       />
-      <h3 className="text-center fs-3" style={{ color: "white" }}>
+      <h3 className="text-center fs-3 text-white">
         Learn - Explore - Innovate
       </h3>
       <h4 className="text-center fs-5 fst-italic fw-normal">
