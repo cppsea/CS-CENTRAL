@@ -4,26 +4,32 @@ import ArticleList from "./pages/ArticleList.js";
 import ArticleView from "./pages/ArticleView.js";
 import Signup from "./pages/Signup.js";
 import Signin from "./pages/Signin.js";
+import BasePage from "./pages/BasePage.js";
+
+
+
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<Signin/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/article_search_results">
-          <Route index element={<ArticleList />} />
-          <Route path=":id" element={<ArticleList />} />
+        <Route path="/" element={<BasePage/>}>
+          <Route path="/" element={<Home/>}/>
+          <Route path="signin" element={<Signin />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="article_search_results">
+            <Route index element={<ArticleList />} />
+            <Route path=":id" element={<ArticleList />} />
+          </Route>
+          <Route path="article_view">
+            <Route index element={<ArticleView />} />
+            <Route path=":name" element={<ArticleView />} />
+          </Route>
+          <Route
+            path="*"
+            element={<h1 className="text-center">404 - Page Not Found</h1>}
+          />
         </Route>
-        <Route path="/article_view">
-          <Route index element={<ArticleView />} />
-          <Route path=":name" element={<ArticleView />} />
-        </Route>
-        <Route
-          path="*"
-          element={<h1 className="text-center">404 - Page Not Found</h1>}
-        />
       </Routes>
     </>
   );

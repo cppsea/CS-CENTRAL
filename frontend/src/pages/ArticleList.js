@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
-import Header from "../Components/Header.js";
 import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.js";
 
 export default function ArticleList({  }) {
@@ -56,10 +55,7 @@ export default function ArticleList({  }) {
   console.log(data);
   return (
     <>
-      <div>
-        <Header />
-      </div>
-      <div className="position-absolute w-100 pb-2" style={{ top: 100 }}>
+      <div className="mt-5" >
         <Stack gap={3}>
           <div>
             <Card style={{ border: "none" }}>

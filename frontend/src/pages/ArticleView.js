@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../Components/Header.js";
 import Article from "../Components/Article/Article.js";
 
 export default function ArticleView() {
@@ -23,7 +22,6 @@ export default function ArticleView() {
   console.log("ID: ", name);
   return (
     <>
-      <Header />
       {/*conditional rendering based on data being fetched*/}
       {article && <Article article={article} />}
     </>

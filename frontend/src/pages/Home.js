@@ -1,14 +1,10 @@
-import Header from "../Components/Header.js";
 import { Stack } from "react-bootstrap";
 import DescriptionBox from "../Components/DescriptionBox.js";
 
 export default function Home() {
   return (
     <>
-      <Stack gap={3}>
-        <div>
-          <Header />
-        </div>
+      <Stack gap={3} className="mt-5">
         <div className="w-100 pb-2" style={{ top: 100 }}>
           <DescriptionBox title={"What is CS Catalog?"}>
             CS Catalog is a helpful site where we are seeking to faciliate
