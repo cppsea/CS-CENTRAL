@@ -1,11 +1,9 @@
 import { Col, Container, Row, Stack } from "react-bootstrap";
 import SignupCard from "../Components/Signup/SignupCard";
-import Header from "../Components/Header";
 import Logo from "../Components/Signin_Signup/Logo";
 export default function Signup() {
   return (
     <>
-      <Header />
       <Stack className="sign-page-background py-5 d-flex align-items-center justify-content-center">
         <Container
           fluid
