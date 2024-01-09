@@ -1,20 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home.js";
-import ArticleList from "./pages/ArticleList.js";
-import ArticleView from "./pages/ArticleView.js";
-import Signup from "./pages/Signup.js";
-import Signin from "./pages/Signin.js";
-import BasePage from "./pages/BasePage.js";
-
-
-
+import Home from "./pages/Home.jsx";
+import ArticleList from "./pages/ArticleList.jsx";
+import ArticleView from "./pages/ArticleView.jsx";
+import Signup from "./pages/SignPages/Signup.jsx";
+import Signin from "./pages/SignPages/Signin.jsx";
+import BasePage from "./pages/BasePage.jsx";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<BasePage/>}>
-          <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<BasePage />}>
+          <Route path="/" element={<Home />} />
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="article_search_results">

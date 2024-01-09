@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Article from "../Components/Article/Article.js";
+import Article from "../Components/Article/Article.jsx";
 
 export default function ArticleView() {
   const [article, setArticle] = useState();

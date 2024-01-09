@@ -1,10 +1,11 @@
-import ImageBanner from "./ImageBanner.js";
-import ArticleHeader from "./ArticleHeader/ArticleHeader.js";
-import TableOfContents from "./Section/TableOfContents.js";
-import RelatedTopicsList from "./Topics/RelatedTopicsList.js";
-import BodySection from "./Section/BodySection.js";
+import ImageBanner from "./ImageBanner.jsx";
+import ArticleHeader from "./ArticleHeader/ArticleHeader.jsx";
+import TableOfContents from "./Section/TableOfContents.jsx";
+import RelatedTopicsList from "./Topics/RelatedTopicsList.jsx";
+import BodySection from "./Section/BodySection.jsx";
 import { Container, Row, Col, Stack } from "react-bootstrap";
-
+import './ArticleComponents.scss'
+import './Article.scss'
 //dummy data for table of contents
 const tableOfContents = [
   "Introduction to Machine Learning",

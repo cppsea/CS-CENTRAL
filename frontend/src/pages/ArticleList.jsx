@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
-import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.js";
+import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.jsx";
 
 export default function ArticleList({  }) {
   const [data,setData] = useState()
