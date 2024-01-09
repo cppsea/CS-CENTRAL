@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../auth/auth";
+import "./Signup.scss";
 
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 

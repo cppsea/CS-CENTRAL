@@ -1,7 +1,9 @@
 import { Col, Container, Row, Stack } from "react-bootstrap";
-import SignupCard from "../Components/Signup/SignupCard";
-import Logo from "../Components/Signin_Signup/Logo";
-export default function Signup() {
+import SigninCard from "../../Components/Signin/SigninCard";
+import Logo from "../../Components/Signin_Signup/Logo";
+import './SignPages.scss';
+
+export default function Signin() {
   return (
     <>
       <Stack className="sign-page-background py-5 d-flex align-items-center justify-content-center">
@@ -12,10 +14,10 @@ export default function Signup() {
         >
           <Row className="w-100 gy-5 m-0">
             <Col xs={12} sm={6}>
-             <Logo/>
+              <Logo />
             </Col>
             <Col xs={12} sm={6}>
-              <SignupCard />
+              <SigninCard />
             </Col>
           </Row>
         </Container>

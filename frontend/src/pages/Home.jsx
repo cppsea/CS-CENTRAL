@@ -1,5 +1,5 @@
 import { Stack } from "react-bootstrap";
-import DescriptionBox from "../Components/DescriptionBox.js";
+import DescriptionBox from "../Components/DescriptionBox.jsx";
 
 export default function Home() {
   return (

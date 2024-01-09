@@ -3,7 +3,7 @@ import { Card, Form, Button, InputGroup } from "react-bootstrap";
 import * as auth from "../auth/auth";
 
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
-
+import './Signin.scss'
 export default function SigninCard() {
   const [formVal, setFormVal] = useState({
     username: "",

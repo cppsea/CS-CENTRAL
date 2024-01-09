@@ -1,15 +1,11 @@
-$primary: #f65757;
-$secondary: #228b22;
+@import './variables';
+
 
 .form-control:valid {
   background-image: none !important;
 }
 
-@import "./ArticleComponents.scss";
-@import "./ArticlePage.scss";
-@import "./Signin.scss";
-@import "./Signup.scss";
-@import "./SignPages.scss";
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 

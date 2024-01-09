@@ -8,7 +8,7 @@ export default function Logo() {
         src={logo}
         style={{
           maxWidth: "200px",
-          borderRadius:"20%"
+          borderRadius: "20%",
         }}
         className="mb-4 w-50"
       />
