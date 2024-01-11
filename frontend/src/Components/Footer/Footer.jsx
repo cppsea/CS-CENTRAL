@@ -2,7 +2,7 @@ import { Container, Button, Stack } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <Container fluid className="bg-primary mt-4 py-2">
+    <Container fluid className="bg-primary border-top py-2 mt-auto">
       <Stack direction="horizontal" gap={5} className=" justify-content-center">
         <Button className="text-white fw-semibold" href="/">
           Home
