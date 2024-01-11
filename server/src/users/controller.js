@@ -29,18 +29,19 @@ const getUsersById = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
+
+
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
         const { username } = req.body;
-        const user = await pool.query(queries.createUser, [username, hashedPassword]);
-
-        console.log (user);
+        pool.query(queries.createUser, [username, hashedPassword])
 
         const token = createToken(username);
 
         
 
         res.status(200).json({token});
+
     } catch (err) {
         console.error(err.message);
     }
@@ -58,8 +59,11 @@ const loginUser = async (req, res) => {
         }
         const user = result.rows[0];
         console.log("password:", user_password);
+        console.log("password hased:", user.user_password);
         if(await bcrypt.compare(user_password, user.user_password)){
-            res.send("Success");
+            //res.send("Success");
+            const token = createToken(username);
+            res.json({token})
         }
         else{
             res.send("Not allowed");
