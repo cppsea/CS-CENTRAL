@@ -12,8 +12,6 @@ function App() {
       <Routes>
         <Route path="/" element={<BasePage />}>
           <Route path="/" element={<Home />} />
-          <Route path="signin" element={<Signin />} />
-          <Route path="signup" element={<Signup />} />
           <Route path="article_search_results">
             <Route index element={<ArticleList />} />
             <Route path=":id" element={<ArticleList />} />
@@ -27,6 +25,8 @@ function App() {
             element={<h1 className="text-center">404 - Page Not Found</h1>}
           />
         </Route>
+        <Route path="signin" element={<Signin />} />
+        <Route path="signup" element={<Signup />} />
       </Routes>
     </>
   );
