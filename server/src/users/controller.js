@@ -1,7 +1,12 @@
 const pool = require("../../db.js");
 const queries = require("./queries");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
+const createToken = (id) =>
+{
+    return jwt.sign({id: id}, "secret string", { expiresIn : '3d'})
+}
 
 const getUsers = async (req, res) => {
     try {
@@ -27,8 +32,15 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
         const { username } = req.body;
-        await pool.query(queries.createUser, [username, hashedPassword]);
-        res.status(200).send("User added");
+        const user = await pool.query(queries.createUser, [username, hashedPassword]);
+
+        console.log (user);
+
+        const token = createToken(username);
+
+        
+
+        res.status(200).json({token});
     } catch (err) {
         console.error(err.message);
     }
