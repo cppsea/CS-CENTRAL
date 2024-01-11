@@ -17,7 +17,7 @@ export default function Header() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Stack gap={3}>
+      <Stack gap={3} className="flex-grow-0">
         <div>
           <Navbar expand="lg" fixed="top" className="sticky-top" bg="primary">
             <Stack direction="horizontal" gap={2}>
