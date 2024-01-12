@@ -1,0 +1,50 @@
+.buttonsummary {
+    width: 100%;
+    height: 170px;
+    border: none;
+    background-color: #f65757;
+    border-radius: 15px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    text-align: left;
+  }
+    
+    .buttonsummary:hover{
+      background-color: #f46363;
+    }
+    @media screen and (min-width: 1024px){
+      .buttonsummary {
+        font-size: 1.5rem;
+      }
+    }
+    
+    .button_sumhead{
+      position: absolute;
+      top: 375px;
+      left: 370px;
+      color: rgb(0, 0, 0); 
+      font-size: 26px;
+      font-family: Inter;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    
+    .button_sumsubhead{
+      position: absolute;
+      top: 415px;
+      left: 370px;
+      color: rgb(0, 0, 0);
+      font-size: 18px;
+      font-family: Inter;
+      white-space: normal;
+      word-wrap: break-word;
+      text-align: left;
+    }
+    
+    .sumimage{
+      position: absolute;
+      top: 375px;
+    }
+    
+    
