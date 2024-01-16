@@ -92,7 +92,7 @@ export default function ProfileEdit() {
             <Col>
               <Form.Label className="fw-medium">First name</Form.Label>
               <Form.Group>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
                     disabled={!editable.fname}
                     name="fname"
@@ -126,7 +126,7 @@ export default function ProfileEdit() {
             <Col>
               <Form.Label className="fw-medium">Last name</Form.Label>
               <Form.Group>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
                     disabled={!editable.lname}
                     name="lname"
@@ -160,7 +160,7 @@ export default function ProfileEdit() {
             <Col sm={12}>
               <Form.Label className="fw-medium">Email</Form.Label>
               <Form.Group>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
                     disabled={!editable.email}
                     name="email"
@@ -202,7 +202,7 @@ export default function ProfileEdit() {
             <Col sm={12}>
               <Form.Label className="fw-medium">Username</Form.Label>
               <Form.Group>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
                     disabled={!editable.username}
                     name="username"
@@ -237,7 +237,7 @@ export default function ProfileEdit() {
             <Col sm={12}>
               <Form.Label className="fw-medium">Password</Form.Label>
               <Form.Group>
-                <InputGroup>
+                <InputGroup hasValidation>
                   <Form.Control
                     disabled={!editable.password}
                     name="password"
