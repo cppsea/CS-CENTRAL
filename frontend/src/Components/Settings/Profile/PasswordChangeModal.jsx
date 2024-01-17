@@ -1,13 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import { useNavigate } from "react-router-dom";
+import * as auth from "../../auth/auth";
 import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 
 export default function PasswordChangeModal({ show, onHide, className }) {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
+  });
 
-  const handlePasswordToggle = () => {
-    setShowPassword(!showPassword);
+  const [passwordData, setPasswordData] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
+
+  // handle input entered
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+
+    setPasswordData({
+      ...passwordData,
+      [name]: value,
+    });
+  };
+
+  const navigate = useNavigate();
+
+  //whether form has run through validation yet
+  const [isValidated, setValidated] = useState(false);
+
+  // error messages
+  const [errorMessages, setErrorMessages] = useState({});
+
+  const isValidationPassed = () => {
+    return Object.keys(errorMessages).length === 0 ? true : false;
+  };
+
+  useEffect(() => {
+    // might add API endpoints to handle backend authentication here
+    if (isValidated && isValidationPassed()) {
+      window.location.reload();
+    }
+  }, [isValidationPassed]);
+
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrMessages = {};
+    const formValidation = auth.formValidation;
+
+    for (const fieldName in formValidation) {
+      if (
+        fieldName === "oldPassword" ||
+        fieldName === "newPassword" ||
+        fieldName === "confirmNewPassword"
+      ) {
+        const validationFuncs = formValidation[fieldName];
+
+        validationFuncs.forEach((validationFunc) => {
+          let validateResult = validationFunc(
+            fieldName,
+            passwordData[fieldName],
+            passwordData.newPassword
+          );
+
+          if (typeof validateResult === "string") {
+            newErrMessages[fieldName] = validateResult;
+          }
+        });
+      }
+    }
+
+    console.log(errorMessages);
+    setValidated(true);
+    setErrorMessages(newErrMessages);
   };
 
   return (
@@ -16,38 +87,68 @@ export default function PasswordChangeModal({ show, onHide, className }) {
         <Modal.Title>Change Password</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form noValidate validated={isValidated}>
           <Form.Group>
             <Form.Label className="mt-2 fw-medium">Old password</Form.Label>
             <InputGroup>
               <Form.Control
-                type={showPassword ? "text" : "password"}
+                name="oldPassword"
+                type={showPassword.oldPassword ? "text" : "password"}
                 className={className}
+                isInvalid={errorMessages.hasOwnProperty("oldPassword")}
                 autoFocus
+                onChange={handleInput}
               />
               <Button
-                title={showPassword ? "hide password" : "show password"}
+                title={
+                  showPassword.oldPassword ? "hide password" : "show password"
+                }
                 className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                onClick={handlePasswordToggle}
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    oldPassword: !showPassword.oldPassword,
+                  })
+                }
               >
-                {showPassword ? <EyeSlashFill /> : <EyeFill />}
+                {showPassword.oldPassword ? <EyeSlashFill /> : <EyeFill />}
               </Button>
+              <Form.Control.Feedback type="invalid">
+                {errorMessages.hasOwnProperty("oldPassword")
+                  ? errorMessages.oldPassword
+                  : ""}
+              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
           <Form.Group>
             <Form.Label className="mt-2 fw-medium">New password</Form.Label>
             <InputGroup>
               <Form.Control
+                name="newPassword"
+                type={showPassword.newPassword ? "text" : "password"}
                 className={className}
-                type={showPassword ? "text" : "password"}
+                isInvalid={errorMessages.hasOwnProperty("newPassword")}
+                onChange={handleInput}
               />
               <Button
-                title={showPassword ? "hide password" : "show password"}
+                title={
+                  showPassword.newPassword ? "hide password" : "show password"
+                }
                 className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                onClick={handlePasswordToggle}
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    newPassword: !showPassword.newPassword,
+                  })
+                }
               >
-                {showPassword ? <EyeSlashFill /> : <EyeFill />}
+                {showPassword.newPassword ? <EyeSlashFill /> : <EyeFill />}
               </Button>
+              <Form.Control.Feedback type="invalid">
+                {errorMessages.hasOwnProperty("newPassword")
+                  ? errorMessages.newPassword
+                  : ""}
+              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
           <Form.Group>
@@ -57,15 +158,36 @@ export default function PasswordChangeModal({ show, onHide, className }) {
             <InputGroup>
               <Form.Control
                 className={className}
-                type={showPassword ? "text" : "password"}
+                name="confirmNewPassword"
+                type={showPassword.confirmNewPassword ? "text" : "password"}
+                isInvalid={errorMessages.hasOwnProperty("confirmNewPassword")}
+                onChange={handleInput}
               />
               <Button
-                title={showPassword ? "hide password" : "show password"}
+                title={
+                  showPassword.confirmNewPassword
+                    ? "hide password"
+                    : "show password"
+                }
                 className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                onClick={handlePasswordToggle}
+                onClick={() =>
+                  setShowPassword({
+                    ...showPassword,
+                    confirmNewPassword: !showPassword.confirmNewPassword,
+                  })
+                }
               >
-                {showPassword ? <EyeSlashFill /> : <EyeFill />}
+                {showPassword.confirmNewPassword ? (
+                  <EyeSlashFill />
+                ) : (
+                  <EyeFill />
+                )}
               </Button>
+              <Form.Control.Feedback type="invalid">
+                {errorMessages.hasOwnProperty("confirmNewPassword")
+                  ? errorMessages.confirmNewPassword
+                  : ""}
+              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
         </Form>
@@ -81,7 +203,8 @@ export default function PasswordChangeModal({ show, onHide, className }) {
         <Button
           className="border-0 text-dark fw-medium"
           style={{ backgroundColor: "#24BEEF" }}
-          onClick={onHide}
+          type="submit"
+          onClick={handleSubmit}
         >
           Change password
         </Button>

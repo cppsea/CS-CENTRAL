@@ -8,7 +8,7 @@ import {
   Button,
   Stack,
 } from "react-bootstrap";
-import { PencilFill, EyeSlashFill, EyeFill } from "react-bootstrap-icons";
+import { PencilFill } from "react-bootstrap-icons";
 
 import "../Settings.scss";
 import * as auth from "../../auth/auth";
@@ -256,7 +256,7 @@ export default function ProfileEdit({}) {
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("password")}
                   />
-                  
+
                   <Button
                     disabled={editable.password}
                     title="Edit"
