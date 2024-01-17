@@ -10,10 +10,11 @@ import {
 } from "react-bootstrap";
 import { PencilFill, EyeSlashFill, EyeFill } from "react-bootstrap-icons";
 
-import "./ProfileEdit.scss";
+import "../Settings.scss";
 import * as auth from "../../auth/auth";
+import PasswordChangeModal from "./PasswordChangeModal";
 
-export default function ProfileEdit() {
+export default function ProfileEdit({}) {
   const [profileData, setProfileData] = useState({
     fname: "Joe",
     lname: "Smith",
@@ -21,8 +22,6 @@ export default function ProfileEdit() {
     username: "jsmith10",
     password: "password",
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
@@ -50,10 +49,6 @@ export default function ProfileEdit() {
       ...profileData,
       [name]: value,
     });
-  };
-
-  const handlePasswordToggle = () => {
-    setShowPassword(!showPassword);
   };
 
   // handle submit
@@ -98,19 +93,22 @@ export default function ProfileEdit() {
                     name="fname"
                     value={profileData.fname}
                     placeholder="First name"
-                    className="border border-dark border-end-0"
-                    style={{
-                      backgroundColor: editable.fname ? "#2D2626" : "#E9ECEF",
-                      color: editable.fname ? "white" : "gray",
-                    }}
+                    className={`border border-dark border-end-0 ${
+                      editable.fname
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
+                    }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("fname")}
                   />
                   <Button
                     title="Edit"
                     disabled={editable.fname}
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    style={{ color: editable.fname ? "gray" : "black" }}
+                    className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+                      !editable.fname
+                        ? "enable-edit-color"
+                        : "disable-edit-color"
+                    }`}
                     onClick={() => setEditable({ ...editable, fname: true })}
                   >
                     <PencilFill />
@@ -132,19 +130,22 @@ export default function ProfileEdit() {
                     name="lname"
                     value={profileData.lname}
                     placeholder="Last name"
-                    className="border border-dark border-end-0"
-                    style={{
-                      backgroundColor: editable.lname ? "#2D2626" : "#E9ECEF",
-                      color: editable.lname ? "white" : "gray",
-                    }}
+                    className={`border border-dark border-end-0 ${
+                      editable.lname
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
+                    }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("lname")}
                   />
                   <Button
                     title="Edit"
                     disabled={editable.lname}
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    style={{ color: editable.lname ? "gray" : "black" }}
+                    className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+                      !editable.lname
+                        ? "enable-edit-color"
+                        : "disable-edit-color"
+                    }`}
                     onClick={() => setEditable({ ...editable, lname: true })}
                   >
                     <PencilFill />
@@ -167,19 +168,22 @@ export default function ProfileEdit() {
                     type="email"
                     value={profileData.email}
                     placeholder="Email"
-                    className="border border-dark border-end-0"
-                    style={{
-                      backgroundColor: editable.email ? "#2D2626" : "#E9ECEF",
-                      color: editable.email ? "white" : "gray",
-                    }}
+                    className={`border border-dark border-end-0 ${
+                      editable.email
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
+                    }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("email")}
                   />
                   <Button
                     disabled={editable.email}
                     title="Edit"
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    style={{ color: editable.email ? "gray" : "black" }}
+                    className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+                      !editable.email
+                        ? "enable-edit-color"
+                        : "disable-edit-color"
+                    }`}
                     onClick={() => setEditable({ ...editable, email: true })}
                   >
                     <PencilFill />
@@ -207,21 +211,22 @@ export default function ProfileEdit() {
                     disabled={!editable.username}
                     name="username"
                     value={profileData.username}
-                    className="border border-dark border-end-0"
-                    style={{
-                      backgroundColor: editable.username
-                        ? "#2D2626"
-                        : "#E9ECEF",
-                      color: editable.username ? "white" : "gray",
-                    }}
+                    className={`border border-dark border-end-0 ${
+                      editable.username
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
+                    }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("username")}
                   />
                   <Button
                     disabled={editable.username}
                     title="Edit"
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    style={{ color: editable.username ? "gray" : "black" }}
+                    className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+                      !editable.username
+                        ? "enable-edit-color"
+                        : "disable-edit-color"
+                    }`}
                     onClick={() => setEditable({ ...editable, username: true })}
                   >
                     <PencilFill />
@@ -241,31 +246,25 @@ export default function ProfileEdit() {
                   <Form.Control
                     disabled={!editable.password}
                     name="password"
-                    type={showPassword ? "text" : "password"}
+                    type="password"
                     value={profileData.password}
-                    className="border border-dark border-end-0"
-                    style={{
-                      backgroundColor: editable.password
-                        ? "#2D2626"
-                        : "#E9ECEF",
-                      color: editable.password ? "white" : "gray",
-                    }}
+                    className={`border border-dark border-end-0 ${
+                      editable.password
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
+                    }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("password")}
                   />
-                  <Button
-                    disabled={!editable.password}
-                    title={showPassword ? "hide password" : "show password"}
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    onClick={handlePasswordToggle}
-                  >
-                    {showPassword ? <EyeSlashFill /> : <EyeFill />}
-                  </Button>
+                  
                   <Button
                     disabled={editable.password}
                     title="Edit"
-                    className="bg-transparent border-start-0 border-dark edit-button-hover-light"
-                    style={{ color: editable.password ? "gray" : "black" }}
+                    className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+                      !editable.password
+                        ? "enable-edit-color"
+                        : "disable-edit-color"
+                    }`}
                     onClick={() => setEditable({ ...editable, password: true })}
                   >
                     <PencilFill />
@@ -310,6 +309,12 @@ export default function ProfileEdit() {
             </div>
           </Stack>
         )}
+
+        <PasswordChangeModal
+          show={editable.password}
+          onHide={() => setEditable({ ...editable, password: false })}
+          className="border border-dark bg-editable-input"
+        />
       </Form>
     </Container>
   );

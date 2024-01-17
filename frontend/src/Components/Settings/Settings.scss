@@ -1,0 +1,26 @@
+@import "../../scss/variables";
+
+.edit-button-hover-light {
+  &:hover {
+    background-color: $primary !important;
+    color: white !important;
+  }
+}
+
+.bg-editable-input {
+  background-color: #2d2626 !important;
+  color: white !important;
+}
+
+.bg-uneditable-input {
+  background-color: #e9ecef !important;
+  color: gray !important;
+}
+
+.enable-edit-color {
+  color: black !important;
+}
+
+.disable-edit-color {
+  color: gray !important;
+}
