@@ -5,8 +5,7 @@ import ArticleView from "./pages/ArticleView.jsx";
 import Signup from "./pages/SignPages/Signup.jsx";
 import Signin from "./pages/SignPages/Signin.jsx";
 import BasePage from "./pages/BasePage.jsx";
-
-import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
+import ProfileSettingPage from "./pages/Settings/ProfileSettingPage.jsx";
 
 function App() {
   return (
@@ -24,7 +23,7 @@ function App() {
             <Route index element={<ArticleView />} />
             <Route path=":name" element={<ArticleView />} />
           </Route>
-          <Route path="profile-settings" element={<ProfileEdit />} />
+          <Route path="profile-settings" element={<ProfileSettingPage />} />
           <Route
             path="*"
             element={<h1 className="text-center">404 - Page Not Found</h1>}
