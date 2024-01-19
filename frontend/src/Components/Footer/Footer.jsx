@@ -2,7 +2,7 @@ import { Container, Button, Stack } from "react-bootstrap";
 
 export default function Footer() {
   return (
-    <Container fluid className="bg-primary border-top py-2 mt-auto">
+    <Container fluid className="bg-primary border-top py-2 mt-auto" style={{flex:"0"}}>
       <Stack direction="horizontal" gap={5} className=" justify-content-center">
         <Button className="text-white fw-semibold" href="/">
           Home
@@ -59,13 +59,13 @@ export default function Footer() {
               r="44.899"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0" stop-color="#fd5"></stop>
-              <stop offset=".328" stop-color="#ff543f"></stop>
-              <stop offset=".348" stop-color="#fc5245"></stop>
-              <stop offset=".504" stop-color="#e64771"></stop>
-              <stop offset=".643" stop-color="#d53e91"></stop>
-              <stop offset=".761" stop-color="#cc39a4"></stop>
-              <stop offset=".841" stop-color="#c837ab"></stop>
+              <stop offset="0" stopColor="#fd5"></stop>
+              <stop offset=".328" stopColor="#ff543f"></stop>
+              <stop offset=".348" stopColor="#fc5245"></stop>
+              <stop offset=".504" stopColor="#e64771"></stop>
+              <stop offset=".643" stopColor="#d53e91"></stop>
+              <stop offset=".761" stopColor="#cc39a4"></stop>
+              <stop offset=".841" stopColor="#c837ab"></stop>
             </radialGradient>
             <path
               fill="url(#yOrnnhliCrdS2gy~4tD8ma_Xy10Jcu1L2Su_gr1)"
@@ -79,8 +79,8 @@ export default function Footer() {
               gradientTransform="matrix(1 0 0 .6663 0 1.849)"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0" stop-color="#4168c9"></stop>
-              <stop offset=".999" stop-color="#4168c9" stop-opacity="0"></stop>
+              <stop offset="0" stopColor="#4168c9"></stop>
+              <stop offset=".999" stopColor="#4168c9" stopOpacity="0"></stop>
             </radialGradient>
             <path
               fill="url(#yOrnnhliCrdS2gy~4tD8mb_Xy10Jcu1L2Su_gr2)"
@@ -117,8 +117,8 @@ export default function Footer() {
               y2="23.508"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0" stop-color="#4c4c4c"></stop>
-              <stop offset="1" stop-color="#343434"></stop>
+              <stop offset="0" stopColor="#4c4c4c"></stop>
+              <stop offset="1" stopColor="#343434"></stop>
             </linearGradient>
             <path
               fill="url(#rL2wppHyxHVbobwndsT6Ca_AZOZNnY73haj_gr1)"
