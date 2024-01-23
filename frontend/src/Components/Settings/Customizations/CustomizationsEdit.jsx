@@ -38,14 +38,11 @@ export default function CustomizationsEdit({}) {
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
 
-
   const [editable, setEditable] = useState({
     interest_areas: false,
     article_level: false,
     technologies: false,
   });
-
-
 
   // handle submit
   const handleSubmit = (e) => {
@@ -84,7 +81,6 @@ export default function CustomizationsEdit({}) {
               onChange={(selected) => {
                 setCustData({ ...custData, article_level: selected });
                 setIsDataChanged(true);
-
               }}
               setEditable={setEditable}
               editable={editable}
@@ -101,7 +97,6 @@ export default function CustomizationsEdit({}) {
               onChange={(selected) => {
                 setCustData({ ...custData, technologies: selected });
                 setIsDataChanged(true);
-
               }}
               onInputChange={(e) => console.log(e)}
               setEditable={setEditable}
@@ -139,18 +134,16 @@ export default function CustomizationsEdit({}) {
           </Stack>
         )}
       </Form>
-      
     </Container>
   );
 }
-
 
 const AreasOfInterest = ({
   selectedState,
   options,
   onChange,
   editable,
-  setEditable
+  setEditable,
 }) => {
   return (
     <>
@@ -172,15 +165,6 @@ const AreasOfInterest = ({
                 : "bg-uneditable-input"
             }`}
             disabled={!editable.interest_areas}
-            renderMenu={(results, menuProps) => (
-              <Menu {...menuProps}>
-                {results.map((result,index) => (
-                  <MenuItem option={result} position={index} style={{background: "black"}}>
-                    {result}
-                  </MenuItem>
-                ))}
-              </Menu>
-            )}
           />
           <Button
             title="Edit"
@@ -253,7 +237,7 @@ const TechnologiesOfInterest = ({
   onChange,
   editable,
   setEditable,
-  setIsDataChanged
+  setIsDataChanged,
 }) => {
   return (
     <>
