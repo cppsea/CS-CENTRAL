@@ -3,13 +3,16 @@ const queries = require("./queries");
 
 const getArticles = async (req, res) => {
   if (req.query.title) {
-    const articles = await pool.query(queries.getArticlesByTitle, [req.query.title]);
+    const articles = await pool.query(queries.getArticlesByTitle, [
+      req.query.title,
+    ]);
     res.status(200).json(articles.rows);
-    console.log("GET ARTIICLES");
+    console.log("GET ARTICLES");
     return;
   }
   const articles = await pool.query(queries.getArticles);
   res.status(200).json(articles.rows);
+  console.log("GET ARTICLES");
 };
 
 const getArticlesById = (req, res) => {
@@ -26,8 +29,16 @@ const addArticles = (req, res) => {
   });
 };
 
+const deleteArticle = (req, res) => {
+  const id = parseInt(req.params.id);
+  pool.query(queries.deleteArticle, [id], (error, results) => {
+    res.status(200).send("Article deleted");
+  });
+};
+
 module.exports = {
   getArticles,
   getArticlesById,
   addArticles,
+  deleteArticle,
 };
