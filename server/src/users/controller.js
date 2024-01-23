@@ -40,7 +40,7 @@ const createUser = async (req, res) => {
 
         
 
-        res.status(200).json({token});
+        res.status(200).json({username,token});
 
     } catch (err) {
         console.error(err.message);
