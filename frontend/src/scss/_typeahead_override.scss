@@ -1,0 +1,33 @@
+@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/variables";
+
+//typeahead override
+
+/**
+ * Multi-select Input
+ */
+$rbt-background-color-disabled: #e9ecef !default;
+$rbt-border-color-focus: #80bdff !default;
+$rbt-border-color-focus: $input-focus-border-color;
+$rbt-box-shadow-color: $focus-ring-color;
+$rbt-background-color-disabled: #e9ecef;
+$rbt-background-color: #2d2626;
+
+.bg-editable-input > .rbt-input-multi {
+  background-color: #2d2626 !important;
+  border-width: 0;
+  input {
+    color: white !important;
+  }
+}
+
+//typeahead token
+$rbt-token-background-color: grey;
+$rbt-color-primary: black;
+$rbt-token-color: white;
+$rbt-color-disabled: #495057 !default;
+$rbt-color-white: #fff !default;
+
+
+@import "react-bootstrap-typeahead/css/Typeahead.scss";
+@import "react-bootstrap-typeahead/css/Typeahead.bs5.scss";
