@@ -13,7 +13,7 @@ export default function Footer() {
       </Stack>
 
       <Stack direction="horizontal" gap={3} className=" justify-content-center">
-        <Button>
+        <Button href="https://discord.gg/mXxjzaUwuU" target="_blank">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -40,7 +40,10 @@ export default function Footer() {
             ></path>
           </svg>
         </Button>
-        <Button>
+        <Button
+          href="https://www.instagram.com/cpp.sea?igsh=NzBmMjdhZWRiYQ=="
+          target="_blank"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
@@ -94,7 +97,10 @@ export default function Footer() {
             ></path>
           </svg>
         </Button>
-        <Button>
+        <Button
+          href="https://github.com/cppsea/CS-Catalog/tree/main"
+          target="_blank"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             x="0px"

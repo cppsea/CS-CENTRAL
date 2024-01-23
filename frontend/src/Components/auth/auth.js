@@ -2,6 +2,9 @@
 const errorLabels = {
   username: "username",
   password: "password",
+  oldPassword: "old password",
+  newPassword: "new password",
+  confirmNewPassword: "confirm new password",
   email: "email",
   fname: "first name",
   lname: "last name",
@@ -19,17 +22,15 @@ const patterns = {
 // functions for validating input fields (add more if possible)
 export const validationFunctions = {
   checkEmpty: (name = "", value1 = "", value2 = "") =>
-    value1.length > 0 || `${errorLabels[name]} is required`,
+    value1.length > 0 || `${errorLabels[name]} field is required`,
 
   checkPasswordLength: (name = "", value1 = "", value2 = "") =>
     value1.length >= 8 ||
     value1.length === 0 ||
-    "The password should be no less than 8 characters in length",
+    `${errorLabels[name]} should be no less than 8 characters in length`,
 
   checkPasswordMatch: (name = "", value1 = "", value2 = "") =>
-    value1 === value2 ||
-    value1.length === 0 ||
-    "The confirm password does not match the password above",
+    value1 === value2 || value1.length === 0 || "The password does not match",
 
   checkValidEmail: (name = "", value1 = "", value2 = "") => {
     const regex = patterns[name];
@@ -49,7 +50,19 @@ export const formValidation = {
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordLength,
   ],
+  oldPassword: [
+    validationFunctions.checkEmpty,
+    validationFunctions.checkPasswordLength,
+  ],
+  newPassword: [
+    validationFunctions.checkEmpty,
+    validationFunctions.checkPasswordLength,
+  ],
   confirmPassword: [
+    validationFunctions.checkEmpty,
+    validationFunctions.checkPasswordMatch,
+  ],
+  confirmNewPassword: [
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordMatch,
   ],
