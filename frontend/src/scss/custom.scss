@@ -1,11 +1,10 @@
 @import './variables';
-
-
+@import './typeahead_override';
 .form-control:valid {
   background-image: none !important;
 }
 
 
-@import "../../node_modules/bootstrap/scss/bootstrap";
-
-
+@import "bootstrap/scss/bootstrap";
+@import "react-bootstrap-typeahead/css/Typeahead.scss";
+@import "react-bootstrap-typeahead/css/Typeahead.bs5.scss";

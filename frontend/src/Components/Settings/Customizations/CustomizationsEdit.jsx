@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Container,
   Form,
@@ -8,24 +8,25 @@ import {
   Button,
   Stack,
 } from "react-bootstrap";
+import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
-
+import { Typeahead } from "react-bootstrap-typeahead";
 export default function CustomizationsEdit({}) {
   //customization data
   const [custData, setCustData] = useState({
-    interest_area: "",
-    article_level: "",
-    technologies: "",
+    interest_areas: [],
+    article_level: [],
+    technologies: [],
   });
 
   //state of options for each data
-  const [interestAreaOptions, setInterestAreaOptions] = useState([]);
+  const [interestAreasOptions, setInterestAreasOptions] = useState([]);
   const [articleLevelOptions, setArticleLevelOptions] = useState([]);
   const [technologiesOptions, setTechnologiesOptions] = useState([]);
 
   //simulating grabbing options from backend (if we are doing that)
   useEffect(() => {
-    setInterestAreaOptions([
+    setInterestAreasOptions([
       "Artificial Intelligence",
       "Machine Learning",
       "Web Development",
@@ -36,6 +37,12 @@ export default function CustomizationsEdit({}) {
 
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
+
+  const [editable, setEditable] = useState({
+    interest_areas: false,
+    article_level: false,
+    technologies: false,
+  });
 
   // handle input entered
   const handleInput = (e) => {
@@ -52,6 +59,7 @@ export default function CustomizationsEdit({}) {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(custData);
   };
 
   return (
@@ -63,58 +71,46 @@ export default function CustomizationsEdit({}) {
         {/*Area of Interest */}
         <Row xs={12} className="my-4">
           <Col>
-            <Form.Label>
-              What is your area of interest in Computer Science?
-            </Form.Label>
-            <Form.Group>
-              <InputGroup hasValidation>
-                <Select
-                  name={"interest_area"}
-                  value={custData.interest_area}
-                  options={interestAreaOptions}
-                  onChange={handleInput}
-                />
-              </InputGroup>
-            </Form.Group>
+            <AreasOfInterest
+              selectedState={custData.interest_areas}
+              options={interestAreasOptions}
+              onChange={(selected) => {
+                setCustData({ ...custData, interest_areas: selected });
+              }}
+              setEditable={setEditable}
+              editable={editable}
+            />
           </Col>
         </Row>
         {/*Difficulty Level */}
 
         <Row xs={12} className="my-4">
           <Col>
-            <Form.Label>
-              What level are you looking for in the article content?
-            </Form.Label>
-            <Form.Group>
-              <InputGroup hasValidation>
-                <Select
-                  name={"article_level"}
-                  value={custData.article_level}
-                  options={articleLevelOptions}
-                  onChange={handleInput}
-                />
-              </InputGroup>
-            </Form.Group>
+            <ArticleLevel
+              selectedState={custData.article_level}
+              options={articleLevelOptions}
+              onChange={(selected) => {
+                setCustData({ ...custData, article_level: selected });
+              }}
+              setEditable={setEditable}
+              editable={editable}
+            />
           </Col>
         </Row>
         {/*Interest in technologies*/}
 
         <Row xs={12} className="my-4">
           <Col>
-            <Form.Label>
-              Which programming languages or technologies are you interested in
-              exploring?
-            </Form.Label>
-            <Form.Group>
-              <InputGroup hasValidation>
-                <Select
-                  name={"technologies"}
-                  value={custData.technologies}
-                  options={technologiesOptions}
-                  onChange={handleInput}
-                />
-              </InputGroup>
-            </Form.Group>
+            <TechnologiesOfInterest
+              selectedState={custData.technologies}
+              options={technologiesOptions}
+              onChange={(selected) => {
+                setCustData({ ...custData, technologies: selected });
+              }}
+              onInputChange={(e) => console.log(e)}
+              setEditable={setEditable}
+              editable={editable}
+            />
           </Col>
         </Row>
         {isDataChanged && (
@@ -151,21 +147,144 @@ export default function CustomizationsEdit({}) {
   );
 }
 
-//Select component
-const Select = ({ value, options, name, onChange }) => {
+const AreasOfInterest = ({
+  selectedState,
+  options,
+  onChange,
+  editable,
+  setEditable,
+}) => {
   return (
-    <Form.Select
-      defaultValue={value}
-      name={name}
-      className={`border border-dark bg-editable-input`}
-      onChange={onChange}
-    >
-      <option value="">Select an option</option>
-      {options.map((opText) => (
-        <option key={opText} value={opText}>
-          {opText}
-        </option>
-      ))}
-    </Form.Select>
+    <>
+      <Form.Label>
+        What are your areas of interest in Computer Science?
+      </Form.Label>
+      <Form.Group>
+        <InputGroup hasValidation>
+          <Typeahead
+            id="areas-of-interest"
+            multiple
+            onChange={onChange}
+            options={options}
+            placeholder="Choose your areas of interest"
+            selected={selectedState}
+            className={`border border-dark rounded-start border-end-0 ${
+              editable.interest_areas
+                ? "bg-editable-input"
+                : "bg-uneditable-input"
+            }`}
+            disabled={!editable.interest_areas}
+          />
+          <Button
+            title="Edit"
+            disabled={editable.interest_areas}
+            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+              !editable.interest_areas
+                ? "enable-edit-color"
+                : "disable-edit-color"
+            }`}
+            onClick={() => setEditable({ ...editable, interest_areas: true })}
+          >
+            <PencilFill />
+          </Button>
+        </InputGroup>
+      </Form.Group>
+    </>
+  );
+};
+
+const ArticleLevel = ({
+  selectedState,
+  options,
+  onChange,
+  editable,
+  setEditable,
+}) => {
+  return (
+    <>
+      <Form.Label>
+        What level are you looking for in the article content?
+      </Form.Label>
+      <Form.Group>
+        <InputGroup hasValidation>
+          <Typeahead
+            id="article-level"
+            single
+            onChange={onChange}
+            options={options}
+            placeholder="Choose your article level"
+            selected={selectedState}
+            inputProps={{
+              className: `border border-dark rounded-start border-end-0 ${
+                editable.article_level
+                  ? "bg-editable-input"
+                  : "bg-uneditable-input"
+              }`,
+            }}
+          />
+          <Button
+            title="Edit"
+            disabled={editable.article_level}
+            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+              !editable.article_level
+                ? "enable-edit-color"
+                : "disable-edit-color"
+            }`}
+            onClick={() => setEditable({ ...editable, article_level: true })}
+          >
+            <PencilFill />
+          </Button>
+        </InputGroup>
+      </Form.Group>
+    </>
+  );
+};
+
+const TechnologiesOfInterest = ({
+  selectedState,
+  options,
+  onChange,
+  editable,
+  setEditable,
+}) => {
+  return (
+    <>
+      <Form.Label>
+        Which programming languages or technologies are you interested in
+        exploring?
+      </Form.Label>
+      <Form.Group>
+        <InputGroup hasValidation>
+          <Typeahead
+            id="technologies-of-interest"
+            multiple
+            onChange={onChange}
+            options={options}
+            placeholder="Choose the technologies you're interested in"
+            selected={selectedState}
+            className={`border border-dark rounded-start border-end-0 ${
+              editable.technologies
+                ? "bg-editable-input"
+                : "bg-uneditable-input"
+            }`}
+            disabled={!editable.technologies}
+          />
+          <Button
+            title="Edit"
+            disabled={editable.technologies}
+            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+              !editable.technologies
+                ? "enable-edit-color"
+                : "disable-edit-color"
+            }`}
+            onClick={() => {
+              setEditable({ ...editable, technologies: true });
+            }}
+          >
+            <PencilFill />
+          </Button>
+        </InputGroup>
+      </Form.Group>
+    </>
   );
 };

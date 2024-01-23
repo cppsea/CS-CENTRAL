@@ -25,7 +25,7 @@ function App() {
             <Route index element={<ArticleView />} />
             <Route path=":name" element={<ArticleView />} />
           </Route>
-          <Route path="profile-settings" element={<><CustomizationsEdit/></>} />
+          <Route path="profile-settings" element={<><ProfileEdit/><CustomizationsEdit/></>} />
           <Route
             path="*"
             element={<h1 className="text-center">404 - Page Not Found</h1>}
