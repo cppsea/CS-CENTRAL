@@ -13,14 +13,13 @@ $rbt-box-shadow-color: $focus-ring-color;
 $rbt-background-color-disabled: #e9ecef;
 $rbt-background-color: #2d2626;
 
-.bg-editable-input > .rbt-input-multi{
-  background-color: #2d2626  !important;
+.bg-editable-input > .rbt-input-multi {
+  background-color: #2d2626 !important;
   border-width: 0;
-  input{
+  input {
     color: white !important;
   }
 }
-
 
 //typeahead token
 $rbt-token-background-color: grey;
@@ -30,99 +29,5 @@ $rbt-color-disabled: #495057 !default;
 $rbt-color-white: #fff !default;
 
 
-
-/**
- * Token
- */
-$rbt-token-background-color: #e7f4ff !default;
-$rbt-token-color: $rbt-color-primary !default;
-
-$rbt-token-disabled-background-color: rgba(0, 0, 0, 0.1) !default;
-$rbt-token-disabled-color: $rbt-color-disabled !default;
-
-$rbt-token-active-background-color: $rbt-color-primary !default;
-$rbt-token-active-color: $rbt-color-white !default;
-
-.rbt-token {
-  background-color: $rbt-token-background-color;
-  border: 0;
-  border-radius: 0.25rem;
-  color: $rbt-token-color;
-  display: inline-flex;
-  line-height: 1rem;
-  // TODO: Use `gap` when it's better supported
-  margin: 1px 3px 2px 0;
-
-  .rbt-token-label {
-    padding: 0.25rem 0.5rem;
-
-    &:not(:last-child) {
-      padding-right: 0.25rem;
-    }
-  }
-
-  &-disabled {
-    background-color: $rbt-token-disabled-background-color;
-    color: $rbt-token-disabled-color;
-    pointer-events: none;
-  }
-
-  &-removeable {
-    cursor: pointer;
-  }
-
-  &-active {
-    background-color: $rbt-token-active-background-color;
-    color: $rbt-token-active-color;
-    outline: none;
-    text-decoration: none;
-  }
-
-  & &-remove-button {
-    // Hide Bootstrap close button image
-    background-image: none;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    // Override Bootstrap button shadow
-    box-shadow: none;
-    color: inherit;
-    display: flex;
-    justify-content: center;
-    font-size: inherit;
-    font-weight: normal;
-    opacity: 1;
-    outline: none;
-    padding: 0.25rem 0.5rem;
-    padding-left: 0;
-    text-shadow: none;
-
-    .rbt-close-content {
-      // Override `display: none` in BS5 styles.
-      display: block;
-    }
-  }
-}
-
-/**
- * Loader + CloseButton container
- */
-.rbt-aux {
-  align-items: center;
-  display: flex;
-  bottom: 0;
-  justify-content: center;
-  pointer-events: none; /* Don't block clicks on the input */
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 2rem;
-
-  &-lg {
-    width: 3rem;
-  }
-
-  & .rbt-close {
-    margin-top: -0.25rem;
-    pointer-events: auto; /* Override pointer-events: none; above */
-  }
-}
+@import "react-bootstrap-typeahead/css/Typeahead.scss";
+@import "react-bootstrap-typeahead/css/Typeahead.bs5.scss";

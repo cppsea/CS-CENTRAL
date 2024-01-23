@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
-import { Typeahead } from "react-bootstrap-typeahead";
+import { Menu, MenuItem, Typeahead } from "react-bootstrap-typeahead";
 export default function CustomizationsEdit({}) {
   //customization data
   const [custData, setCustData] = useState({
@@ -38,23 +38,14 @@ export default function CustomizationsEdit({}) {
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
 
+
   const [editable, setEditable] = useState({
     interest_areas: false,
     article_level: false,
     technologies: false,
   });
 
-  // handle input entered
-  const handleInput = (e) => {
-    const { name, value } = e.target;
 
-    setIsDataChanged(true);
-    console.log(custData);
-    setCustData({
-      ...custData,
-      [name]: value,
-    });
-  };
 
   // handle submit
   const handleSubmit = (e) => {
@@ -76,6 +67,7 @@ export default function CustomizationsEdit({}) {
               options={interestAreasOptions}
               onChange={(selected) => {
                 setCustData({ ...custData, interest_areas: selected });
+                setIsDataChanged(true);
               }}
               setEditable={setEditable}
               editable={editable}
@@ -91,6 +83,8 @@ export default function CustomizationsEdit({}) {
               options={articleLevelOptions}
               onChange={(selected) => {
                 setCustData({ ...custData, article_level: selected });
+                setIsDataChanged(true);
+
               }}
               setEditable={setEditable}
               editable={editable}
@@ -106,6 +100,8 @@ export default function CustomizationsEdit({}) {
               options={technologiesOptions}
               onChange={(selected) => {
                 setCustData({ ...custData, technologies: selected });
+                setIsDataChanged(true);
+
               }}
               onInputChange={(e) => console.log(e)}
               setEditable={setEditable}
@@ -143,16 +139,18 @@ export default function CustomizationsEdit({}) {
           </Stack>
         )}
       </Form>
+      
     </Container>
   );
 }
+
 
 const AreasOfInterest = ({
   selectedState,
   options,
   onChange,
   editable,
-  setEditable,
+  setEditable
 }) => {
   return (
     <>
@@ -174,6 +172,15 @@ const AreasOfInterest = ({
                 : "bg-uneditable-input"
             }`}
             disabled={!editable.interest_areas}
+            renderMenu={(results, menuProps) => (
+              <Menu {...menuProps}>
+                {results.map((result,index) => (
+                  <MenuItem option={result} position={index} style={{background: "black"}}>
+                    {result}
+                  </MenuItem>
+                ))}
+              </Menu>
+            )}
           />
           <Button
             title="Edit"
@@ -246,6 +253,7 @@ const TechnologiesOfInterest = ({
   onChange,
   editable,
   setEditable,
+  setIsDataChanged
 }) => {
   return (
     <>
