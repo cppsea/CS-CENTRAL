@@ -38,6 +38,10 @@
   }
 }
 
+.nav-link-underline-primary {
+  border-bottom-color: $primary !important;
+}
+
 .navbar-container {
   @include media-breakpoint-up(lg) {
     min-height: 70vh;

@@ -1,9 +1,9 @@
+import { Outlet } from "react-router-dom";
+
 import { Container, Row, Col } from "react-bootstrap";
 import SettingsNavbar from "../../Components/Settings/Navbar/SettingsNavbar";
-import ProfileEdit from "../../Components/Settings/Profile/ProfileEdit";
 
-
-export default function ProfileSetting() {
+export default function SettingsPage() {
   return (
     <>
       <Container fluid>
@@ -13,7 +13,7 @@ export default function ProfileSetting() {
           </Col>
 
           <Col xs={12} lg={9}>
-            <ProfileEdit />
+            <Outlet />
           </Col>
         </Row>
       </Container>

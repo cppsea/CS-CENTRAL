@@ -70,7 +70,7 @@ export default function Header() {
                   >
                     <NavDropdown.Item>My Profile</NavDropdown.Item>
                     <NavDropdown.Item>Saved Articles</NavDropdown.Item>
-                    <NavDropdown.Item href="/profile-settings">Settings</NavDropdown.Item>
+                    <NavDropdown.Item href="/settings">Settings</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="/signin">Sign Out</NavDropdown.Item>
                   </NavDropdown>
