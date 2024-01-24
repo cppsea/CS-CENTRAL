@@ -1,4 +1,138 @@
+import { useEffect, useState } from "react";
+import { Container, Form, Stack, Button } from "react-bootstrap";
+import SavedArticleItem from "./SaveArticleItem/SavedArticleItem";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
+
+const test_articles = [
+  {
+    id: 0,
+    image:
+      "https://builtin.com/cdn-cgi/image/f=auto,quality=80,width=752,height=435/https://builtin.com/sites/www.builtin.com/files/styles/byline_image/public/2021-12/machine-learning-examples-applications.png",
+    title: "Intro to Machine Learning",
+    description: "Brief description about this topic...",
+  },
+  {
+    id: 1,
+    image:
+      "https://imageio.forbes.com/specials-images/dam/imageserve/966248982/960x0.jpg?height=456&width=711&fit=bounds",
+    title: "Intro to Machine Learning",
+    description: "Brief description about this topic...",
+  },
+  {
+    id: 2,
+    image:
+      "https://www.mathworks.com/solutions/machine-learning/_jcr_content/mainParsys/band_copy_1919605364/mainParsys/columns/a03cc495-1c23-4402-82ea-1c8fd4d25234/pictogram.adapt.full.medium.svg/1701252724596.svg",
+    title: "Intro to Machine Learning",
+    description: "Brief description about this topic...",
+  },
+];
+
 export default function SavedArticles() {
-    return <h1>Saved Articles</h1>;
-  }
-  
+  //array all the articles currently not deleted
+  const [articles, setArticles] = useState([]);
+
+  //the state of the articles of whether they are being deleted or not, is object, key = article id, value = whether it is selected orn ot
+  const [isDeletedArticles, setIsDeletedArticles] = useState({});
+
+  //toggler of selected state for a specific article
+  //this returns a FUNCTION that toggles an article's state with the provided id
+  const articleToggleHandler = (id) => () =>
+    setIsDeletedArticles((prevArticles) => {
+      return { ...prevArticles, [id]: !prevArticles[id] };
+    });
+
+  //use effect to get articles upon page load once, also init selected state of every article as false
+  //just simulating retrieving articles
+  useEffect(() => {
+    let initArticles = async () => {
+      let retrieved_articles = await test_articles;
+      setArticles(retrieved_articles);
+
+      let initIsDeletedArticles = {};
+      retrieved_articles.forEach(({ id }) => {
+        initIsDeletedArticles[id] = false;
+      });
+      setIsDeletedArticles(initIsDeletedArticles);
+    };
+
+    initArticles();
+  }, []);
+
+  //submit handler (the yes button in modal does not trigger submit event)
+  //simply removed the selected articles from the displayed articles state
+  //insert backend actions here
+  const submitHandler = () => {
+    //filter out kept articles, replace articles state with them
+    let keptArticles = articles.filter(
+      (article) => !isDeletedArticles[article.id]
+    );
+    setArticles(keptArticles);
+
+    //reset selected state
+    let initIsDeletedArticles = {};
+    keptArticles.forEach(({ id }) => {
+      initIsDeletedArticles[id] = false;
+    });
+    setIsDeletedArticles(initIsDeletedArticles);
+  };
+
+  //state for whether delete confirmation modal is displayed or now
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
+  //show and hide handlers
+  const showDeleteConfirm = () => setDeleteConfirmOpen(true);
+  const hideDeleteConfirm = () => setDeleteConfirmOpen(false);
+
+  return (
+    <Container className="my-3">
+      <Form>
+        <h4 className="ps-2 py-1 border-start border-4 border-primary">
+          My Bookmarks
+        </h4>
+        <Container className="p-0 pt-4">
+          {articles.map((article) => (
+            <SavedArticleItem
+              key={article.id}
+              articleImg={article.image}
+              articleDesc={article.description}
+              articleTitle={article.title}
+              toBeDeleted={isDeletedArticles[article.id]}
+              deleteToggler={articleToggleHandler(article.id)}
+            />
+          ))}
+        </Container>
+        {/*Remove/Cancel will only show if there are any articles selected to be deleted*/}
+        {Object.values(isDeletedArticles).some((isDeleted) => isDeleted) && (
+          <Stack
+            direction="horizontal"
+            gap={3}
+            className="mt-3 justify-content-end"
+          >
+            <div>
+              <Button
+                className="border-0 text-dark fw-medium"
+                style={{ backgroundColor: "#24BEEF" }}
+                onClick={showDeleteConfirm}
+              >
+                Remove
+              </Button>
+            </div>
+            <div>
+              <Button
+                className="border-0 text-dark fw-medium"
+                style={{ backgroundColor: "#B9B2B2" }}
+              >
+                Cancel
+              </Button>
+            </div>
+          </Stack>
+        )}
+        <ConfirmDeleteModal
+          isOpen={deleteConfirmOpen}
+          handleClose={hideDeleteConfirm}
+          submitHandler={submitHandler}
+        />
+      </Form>
+    </Container>
+  );
+}

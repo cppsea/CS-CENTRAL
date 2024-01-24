@@ -1,0 +1,17 @@
+@import "../../../../scss/variables";
+@import "bootstrap/scss/functions";
+
+.kept-article {
+  background: $primary;
+}
+
+//make article lighter if selected to be deleted
+.to-be-deleted-article {
+  background: tint-color($primary, 50%);
+
+  & img,
+  .card-title,
+  .card-text {
+    opacity: 0.5;
+  }
+}
