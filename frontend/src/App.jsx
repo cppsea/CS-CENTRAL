@@ -1,13 +1,16 @@
 import { Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home.jsx";
 import ArticleList from "./pages/ArticleList.jsx";
 import ArticleView from "./pages/ArticleView.jsx";
 import Signup from "./pages/SignPages/Signup.jsx";
 import Signin from "./pages/SignPages/Signin.jsx";
 import BasePage from "./pages/BasePage.jsx";
+import ProfileSettingPage from "./pages/Settings/SettingsPage.jsx";
 
+import Customizations from "./Components/Settings/Customizations/Customizations.jsx";
 import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
-import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
+import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
 
 function App() {
   return (
@@ -25,7 +28,12 @@ function App() {
             <Route index element={<ArticleView />} />
             <Route path=":name" element={<ArticleView />} />
           </Route>
-          <Route path="profile-settings" element={<><ProfileEdit/><CustomizationsEdit/></>} />
+          <Route path="settings" element={<ProfileSettingPage />}>
+            <Route index element={<ProfileEdit />} />
+            <Route path="profile-settings" element={<ProfileEdit />} />
+            <Route path="saved-articles" element={<SavedArticles />} />
+            <Route path="customizations" element={<Customizations />} />
+          </Route>
           <Route
             path="*"
             element={<h1 className="text-center">404 - Page Not Found</h1>}

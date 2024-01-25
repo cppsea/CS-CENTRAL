@@ -1,5 +1,9 @@
 @import "../../scss/variables";
 
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules//bootstrap/scss/mixins";
+
 .edit-button-hover-light {
   &:hover {
     background-color: $primary !important;
@@ -25,5 +29,30 @@
   color: gray !important;
 }
 
+.fs-navbar-link {
+  font-size: 1.2rem !important;
+  margin: 0px 20px;
 
+  &:hover {
+    border-color: $primary !important;
+  }
+}
 
+.nav-link-underline-primary {
+  border-bottom-color: $primary !important;
+}
+
+.navbar-container {
+  @include media-breakpoint-up(lg) {
+    min-height: 70vh;
+    border-style: none solid none none;
+    border-width: 1px;
+    border-color: #d09696;
+  }
+  @include media-breakpoint-down(lg) {
+    padding-bottom: 10px;
+    border-style: none none solid none;
+    border-width: 1px;
+    border-color: #d09696;
+  }
+}
