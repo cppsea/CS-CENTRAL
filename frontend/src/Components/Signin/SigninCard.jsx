@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Card, Form, Button, InputGroup } from "react-bootstrap";
 import * as auth from "../auth/auth";
-
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import './Signin.scss'
+import { useLogin } from "../../hooks/useLogin";
+
 export default function SigninCard() {
+  const { login,error,isLoading }= useLogin()
   const [formVal, setFormVal] = useState({
     username: "",
     password: "",
@@ -32,7 +34,7 @@ export default function SigninCard() {
   };
 
   // handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errMessagesList = {};
@@ -49,6 +51,8 @@ export default function SigninCard() {
 
     setValidated(true);
     setErrorMessages(errMessagesList);
+
+    await login(formVal.username,formVal.password)
   };
 
   return (

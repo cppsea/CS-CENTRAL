@@ -63,7 +63,7 @@ const loginUser = async (req, res) => {
         if(await bcrypt.compare(user_password, user.user_password)){
             //res.send("Success");
             const token = createToken(username);
-            res.json({token})
+            res.json({username,token})
         }
         else{
             res.send("Not allowed");

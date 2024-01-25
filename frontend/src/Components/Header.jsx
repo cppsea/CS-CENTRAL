@@ -10,11 +10,13 @@ import {
 } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { user } = useAuthContext()
   return (
     <>
       <Stack gap={3} className="flex-grow-0">
@@ -65,7 +67,7 @@ export default function Header() {
                 <Nav.Item>
                   <NavDropdown
                     className="text-light fw-semibold fs-6"
-                    title="Joe Smith"
+                    title={ user ? user.username : "Joe Smith"}
                     align={{ lg: "end" }}
                   >
                     <NavDropdown.Item>My Profile</NavDropdown.Item>
