@@ -8,9 +8,9 @@ import Signin from "./pages/SignPages/Signin.jsx";
 import BasePage from "./pages/BasePage.jsx";
 import ProfileSettingPage from "./pages/Settings/SettingsPage.jsx";
 
-import Customizations from "./Components/Settings/Customizations/Customizations.jsx";
 import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
+import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
             <Route index element={<ProfileEdit />} />
             <Route path="profile-settings" element={<ProfileEdit />} />
             <Route path="saved-articles" element={<SavedArticles />} />
-            <Route path="customizations" element={<Customizations />} />
+            <Route path="customizations" element={<CustomizationsEdit />} />
           </Route>
           <Route
             path="*"
