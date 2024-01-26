@@ -237,7 +237,6 @@ const TechnologiesOfInterest = ({
   onChange,
   editable,
   setEditable,
-  setIsDataChanged,
 }) => {
   return (
     <>
