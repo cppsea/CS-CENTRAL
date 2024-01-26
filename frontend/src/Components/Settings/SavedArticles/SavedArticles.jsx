@@ -41,6 +41,15 @@ export default function SavedArticles() {
       return { ...prevArticles, [id]: !prevArticles[id] };
     });
 
+  //deselects all articles from deletion
+  const resetDeletionHandler = () => {
+    let resetArticles = {};
+    articles.forEach(({ id }) => {
+      resetArticles[id] = false;
+    });
+    setIsDeletedArticles(resetArticles);
+  };
+
   //use effect to get articles upon page load once, also init selected state of every article as false
   //just simulating retrieving articles
   useEffect(() => {
@@ -121,6 +130,7 @@ export default function SavedArticles() {
               <Button
                 className="border-0 text-dark fw-medium"
                 style={{ backgroundColor: "#B9B2B2" }}
+                onClick={resetDeletionHandler}
               >
                 Cancel
               </Button>
