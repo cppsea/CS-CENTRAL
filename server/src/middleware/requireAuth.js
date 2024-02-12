@@ -1,6 +1,10 @@
+//file used to ensure that only authenticated users can access any route protected by this middleware
 const jwt = require('jsonwebtoken')
+const pool = require("../../db.js");
+
 const { getUsersById } = require('../users/queries')
 
+//checking to see if user is authenticated, for editing, creating, deleting articles
 const requireAuth = async (req, res, next) => {
 
     //verify that user is authenticated
@@ -19,9 +23,12 @@ const requireAuth = async (req, res, next) => {
         const {id} = jwt.verify(token, "secret string")
         
         //uses id to find in database
-        const userResult = await pool.query(getUsersById, [id], (error, results) => {
-            res.status(200).json(results.rows)
-        })
+        const userResult = await pool.query(getUsersById, [id]);
+
+        if(!userResult || !userResult.rows || userResult.rows.length === 0){
+            return res.status(401).json({ error: 'User not found' });
+        }
+        req.user = userResult.rows[0];
         next()
     } catch (error) {
         console.log(error)
