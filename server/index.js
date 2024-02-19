@@ -2,8 +2,9 @@ const express = require("express");
 const articleRoutes = require("./src/articles/routes.js");
 const userRoutes = require("./src/users/routes.js");
 const cors = require("cors");
+require("dotenv").config();
 
-
+console.log(process.env.PGUSER);
 
 
 const app = express();
