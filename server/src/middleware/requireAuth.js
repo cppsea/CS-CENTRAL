@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken')
 const pool = require("../../db.js");
 
-const { getUsersById } = require('../users/queries')
+const { getUserByUsername } = require('../users/queries')
 
 //checking to see if user is authenticated, for editing, creating, deleting articles
 const requireAuth = async (req, res, next) => {
@@ -21,9 +21,9 @@ const requireAuth = async (req, res, next) => {
 
         //decodes jwt token and extracts id from token
         const {id} = jwt.verify(token, "secret string")
-        
+        console.log("decoded token payload: ", id);
         //uses id to find in database
-        const userResult = await pool.query(getUsersById, [id]);
+        const userResult = await pool.query(getUserByUsername, [id]);
 
         if(!userResult || !userResult.rows || userResult.rows.length === 0){
             return res.status(401).json({ error: 'User not found' });
