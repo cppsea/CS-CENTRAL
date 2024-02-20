@@ -1,5 +1,9 @@
 @import "../../scss/variables";
 
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules//bootstrap/scss/mixins";
+
 .header-divider {
   border: 1.5px solid $header-text;
   height: 75%;
@@ -12,8 +16,13 @@
 }
 
 #navbar_item {
-  color: $header-text !important;
-  font-size: 1.1em;
+  color: $header-text;
+  @include media-breakpoint-down(xl) {
+    font-size: 1.1em;
+  }
+  @include media-breakpoint-up(xxl) {
+    font-size: 1.5em;
+  }
 }
 
 #dropdown_items {

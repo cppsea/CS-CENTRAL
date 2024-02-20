@@ -18,19 +18,15 @@ import "./Header.scss";
 export default function Header() {
   return (
     <>
-      {/* <Stack gap={3} className="flex-grow-0"> */}
-      <Navbar expand="lg" fixed="top" className="sticky-top px-4 bg-header">
-        <Container fluid>
+      <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
+        <Container>
           <Stack direction="horizontal" gap={2}>
             <Nav.Link href="/">
               <Image className="p-1" src={logo} roundedCircle width={60} />
             </Nav.Link>
             <div className="header-divider"></div>
 
-            <Navbar.Toggle
-              aria-controls="basic-navbar-nav"
-              id="toggler"
-            />
+            <Navbar.Toggle aria-controls="basic-navbar-nav" id="toggler" />
             <Navbar.Collapse>
               <Nav variant="underline" className="ms-auto px-2">
                 <Nav.Item>
@@ -67,7 +63,6 @@ export default function Header() {
 
             <Nav variant="underline">
               <Nav.Item>
-                {/* <Nav.Link id="navbar_item"> */}
                 <OverlayTrigger
                   rootClose
                   trigger="click"
@@ -118,13 +113,11 @@ export default function Header() {
                     <Image src={avatar} roundedCircle width={40} />
                   </Button>
                 </OverlayTrigger>
-                {/* </Nav.Link> */}
               </Nav.Item>
             </Nav>
           </Stack>
         </Container>
       </Navbar>
-      {/* </Stack> */}
     </>
   );
 }
