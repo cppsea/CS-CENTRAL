@@ -1,27 +1,12 @@
 import { Container, Nav } from "react-bootstrap";
 import "../Settings.scss";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function SettingsNavbar() {
   const navigate = useNavigate();
 
-  const [isActive, setIsActive] = useState({
-    "profile-settings": true,
-    "saved-articles": false,
-    customizations: false,
-  });
-
   const handleNavLinkClick = (eventKey, event) => {
     event.preventDefault();
-
-    setIsActive({
-      "profile-settings": false,
-      "saved-articles": false,
-      customizations: false,
-      [eventKey]: true,
-    });
-
     navigate(`/settings/${eventKey}`);
   };
 
@@ -36,7 +21,8 @@ export default function SettingsNavbar() {
             href="/settings/profile-settings"
             eventKey={"profile-settings"}
             className={`link-primary fs-navbar-link fw-medium ${
-              isActive["profile-settings"]
+              window.location.pathname === "/settings" ||
+              window.location.pathname === "/settings/profile-settings"
                 ? "nav-link-underline-primary text-primary"
                 : "text-dark"
             }`}
@@ -51,7 +37,7 @@ export default function SettingsNavbar() {
             href="/settings/saved-articles"
             eventKey={"saved-articles"}
             className={`link-primary fs-navbar-link fw-medium ${
-              isActive["saved-articles"]
+              window.location.pathname === "/settings/saved-articles"
                 ? "nav-link-underline-primary text-primary"
                 : "text-dark"
             }`}
@@ -66,7 +52,7 @@ export default function SettingsNavbar() {
             href="/settings/customizations"
             eventKey={"customizations"}
             className={`link-primary fs-navbar-link fw-medium ${
-              isActive["customizations"]
+              window.location.pathname === "/settings/customizations"
                 ? "nav-link-underline-primary text-primary"
                 : "text-dark"
             }`}

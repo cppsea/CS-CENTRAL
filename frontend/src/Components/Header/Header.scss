@@ -1,0 +1,32 @@
+@import "../../scss/variables";
+
+.header-divider {
+  border: 1.5px solid $header-text;
+  height: 75%;
+  margin-left: 1em;
+  background-color: $header-text;
+}
+
+.bg-header {
+  background-color: $header-footer-bg;
+}
+
+#navbar_item {
+  color: $header-text !important;
+  font-size: 1.1em;
+}
+
+#dropdown_items {
+  color: $link-text;
+  padding-left: 10px;
+  font-size: 1.2em;
+  &:hover {
+    border-bottom: 2px solid $link-text;
+  }
+}
+
+#toggler {
+  background-color: $primary;
+  border: none;
+  margin-left: 10px;
+}

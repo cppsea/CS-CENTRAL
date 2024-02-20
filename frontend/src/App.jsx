@@ -6,7 +6,7 @@ import ArticleView from "./pages/ArticleView.jsx";
 import Signup from "./pages/SignPages/Signup.jsx";
 import Signin from "./pages/SignPages/Signin.jsx";
 import BasePage from "./pages/BasePage.jsx";
-import ProfileSettingPage from "./pages/Settings/SettingsPage.jsx";
+import SettingsPage from "./pages/Settings/SettingsPage.jsx";
 
 import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
@@ -28,7 +28,7 @@ function App() {
             <Route index element={<ArticleView />} />
             <Route path=":name" element={<ArticleView />} />
           </Route>
-          <Route path="settings" element={<ProfileSettingPage />}>
+          <Route path="settings" element={<SettingsPage />}>
             <Route index element={<ProfileEdit />} />
             <Route path="profile-settings" element={<ProfileEdit />} />
             <Route path="saved-articles" element={<SavedArticles />} />
