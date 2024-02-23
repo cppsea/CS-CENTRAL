@@ -12,3 +12,22 @@ $popover-body-bg: #2c6ae1;
 //settings
 $settings-input-bg: #d5d5d5;
 $settings-article-search-bar: #d5d5d5;
+
+//fonts
+@font-face {
+  font-family: "Fredericka-The-Great";
+  src: local("Fredericka the Great"),
+    url("../../assets/fonts/Fredericka-The-Great/FrederickatheGreat-Regular.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("../../assets/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf")
+      format("truetype");
+}
+
+$font-family-sans-serif: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
