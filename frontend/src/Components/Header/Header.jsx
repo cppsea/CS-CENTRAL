@@ -12,10 +12,14 @@ import {
   Button,
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
+import { SunFill, MoonFill } from "react-bootstrap-icons";
 
 import "./Header.scss";
+import { useState } from "react";
 
 export default function Header() {
+  const [isDark, setIsDark] = useState(false);
+
   return (
     <>
       <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
@@ -57,9 +61,21 @@ export default function Header() {
           </Stack>
 
           <Stack direction="horizontal" gap={3}>
-            <Stack style={{ justifyContent: "center" }}>
+            <div style={{ justifyContent: "center" }}>
               <SearchBar />
-            </Stack>
+            </div>
+            <div>
+              <Button
+                className="bg-transparent border-0 p-1"
+                onClick={() => setIsDark(!isDark)}
+              >
+                {isDark ? (
+                  <MoonFill className="fs-3 text-white" />
+                ) : (
+                  <SunFill className="fs-3 text-white" />
+                )}
+              </Button>
+            </div>
 
             <Nav variant="underline">
               <Nav.Item>
@@ -109,7 +125,7 @@ export default function Header() {
                     </Popover>
                   }
                 >
-                  <Button className=" bg-transparent border-0">
+                  <Button className=" bg-transparent border-0 p-0">
                     <Image src={avatar} roundedCircle width={40} />
                   </Button>
                 </OverlayTrigger>
