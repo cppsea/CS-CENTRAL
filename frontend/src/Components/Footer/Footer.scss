@@ -1,0 +1,95 @@
+@import "../../scss/variables.scss";
+
+//colors
+.footer {
+  background: $header-footer-bg;
+}
+
+.footer * {
+  color: white;
+}
+
+/*First half of footer*/
+.footer-logo {
+  background: $primary;
+  width: 50%;
+  max-width: 200px;
+  min-width: 100px;
+}
+
+/*Social Links*/
+.footer-socials-list {
+}
+
+.footer-social-container > a {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-social-icon {
+  font-size: 2rem;
+}
+.footer-social-name {
+  font-size: 1rem;
+  font-weight: 200;
+}
+.footer-social-icon,
+.footer-social-name {
+  line-height: 1.1rem;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/*Second half*/
+
+/*CS Catalog title*/
+.footer-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 300;
+  > span {
+    font-family: "Fredericka The Great";
+    font-size: 4rem;
+    font-weight: normal;
+  }
+}
+
+/*more info links*/
+
+.footer-more-info-links-container {
+}
+
+.footer-more-info-link-container {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.footer-socials-list,
+.footer-links-container {
+  li {
+    list-style-type: none;
+  }
+}
+
+//link hover/click styles
+.social-link,
+.more-info-link {
+  text-decoration: none;
+
+  &:hover {
+    font-weight: 700 !important;
+    cursor: pointer;
+  }
+
+  &:active {
+    border-bottom: 1px solid white;
+  }
+}
+
+//footer copyright
+.footer-copyright {
+  font-style: italic;
+  font-weight: 200;
+  font-size: 0.9rem;
+}
