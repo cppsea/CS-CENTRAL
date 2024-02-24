@@ -1,0 +1,48 @@
+@import "../../../../scss/variables";
+
+@import "../../../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../../../node_modules/bootstrap/scss/grid";
+@import "../../../../../node_modules//bootstrap/scss/mixins";
+
+.vertical-line {
+  @include media-breakpoint-up(md) {
+    height: 7.5em;
+    width: 15px;
+    background-color: $primary;
+  }
+  @include media-breakpoint-down(md) {
+    height: 5em;
+    width: 10px;
+    background-color: $primary;
+  }
+}
+
+.rectangle {
+  @include media-breakpoint-up(md) {
+    height: 7.5em;
+    width: 20px;
+    background-color: $primary;
+  }
+  @include media-breakpoint-down(md) {
+    height: 5em;
+    width: 15px;
+    background-color: $primary;
+  }
+}
+
+.arrow-marker {
+  width: 0;
+  height: 0;
+
+  @include media-breakpoint-up(md) {
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent;
+    border-left: 20px solid $primary;
+  }
+
+  @include media-breakpoint-down(md) {
+    border-top: 40px solid transparent;
+    border-bottom: 40px solid transparent;
+    border-left: 10px solid $primary;
+  }
+}

@@ -1,0 +1,55 @@
+@import "../../../scss/variables";
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../../node_modules/bootstrap/scss/grid";
+@import "../../../../node_modules//bootstrap/scss/mixins";
+
+.title-divider {
+  width: 100%;
+  text-align: center;
+  font-weight: 300;
+  border-bottom: 1.5px solid #000;
+  line-height: 0.2em;
+  margin: 20px 0 20px;
+  user-select: none;
+  @include media-breakpoint-down(xs) {
+    margin: 5px 0 5px;
+  }
+}
+
+.text-between-divider-light {
+  position: relative;
+  background-color: #ffff;
+
+  @include media-breakpoint-down(sm) {
+    font-size: 1.5em;
+    top: 5px;
+    padding: 0 10px;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: 3em;
+    top: 5px;
+    padding: 0 50px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 4em;
+    top: 15px;
+    padding: 0 50px;
+  }
+
+  > .title {
+    font-family: "Fredericka The Great";
+    font-size: 2em;
+    font-weight: normal;
+    @include media-breakpoint-down(xs) {
+      position: relative;
+      top: 7px;
+    }
+    @include media-breakpoint-up(md) {
+      position: relative;
+      top: 20px;
+    }
+  }
+}

@@ -10,6 +10,9 @@ import {
   OverlayTrigger,
   Popover,
   Button,
+  DropdownButton,
+  ButtonGroup,
+  Dropdown,
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
 import { SunFill, MoonFill } from "react-bootstrap-icons";
@@ -89,9 +92,9 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John Smith!
+                        Hello John!
                       </Popover.Header>
-                      <Popover.Body>
+                      <Popover.Body className="py-2">
                         <Nav>
                           <Nav.Item>
                             <Nav.Link
@@ -118,6 +121,17 @@ export default function Header() {
                               id="dropdown_items"
                             >
                               Settings
+                            </Nav.Link>
+                          </Nav.Item>
+                          <div id="profile_menu_divider"></div>
+                          <Nav.Item>
+                            <Nav.Link
+                              className="fw-medium"
+                              href="/signin"
+                              id="dropdown_items"
+                              style={{ color: "red" }}
+                            >
+                              Sign out
                             </Nav.Link>
                           </Nav.Item>
                         </Nav>

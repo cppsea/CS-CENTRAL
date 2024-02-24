@@ -30,7 +30,10 @@
   padding-left: 10px;
   font-size: 1.2em;
   &:hover {
-    border-bottom: 2px solid $link-text;
+    font-weight: 600 !important;
+    background-color: $primary;
+    color: $header-text;
+    border-radius: 4px;
   }
 }
 
@@ -38,4 +41,11 @@
   background-color: $primary;
   border: none;
   margin-left: 10px;
+}
+
+#profile_menu_divider {
+  margin: 2px 0 2px 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: rgb(18, 18, 18);
 }
