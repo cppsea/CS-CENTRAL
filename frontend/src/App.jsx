@@ -11,6 +11,7 @@ import SettingsPage from "./pages/Settings/SettingsPage.jsx";
 import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
 import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
+import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<BasePage />}>
           <Route path="/" element={<Home />} />
+          <Route path="sign" element={<SignWelcome />} />
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="article_search_results">

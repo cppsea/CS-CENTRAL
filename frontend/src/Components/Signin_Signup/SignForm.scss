@@ -1,0 +1,53 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
+@import "../../scss/variables";
+
+$sign-page-divider: black;
+$google-button-bg: #eff5fb;
+
+.sign-page-title {
+  color: $sign-page-title;
+}
+
+//form
+.sign-form {
+  flex-grow: 1;
+  max-width: 425px;
+  min-width: 200px;
+}
+
+//sign inputs
+.sign-text-input::placeholder {
+  color: $sign-input-placeholder !important;
+}
+.sign-text-input {
+  padding: 10px !important;
+  @include media-breakpoint-up(md) {
+    padding: 15px !important;
+  }
+}
+.sign-password-visbility-button {
+  padding: 12px !important;
+  border-width: 0 !important;
+  @include media-breakpoint-up(md) {
+    padding: 17px !important;
+  }
+}
+
+//font sizes
+
+.sign-action-text {
+  font-size: 0.8rem;
+  @include media-breakpoint-up(md) {
+    font-size: clamp(0.8rem, 0.8rem + 0.1vw, 1.5rem);
+  }
+}
+
+.sign-text-input {
+  font-size: 1rem !important;
+  @include media-breakpoint-up(md) {
+    font-size: clamp(1rem, 1rem + 0.1vw, 1.5rem) !important;
+  }
+}

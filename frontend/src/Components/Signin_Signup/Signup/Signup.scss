@@ -3,19 +3,15 @@
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "../../../node_modules//bootstrap/scss/mixins";
 
-.w-signup {
-  @include media-breakpoint-down(md) {
-    max-width: 350px;
-  }
-  @include media-breakpoint-up(md) {
-    width: 400px;
-  }
-}
-
 .hyperlink {
-  color: rgb(45, 25, 100);
+  color: black;
 
   &:hover {
-    color: rgb(45, 25, 221);
+    color: rgb(51, 50, 50);
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
   }
 }

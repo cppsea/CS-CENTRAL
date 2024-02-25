@@ -1,5 +1,5 @@
 import { Stack, Image } from "react-bootstrap";
-import logo from "../../assets/logo.png";
+import logo from "../../../assets/logo.png";
 
 export default function Logo() {
   return (
@@ -12,7 +12,7 @@ export default function Logo() {
         }}
         className="mb-4 w-50"
       />
-      <h3 className="text-center fs-3 text-white">
+      <h3 className="text-center fs-3 text-black fw-bold">
         Learn - Explore - Innovate
       </h3>
       <h4 className="text-center fs-5 fst-italic fw-normal">
