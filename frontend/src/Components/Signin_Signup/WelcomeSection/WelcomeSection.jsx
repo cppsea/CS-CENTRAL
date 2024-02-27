@@ -24,7 +24,7 @@ export default function WelcomeSection() {
         </Button>
         <span className="no-account-text text-black">
           No account yet?{" "}
-          <Link className="no-account-link" to={"/signin"}>
+          <Link className="no-account-link" to={"/signup"}>
             Create one.
           </Link>
         </span>
