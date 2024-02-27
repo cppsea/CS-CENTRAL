@@ -1,9 +1,8 @@
 import { Col, Container, Row } from "react-bootstrap";
-import SigninCard from "../../Components/Signin_Signup/Signin/SigninCard";
 import Logo from "../../Components/Signin_Signup/Logo/Logo";
 import "./SignPages.scss";
-
-export default function Signin() {
+import WelcomeSection from "../../Components/Signin_Signup/WelcomeSection/WelcomeSection";
+export default function () {
   return (
     <>
       <Container fluid className="sign-page-container">
@@ -12,7 +11,7 @@ export default function Signin() {
             <Logo />
           </Col>
           <Col xs={12} sm={6} className="m-0 sign-page-sign-section">
-            <SigninCard />
+            <WelcomeSection />
           </Col>
         </Row>
       </Container>
