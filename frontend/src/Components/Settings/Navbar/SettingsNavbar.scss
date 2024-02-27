@@ -1,0 +1,77 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/variables";
+
+@import "../../../scss/variables";
+
+//navbar container
+.navbar-container {
+  border-width: 1px;
+  @include media-breakpoint-up(lg) {
+    min-height: 70vh;
+    border-style: none solid none none;
+  }
+  @include media-breakpoint-down(lg) {
+    padding-bottom: 10px;
+    border-style: none none solid none;
+  }
+  height: fit-content !important;
+}
+
+//settings nav link
+.settings-nav-link {
+  font-size: 1.2rem !important;
+  margin: 0px 20px;
+  position: relative;
+  border-width: 0 !important;
+}
+
+.settings-nav-link-active-highlight {
+  position: absolute;
+  height: 1.4rem;
+  background: $arrow-marker-dark;
+  width: 3px;
+  right: -10px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+//color themes
+
+/*DARK*/
+@include color-mode(dark) {
+  .navbar-container {
+    border-color: $divider-dark;
+  }
+
+  .settings-nav-link {
+    color: $primary-text-dark !important;
+    &:hover {
+      border-color: $arrow-marker-dark !important;
+    }
+  }
+
+  .settings-nav-link-active {
+    border-color: $arrow-marker-dark !important;
+  }
+}
+
+/*LIGHT*/
+@include color-mode(light) {
+  .navbar-container {
+    border-color: $divider-light;
+  }
+
+  .settings-nav-link {
+    color: $primary-text-light !important;
+    &:hover {
+      border-color: $arrow-marker-light !important;
+    }
+  }
+
+  .settings-nav-link-active {
+    border-color: $arrow-marker-light !important;
+  }
+}

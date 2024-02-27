@@ -1,58 +1,64 @@
 @import "../../scss/variables";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 
-@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
-@import "../../../node_modules/bootstrap/scss/grid";
-@import "../../../node_modules//bootstrap/scss/mixins";
+//settings section headers
+.settings-section-header {
+  font-weight: 700;
+}
 
-.edit-button-hover-light {
+.settings-section-field-header {
+  font-weight: 500;
+}
+
+//settings edit button
+.settings-edit-button {
+  border-width: 0 !important;
   &:hover {
     background-color: $primary !important;
     color: white !important;
   }
 }
 
+//settings input
+.settings-input {
+  border-width: 0 !important;
+}
+
+//when input is disabled
+.bg-uneditable-input {
+  background: $settings-input-bg !important;
+  color: gray !important;
+}
+.settings-edit-button-uneditable {
+  color: gray !important;
+}
+
+//when input is enabled
 .bg-editable-input {
   background-color: #2d2626 !important;
   color: white !important;
 }
 
-.bg-uneditable-input {
-  background-color: #e9ecef !important;
-  color: gray !important;
-}
-
-.enable-edit-color {
+.settings-edit-button-editable {
   color: black !important;
+  background: $settings-input-bg !important;
 }
 
-.disable-edit-color {
-  color: gray !important;
-}
+//COLOR MODES
 
-.fs-navbar-link {
-  font-size: 1.2rem !important;
-  margin: 0px 20px;
-
-  &:hover {
-    border-color: $primary !important;
+@include color-mode(dark) {
+  .settings-section-header,
+  .settings-section-field-header {
+    color: $primary-text-dark;
   }
 }
 
-.nav-link-underline-primary {
-  border-bottom-color: $primary !important;
-}
-
-.navbar-container {
-  @include media-breakpoint-up(lg) {
-    min-height: 70vh;
-    border-style: none solid none none;
-    border-width: 1px;
-    border-color: #d09696;
-  }
-  @include media-breakpoint-down(lg) {
-    padding-bottom: 10px;
-    border-style: none none solid none;
-    border-width: 1px;
-    border-color: #d09696;
+@include color-mode(light) {
+  .settings-section-header,
+  .settings-section-field-header {
+    color: $primary-text-light;
   }
 }

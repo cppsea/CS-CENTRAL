@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
-import { Menu, MenuItem, Typeahead } from "react-bootstrap-typeahead";
+import { Typeahead } from "react-bootstrap-typeahead";
 export default function CustomizationsEdit({}) {
   //customization data
   const [custData, setCustData] = useState({
@@ -53,7 +53,7 @@ export default function CustomizationsEdit({}) {
   return (
     <Container className="my-3">
       <Form noValidate onSubmit={handleSubmit}>
-        <h4 className="ps-2 py-1 border-start border-4 border-primary">
+        <h4 className="ps-2 py-1 border-start border-4 border-primary settings-section-header">
           Customize your choice of articles
         </h4>
         {/*Area of Interest */}
@@ -147,7 +147,7 @@ const AreasOfInterest = ({
 }) => {
   return (
     <>
-      <Form.Label>
+      <Form.Label className="settings-section-field-header">
         What are your areas of interest in Computer Science?
       </Form.Label>
       <Form.Group>
@@ -159,7 +159,7 @@ const AreasOfInterest = ({
             options={options}
             placeholder="Choose your areas of interest"
             selected={selectedState}
-            className={`border border-dark rounded-start border-end-0 ${
+            className={`border-0 rounded-start ${
               editable.interest_areas
                 ? "bg-editable-input"
                 : "bg-uneditable-input"
@@ -169,10 +169,10 @@ const AreasOfInterest = ({
           <Button
             title="Edit"
             disabled={editable.interest_areas}
-            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+            className={`settings-edit-button ${
               !editable.interest_areas
-                ? "enable-edit-color"
-                : "disable-edit-color"
+                ? "settings-edit-button-editable"
+                : "settings-edit-button-uneditable"
             }`}
             onClick={() => setEditable({ ...editable, interest_areas: true })}
           >
@@ -193,7 +193,7 @@ const ArticleLevel = ({
 }) => {
   return (
     <>
-      <Form.Label>
+      <Form.Label className="settings-section-field-header">
         What level are you looking for in the article content?
       </Form.Label>
       <Form.Group>
@@ -206,7 +206,7 @@ const ArticleLevel = ({
             placeholder="Choose your article level"
             selected={selectedState}
             inputProps={{
-              className: `border border-dark rounded-start border-end-0 ${
+              className: `border-0 ${
                 editable.article_level
                   ? "bg-editable-input"
                   : "bg-uneditable-input"
@@ -216,10 +216,10 @@ const ArticleLevel = ({
           <Button
             title="Edit"
             disabled={editable.article_level}
-            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+            className={`settings-edit-button ${
               !editable.article_level
-                ? "enable-edit-color"
-                : "disable-edit-color"
+                ? "settings-edit-button-editable"
+                : "settings-edit-button-uneditable"
             }`}
             onClick={() => setEditable({ ...editable, article_level: true })}
           >
@@ -240,7 +240,7 @@ const TechnologiesOfInterest = ({
 }) => {
   return (
     <>
-      <Form.Label>
+      <Form.Label className="settings-section-field-header">
         Which programming languages or technologies are you interested in
         exploring?
       </Form.Label>
@@ -253,7 +253,7 @@ const TechnologiesOfInterest = ({
             options={options}
             placeholder="Choose the technologies you're interested in"
             selected={selectedState}
-            className={`border border-dark rounded-start border-end-0 ${
+            className={`border-0 rounded-start ${
               editable.technologies
                 ? "bg-editable-input"
                 : "bg-uneditable-input"
@@ -263,10 +263,10 @@ const TechnologiesOfInterest = ({
           <Button
             title="Edit"
             disabled={editable.technologies}
-            className={`bg-transparent border-start-0 border-dark edit-button-hover-light ${
+            className={`settings-edit-button ${
               !editable.technologies
-                ? "enable-edit-color"
-                : "disable-edit-color"
+                ? "settings-edit-button-editable"
+                : "settings-edit-button-uneditable"
             }`}
             onClick={() => {
               setEditable({ ...editable, technologies: true });

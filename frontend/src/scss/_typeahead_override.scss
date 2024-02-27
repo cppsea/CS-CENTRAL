@@ -1,7 +1,11 @@
-@import "bootstrap/scss/bootstrap-grid";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
 @import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../scss/variables";
 
 //typeahead override
+//currently used only in settings and is styled only for it as a result
 
 /**
  * Multi-select Input
@@ -10,7 +14,7 @@ $rbt-background-color-disabled: #e9ecef !default;
 $rbt-border-color-focus: #80bdff !default;
 $rbt-border-color-focus: $input-focus-border-color;
 $rbt-box-shadow-color: $focus-ring-color;
-$rbt-background-color-disabled: #e9ecef;
+$rbt-background-color-disabled: $settings-input-bg;
 $rbt-background-color: #2d2626;
 
 .bg-editable-input > .rbt-input-multi {
@@ -27,7 +31,6 @@ $rbt-color-primary: black;
 $rbt-token-color: white;
 $rbt-color-disabled: #495057 !default;
 $rbt-color-white: #fff !default;
-
 
 @import "react-bootstrap-typeahead/css/Typeahead.scss";
 @import "react-bootstrap-typeahead/css/Typeahead.bs5.scss";

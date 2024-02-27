@@ -1,17 +1,41 @@
-@import "../../../../scss/variables";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 @import "bootstrap/scss/functions";
+@import "../../../../scss/variables";
 
-.kept-article {
-  background: $primary;
+.saved-article {
+  width: 200px;
 }
 
-//make article lighter if selected to be deleted
-.to-be-deleted-article {
-  background: tint-color($primary, 50%);
+.saved-article-title {
+  font-size: calc(0.7rem + 0.2vw);
+  font-weight: 500;
+  width: 80%;
+  min-width: 100px;
+}
 
-  & img,
-  .card-title,
-  .card-text {
-    opacity: 0.5;
+.saved-article-image-container {
+  width: 200px;
+  height: 100px;
+  background: #363535;
+  display: flex;
+  justify-content: center;
+}
+.saved-article-image {
+  object-fit: contain;
+  width: 100%;
+}
+
+@include color-mode(dark) {
+  .saved-article-title {
+    color: $primary-text-dark;
+  }
+}
+
+@include color-mode(light) {
+  .saved-article-title {
+    color: $primary-text-light;
   }
 }

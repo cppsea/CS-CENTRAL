@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
-
+import '../Settings.scss'
 export default function PasswordChangeModal({ show, onHide, className }) {
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,

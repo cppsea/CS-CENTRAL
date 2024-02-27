@@ -1,5 +1,5 @@
 import { Container, Nav } from "react-bootstrap";
-import "../Settings.scss";
+import "./SettingsNavbar.scss";
 import { useNavigate } from "react-router-dom";
 
 export default function SettingsNavbar() {
@@ -20,15 +20,17 @@ export default function SettingsNavbar() {
           <Nav.Link
             href="/settings/profile-settings"
             eventKey={"profile-settings"}
-            className={`link-primary fs-navbar-link fw-medium ${
-              window.location.pathname === "/settings" ||
+            className={`settings-nav-link fw-medium ${
               window.location.pathname === "/settings/profile-settings"
-                ? "nav-link-underline-primary text-primary"
-                : "text-dark"
+                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
+                : ""
             }`}
             onClick={(e) => handleNavLinkClick("profile-settings", e)}
           >
             Profile
+            {window.location.pathname === "/settings/profile-settings" && (
+              <div className="settings-nav-link-active-highlight"></div>
+            )}
           </Nav.Link>
         </Nav.Item>
 
@@ -36,14 +38,17 @@ export default function SettingsNavbar() {
           <Nav.Link
             href="/settings/saved-articles"
             eventKey={"saved-articles"}
-            className={`link-primary fs-navbar-link fw-medium ${
+            className={`settings-nav-link fw-medium ${
               window.location.pathname === "/settings/saved-articles"
-                ? "nav-link-underline-primary text-primary"
-                : "text-dark"
+                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
+                : ""
             }`}
             onClick={(e) => handleNavLinkClick("saved-articles", e)}
           >
             Saved Articles
+            {window.location.pathname === "/settings/saved-articles" && (
+              <div className="settings-nav-link-active-highlight"></div>
+            )}
           </Nav.Link>
         </Nav.Item>
 
@@ -51,14 +56,17 @@ export default function SettingsNavbar() {
           <Nav.Link
             href="/settings/customizations"
             eventKey={"customizations"}
-            className={`link-primary fs-navbar-link fw-medium ${
+            className={`settings-nav-link fw-medium ${
               window.location.pathname === "/settings/customizations"
-                ? "nav-link-underline-primary text-primary"
-                : "text-dark"
+                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
+                : ""
             }`}
             onClick={(e) => handleNavLinkClick("customizations", e)}
           >
             Customizations
+            {window.location.pathname === "/settings/customizations" && (
+              <div className="settings-nav-link-active-highlight"></div>
+            )}
           </Nav.Link>
         </Nav.Item>
       </Nav>

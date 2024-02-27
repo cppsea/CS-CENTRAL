@@ -2,27 +2,27 @@ import { useEffect, useState } from "react";
 import { Container, Form, Stack, Button } from "react-bootstrap";
 import SavedArticleItem from "./SaveArticleItem/SavedArticleItem";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-
+import "../Settings.scss";
 const test_articles = [
   {
     id: 0,
     image:
       "https://builtin.com/cdn-cgi/image/f=auto,quality=80,width=752,height=435/https://builtin.com/sites/www.builtin.com/files/styles/byline_image/public/2021-12/machine-learning-examples-applications.png",
-    title: "Intro to Machine Learning",
+    title: "Supervised, Unsupervised, and Reinforcement Learning Techniques",
     description: "Brief description about this topic...",
   },
   {
     id: 1,
     image:
       "https://imageio.forbes.com/specials-images/dam/imageserve/966248982/960x0.jpg?height=456&width=711&fit=bounds",
-    title: "Intro to Machine Learning",
+    title: "Supervised, Unsupervised, and Reinforcement Learning Techniques",
     description: "Brief description about this topic...",
   },
   {
     id: 2,
     image:
       "https://www.mathworks.com/solutions/machine-learning/_jcr_content/mainParsys/band_copy_1919605364/mainParsys/columns/a03cc495-1c23-4402-82ea-1c8fd4d25234/pictogram.adapt.full.medium.svg/1701252724596.svg",
-    title: "Intro to Machine Learning",
+    title: "Machine Learning in Business and Marketing",
     description: "Brief description about this topic...",
   },
 ];
@@ -95,7 +95,7 @@ export default function SavedArticles() {
   return (
     <Container className="my-3">
       <Form>
-        <h4 className="ps-2 py-1 border-start border-4 border-primary">
+        <h4 className="ps-2 py-1 border-start border-4 border-primary settings-section-header">
           My Bookmarks
         </h4>
         <Container className="p-0 pt-4">
