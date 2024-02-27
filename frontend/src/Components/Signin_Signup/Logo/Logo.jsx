@@ -15,7 +15,7 @@ export default function Logo() {
       <h3 className="text-center fs-3 text-black fw-bold">
         Learn - Explore - Innovate
       </h3>
-      <h4 className="text-center fs-5 fst-italic fw-normal">
+      <h4 className="text-center fs-5 fst-italic fw-normal text-black">
         CS Knowledge at Your Fingertips
       </h4>
     </Stack>

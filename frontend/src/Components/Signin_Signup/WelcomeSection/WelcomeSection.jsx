@@ -5,7 +5,7 @@ export default function WelcomeSection() {
   const navigate = useNavigate();
   return (
     <div>
-      <h2 className="sign-welcome-message welcome-text fw-light">
+      <h2 className="sign-welcome-message welcome-text fw-light text-black">
         Welcome to
         <span className="sign-website-name catalog-text">
           <span className="cs-text">CS</span>Catalog
@@ -22,7 +22,7 @@ export default function WelcomeSection() {
             Login with my <span className="fw-semibold">account</span>
           </span>
         </Button>
-        <span className="no-account-text">
+        <span className="no-account-text text-black">
           No account yet?{" "}
           <Link className="no-account-link" to={"/signin"}>
             Create one.

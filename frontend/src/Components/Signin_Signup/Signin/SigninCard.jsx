@@ -121,7 +121,7 @@ export default function SigninCard() {
                 alignItems: "center",
               }}
             >
-              <span>or</span>
+              <span className="text-black">or</span>
             </Col>
             <Col xs={5} className="sign-page-divider"></Col>
           </Row>

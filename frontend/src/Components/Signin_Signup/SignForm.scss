@@ -23,7 +23,10 @@ $google-button-bg: #eff5fb;
   color: $sign-input-placeholder !important;
 }
 .sign-text-input {
+  background: white !important;
+  border: 0px solid white !important;
   padding: 10px !important;
+  color: black !important;
   @include media-breakpoint-up(md) {
     padding: 15px !important;
   }
