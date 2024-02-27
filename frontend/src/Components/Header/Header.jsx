@@ -67,18 +67,6 @@ export default function Header() {
             <div style={{ justifyContent: "center" }}>
               <SearchBar />
             </div>
-            <div>
-              <Button
-                className="bg-transparent border-0 p-1"
-                onClick={() => setIsDark(!isDark)}
-              >
-                {isDark ? (
-                  <MoonFill className="fs-3 text-white" />
-                ) : (
-                  <SunFill className="fs-3 text-white" />
-                )}
-              </Button>
-            </div>
 
             <Nav variant="underline">
               <Nav.Item>
