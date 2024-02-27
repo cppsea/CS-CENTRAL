@@ -99,7 +99,7 @@ export default function Header() {
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
-                              href="/"
+                              href="/settings/profile-settings"
                               id="dropdown_items"
                             >
                               My Profile
