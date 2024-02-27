@@ -5,28 +5,28 @@
 @import "../../../../../node_modules//bootstrap/scss/mixins";
 
 .vertical-line {
+  background-color: $primary;
+
   @include media-breakpoint-up(md) {
     height: 7.5em;
     width: 15px;
-    background-color: $primary;
   }
   @include media-breakpoint-down(md) {
     height: 5em;
     width: 10px;
-    background-color: $primary;
   }
 }
 
 .rectangle {
+  background-color: $primary;
+
   @include media-breakpoint-up(md) {
     height: 7.5em;
     width: 20px;
-    background-color: $primary;
   }
   @include media-breakpoint-down(md) {
     height: 5em;
     width: 15px;
-    background-color: $primary;
   }
 }
 

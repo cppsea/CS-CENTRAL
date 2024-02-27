@@ -3,11 +3,13 @@ import "./AppTitle.scss";
 export default function AppTitle() {
   return (
     <>
-      <p className="title-divider">
-        <span className="text-between-divider-light d-inline">
-          <span className="title">CS</span> Catalog
-        </span>
-      </p>
+      <div className="d-flex align-items-center gap-4">
+        <div className="title-divider"></div>
+        <div className="d-flex align-items-center text-between-divider-light px-lg-4 fw-light">
+          <span className="big-cs me-2">CS</span> Catalog
+        </div>
+        <div className="title-divider"></div>
+      </div>
     </>
   );
 }
