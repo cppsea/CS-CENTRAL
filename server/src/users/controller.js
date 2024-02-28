@@ -2,6 +2,10 @@ const pool = require("../../db.js");
 const queries = require("./queries");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
+const {OAuth2Client} = require('google-auth-library');
+
 
 const createToken = (id) =>
 {
