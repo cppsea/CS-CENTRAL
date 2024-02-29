@@ -14,23 +14,45 @@ $rbt-background-color-disabled: #e9ecef !default;
 $rbt-border-color-focus: #80bdff !default;
 $rbt-border-color-focus: $input-focus-border-color;
 $rbt-box-shadow-color: $focus-ring-color;
-$rbt-background-color-disabled: $settings-input-bg;
+$rbt-background-color-disabled: $settings-input-bg-uneditable;
 $rbt-background-color: #2d2626;
 
-.bg-editable-input > .rbt-input-multi {
-  background-color: #2d2626 !important;
-  border-width: 0;
-  input {
-    color: white !important;
+.rbt-input-main {
+  &::placeholder {
+    color: black !important;
+  }
+}
+
+.bg-editable-input {
+  > .rbt-input-multi {
+    background-color: $settings-input-bg-editable !important;
+    border-width: 0;
+    .rbt-input-main {
+      color: white !important;
+    }
+  }
+}
+
+.bg-uneditable-input {
+  > .rbt-input-multi {
+    background-color: $settings-input-bg-uneditable !important;
+    border-width: 0;
+    .rbt-input-main {
+      color: gray !important;
+    }
   }
 }
 
 //typeahead token
-$rbt-token-background-color: grey;
+$rbt-token-background-color: rgb(168, 211, 240);
 $rbt-color-primary: black;
-$rbt-token-color: white;
+$rbt-token-color: black;
 $rbt-color-disabled: #495057 !default;
 $rbt-color-white: #fff !default;
+
+//then token is clicked on
+$rbt-token-active-background-color: #afaeae;
+$rbt-token-active-color: black;
 
 @import "react-bootstrap-typeahead/css/Typeahead.scss";
 @import "react-bootstrap-typeahead/css/Typeahead.bs5.scss";

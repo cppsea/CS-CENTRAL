@@ -11,65 +11,66 @@ export default function SettingsNavbar() {
   };
 
   return (
-    <Container className="navbar-container my-3">
-      <Nav
-        variant="underline"
-        className="flex-lg-column d-lg-inline flex-sm-row"
-      >
-        <Nav.Item>
-          <Nav.Link
-            href="/settings/profile-settings"
-            eventKey={"profile-settings"}
-            className={`settings-nav-link fw-medium ${
-              window.location.pathname === "/settings/profile-settings"
-                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
-                : ""
-            }`}
-            onClick={(e) => handleNavLinkClick("profile-settings", e)}
-          >
+    <Nav variant="underline" className="navbar-container">
+      <Nav.Item className="settings-nav-item">
+        <Nav.Link
+          href="/settings/profile-settings"
+          eventKey={"profile-settings"}
+          className={`settings-nav-link fw-medium ${
+            window.location.pathname === "/settings/profile-settings"
+              ? "settings-nav-link-active"
+              : ""
+          }`}
+          onClick={(e) => handleNavLinkClick("profile-settings", e)}
+        >
+          <span className="settings-nav-link-text">
             Profile
             {window.location.pathname === "/settings/profile-settings" && (
-              <div className="settings-nav-link-active-highlight"></div>
+              <span className={"settings-nav-link-active-highlight"}></span>
             )}
-          </Nav.Link>
-        </Nav.Item>
+          </span>
+        </Nav.Link>
+      </Nav.Item>
 
-        <Nav.Item>
-          <Nav.Link
-            href="/settings/saved-articles"
-            eventKey={"saved-articles"}
-            className={`settings-nav-link fw-medium ${
-              window.location.pathname === "/settings/saved-articles"
-                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
-                : ""
-            }`}
-            onClick={(e) => handleNavLinkClick("saved-articles", e)}
-          >
+      <Nav.Item className="settings-nav-item">
+        <Nav.Link
+          href="/settings/saved-articles"
+          eventKey={"saved-articles"}
+          className={`settings-nav-link fw-medium ${
+            window.location.pathname === "/settings/saved-articles"
+              ? "settings-nav-link-active"
+              : ""
+          }`}
+          onClick={(e) => handleNavLinkClick("saved-articles", e)}
+        >
+          <span className="settings-nav-link-text">
             Saved Articles
             {window.location.pathname === "/settings/saved-articles" && (
-              <div className="settings-nav-link-active-highlight"></div>
+              <span className={"settings-nav-link-active-highlight"}></span>
             )}
-          </Nav.Link>
-        </Nav.Item>
+          </span>
+        </Nav.Link>
+      </Nav.Item>
 
-        <Nav.Item>
-          <Nav.Link
-            href="/settings/customizations"
-            eventKey={"customizations"}
-            className={`settings-nav-link fw-medium ${
-              window.location.pathname === "/settings/customizations"
-                ? "settings-nav-link-active" //"nav-link-underline-primary text-primary"
-                : ""
-            }`}
-            onClick={(e) => handleNavLinkClick("customizations", e)}
-          >
+      <Nav.Item className="settings-nav-item">
+        <Nav.Link
+          href="/settings/customizations"
+          eventKey={"customizations"}
+          className={`settings-nav-link fw-medium ${
+            window.location.pathname === "/settings/customizations"
+              ? "settings-nav-link-active"
+              : ""
+          }`}
+          onClick={(e) => handleNavLinkClick("customizations", e)}
+        >
+          <span className="settings-nav-link-text">
             Customizations
             {window.location.pathname === "/settings/customizations" && (
-              <div className="settings-nav-link-active-highlight"></div>
+              <span className={"settings-nav-link-active-highlight"}></span>
             )}
-          </Nav.Link>
-        </Nav.Item>
-      </Nav>
-    </Container>
+          </span>
+        </Nav.Link>
+      </Nav.Item>
+    </Nav>
   );
 }

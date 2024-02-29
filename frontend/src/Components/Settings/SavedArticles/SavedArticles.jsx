@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Container, Form, Stack, Button } from "react-bootstrap";
+import { Container, Form, Stack, Button, Row, Col } from "react-bootstrap";
 import SavedArticleItem from "./SaveArticleItem/SavedArticleItem";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ArrowMarker from "../ArrowMarker/ArrowMarker";
 import "../Settings.scss";
+import SavedArticlesSearchBar from "./SearchBar/SavedArticlesSearchBar";
 const test_articles = [
   {
     id: 0,
@@ -21,7 +23,7 @@ const test_articles = [
   {
     id: 2,
     image:
-      "https://www.mathworks.com/solutions/machine-learning/_jcr_content/mainParsys/band_copy_1919605364/mainParsys/columns/a03cc495-1c23-4402-82ea-1c8fd4d25234/pictogram.adapt.full.medium.svg/1701252724596.svg",
+      "https://imageio.forbes.com/specials-images/dam/imageserve/966248982/960x0.jpg?height=456&width=711&fit=bounds",
     title: "Machine Learning in Business and Marketing",
     description: "Brief description about this topic...",
   },
@@ -92,35 +94,64 @@ export default function SavedArticles() {
   const showDeleteConfirm = () => setDeleteConfirmOpen(true);
   const hideDeleteConfirm = () => setDeleteConfirmOpen(false);
 
+  //state for search bar
+  const [searchbarText, setSearchbarText] = useState("");
+
+  //search bar search handler *implement later
+  const searchHandler = () => {
+    console.log(searchbarText);
+  };
   return (
-    <Container className="my-3">
-      <Form>
-        <h4 className="ps-2 py-1 border-start border-4 border-primary settings-section-header">
-          My Bookmarks
-        </h4>
-        <Container className="p-0 pt-4">
+    <Container className="my-3 h-100 d-flex flex-column">
+      <h2 className="settings-header">Saved Articles</h2>
+      <div className="settings-divider"></div>
+
+      <Form className="flex-grow-1">
+        <Container fluid>
+          <Row>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex justify-content-center my-2 px-0"
+            >
+              <div className="settings-section-header-container">
+                <div className="settings-arrow-marker-container">
+                  <ArrowMarker />
+                </div>
+                <h4 className="settings-section-header">My Bookmarks</h4>
+              </div>
+            </Col>
+            <Col
+              xs={12}
+              md={6}
+              className="d-flex justify-content-xs-start justify-content-md-end my-2 px-0"
+            >
+              <SavedArticlesSearchBar
+                textState={searchbarText}
+                setText={setSearchbarText}
+                searchHandler={searchHandler}
+              />
+            </Col>
+          </Row>
+        </Container>
+
+        <div className="d-flex flex-wrap gap-4 p-0 pt-4">
           {articles.map((article) => (
             <SavedArticleItem
               key={article.id}
               articleImg={article.image}
-              articleDesc={article.description}
               articleTitle={article.title}
               toBeDeleted={isDeletedArticles[article.id]}
               deleteToggler={articleToggleHandler(article.id)}
             />
           ))}
-        </Container>
+        </div>
         {/*Remove/Cancel will only show if there are any articles selected to be deleted*/}
         {Object.values(isDeletedArticles).some((isDeleted) => isDeleted) && (
-          <Stack
-            direction="horizontal"
-            gap={3}
-            className="mt-3 justify-content-end"
-          >
+          <Stack direction="horizontal" gap={3} className="justify-content-end">
             <div>
               <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#24BEEF" }}
+                className="settings-confirm-button"
                 onClick={showDeleteConfirm}
               >
                 Remove
@@ -128,8 +159,7 @@ export default function SavedArticles() {
             </div>
             <div>
               <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#B9B2B2" }}
+                className="settings-cancel-button"
                 onClick={resetDeletionHandler}
               >
                 Cancel

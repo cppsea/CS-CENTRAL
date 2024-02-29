@@ -5,37 +5,86 @@
 @import "bootstrap/scss/functions";
 @import "../../../../scss/variables";
 
+//overall article container
 .saved-article {
   width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.saved-article-title {
-  font-size: calc(0.7rem + 0.2vw);
-  font-weight: 500;
-  width: 80%;
-  min-width: 100px;
+//the top part containing article image and bookmark
+.saved-article-top {
+  width: 100%;
+  display: flex;
 }
 
 .saved-article-image-container {
-  width: 200px;
-  height: 100px;
-  background: #363535;
+  width: fit-content;
+  height: 100%;
+  position: relative;
   display: flex;
-  justify-content: center;
-}
-.saved-article-image {
-  object-fit: contain;
-  width: 100%;
+  align-items: flex-start;
 }
 
+//image
+.saved-article-image {
+  position: relative;
+  object-fit: contain;
+  object-position: center top;
+  width: 100%;
+  height: 100%;
+}
+
+//bookmark
+.saved-article-bookmark {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 0;
+  right: -10px;
+  width: fit-content;
+
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    cursor: auto;
+  }
+}
+
+//bottom (containing title)
+.saved-article-bottom {
+}
+.saved-article-title {
+  display: inline-block;
+  width: 100%;
+  font-size: calc(0.7rem + 0.1vw);
+  line-height: calc(0.8rem + 0.4vw);
+  font-weight: 500;
+  min-width: 100px;
+}
+@include media-breakpoint-down(md) {
+  .saved-article {
+    width: 150px;
+  }
+}
+
+//COLOR MODES
 @include color-mode(dark) {
   .saved-article-title {
     color: $primary-text-dark;
+  }
+
+  .saved-article-bookmark {
+    color: $bookmark-bg-dark;
   }
 }
 
 @include color-mode(light) {
   .saved-article-title {
     color: $primary-text-light;
+  }
+  .saved-article-bookmark {
+    color: $bookmark-bg-light;
   }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Form,
@@ -11,6 +11,7 @@ import {
 import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import { Typeahead } from "react-bootstrap-typeahead";
+import ArrowMarker from "../ArrowMarker/ArrowMarker";
 export default function CustomizationsEdit({}) {
   //customization data
   const [custData, setCustData] = useState({
@@ -52,10 +53,16 @@ export default function CustomizationsEdit({}) {
 
   return (
     <Container className="my-3">
+      <h2 className="settings-header">Customizations</h2>
+      <div className="settings-divider"></div>
       <Form noValidate onSubmit={handleSubmit}>
-        <h4 className="ps-2 py-1 border-start border-4 border-primary settings-section-header">
-          Customize your choice of articles
-        </h4>
+        <div className="my-3 settings-section-header-container">
+          <div className="settings-arrow-marker-container">
+            <ArrowMarker />
+          </div>
+          <h4 className="settings-section-header">Customizations</h4>
+        </div>
+
         {/*Area of Interest */}
         <Row xs={12} className="my-4">
           <Col>
@@ -108,21 +115,16 @@ export default function CustomizationsEdit({}) {
           <Stack
             direction="horizontal"
             gap={3}
-            className="mt-3 justify-content-end"
+            className="mt-3 justify-content-end "
           >
             <div>
-              <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#24BEEF" }}
-                type="submit"
-              >
+              <Button className="settings-confirm-button" type="submit">
                 Save
               </Button>
             </div>
             <div>
               <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#B9B2B2" }}
+                className="settings-cancel-button"
                 onClick={() => {
                   setIsDataChanged(false);
                   window.location.reload();
@@ -171,8 +173,8 @@ const AreasOfInterest = ({
             disabled={editable.interest_areas}
             className={`settings-edit-button ${
               !editable.interest_areas
-                ? "settings-edit-button-editable"
-                : "settings-edit-button-uneditable"
+                ? "settings-edit-button-edit"
+                : "settings-edit-button-unedit"
             }`}
             onClick={() => setEditable({ ...editable, interest_areas: true })}
           >
@@ -212,14 +214,15 @@ const ArticleLevel = ({
                   : "bg-uneditable-input"
               }`,
             }}
+            disabled={!editable.article_level}
           />
           <Button
             title="Edit"
             disabled={editable.article_level}
             className={`settings-edit-button ${
               !editable.article_level
-                ? "settings-edit-button-editable"
-                : "settings-edit-button-uneditable"
+                ? "settings-edit-button-edit"
+                : "settings-edit-button-unedit"
             }`}
             onClick={() => setEditable({ ...editable, article_level: true })}
           >
@@ -253,7 +256,7 @@ const TechnologiesOfInterest = ({
             options={options}
             placeholder="Choose the technologies you're interested in"
             selected={selectedState}
-            className={`border-0 rounded-start ${
+            className={`rounded-start ${
               editable.technologies
                 ? "bg-editable-input"
                 : "bg-uneditable-input"
@@ -265,8 +268,8 @@ const TechnologiesOfInterest = ({
             disabled={editable.technologies}
             className={`settings-edit-button ${
               !editable.technologies
-                ? "settings-edit-button-editable"
-                : "settings-edit-button-uneditable"
+                ? "settings-edit-button-edit"
+                : "settings-edit-button-unedit"
             }`}
             onClick={() => {
               setEditable({ ...editable, technologies: true });

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
-import '../Settings.scss'
+import "../Settings.scss";
 export default function PasswordChangeModal({ show, onHide, className }) {
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
@@ -16,16 +16,23 @@ export default function PasswordChangeModal({ show, onHide, className }) {
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
+    confirmNewPasswordCheckbox: false,
   });
 
   // handle input entered
   const handleInput = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    //if it is checkbox, set value to check prop
+    if (name === "confirmNewPasswordCheckbox") {
+      value = e.target.checked;
+    }
 
     setPasswordData({
       ...passwordData,
       [name]: value,
     });
+    console.log(passwordData);
   };
 
   const navigate = useNavigate();
@@ -58,10 +65,10 @@ export default function PasswordChangeModal({ show, onHide, className }) {
       if (
         fieldName === "oldPassword" ||
         fieldName === "newPassword" ||
-        fieldName === "confirmNewPassword"
+        fieldName === "confirmNewPassword" ||
+        fieldName === "confirmNewPasswordCheckbox"
       ) {
         const validationFuncs = formValidation[fieldName];
-
         validationFuncs.forEach((validationFunc) => {
           let validateResult = validationFunc(
             fieldName,
@@ -77,19 +84,21 @@ export default function PasswordChangeModal({ show, onHide, className }) {
     }
 
     console.log(errorMessages);
-    setValidated(true);
+    if (Object.keys(newErrMessages).length === 0) {
+      setValidated(true);
+    }
     setErrorMessages(newErrMessages);
   };
 
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
-        <Modal.Title>Change Password</Modal.Title>
+        <Modal.Title className="fw-bolder">Change Password</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form noValidate validated={isValidated}>
-          <Form.Group>
-            <Form.Label className="mt-2 fw-medium">Old password</Form.Label>
+          <Form.Group className="mt-2">
+            {/* <Form.Label className="mt-2 fw-medium">Old password</Form.Label> */}
             <InputGroup>
               <Form.Control
                 name="oldPassword"
@@ -98,12 +107,13 @@ export default function PasswordChangeModal({ show, onHide, className }) {
                 isInvalid={errorMessages.hasOwnProperty("oldPassword")}
                 autoFocus
                 onChange={handleInput}
+                placeholder="Enter Your Old Password"
               />
               <Button
                 title={
                   showPassword.oldPassword ? "hide password" : "show password"
                 }
-                className="bg-transparent border-start-0 border-dark edit-button-hover-light"
+                className="password-edit-button"
                 onClick={() =>
                   setShowPassword({
                     ...showPassword,
@@ -120,8 +130,8 @@ export default function PasswordChangeModal({ show, onHide, className }) {
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
-          <Form.Group>
-            <Form.Label className="mt-2 fw-medium">New password</Form.Label>
+          <Form.Group className="mt-4">
+            {/* <Form.Label className="mt-2 fw-medium">New password</Form.Label> */}
             <InputGroup>
               <Form.Control
                 name="newPassword"
@@ -129,12 +139,13 @@ export default function PasswordChangeModal({ show, onHide, className }) {
                 className={className}
                 isInvalid={errorMessages.hasOwnProperty("newPassword")}
                 onChange={handleInput}
+                placeholder="Enter your new password"
               />
               <Button
                 title={
                   showPassword.newPassword ? "hide password" : "show password"
                 }
-                className="bg-transparent border-start-0 border-dark edit-button-hover-light"
+                className="password-edit-button"
                 onClick={() =>
                   setShowPassword({
                     ...showPassword,
@@ -151,10 +162,10 @@ export default function PasswordChangeModal({ show, onHide, className }) {
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
-          <Form.Group>
-            <Form.Label className="mt-2 fw-medium">
+          <Form.Group className="mt-4">
+            {/* <Form.Label className="mt-2 fw-medium">
               Confirm new password
-            </Form.Label>
+            </Form.Label> */}
             <InputGroup>
               <Form.Control
                 className={className}
@@ -162,6 +173,7 @@ export default function PasswordChangeModal({ show, onHide, className }) {
                 type={showPassword.confirmNewPassword ? "text" : "password"}
                 isInvalid={errorMessages.hasOwnProperty("confirmNewPassword")}
                 onChange={handleInput}
+                placeholder="Confirm your new password"
               />
               <Button
                 title={
@@ -169,7 +181,7 @@ export default function PasswordChangeModal({ show, onHide, className }) {
                     ? "hide password"
                     : "show password"
                 }
-                className="bg-transparent border-start-0 border-dark edit-button-hover-light"
+                className="password-edit-button"
                 onClick={() =>
                   setShowPassword({
                     ...showPassword,
@@ -190,19 +202,46 @@ export default function PasswordChangeModal({ show, onHide, className }) {
               </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
+          <Form.Group className="mt-4">
+            <Form.Check
+              type={"checkbox"}
+              isInvalid={errorMessages.hasOwnProperty(
+                "confirmNewPasswordCheckbox"
+              )}
+            >
+              <Form.Check.Input
+                type={"checkbox"}
+                className="password-checkbox"
+                onChange={handleInput}
+                name="confirmNewPasswordCheckbox"
+                value={passwordData.confirmNewPasswordCheckbox}
+                isInvalid={errorMessages.hasOwnProperty(
+                  "confirmNewPasswordCheckbox"
+                )}
+              />
+              <Form.Check.Label
+                className="password-checkbox-label"
+                isInvalid={errorMessages.hasOwnProperty(
+                  "confirmNewPasswordCheckbox"
+                )}
+              >
+                Confirm Password Change
+              </Form.Check.Label>
+              <Form.Control.Feedback type="invalid">
+                {errorMessages.hasOwnProperty("confirmNewPasswordCheckbox")
+                  ? errorMessages.confirmNewPasswordCheckbox
+                  : ""}
+              </Form.Control.Feedback>
+            </Form.Check>
+          </Form.Group>
         </Form>
       </Modal.Body>
-      <Modal.Footer>
-        <Button
-          className="border-0 text-dark fw-medium"
-          style={{ backgroundColor: "#B9B2B2" }}
-          onClick={onHide}
-        >
+      <Modal.Footer className="d-flex justify-content-between">
+        <Button className="settings-cancel-button fw-medium" onClick={onHide}>
           Cancel
         </Button>
         <Button
-          className="border-0 text-dark fw-medium"
-          style={{ backgroundColor: "#24BEEF" }}
+          className="settings-confirm-button"
           type="submit"
           onClick={handleSubmit}
         >

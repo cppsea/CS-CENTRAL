@@ -13,11 +13,12 @@ import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
+import ArrowMarker from "../ArrowMarker/ArrowMarker";
 
 export default function ProfileEdit({}) {
   const [profileData, setProfileData] = useState({
     fname: "Joe",
-    lname: "Smith",
+    lname: "",
     email: "jsmith@gmail.com",
     username: "jsmith10",
     password: "password",
@@ -70,22 +71,29 @@ export default function ProfileEdit({}) {
       });
     }
 
-    console.log(errorMessages);
     setValidated(true);
     setErrorMessages(newErrMessages);
   };
 
   return (
     <Container className="my-3">
+      <h2 className="settings-header">Profile</h2>
+      <div className="settings-divider"></div>
+
       <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
         <div>
-          <h4 className="ps-2 py-1 border-start border-4 border-primary settings-section-header">
-            General
-          </h4>
+          <div className="my-3 settings-section-header-container">
+            <div className="settings-arrow-marker-container">
+              <ArrowMarker />
+            </div>
+            <h4 className="settings-section-header">General</h4>
+          </div>
 
           <Row xs={1} sm={2} className="gy-3">
             <Col>
-              <Form.Label className="fw-medium settings-section-field-header">First name</Form.Label>
+              <Form.Label className="fw-medium settings-section-field-header">
+                First name
+              </Form.Label>
               <Form.Group>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -106,8 +114,8 @@ export default function ProfileEdit({}) {
                     disabled={editable.fname}
                     className={`settings-edit-button ${
                       !editable.fname
-                        ? "settings-edit-button-editable"
-                        : "settings-edit-button-uneditable"
+                        ? "settings-edit-button-edit"
+                        : "settings-edit-button-unedit"
                     }`}
                     onClick={() => setEditable({ ...editable, fname: true })}
                   >
@@ -122,7 +130,9 @@ export default function ProfileEdit({}) {
               </Form.Group>
             </Col>
             <Col>
-              <Form.Label className="fw-medium settings-section-field-header">Last name</Form.Label>
+              <Form.Label className="fw-medium settings-section-field-header">
+                Last name
+              </Form.Label>
               <Form.Group>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -143,8 +153,8 @@ export default function ProfileEdit({}) {
                     disabled={editable.lname}
                     className={`settings-edit-button  ${
                       !editable.lname
-                      ? "settings-edit-button-editable"
-                      : "settings-edit-button-uneditable"
+                        ? "settings-edit-button-edit"
+                        : "settings-edit-button-unedit"
                     }`}
                     onClick={() => setEditable({ ...editable, lname: true })}
                   >
@@ -159,7 +169,9 @@ export default function ProfileEdit({}) {
               </Form.Group>
             </Col>
             <Col sm={12}>
-              <Form.Label className="fw-medium settings-section-field-header">Email</Form.Label>
+              <Form.Label className="fw-medium settings-section-field-header">
+                Email
+              </Form.Label>
               <Form.Group>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -170,8 +182,8 @@ export default function ProfileEdit({}) {
                     placeholder="Email"
                     className={`settings-input ${
                       editable.email
-                      ? "bg-editable-input"
-                      : "bg-uneditable-input"
+                        ? "bg-editable-input"
+                        : "bg-uneditable-input"
                     }`}
                     onChange={handleInput}
                     isInvalid={errorMessages.hasOwnProperty("email")}
@@ -181,8 +193,8 @@ export default function ProfileEdit({}) {
                     title="Edit"
                     className={`settings-edit-button  ${
                       !editable.email
-                      ? "settings-edit-button-editable"
-                      : "settings-edit-button-uneditable"
+                        ? "settings-edit-button-edit"
+                        : "settings-edit-button-unedit"
                     }`}
                     onClick={() => setEditable({ ...editable, email: true })}
                   >
@@ -199,12 +211,17 @@ export default function ProfileEdit({}) {
           </Row>
         </div>
         <div>
-          <h4 className="ps-2 py-1 mt-3 border-start border-4 border-primary settings-section-header">
-            Login
-          </h4>
+          <div className="my-3 settings-section-header-container">
+            <div className="settings-arrow-marker-container">
+              <ArrowMarker />
+            </div>
+            <h4 className="settings-section-header">Login</h4>
+          </div>
           <Row className="gy-3">
             <Col sm={12}>
-              <Form.Label className="fw-medium settings-section-field-header">Username</Form.Label>
+              <Form.Label className="fw-medium settings-section-field-header">
+                Username
+              </Form.Label>
               <Form.Group>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -224,8 +241,8 @@ export default function ProfileEdit({}) {
                     title="Edit"
                     className={`settings-edit-button  ${
                       !editable.username
-                      ? "settings-edit-button-editable"
-                      : "settings-edit-button-uneditable"
+                        ? "settings-edit-button-edit"
+                        : "settings-edit-button-unedit"
                     }`}
                     onClick={() => setEditable({ ...editable, username: true })}
                   >
@@ -240,7 +257,9 @@ export default function ProfileEdit({}) {
               </Form.Group>
             </Col>
             <Col sm={12}>
-              <Form.Label className="fw-medium settings-section-field-header">Password</Form.Label>
+              <Form.Label className="fw-medium settings-section-field-header">
+                Password
+              </Form.Label>
               <Form.Group>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -262,8 +281,8 @@ export default function ProfileEdit({}) {
                     title="Edit"
                     className={`settings-edit-button  ${
                       !editable.password
-                      ? "settings-edit-button-editable"
-                      : "settings-edit-button-uneditable"
+                        ? "settings-edit-button-edit"
+                        : "settings-edit-button-unedit"
                     }`}
                     onClick={() => setEditable({ ...editable, password: true })}
                   >
@@ -284,21 +303,16 @@ export default function ProfileEdit({}) {
           <Stack
             direction="horizontal"
             gap={3}
-            className="mt-3 justify-content-end"
+            className="mt-3 justify-content-end "
           >
             <div>
-              <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#24BEEF" }}
-                type="submit"
-              >
+              <Button className="settings-confirm-button" type="submit">
                 Save
               </Button>
             </div>
             <div>
               <Button
-                className="border-0 text-dark fw-medium"
-                style={{ backgroundColor: "#B9B2B2" }}
+                className="settings-cancel-button"
                 onClick={() => {
                   setIsDataChanged(false);
                   window.location.reload();
@@ -313,7 +327,7 @@ export default function ProfileEdit({}) {
         <PasswordChangeModal
           show={editable.password}
           onHide={() => setEditable({ ...editable, password: false })}
-          className="border border-dark bg-editable-input"
+          className="border-0 bg-editable-input"
         />
       </Form>
     </Container>
