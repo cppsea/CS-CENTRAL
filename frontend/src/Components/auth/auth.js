@@ -37,6 +37,9 @@ export const validationFunctions = {
 
     return regex.test(value1) || value1.length === 0 ? true : "Invalid email";
   },
+  checkboxRequired: (name="", value1=false, value2="") =>{
+    return value1 || "This is required."
+  }
 };
 
 // an object containing input fields (keys)
@@ -66,4 +69,7 @@ export const formValidation = {
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordMatch,
   ],
+  confirmNewPasswordCheckbox: [
+    validationFunctions.checkboxRequired
+  ]
 };
