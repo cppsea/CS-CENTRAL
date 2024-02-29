@@ -1,0 +1,63 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../../scss/variables";
+.welcome-text {
+  font-size: 1.1rem;
+  @include media-breakpoint-up(md) {
+    font-size: calc(1.5rem + 0.5vw);
+  }
+}
+
+.cs-text {
+  font-size: 3rem;
+  @include media-breakpoint-up(md) {
+    font-size: calc(3rem + 1.5vw);
+  }
+}
+
+.catalog-text {
+  font-size: 1.5rem;
+  @include media-breakpoint-up(md) {
+    font-size: calc(1.6rem + 1vw);
+  }
+}
+
+.welcome-btn-text,
+.no-account-text {
+  font-size: 0.8rem;
+  @include media-breakpoint-up(md) {
+    font-size: clamp(0.8rem, 0.8rem + 0.1vw, 1.5rem);
+  }
+}
+
+.no-account-text {
+  text-align: center;
+}
+.no-account-link {
+  color: $welcome-section-link;
+  &:hover {
+    font-weight: 500;
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}
+
+.sign-welcome-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-website-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 300;
+  > span {
+    font-family: "Fredericka The Great";
+  }
+}

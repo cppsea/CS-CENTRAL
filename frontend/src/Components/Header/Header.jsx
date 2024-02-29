@@ -10,6 +10,9 @@ import {
   OverlayTrigger,
   Popover,
   Button,
+  DropdownButton,
+  ButtonGroup,
+  Dropdown,
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
 import { SunFill, MoonFill } from "react-bootstrap-icons";
@@ -64,18 +67,6 @@ export default function Header() {
             <div style={{ justifyContent: "center" }}>
               <SearchBar />
             </div>
-            <div>
-              <Button
-                className="bg-transparent border-0 p-1"
-                onClick={() => setIsDark(!isDark)}
-              >
-                {isDark ? (
-                  <MoonFill className="fs-3 text-white" />
-                ) : (
-                  <SunFill className="fs-3 text-white" />
-                )}
-              </Button>
-            </div>
 
             <Nav variant="underline">
               <Nav.Item>
@@ -89,14 +80,14 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John Smith!
+                        Hello John!
                       </Popover.Header>
-                      <Popover.Body>
+                      <Popover.Body className="py-2">
                         <Nav>
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
-                              href="/"
+                              href="/settings/profile-settings"
                               id="dropdown_items"
                             >
                               My Profile
@@ -120,6 +111,17 @@ export default function Header() {
                               Settings
                             </Nav.Link>
                           </Nav.Item>
+                          <div id="profile_menu_divider"></div>
+                          <Nav.Item>
+                            <Nav.Link
+                              className="fw-medium"
+                              href="/signin"
+                              id="dropdown_items"
+                              style={{ color: "red" }}
+                            >
+                              Sign out
+                            </Nav.Link>
+                          </Nav.Item>
                         </Nav>
                       </Popover.Body>
                     </Popover>
@@ -137,3 +139,4 @@ export default function Header() {
     </>
   );
 }
+
