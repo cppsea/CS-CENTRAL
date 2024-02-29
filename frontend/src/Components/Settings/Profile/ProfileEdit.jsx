@@ -13,8 +13,7 @@ import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
-import ArrowMarker from "../ArrowMarker/ArrowMarker";
-
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 export default function ProfileEdit({}) {
   const [profileData, setProfileData] = useState({
     fname: "Joe",

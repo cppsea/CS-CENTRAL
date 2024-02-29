@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Container, Form, Stack, Button, Row, Col } from "react-bootstrap";
 import SavedArticleItem from "./SaveArticleItem/SavedArticleItem";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import ArrowMarker from "../ArrowMarker/ArrowMarker";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import "../Settings.scss";
 import SavedArticlesSearchBar from "./SearchBar/SavedArticlesSearchBar";
 const test_articles = [
