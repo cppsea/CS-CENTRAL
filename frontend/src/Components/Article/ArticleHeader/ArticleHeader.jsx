@@ -13,14 +13,28 @@ string of author's name,
 string containing date of creation 
 (for now this is simply normal data like "Oct 9, 2023",
  but if we use a postgres time date it will need to be converted)
+
+ //and state for whether article is bookmarked and toggler for that bookmark
 */
 
-export default function ArticleHeader({ title, description, author, date }) {
+export default function ArticleHeader({
+  title,
+  description,
+  author,
+  date,
+  isBookmarked,
+  bookmarkToggler,
+}) {
   return (
     <Stack gap={2}>
       <ArticleHeaderTitle title={title} />
       <ArticleHeaderDesc desc={description} />
-      <ArticleHeaderAuthorDate author={author} date={date} />
+      <ArticleHeaderAuthorDate
+        author={author}
+        date={date}
+        bookmarkToggler={bookmarkToggler}
+        isBookmarked={isBookmarked}
+      />
     </Stack>
   );
 }

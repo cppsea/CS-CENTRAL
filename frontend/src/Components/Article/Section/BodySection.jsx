@@ -1,4 +1,3 @@
-import { Stack } from "react-bootstrap";
 import SectionHeader from "./SectionHeader";
 import SectionContent from "./SectionContent";
 
@@ -6,9 +5,9 @@ import SectionContent from "./SectionContent";
 //takes in the title and body content
 export default function BodySection({ title, body }) {
   return (
-    <Stack>
+    <div className="d-flex flex-column">
       <SectionHeader header={title} />
       <SectionContent content={body} />
-    </Stack>
+    </div>
   );
 }

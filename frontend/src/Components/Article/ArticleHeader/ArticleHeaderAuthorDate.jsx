@@ -1,11 +1,26 @@
-import { Stack } from "react-bootstrap";
+import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
 
-//component for article author and date
-export default function ArticleHeaderAuthorDate({ author, date }) {
+//component for article author and date, also contains bookmark
+export default function ArticleHeaderAuthorDate({
+  author,
+  date,
+  isBookmarked,
+  bookmarkToggler,
+}) {
   return (
-    <Stack className="fst-italic article-header-author-date">
+    <div className="d-flex flex-column fst-italic article-header-author-date">
       <span>By {author}</span>
-      <span>Published {date}</span>
-    </Stack>
+      <div className="d-flex">
+        <span>Published {date}</span>
+        {isBookmarked ? (
+          <Bookmark className="article-bookmark" onClick={bookmarkToggler} />
+        ) : (
+          <BookmarkFill
+            className="article-bookmark"
+            onClick={bookmarkToggler}
+          />
+        )}
+      </div>
+    </div>
   );
 }

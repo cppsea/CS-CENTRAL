@@ -1,23 +1,34 @@
-@import '../../scss/variables';
+@import "../../scss/variables";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
 
 //SectionHeader, ArticleHeaderDesc marker styling
 .section-header-marker,
 .article-desc-marker {
   display: inline-block;
   width: 0.7rem;
-  background-color: $primary;
 }
 .section-header {
   width: calc(100% - 0.7rem);
+  margin: 0 !important;
+  line-height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 //ArticleHeaderDesc
 .article-desc {
-  color: #5d5c5c;
   font-weight: 700;
   margin: 0;
-  width: calc(100% - 0.7rem);
   font-size: calc(1rem + 0.1vw);
+}
+
+.article-desc-arrow-marker-container {
+  height: 40px;
+  width: 20px;
+  flex-shrink: 0;
 }
 
 //ArticleHeaderAuthorDate
@@ -36,11 +47,40 @@
   }
 }
 
+.article-bookmark {
+  margin-left: 10px;
+  font-size: calc(0.8rem + 0.3vw);
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    cursor: auto;
+  }
+}
 //Table of Contents
 .table-content-heading {
-  color: #5d5c5c;
   font-weight: 600;
   margin: 0;
+}
+
+.table-contents-marker-container {
+  position: absolute;
+  display: flex;
+  justify-content: flex-start;
+  width: 20px;
+  height: 100%;
+  padding-left: 0;
+  flex-shrink: 0;
+  left: 0;
+}
+
+.table-contents-marker {
+  display: inline-block;
+  width: 2px;
+  margin-left: 32%;
+  flex-shrink: 0;
 }
 
 //SectionContent
@@ -54,7 +94,6 @@
 .section-content-marker {
   display: inline-block;
   width: 2px;
-  background-color: $primary;
 }
 
 .section-content-text,
@@ -72,17 +111,36 @@
 }
 
 //SectionContent
+
+//32% gap
+
+//article arrow marker container and section content marker container have to be same width
+//in order for section content marker to be aligned with arrow properly there has to be a gap to the left
+//of divider that is 32% of width
+
+.article-section-arrow-marker-container {
+  height: 40px;
+  width: 20px;
+  flex-shrink: 0;
+}
+
 .section-content-marker-container {
+  position: absolute;
   display: flex;
-  width: 0.7rem;
-  justify-content: center;
-  align-items: stretch;
+  justify-content: flex-start;
+  width: 20px;
+  height: 100%;
+  padding-left: 0;
+  flex-shrink: 0;
+  top: -1px;
+  left: 0;
 }
 
 .section-content-marker {
   display: inline-block;
   width: 2px;
-  background-color: $primary;
+  margin-left: 32%;
+  flex-shrink: 0;
 }
 
 .section-content-text {
@@ -113,7 +171,6 @@
 }
 
 .topic-link {
-  color: $primary;
   text-decoration: none;
 }
 
@@ -125,8 +182,8 @@
   text-decoration: underline;
 }
 
-//Image Banner
-.article-image-banner {
+//Article Image
+.article-image {
   width: 100%;
   object-fit: cover;
   height: 25vh;
@@ -143,20 +200,53 @@
   }
 }
 
-//Image Banner
-.article-image-banner {
-  width: 100%;
-  object-fit: cover;
-  height: 25vh;
-  max-height: 400px;
-  min-height: 300px;
-
-  @media screen and (max-width: 800px) {
-    min-height: 200px;
-    max-height: 300px;
+/*COLOR MODES*/
+@include color-mode(light) {
+  .section-content-marker,
+  .table-contents-marker {
+    background: $arrow-marker-light;
   }
-  @media screen and (max-width: 500px) {
-    min-height: 100px;
-    max-height: 150px;
+  .article-title,
+  .related-topics-heading,
+  .topic-list-title,
+  .section-header,
+  .section-content-text {
+    color: $primary-text-light;
+  }
+
+  .topic-link {
+    color: $related-topic-link-light;
+  }
+  .table-content-heading,
+  .article-desc {
+    color: $article-toc-desc-light;
+  }
+  .article-bookmark {
+    color: $bookmark-bg-light;
+  }
+}
+
+@include color-mode(dark) {
+  .section-content-marker,
+  .table-contents-marker {
+    background: $arrow-marker-dark;
+  }
+
+  .article-title,
+  .related-topics-heading,
+  .topic-list-title,
+  .section-header,
+  .section-content-text {
+    color: $primary-text-dark;
+  }
+  .topic-link {
+    color: $related-topic-link-dark;
+  }
+  .table-content-heading,
+  .article-desc {
+    color: $article-toc-desc-dark;
+  }
+  .article-bookmark {
+    color: $bookmark-bg-dark;
   }
 }
