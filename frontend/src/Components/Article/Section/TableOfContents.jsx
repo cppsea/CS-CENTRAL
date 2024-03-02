@@ -9,8 +9,11 @@ table of content headings
 */
 export default function TableOfContents({ content_headings }) {
   return (
-    <Stack>
+    <div className="d-flex flex-column position-relative">
       <SectionHeader header={"Table of Contents"} />
+      <div className="table-contents-marker-container">
+        <div className="table-contents-marker">&nbsp;</div>
+      </div>
       <Stack className="pt-1 ps-3" gap={2}>
         {content_headings.map((content_heading, index) => (
           <p className="table-content-heading ps-3" key={content_heading}>
@@ -18,6 +21,6 @@ export default function TableOfContents({ content_headings }) {
           </p>
         ))}
       </Stack>
-    </Stack>
+    </div>
   );
 }

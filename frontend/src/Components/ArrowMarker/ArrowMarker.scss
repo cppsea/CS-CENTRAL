@@ -2,27 +2,27 @@
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
-@import "../../../scss/variables";
+@import "../../scss/variables";
 
-.settings-arrow-marker {
+.arrow-marker {
   width: 100%;
   height: 100%;
   display: inline-flex;
 }
 
 //rectangle point
-.settings-arrow-marker-base {
+.arrow-marker-base {
   height: 100%;
   width: 16%;
 }
 
 //gap between parts
-.settings-arrow-marker-gap {
+.arrow-marker-gap {
   width: 16%;
 }
 
 //pointy part
-.settings-arrow-marker-point {
+.arrow-marker-point {
   height: 100%;
   width: 68%;
   clip-path: polygon(0 0, 0 100%, 50% 100%, 100% 50%, 50% 0%);
@@ -30,15 +30,15 @@
 
 //COLOR MODES
 @include color-mode(light) {
-  .settings-arrow-marker-base,
-  .settings-arrow-marker-point {
+  .arrow-marker-base,
+  .arrow-marker-point {
     background: $arrow-marker-light;
   }
 }
 
 @include color-mode(dark) {
-  .settings-arrow-marker-base,
-  .settings-arrow-marker-point {
+  .arrow-marker-base,
+  .arrow-marker-point {
     background: $arrow-marker-dark;
   }
 }

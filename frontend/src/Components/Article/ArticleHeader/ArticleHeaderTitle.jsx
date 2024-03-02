@@ -4,7 +4,7 @@ import { Stack } from "react-bootstrap";
 export default function ArticleHeaderTitle({ title }) {
   return (
     <Stack direction="horizontal">
-      <h1 className="fw-bold">{title}</h1>
+      <h1 className="fw-bold article-title">{title}</h1>
     </Stack>
   );
 }

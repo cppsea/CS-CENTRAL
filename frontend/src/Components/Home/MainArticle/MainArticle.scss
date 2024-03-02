@@ -71,3 +71,17 @@ $color-mode-type: data;
     font-size: 1em;
   }
 }
+
+.main-article-arrow-marker-container {
+  flex-shrink: 0;
+  margin: auto 0;
+  @include media-breakpoint-up(md) {
+    height: 7.5em;
+    width: 4em;
+  }
+
+  @include media-breakpoint-down(md) {
+    height: 5em;
+    width: 3em;
+  }
+}

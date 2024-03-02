@@ -1,11 +1,12 @@
-import ImageBanner from "./ImageBanner.jsx";
+import ArticleImage from "./ArticleImage.jsx";
 import ArticleHeader from "./ArticleHeader/ArticleHeader.jsx";
 import TableOfContents from "./Section/TableOfContents.jsx";
 import RelatedTopicsList from "./Topics/RelatedTopicsList.jsx";
 import BodySection from "./Section/BodySection.jsx";
 import { Container, Row, Col, Stack } from "react-bootstrap";
-import './ArticleComponents.scss'
-import './Article.scss'
+import "./ArticleComponents.scss";
+import "./Article.scss";
+import { useState } from "react";
 //dummy data for table of contents
 const tableOfContents = [
   "Introduction to Machine Learning",
@@ -80,7 +81,7 @@ export default function Article({ article }) {
 
   //will display default data from figma for now
 
-  const article_data = {
+  const [articleData, setArticleData] = useState({
     //header data
     title: article.title ? article.title : "Intro to Machine Learning",
     desc: article.desc
@@ -88,25 +89,31 @@ export default function Article({ article }) {
       : "Embark on a journey through the basics; explore what machine learning entails and how one can apply it in the real world.",
     author: article.author ? article.author : "David Lam",
     date: article.date ? article.date : "October 29, 2023",
-  };
+    isBookmarked: false,
+  });
+
+  //handler for toggling bookmark
+  const toggleBookmark = () =>
+    setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
   return (
     <>
-      <ImageBanner image={"/ai_image.jpg"} alt_text={"AI-image"} />
-
-      <Container fluid>
+      <Container fluid className="h-100">
         <Row className="mt-4 mb-4">
           <Col>
             <ArticleHeader
-              title={article_data.title}
-              description={article_data.desc}
-              author={article_data.author}
-              date={article_data.date}
+              title={articleData.title}
+              description={articleData.desc}
+              author={articleData.author}
+              date={articleData.date}
+              isBookmarked={articleData.isBookmarked}
+              bookmarkToggler={toggleBookmark}
             />
           </Col>
         </Row>
 
         <Row className=" gx-4 gy-5">
           <Col xs={12} md={8}>
+            <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
             <Stack className="gap-3">
               <TableOfContents content_headings={tableOfContents} />
               <BodySection

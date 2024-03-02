@@ -11,7 +11,7 @@ import {
 import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import { Typeahead } from "react-bootstrap-typeahead";
-import ArrowMarker from "../ArrowMarker/ArrowMarker";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 export default function CustomizationsEdit({}) {
   //customization data
   const [custData, setCustData] = useState({

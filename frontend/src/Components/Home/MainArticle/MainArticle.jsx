@@ -1,7 +1,7 @@
 import { Container, Stack, Image } from "react-bootstrap";
 
 import "./MainArticle.scss";
-import ArrowMaker from "./ArrowMarker/ArrowMarker";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 
 export default function MainArticle({ title, description, article_img }) {
   return (
@@ -10,7 +10,9 @@ export default function MainArticle({ title, description, article_img }) {
         <Stack gap={3} className="main-article-container">
           <Image src={article_img} className="main-image" />
           <div className="d-flex">
-            <ArrowMaker />
+            <div className="main-article-arrow-marker-container">
+              <ArrowMarker/>
+            </div>
             <h1 id="main-title" className="ms-3">
               {title}
             </h1>
