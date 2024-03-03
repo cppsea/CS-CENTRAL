@@ -4,11 +4,12 @@ const userRoutes = require("./src/users/routes.js");
 const cors = require("cors");
 require("dotenv").config();
 
+
 console.log(process.env.PGUSER);
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(cors());
 app.use(express.json());

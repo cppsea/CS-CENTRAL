@@ -23,8 +23,9 @@ const getArticlesById = (req, res) => {
 };
 
 const addArticles = (req, res) => {
-  const { title } = req.body;
-  pool.query(queries.addArticles, [title], (error, results) => {
+  const { title,headers,author_id } = req.body;
+  let headers_json = JSON.stringify(headers);
+  pool.query(queries.addArticles, [title,author_id,headers_json], (error, results) => {
     res.status(200).send("Article added");
   });
 };
