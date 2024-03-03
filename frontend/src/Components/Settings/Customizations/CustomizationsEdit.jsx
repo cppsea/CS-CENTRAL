@@ -12,17 +12,13 @@ import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import { Typeahead } from "react-bootstrap-typeahead";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
-export default function CustomizationsEdit({
-  customerData = {
-    interest_areas: ["Artificial Intelligence"],
-    article_level: ["Beginner"],
-    technologies: [],
-  },
-}) {
-  const [oldCustData, setOldCustData] = useState(customerData);
-
+export default function CustomizationsEdit({}) {
   //customization data
-  const [custData, setCustData] = useState(customerData);
+  const [custData, setCustData] = useState({
+    interest_areas: [],
+    article_level: [],
+    technologies: [],
+  });
 
   //state of options for each data
   const [interestAreasOptions, setInterestAreasOptions] = useState([]);
@@ -43,24 +39,11 @@ export default function CustomizationsEdit({
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
 
-  //keep track of edit modes
   const [editable, setEditable] = useState({
     interest_areas: false,
     article_level: false,
     technologies: false,
   });
-
-  //resets changes, edit modes, error messages
-  const resetChanges = () => {
-    setCustData(oldCustData);
-    setEditable({
-      interest_areas: false,
-      article_level: false,
-      technologies: false,
-    });
-    setErrorMessages({});
-    setIsDataChanged(false);
-  };
 
   // handle submit
   const handleSubmit = (e) => {
@@ -69,7 +52,7 @@ export default function CustomizationsEdit({
   };
 
   return (
-    <Container className="my-3 mx-0" fluid>
+    <Container className="my-3">
       <h2 className="settings-header">Customizations</h2>
       <div className="settings-divider"></div>
       <Form noValidate onSubmit={handleSubmit}>
@@ -128,23 +111,25 @@ export default function CustomizationsEdit({
             />
           </Col>
         </Row>
-        {/*Show if any are in edit mode*/}
-        {Object.values(editable).some((ele) => ele) && (
+        {isDataChanged && (
           <Stack
             direction="horizontal"
             gap={3}
             className="mt-3 justify-content-end "
           >
-            {/*only show save if there are actual changes*/}
-            {isDataChanged && (
-              <div>
-                <Button className="settings-confirm-button" type="submit">
-                  Save
-                </Button>
-              </div>
-            )}
             <div>
-              <Button className="settings-cancel-button" onClick={resetChanges}>
+              <Button className="settings-confirm-button" type="submit">
+                Save
+              </Button>
+            </div>
+            <div>
+              <Button
+                className="settings-cancel-button"
+                onClick={() => {
+                  setIsDataChanged(false);
+                  window.location.reload();
+                }}
+              >
                 Cancel
               </Button>
             </div>

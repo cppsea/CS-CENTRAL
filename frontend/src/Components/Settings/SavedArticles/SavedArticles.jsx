@@ -102,7 +102,7 @@ export default function SavedArticles() {
     console.log(searchbarText);
   };
   return (
-    <Container className="my-3 h-100 d-flex flex-column m-0" fluid>
+    <Container className="my-3 h-100 d-flex flex-column">
       <h2 className="settings-header">Saved Articles</h2>
       <div className="settings-divider"></div>
 

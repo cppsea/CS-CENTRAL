@@ -7,22 +7,24 @@ export default function ConfirmDeleteModal({
   submitHandler,
 }) {
   return (
-    <Modal show={isOpen} onHide={handleClose} centered >
-      <Modal.Header closeButton className="settings-articles-bookmark-modal border-0" />
-      <ModalBody className="settings-articles-bookmark-modal">
+    <Modal show={isOpen} onHide={handleClose} centered>
+      <Modal.Header closeButton className="border-0" />
+      <ModalBody>
         <h5 className="text-center">
           Are you sure you want to remove the article(s) you selected?
         </h5>
         <div className="d-flex justify-content-between mt-4">
           <Button
-            className="settings-cancel-button"
+            className="border-0 text-dark fw-medium"
+            style={{ backgroundColor: "#B9B2B2" }}
             onClick={handleClose}
           >
             Cancel
           </Button>
 
           <Button
-            className="settings-confirm-button"
+            className="border-0 text-dark fw-medium"
+            style={{ backgroundColor: "#24BEEF" }}
             type="submit"
             onClick={() => {
               handleClose();
