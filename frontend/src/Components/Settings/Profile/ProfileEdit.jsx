@@ -14,14 +14,17 @@ import "../Settings.scss";
 import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
-export default function ProfileEdit({}) {
-  const [profileData, setProfileData] = useState({
+export default function ProfileEdit({
+  profile = {
     fname: "Joe",
     lname: "",
     email: "jsmith@gmail.com",
     username: "jsmith10",
     password: "password",
-  });
+  },
+}) {
+  const [profileDataCopy, setProfileDataCopy] = useState(profile);
+  const [profileData, setProfileData] = useState(profile);
 
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
@@ -51,6 +54,20 @@ export default function ProfileEdit({}) {
     });
   };
 
+  //resets changes, edit modes, error messages
+  const resetChanges = () => {
+    setProfileData(profileDataCopy);
+    setEditable({
+      fname: false,
+      lname: false,
+      email: false,
+      username: false,
+      password: false,
+    });
+    setErrorMessages({});
+    setIsDataChanged(false);
+  };
+
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +92,7 @@ export default function ProfileEdit({}) {
   };
 
   return (
-    <Container className="my-3">
+    <Container className="my-3 mx-0" fluid>
       <h2 className="settings-header">Profile</h2>
       <div className="settings-divider"></div>
 
@@ -298,25 +315,24 @@ export default function ProfileEdit({}) {
           </Row>
         </div>
 
-        {isDataChanged && (
+        {/*Show if any are in edit mode*/}
+        {Object.values(editable).some((ele) => ele) && (
           <Stack
             direction="horizontal"
             gap={3}
             className="mt-3 justify-content-end "
           >
+            {/*only show save if there are actual changes*/}
+            {isDataChanged && (
+              <div>
+                <Button className="settings-confirm-button" type="submit">
+                  Save
+                </Button>
+              </div>
+            )}
+
             <div>
-              <Button className="settings-confirm-button" type="submit">
-                Save
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="settings-cancel-button"
-                onClick={() => {
-                  setIsDataChanged(false);
-                  window.location.reload();
-                }}
-              >
+              <Button className="settings-cancel-button" onClick={resetChanges}>
                 Cancel
               </Button>
             </div>

@@ -9,7 +9,7 @@ export default function DescriptionBox({ children, title, fluid }) {
           <Card.Body>
             <Stack direction="horizontal">
               <div>
-                <Image src={logo} width={200} rounded/>
+                <Image src={logo} width={200} rounded />
               </div>
               <div className="ps-3">
                 <Card.Title className="fs-2">{title}</Card.Title>
