@@ -48,6 +48,9 @@
 //settings edit button
 .settings-edit-button {
   border-width: 0 !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
   &:hover {
     background-color: $primary !important;
     color: white !important;
@@ -152,6 +155,9 @@
   .settings-divider {
     border-color: $divider-dark;
   }
+  .settings-articles-bookmark-modal {
+    background: $primary-bg-dark;
+  }
 }
 
 @include color-mode(light) {
@@ -173,5 +179,8 @@
 
   .settings-divider {
     border-color: $divider-light;
+  }
+  .settings-articles-bookmark-modal {
+    background: $primary-bg-light;
   }
 }

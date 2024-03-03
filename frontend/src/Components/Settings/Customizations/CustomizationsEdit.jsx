@@ -12,13 +12,17 @@ import { PencilFill } from "react-bootstrap-icons";
 import "../Settings.scss";
 import { Typeahead } from "react-bootstrap-typeahead";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
-export default function CustomizationsEdit({}) {
-  //customization data
-  const [custData, setCustData] = useState({
-    interest_areas: [],
-    article_level: [],
+export default function CustomizationsEdit({
+  customerData = {
+    interest_areas: ["Artificial Intelligence"],
+    article_level: ["Beginner"],
     technologies: [],
-  });
+  },
+}) {
+  const [oldCustData, setOldCustData] = useState(customerData);
+
+  //customization data
+  const [custData, setCustData] = useState(customerData);
 
   //state of options for each data
   const [interestAreasOptions, setInterestAreasOptions] = useState([]);
@@ -45,6 +49,18 @@ export default function CustomizationsEdit({}) {
     technologies: false,
   });
 
+  //resets changes, edit modes, error messages
+  const resetChanges = () => {
+    setCustData(oldCustData);
+    setEditable({
+      interest_areas: false,
+      article_level: false,
+      technologies: false,
+    });
+    setErrorMessages({});
+    setIsDataChanged(false);
+  };
+
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +68,7 @@ export default function CustomizationsEdit({}) {
   };
 
   return (
-    <Container className="my-3">
+    <Container className="my-3 mx-0" fluid>
       <h2 className="settings-header">Customizations</h2>
       <div className="settings-divider"></div>
       <Form noValidate onSubmit={handleSubmit}>
@@ -111,25 +127,23 @@ export default function CustomizationsEdit({}) {
             />
           </Col>
         </Row>
-        {isDataChanged && (
+        {/*Show if any are in edit mode*/}
+        {Object.values(editable).some((ele) => ele) && (
           <Stack
             direction="horizontal"
             gap={3}
             className="mt-3 justify-content-end "
           >
+            {/*only show save if there are actual changes*/}
+            {isDataChanged && (
+              <div>
+                <Button className="settings-confirm-button" type="submit">
+                  Save
+                </Button>
+              </div>
+            )}
             <div>
-              <Button className="settings-confirm-button" type="submit">
-                Save
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="settings-cancel-button"
-                onClick={() => {
-                  setIsDataChanged(false);
-                  window.location.reload();
-                }}
-              >
+              <Button className="settings-cancel-button" onClick={resetChanges}>
                 Cancel
               </Button>
             </div>
