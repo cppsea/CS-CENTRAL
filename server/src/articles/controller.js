@@ -23,12 +23,25 @@ const getArticlesById = (req, res) => {
 };
 
 const addArticles = (req, res) => {
-  const { title,headers,author_id } = req.body;
-  let headers_json = JSON.stringify(headers);
-  pool.query(queries.addArticles, [title,author_id,headers_json], (error, results) => {
-    res.status(200).send("Article added");
-  });
+
+  try {
+    const { title,headers,author_id } = req.body;
+    let headers_json = JSON.stringify(headers);
+
+    
+    pool.query(queries.addArticles, [title, author_id,headers_json], (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      res.status(201).json({ message: 'Article added successfully' });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
+  
 
 const deleteArticle = (req, res) => {
   const id = parseInt(req.params.id);

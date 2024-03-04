@@ -1,5 +1,4 @@
 import logo from "../assets/logo.png";
-// import { Link, Outlet } from "react-router-dom";
 import {
   Nav,
   Navbar,
@@ -11,27 +10,31 @@ import {
 } from "react-bootstrap";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { user } = useAuthContext()
   return (
     <>
-      <Stack gap={3}>
+      <Stack gap={3} className="flex-grow-0">
         <div>
-          <Navbar expand="lg" fixed="top" bg="primary">
+          <Navbar expand="lg" fixed="top" className="sticky-top" bg="primary">
             <Stack direction="horizontal" gap={2}>
-              <Nav.Link href="#home">
+              <Nav.Link href="/">
                 <Image className="p-1" src={logo} roundedCircle width={65} />
               </Nav.Link>
               <Navbar.Brand
                 className="fs-2 fw-medium text-white"
-                href="#home"
+                href="/"
                 style={{ fontFamily: "Roboto" }}
               >
                 CS Catalog
               </Navbar.Brand>
+            </Stack>
+            <Stack style={{ justifyContent: "center" }} className="px-2">
               <SearchBar />
             </Stack>
             <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
@@ -54,27 +57,29 @@ export default function Header() {
                   </Offcanvas>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link className="text-light fw-medium fs-6">
+                  <Nav.Link
+                    className="text-light fw-medium fs-6"
+                    href="/article_search_results"
+                  >
                     Article Catalog
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <NavDropdown
                     className="text-light fw-semibold fs-6"
-                    title="Joe Smith"
+                    title={ user ? user.username : "Joe Smith"}
                     align={{ lg: "end" }}
                   >
                     <NavDropdown.Item>My Profile</NavDropdown.Item>
                     <NavDropdown.Item>Saved Articles</NavDropdown.Item>
-                    <NavDropdown.Item>Settings</NavDropdown.Item>
+                    <NavDropdown.Item href="/profile-settings">Settings</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item>Sign Out</NavDropdown.Item>
+                    <NavDropdown.Item href="/signin">Sign Out</NavDropdown.Item>
                   </NavDropdown>
                 </Nav.Item>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-          {/* <Outlet /> */}
         </div>
       </Stack>
     </>
