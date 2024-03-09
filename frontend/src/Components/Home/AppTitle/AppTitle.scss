@@ -9,10 +9,6 @@ $color-mode-type: data;
 
 // Dark mode
 @include color-mode(dark) {
-  body {
-    background-color: $primary-bg-dark;
-  }
-
   .big-cs,
   .text-between-divider-light {
     color: $primary-text-dark;
@@ -25,10 +21,6 @@ $color-mode-type: data;
 
 // Light mode
 @include color-mode(light) {
-  body {
-    background-color: $primary-bg-light;
-  }
-
   .big-cs,
   .text-between-divider-light {
     color: $primary-text-light;

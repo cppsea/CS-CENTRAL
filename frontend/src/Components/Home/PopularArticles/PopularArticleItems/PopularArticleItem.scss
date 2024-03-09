@@ -1,0 +1,42 @@
+@import "../../../../scss/variables";
+
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/mixins";
+
+.popular-article-title {
+  text-decoration: none;
+  cursor: pointer;
+
+  @include media-breakpoint-down(xl) {
+    font-size: 1.2em;
+  }
+  @include media-breakpoint-up(xxl) {
+    font-size: 1.8em;
+  }
+}
+
+// COLOR MODES
+$color-mode-type: data;
+
+// Dark mode
+@include color-mode(dark) {
+  .popular-article-title {
+    color: $primary-text-dark;
+
+    &:hover {
+      color: hsl(0, 0%, 85%);
+    }
+  }
+}
+
+// Light mode
+@include color-mode(light) {
+  .popular-article-title {
+    color: $primary-text-light;
+
+    &:hover {
+      color: hsl(0, 1%, 27%);
+    }
+  }
+}

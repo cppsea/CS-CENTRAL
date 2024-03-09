@@ -71,7 +71,7 @@ export default function Footer() {
               </div>
               <div className="d-flex justify-content-center">
                 <ul
-                  className="footer-more-info-links-container d-flex column-gap-5 p-0"
+                  className="flex-wrap justify-content-center row-gap-3 footer-more-info-links-container d-flex column-gap-5 p-0"
                   id="more-info-links-container"
                 >
                   <li className="footer-more-info-link-container">

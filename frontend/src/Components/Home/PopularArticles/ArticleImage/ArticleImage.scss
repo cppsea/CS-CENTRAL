@@ -1,0 +1,20 @@
+@import "../../../../scss/variables";
+
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/mixins";
+
+.article-img {
+  @include media-breakpoint-down(xs) {
+    width: 200px;
+  }
+  @include media-breakpoint-up(sm) {
+    width: 400px;
+  }
+  @include media-breakpoint-up(lg) {
+    width: 250px;
+  }
+  @include media-breakpoint-up(xxl) {
+    width: 350px;
+  }
+}
