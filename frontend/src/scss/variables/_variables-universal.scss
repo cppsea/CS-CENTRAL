@@ -1,0 +1,42 @@
+$primary: #79a2d2;
+$link-text: #2c6ae1;
+
+//header/footer
+$header-footer-bg: #312f2f;
+$header-text: #f4e4bb;
+
+//popover
+$popover-header-bg: #063ba1;
+$popover-body-bg: #2c6ae1;
+
+//settings
+$settings-input-bg-uneditable: #d5d5d5;
+$settings-input-placeholder-uneditable: #b9b9b9;
+$settings-input-bg-editable: #7a7979;
+$settings-input-placeholder-editable: #c2bfbf;
+
+$settings-article-search-bar: #d5d5d5;
+
+//Sign Pages
+$sign-page-title: #366092;
+$welcome-section-link: #4E8AD1;
+$sign-input-placeholder: #6B6565;
+
+//fonts
+@font-face {
+  font-family: "Fredericka The Great";
+  src: local("Fredericka the Great"),
+    url("../../assets/fonts/Fredericka-The-Great/FrederickatheGreat-Regular.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("../../assets/fonts/Inter/Inter-VariableFont_slnt\,wght.ttf")
+      format("truetype");
+}
+
+$font-family-sans-serif: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+  "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

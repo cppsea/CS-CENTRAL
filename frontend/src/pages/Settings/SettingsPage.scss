@@ -1,0 +1,22 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../scss/variables";
+
+@include color-mode(dark) {
+  .settings-page {
+    background-color: $primary-bg-dark;
+  }
+}
+
+@include color-mode(light) {
+  .settings-page {
+    background-color: $primary-bg-light;
+  }
+}
+
+.settings-navbar-column {
+  @include media-breakpoint-up(lg) {
+    max-width: 400px !important;
+  }
+}

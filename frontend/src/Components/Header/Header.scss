@@ -1,0 +1,51 @@
+@import "../../scss/variables";
+
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules//bootstrap/scss/mixins";
+
+.header-divider {
+  border: 1.5px solid $header-text;
+  height: 75%;
+  margin-left: 1em;
+  background-color: $header-text;
+}
+
+.bg-header {
+  background-color: $header-footer-bg;
+}
+
+#navbar_item {
+  color: $header-text;
+  @include media-breakpoint-down(xl) {
+    font-size: 1.1em;
+  }
+  @include media-breakpoint-up(xxl) {
+    font-size: 1.5em;
+  }
+}
+
+#dropdown_items {
+  color: $link-text;
+  padding-left: 10px;
+  font-size: 1.2em;
+  &:hover {
+    font-weight: 600 !important;
+    background-color: $primary;
+    color: $header-text;
+    border-radius: 4px;
+  }
+}
+
+#toggler {
+  background-color: $primary;
+  border: none;
+  margin-left: 10px;
+}
+
+#profile_menu_divider {
+  margin: 2px 0 2px 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: rgb(18, 18, 18);
+}

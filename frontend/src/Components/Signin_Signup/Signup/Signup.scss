@@ -1,0 +1,17 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+.hyperlink {
+  color: black;
+
+  &:hover {
+    color: rgb(51, 50, 50);
+  }
+
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}

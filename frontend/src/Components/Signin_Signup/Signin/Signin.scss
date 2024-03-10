@@ -1,0 +1,36 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../../scss/variables";
+
+$sign-page-divider: black;
+$google-button-bg: #eff5fb;
+
+//sign divider
+.sign-page-divider-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-page-divider {
+  border-bottom: 1px solid $sign-page-divider;
+  height: 0;
+}
+
+//buttons
+.google-sign-in-button {
+  background: $google-button-bg !important;
+  &:hover {
+    filter: brightness(0.95);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
+.google-sign-in-button-text {
+  color: $primary !important;
+  vertical-align: middle;
+}

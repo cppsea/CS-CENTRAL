@@ -1,0 +1,9 @@
+@import "./variables";
+@import "./typeahead_override";
+
+
+.form-control:valid {
+  background-image: none !important;
+}
+
+@import "bootstrap/scss/bootstrap";

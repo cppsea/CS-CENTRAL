@@ -1,0 +1,36 @@
+{
+    "name": "cs-catalog",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "nodemon --quiet server",
+        "client": "npm start --prefix frontend",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cppsea/CS-Catalog.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cppsea/CS-Catalog/issues"
+    },
+    "homepage": "https://github.com/cppsea/CS-Catalog#readme",
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "nodemon": "^3.0.3",
+        "react-router-dom": "^6.18.0",
+        "sass": "^1.70.0"
+    },
+    "dependencies": {
+        "@vitejs/plugin-react": "^4.2.1",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "jsonwebtoken": "^9.0.2",
+        "vite": "^5.0.12"
+    }
+}

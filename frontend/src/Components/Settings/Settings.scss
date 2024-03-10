@@ -1,0 +1,186 @@
+@import "../../scss/variables";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+//divider
+.settings-divider {
+  display: block;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  margin-bottom: 20px;
+}
+
+//settings header
+.settings-header {
+  font-weight: 700;
+}
+
+//settings section header container
+.settings-section-header-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+//settings section header
+.settings-section-header {
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+//settings arrow marker container,
+//keeping height/width ratio to 5/8
+.settings-arrow-marker-container {
+  width: 20px;
+  height: 32px;
+}
+
+//settings field header
+.settings-section-field-header {
+  font-weight: 500;
+}
+
+//settings edit button
+.settings-edit-button {
+  border-width: 0 !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: $primary !important;
+    color: white !important;
+  }
+}
+
+//settings input
+.settings-input {
+  border-width: 0 !important;
+}
+
+//when input is disabled
+.bg-uneditable-input {
+  background: $settings-input-bg-uneditable !important;
+  color: gray !important;
+
+  &::placeholder {
+    color: $settings-input-placeholder-uneditable !important;
+  }
+}
+.settings-edit-button-edit {
+  color: black !important;
+  background: $settings-input-bg-uneditable !important;
+}
+
+//when input is enabled
+.bg-editable-input {
+  background-color: $settings-input-bg-editable !important;
+  color: white !important;
+
+  &::placeholder {
+    color: $settings-input-placeholder-editable !important;
+  }
+}
+
+//this is when button is also disabled so we need to specify disabled
+.settings-edit-button-unedit {
+  &:disabled {
+    background: $settings-input-bg-editable !important;
+    opacity: 1 !important;
+  }
+  color: #8f8d8d !important;
+}
+
+//cancel button
+.settings-cancel-button {
+  background: transparent !important;
+  &:hover {
+    filter: brightness(0.8);
+    transition-property: filter;
+    transition-delay: 44ms;
+  }
+}
+
+//confirm button
+.settings-confirm-button {
+  background: $primary !important;
+  color: white !important;
+
+  &:hover {
+    filter: brightness(0.8);
+    transition-property: filter;
+    transition-delay: 44ms;
+  }
+}
+
+//password edit modal
+
+.password-edit-button {
+  background: $settings-input-bg-editable !important;
+  border-radius: 0 5px 5px 0 !important;
+  border-width: 0 !important;
+}
+
+.password-checkbox {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 0 !important;
+}
+.password-checkbox-label {
+  font-size: calc(0.9rem + 0.1vw);
+}
+
+//COLOR MODES
+@include color-mode(dark) {
+  .settings-header,
+  .settings-section-header,
+  .settings-section-field-header,
+  .password-checkbox-label {
+    color: $primary-text-dark;
+  }
+
+  .password-checkbox {
+    border-color: $primary-text-dark !important;
+  }
+
+  .settings-cancel-button {
+    color: $primary-text-dark !important;
+    border-color: rgb(204, 203, 203) !important;
+  }
+
+  .settings-divider {
+    border-color: $divider-dark;
+  }
+  .settings-articles-bookmark-modal {
+    background: $primary-bg-dark;
+  }
+}
+
+@include color-mode(light) {
+  .settings-header,
+  .settings-section-header,
+  .settings-section-field-header,
+  .password-checkbox-label {
+    border-color: $primary-text-light !important;
+  }
+
+  .password-checkbox {
+    border-color: $primary-text-light !important;
+  }
+
+  .settings-cancel-button {
+    color: $primary-text-light !important;
+    border-color: rgb(109, 108, 108) !important;
+  }
+
+  .settings-divider {
+    border-color: $divider-light;
+  }
+  .settings-articles-bookmark-modal {
+    background: $primary-bg-light;
+  }
+}
