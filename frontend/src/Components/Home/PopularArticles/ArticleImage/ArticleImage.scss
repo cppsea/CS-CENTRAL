@@ -5,7 +5,7 @@
 @import "bootstrap/scss/mixins";
 
 .popular-article-img {
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     width: 220px;
   }
   @include media-breakpoint-up(md) {
