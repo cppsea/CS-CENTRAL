@@ -12,12 +12,14 @@
     font-size: 1.2em;
   }
   @include media-breakpoint-up(xxl) {
-    font-size: 1.8em;
+    font-size: 1.65em;
   }
 }
 
-// COLOR MODES
-$color-mode-type: data;
+.popular-article-item-container {
+  align-items: center;
+  text-align: start;
+}
 
 // Dark mode
 @include color-mode(dark) {

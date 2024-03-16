@@ -6,8 +6,8 @@ export default function ArticleImage({ article_img, number }) {
   return (
     <>
       <div>
-        <NumberArrowMarker number={number}/>
-        <Image src={article_img} className="article-img" />
+        <NumberArrowMarker number={number} />
+        <Image src={article_img} className="popular-article-img" />
       </div>
     </>
   );

@@ -4,14 +4,11 @@
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/mixins";
 
-.article-img {
-  @include media-breakpoint-down(xs) {
-    width: 200px;
+.popular-article-img {
+  @include media-breakpoint-down(sm) {
+    width: 220px;
   }
-  @include media-breakpoint-up(sm) {
-    width: 400px;
-  }
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(md) {
     width: 250px;
   }
   @include media-breakpoint-up(xxl) {

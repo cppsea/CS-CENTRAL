@@ -4,8 +4,11 @@
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/mixins";
 
-// COLOR MODES:
-$color-mode-type: data;
+.home-main-article-container {
+  @media (min-width: 1000px) {
+    max-width: 1200px !important;
+  }
+}
 
 // Dark mode
 @include color-mode(dark) {

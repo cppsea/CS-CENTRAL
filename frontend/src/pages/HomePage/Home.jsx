@@ -30,19 +30,15 @@ export default function Home() {
           </Col>
         </Row>
         {/* Right section - Popular Articles */}
-        <Row className="d-flex justify-content-center">
-          <Col xs={12} lg={8} xxl={8}>
-            <Row>
-              <Col>
-                <MainArticle
-                  title={feature_article_example.title}
-                  description={feature_article_example.description}
-                  article_img={feature_article_example.article_img}
-                />
-              </Col>
-            </Row>
+        <Row className="justify-content-center">
+          <Col lg={8} xxl={8} className="home-main-article-container">
+            <MainArticle
+              title={feature_article_example.title}
+              description={feature_article_example.description}
+              article_img={feature_article_example.article_img}
+            />
           </Col>
-          <Col xs={12} lg={4} xxl={4}>
+          <Col lg={4} xxl={4}>
             <PopularArticles />
           </Col>
         </Row>

@@ -32,22 +32,22 @@ $color-mode-type: data;
 .main-image {
   @include media-breakpoint-up(md) {
     width: 100%;
-    padding-right: 10px;
+    // padding-right: 10px;
   }
 
   @include media-breakpoint-up(xxl) {
-    width: 930px;
+    width: 900px;
   }
 }
 
 .main-article-container {
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-down(md) {
     width: 100%;
   }
   @include media-breakpoint-up(lg) {
     width: 650px;
   }
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(xxl) {
     width: 830px;
   }
 }

@@ -33,9 +33,6 @@
   width: 100%;
 }
 
-// COLOR MODES
-$color-mode-type: data;
-
 // Dark mode
 @include color-mode(dark) {
   .see-more-link,
