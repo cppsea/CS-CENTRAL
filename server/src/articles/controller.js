@@ -22,26 +22,20 @@ const getArticlesById = (req, res) => {
   });
 };
 
-const addArticles = (req, res) => {
-
-  try {
-    const { title,headers,author_id } = req.body;
-    let headers_json = JSON.stringify(headers);
-
-    
-    pool.query(queries.addArticles, [title, author_id,headers_json], (error, results) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal Server Error' });
-      }
-      res.status(201).json({ message: 'Article added successfully' });
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+const getRecommendedArticles = async (req, res) => {
+  const numRecommended = parseInt(req.query.num);
+  const recommendedArticles = await pool.query(queries.getRecommendedArticles, [numRecommended]);
+  res.status(200).json(recommendedArticles.rows);
+  console.log("GET RECOMMENDED ARTICLES");
 };
-  
+
+
+const addArticles = (req, res) => {
+  const { title } = req.body;
+  pool.query(queries.addArticles, [title], (error, results) => {
+    res.status(200).send("Article added");
+  });
+};
 
 const deleteArticle = (req, res) => {
   const id = parseInt(req.params.id);
@@ -53,6 +47,7 @@ const deleteArticle = (req, res) => {
 module.exports = {
   getArticles,
   getArticlesById,
+  getRecommendedArticles,
   addArticles,
   deleteArticle,
 };
