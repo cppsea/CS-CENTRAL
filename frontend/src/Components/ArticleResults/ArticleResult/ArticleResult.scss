@@ -1,0 +1,75 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "../../../scss/variables";
+
+.article-result {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  height: 100px;
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: 250px 5fr;
+  }
+}
+
+.article-result-image-container {
+  width: fit-content;
+  position: relative;
+  display: flex;
+  height: inherit;
+  justify-content: center;
+}
+
+.article-result-image {
+  object-fit: contain;
+  object-position: center top;
+  width: 100%;
+  height: 100%;
+}
+.article-result-bookmark {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 0;
+  right: -10px;
+  width: fit-content;
+
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    cursor: auto;
+  }
+}
+
+.article-result-text {
+  display: flex;
+  flex-direction: column;
+}
+.article-result-title {
+  font-weight: 600;
+}
+.article-result-author,
+.article-result-date {
+  font-weight: 300;
+  font-style: italic;
+}
+
+//COLOR MODES
+@include color-mode(light) {
+  .article-result-text {
+    color: $primary-text-light;
+  }
+  .article-result-bookmark {
+    color: $bookmark-bg-light;
+  }
+}
+@include color-mode(dark) {
+  .article-result-text {
+    color: $primary-text-dark;
+  }
+  .article-result-bookmark {
+    color: $bookmark-bg-dark;
+  }
+}

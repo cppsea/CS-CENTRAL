@@ -2,24 +2,39 @@ import { useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
 import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.jsx";
+import ArticleResult from "../Components/ArticleResults/ArticleResult/ArticleResult.jsx";
 
-export default function ArticleList({  }) {
-  const [data,setData] = useState()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [specificArticle, setSpecificArticle] = useState()
-  const titleQuery = searchParams.get("title")
+const dummmy_articles = [
+  {
+    image:
+      "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg",
+    title: "Machine Learning in Business and Marketing",
+    author: "Jeff",
+    date: "October 24, 2023",
+  },
+  {
+    image:
+      "https://www.mathworks.com/solutions/machine-learning/_jcr_content/mainParsys/band_copy_1919605364/mainParsys/columns/a03cc495-1c23-4402-82ea-1c8fd4d25234/pictogram.adapt.full.medium.svg/1701252724596.svg",
+    title: "Machine Learning in Business and Marketing",
+    author: "Jeff",
+    date: "October 24, 2023",
+  },
+];
+export default function ArticleList({}) {
+  const [data, setData] = useState();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [specificArticle, setSpecificArticle] = useState();
+  const titleQuery = searchParams.get("title");
   //console.log(titleQuery);
 
-  useEffect(()=>
-  {
+  useEffect(() => {
     fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) => res.json()
-      .then(data => setData(data)))
-      .catch((error) =>{
+      .then((res) => res.json().then((data) => setData(data)))
+      .catch((error) => {
         console.error("error fetching data");
-      })
+      });
 
-  /**     if(data && data.length > 0 ){
+    /**     if(data && data.length > 0 ){
         const specificArticleId = data[0].id;
       fetch(`http://localhost:3002/api/articles/${specificArticleId}`)
         .then((res) => res.json())
@@ -31,11 +46,11 @@ export default function ArticleList({  }) {
           console.error("error fetching specific article");
         });
       } */
-  },[titleQuery, setSearchParams])
+  }, [titleQuery, setSearchParams]);
 
   const { id } = useParams();
 
- /* const fetchArticle = async () => {
+  /* const fetchArticle = async () => {
     fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
     .then((res) => res.json())
     .then((data) => {
@@ -46,16 +61,22 @@ export default function ArticleList({  }) {
       console.error("Error fetching item data:", error);
     });
   } */
-  
 
-  if (data == undefined )
-  {
-    return <>loading...</>
+  if (data == undefined) {
+    // return <>loading...</>
+    return (
+      <div className="flex-grow-1">
+        {dummmy_articles.map((article) => {
+          return( <ArticleResult article={article} />);
+         
+        })}
+      </div>
+    );
   }
   console.log(data);
   return (
     <>
-      <div className="mt-5" >
+      <div className="mt-5">
         <Stack gap={3}>
           <div>
             <Card style={{ border: "none" }}>
@@ -67,9 +88,10 @@ export default function ArticleList({  }) {
           {data.map((item) => (
             <div>
               <LinkedDescriptionBox
-              title={item.title}
-              id={item.id}
-              variant="secondary">
+                title={item.title}
+                id={item.id}
+                variant="secondary"
+              >
                 {item.description}
               </LinkedDescriptionBox>
             </div>
