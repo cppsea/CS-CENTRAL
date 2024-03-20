@@ -13,7 +13,7 @@ console.log(process.env.PGUSER);
 
 const app = express();
 
-const port = process.env.PORT;
+const port = 3002;
 
 
 app.use(cors());

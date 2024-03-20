@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
 
 
         const salt = await bcrypt.genSalt()
-        const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
         const { username } = req.body;
         pool.query(queries.createUser, [username, hashedPassword])
 
@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    const { username, user_password } = req.body;
+    const { username, password } = req.body;
     console.log("req body", req.body);
     console.log("received login request for username:", username);
     try {
@@ -58,9 +58,9 @@ const loginUser = async (req, res) => {
             return res.status(400).send("Error finding username")
         }
         const user = result.rows[0];
-        console.log("password:", user_password);
-        console.log("password hased:", user.user_password);
-        if(await bcrypt.compare(user_password, user.user_password)){
+        console.log("password:", password);
+        console.log("password hased:", user.password);
+        if(await bcrypt.compare(user_password, user.password)){
             //res.send("Success");
             const token = createToken(username);
             res.json({username,token})

@@ -7,7 +7,7 @@ const router = Router();
 
 
 //require auth for all article routes
-router.use(requireAuth)
+//router.use(requireAuth)
 
 router.get("/", async (req, res) => controller.getArticles(req, res));
 router.get("/:id", (req, res) => controller.getArticlesById(req, res));

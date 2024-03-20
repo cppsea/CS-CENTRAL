@@ -5,7 +5,7 @@ const pool = require("../../db.js");
 const { getUserByUsername } = require('../users/queries')
 
 //checking to see if user is authenticated, for editing, creating, deleting articles
-const requireAuth = async (req, res, next) => {
+/**const requireAuth = async (req, res, next) => {
 
     //verify that user is authenticated
     const { authorization } = req.headers
@@ -38,3 +38,5 @@ const requireAuth = async (req, res, next) => {
 
 
 module.exports = requireAuth
+
+*/
