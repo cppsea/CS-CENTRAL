@@ -4,29 +4,41 @@
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/functions";
 @import "../../../scss/variables";
-
+/*overall article result container*/
 .article-result {
   display: grid;
-  grid-template-columns: 1fr 5fr;
+  grid-template-columns: 1fr 6fr;
+  gap: 20px;
   height: 100px;
+  @include media-breakpoint-up(sm) {
+    height: 150px;
+  }
   @include media-breakpoint-up(lg) {
     grid-template-columns: 250px 5fr;
   }
 }
 
+/*image*/
 .article-result-image-container {
   width: fit-content;
   position: relative;
   display: flex;
   height: inherit;
   justify-content: center;
+  margin: auto;
 }
 
 .article-result-image {
   object-fit: contain;
   object-position: center top;
-  width: 100%;
   height: 100%;
+  width: 75px;
+  @include media-breakpoint-up(sm) {
+    width: 150px;
+  }
+  @include media-breakpoint-up(md) {
+    width: 200px;
+  }
 }
 .article-result-bookmark {
   position: absolute;
@@ -43,22 +55,54 @@
   }
 }
 
-.article-result-text {
+/*Text*/
+.article-result-text,
+.article-result-info {
   display: flex;
   flex-direction: column;
 }
+.article-result-text {
+  gap: 5px;
+}
+.article-result-info {
+  gap: 2.5px;
+}
+
 .article-result-title {
   font-weight: 600;
+  margin-bottom: 0 !important;
+  font-size: calc(0.8rem + 0.5vw);
+  @include media-breakpoint-up(sm) {
+    font-size: calc(1.2rem + 0.5vw);
+  }
+  /*style for clicking on article title*/
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  &:active {
+    cursor: auto;
+    position: relative;
+    top: 1px;
+    opacity: 0.8;
+  }
 }
 .article-result-author,
 .article-result-date {
   font-weight: 300;
   font-style: italic;
+  padding: 0 !important;
+  font-size: calc(0.8rem + 0.1vw);
+  @include media-breakpoint-up(sm) {
+    font-size: calc(0.9rem + 0.1vw);
+  }
 }
 
 //COLOR MODES
 @include color-mode(light) {
-  .article-result-text {
+  .article-result-text,
+  .article-result-author,
+  .article-result-date {
     color: $primary-text-light;
   }
   .article-result-bookmark {
@@ -66,7 +110,9 @@
   }
 }
 @include color-mode(dark) {
-  .article-result-text {
+  .article-result-text,
+  .article-result-author,
+  .article-result-date {
     color: $primary-text-dark;
   }
   .article-result-bookmark {
