@@ -1,0 +1,31 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "../../../scss/variables";
+
+
+.article-results-side-section-title {
+  margin-bottom: 1rem;
+  font-size: calc(0.8rem + 0.5vw);
+  font-weight: 600;
+  @include media-breakpoint-up(sm) {
+    font-size: calc(1.2rem + 0.5vw);
+  }
+}
+
+.article-results-section-content {
+  padding-left: 10px;
+}
+
+@include color-mode(light) {
+  .article-results-side-section-title {
+    color: $primary-text-light;
+  }
+}
+@include color-mode(dark) {
+  .article-results-side-section-title {
+    color: $primary-text-dark;
+  }
+}
