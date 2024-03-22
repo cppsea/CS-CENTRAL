@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import PopularArticles from "../../Components/Home/PopularArticles/PopularArticles";
 
 import "./Home.scss";
+import RecentArticles from "../../Components/Home/RecentArticles/RecentArticles";
 
 export default function Home() {
   // demo feature article
@@ -37,10 +38,14 @@ export default function Home() {
               description={feature_article_example.description}
               article_img={feature_article_example.article_img}
             />
+            <RecentArticles />
           </Col>
           <Col lg={4} xxl={4}>
             <PopularArticles />
           </Col>
+        </Row>
+        <Row>
+          <Col></Col>
         </Row>
       </Container>
     </>
