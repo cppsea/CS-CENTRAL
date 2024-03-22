@@ -5,13 +5,22 @@
 @import "bootstrap/scss/mixins";
 
 .popular-article-img {
-  @include media-breakpoint-down(md) {
-    width: 220px;
+  @media (min-width: 300px) {
+    width: 200px;
   }
-  @include media-breakpoint-up(md) {
+  @media (min-width: 370px) {
     width: 250px;
   }
-  @include media-breakpoint-up(xxl) {
+  @media (min-width: 700px) {
+    width: 450px;
+  }
+  @media (min-width: 1000px) {
+    width: 250px;
+  }
+  @media (min-width: 1400px) {
     width: 350px;
+  }
+  @media (min-width: 2000px) {
+    width: 480px;
   }
 }

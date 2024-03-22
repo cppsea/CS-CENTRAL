@@ -8,11 +8,29 @@
   text-decoration: none;
   cursor: pointer;
 
-  @include media-breakpoint-down(xl) {
+  @media (min-width: 300px) {
+    width: 200px;
+    font-size: 1em;
+  }
+  @media (min-width: 370px) {
+    width: 250px;
     font-size: 1.2em;
   }
-  @include media-breakpoint-up(xxl) {
-    font-size: 1.65em;
+  @media (min-width: 700px) {
+    width: 450px;
+    font-size: 1.5em;
+  }
+  @media (min-width: 1000px) {
+    width: 240px;
+    font-size: 1.2em;
+  }
+  @media (min-width: 1400px) {
+    width: 350px;
+    font-size: 1.6em;
+  }
+  @media (min-width: 2000px) {
+    width: 480px;
+    font-size: 2.2em;
   }
 }
 
