@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { Card, Stack } from "react-bootstrap";
 import { useParams, useSearchParams } from "react-router-dom";
-import LinkedDescriptionBox from "../Components/LinkedDescriptionBox.jsx";
+import RelatedTags from "../Components/ArticleResult/SideSections/RelatedTopicTags/RelatedTopicTags.jsx";
 import ArticleResultsList from "../Components/ArticleResults/ArticleResultsList.jsx";
+const dummy_topic_tags = [
+  { label: "Deep Learning" },
+  { label: "Artifical Intelligence" },
+  { label: "Computer Vision" },
+  { label: "Data Science" },
+];
 const dummmy_articles = [
   {
     id: 1,
@@ -23,6 +28,7 @@ const dummmy_articles = [
     isBookmarked: false,
   },
 ];
+
 export default function ArticleList({}) {
   const [articles, setArticles] = useState(dummmy_articles);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -78,6 +84,7 @@ export default function ArticleList({}) {
 
   return (
     <div className="flex-grow-1">
+      <RelatedTags tags={dummy_topic_tags} />
       <ArticleResultsList
         articles={dummmy_articles}
         bookmarkTogglerCreator={bookmarkTogglerCreator}
