@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import RelatedTags from "../Components/ArticleResult/SideSections/RelatedTopicTags/RelatedTopicTags.jsx";
-import ArticleResultsList from "../Components/ArticleResults/ArticleResultsList.jsx";
+import RelatedTags from "../../Components/ArticleResults/SideSections/RelatedTopicTags/RelatedTopicTags.jsx";
+import ArticleResultsList from "../../Components/ArticleResults/ArticleResultsList.jsx";
+import { Col, Container, Row } from "react-bootstrap";
+import "./ArticleResultsPage.scss";
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
@@ -29,7 +31,7 @@ const dummmy_articles = [
   },
 ];
 
-export default function ArticleList({}) {
+export default function ArticleResultsPage({}) {
   const [articles, setArticles] = useState(dummmy_articles);
   const [searchParams, setSearchParams] = useSearchParams();
   const [specificArticle, setSpecificArticle] = useState();
@@ -83,12 +85,28 @@ export default function ArticleList({}) {
   } */
 
   return (
-    <div className="flex-grow-1">
-      <RelatedTags tags={dummy_topic_tags} />
-      <ArticleResultsList
-        articles={dummmy_articles}
-        bookmarkTogglerCreator={bookmarkTogglerCreator}
-      />
-    </div>
+    <Container
+      className="flex-grow-1 mt-5"
+      fluid
+      style={{
+        maxWidth: "1800px",
+      }}
+    >
+      <Row>
+        <Col xs={{ order: 1 }} md={{ order: 0, span: 9 }}>
+          <h2 className="article-results-title mb-5">
+            Results for{" "}
+            <span className="article-results-title-query">"{titleQuery}"</span>
+          </h2>
+          <ArticleResultsList
+            articles={dummmy_articles}
+            bookmarkTogglerCreator={bookmarkTogglerCreator}
+          />
+        </Col>
+        <Col md={3} className="side-sections-container">
+          <RelatedTags tags={dummy_topic_tags} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
