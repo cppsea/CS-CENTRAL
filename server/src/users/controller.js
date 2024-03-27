@@ -3,6 +3,7 @@ const queries = require("./queries");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+
 const createToken = (id) =>
 {
     return jwt.sign({id: id}, "secret string", { expiresIn : '3d'})

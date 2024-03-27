@@ -5,6 +5,8 @@ const userRoutes = require("./src/users/routes.js");
 const cors = require("cors");
 require("dotenv").config();
 
+const helmet = require('helmet');
+
 
 console.log(process.env.PGUSER);
 
@@ -18,6 +20,7 @@ const port = 3002;
 
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
 
 app.get("/", (req, res) => {});
 

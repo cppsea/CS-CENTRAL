@@ -1,5 +1,6 @@
 const pool = require("../../db.js");
 const queries = require("./queries");
+const { body, validationResult, check} = require('express-validator');
 
 const getArticles = async (req, res) => {
   if (req.query.title) {
@@ -23,6 +24,24 @@ const getArticlesById = (req, res) => {
 };
 
 const addArticles = (req, res) => {
+
+
+  //.escape() sanitizes against special characters to prevent sql injection
+  //helmet sets various http headers for enhanced security
+  //parameterized queries provide protection
+  const validationRules = [
+    check('title').notEmpty().escape(),
+    check('headers').isArray({min: 1}).withMessage('Headers must contain at least one item'),
+    check('headers.*.title').notEmpty().escape(),
+    check('headers.*.body').notEmpty().escape()
+  ];
+
+  validationRules.forEach(rule => rule.run(req));
+
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   try {
     const { title,headers,author_id } = req.body;
