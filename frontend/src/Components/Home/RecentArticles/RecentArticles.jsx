@@ -1,52 +1,20 @@
 import SavedArticleItem from "../../Settings/SavedArticles/SaveArticleItem/SavedArticleItem";
 import "./RecentArticles.scss";
 
-import ai_computing from "../../../assets/Article_Images/ai_computing.png";
-import devin_ai from "../../../assets/Article_Images/devin_ai.png";
-import ai_in_business from "../../../assets/Article_Images/ai_in_business.png";
-import quantum from "../../../assets/Article_Images/quantum.png";
-import ai_brain from "../../../assets/ml_brain.jpg";
 import { useEffect, useState } from "react";
+import RecentArticleItem from "./RecentArticleItem/RecentArticleItem";
 
-export default function RecentArticles() {
-  const recent_articles = [
-    {
-      id: 0,
-      title: "Devin AI - World's First AI Software Engineer",
-      article_img: devin_ai,
-    },
-    {
-      id: 1,
-      title: "Deep Learning and Neural Networks",
-      article_img: ai_brain,
-    },
-    {
-      id: 2,
-      title: "Supervised, Unsupervised, and Reinforcement Learning Techniques",
-      article_img: ai_computing,
-    },
-    {
-      id: 3,
-      title: "Machine Learning in Business and Marketing",
-      article_img: ai_in_business,
-    },
-    {
-      id: 4,
-      title: "Quantum Computing",
-      article_img: quantum,
-    },
-  ];
-
+export default function RecentArticles({ recent_articles }) {
   //array all the articles currently not deleted
   const [articles, setArticles] = useState([]);
 
-  //the state of the articles of whether they are being deleted or not, is object, key = article id, value = whether it is selected orn ot
-  const [isDeletedArticles, setIsDeletedArticles] = useState({});
+  //the state of the articles of whether they are being bookmarked or not, is object, key = article id, value = whether it is selected or not
+  const [isBookmarkedArticles, setIsBookmarkedArticles] = useState({});
 
   //toggler of selected state for a specific article
   //this returns a FUNCTION that toggles an article's state with the provided id
   const articleToggleHandler = (id) => () =>
-    setIsDeletedArticles((prevArticles) => {
+    setIsBookmarkedArticles((prevArticles) => {
       return { ...prevArticles, [id]: !prevArticles[id] };
     });
 
@@ -57,11 +25,11 @@ export default function RecentArticles() {
       let retrieved_articles = await recent_articles;
       setArticles(retrieved_articles);
 
-      let initIsDeletedArticles = {};
+      let initIsBookmarkedArticles = {};
       retrieved_articles.forEach(({ id }) => {
-        initIsDeletedArticles[id] = false;
+        initIsBookmarkedArticles[id] = false;
       });
-      setIsDeletedArticles(initIsDeletedArticles);
+      setIsBookmarkedArticles(initIsBookmarkedArticles);
     };
 
     initArticles();
@@ -69,20 +37,28 @@ export default function RecentArticles() {
 
   return (
     <>
-      <div>
+      <div className="my-3">
         <div className="articles-divider mt-4 mb-3"></div>
         <h3 className="fw-medium">Recent Articles</h3>
-        <div className="d-flex flex-wrap gap-5">
+        <div className="d-flex flex-column gap-5 my-3">
           {recent_articles.map((article) => (
-            <SavedArticleItem
+            <RecentArticleItem
               key={article.id}
               articleTitle={article.title}
+              articleAuthor={article.author}
               articleImg={article.article_img}
-              toBeDeleted={isDeletedArticles[article.id]}
-              deleteToggler={articleToggleHandler(article.id)}
+              articleDesc={article.article_desc}
+              articleDatePublished={article.article_date}
+              articleReadTime={article.article_read_time}
+              toBeBookmarked={isBookmarkedArticles[article.id]}
+              bookmarkToggler={articleToggleHandler(article.id)}
             />
           ))}
+          {/** May add onClick function to fetch more articles */}
         </div>
+        <a className="see-more-link" href="/">
+          See more
+        </a>
       </div>
     </>
   );
