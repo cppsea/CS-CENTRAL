@@ -3,7 +3,7 @@
 @import "bootstrap/scss/grid";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
-
+@import "../../scss/variables";
 //SectionHeader, ArticleHeaderDesc marker styling
 .section-header-marker,
 .article-desc-marker {
@@ -81,6 +81,24 @@
   width: 2px;
   margin-left: 32%;
   flex-shrink: 0;
+}
+
+//Article Body Section highlight styling
+@keyframes article-highlight {
+  0% {
+    background-color: inherit;
+  }
+
+  50% {
+    background-color: $primary;
+  }
+
+  100% {
+    background-color: inherit;
+  }
+}
+.article-body-section:target {
+  animation: article-highlight 700ms 1;
 }
 
 //SectionContent

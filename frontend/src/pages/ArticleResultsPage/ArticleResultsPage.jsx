@@ -20,23 +20,13 @@ const dummmy_articles = [
     date: "October 24, 2023",
     isBookmarked: true,
   },
-  {
-    id: 2,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8QfYW-Re6kMIo_i9D5x4KUHVStLYWGuK4vg&usqp=CAU",
-    title: "Intro to Machine Learning",
-    author: "Darren",
-    date: "October 24, 2023",
-    isBookmarked: false,
-  },
 ];
 
 export default function ArticleResultsPage({}) {
-  const [articles, setArticles] = useState(dummmy_articles);
+  const [articles, setArticles] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [specificArticle, setSpecificArticle] = useState();
   const titleQuery = searchParams.get("title");
-  //console.log(titleQuery);
 
   //bookmark toggler creator function, returns function that toggles bookmark for certain id
   const bookmarkTogglerCreator = (id) => () => {
@@ -51,45 +41,32 @@ export default function ArticleResultsPage({}) {
 
   useEffect(() => {
     fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) => res.json().then((data) => setArticles(data)))
+      .then((res) =>
+        res.json().then((data) => {
+          let dataCopy = [...data];
+
+          //we dont have author names, date, bookmarked, or image, so just inserting default in for now
+          dataCopy.forEach((articleObject) => {
+            articleObject.image =
+              "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
+            articleObject.author = "jeff";
+            articleObject.date = "October 24, 2023";
+            articleObject.isBookmarked = true;
+          });
+          setArticles(dataCopy);
+        })
+      )
       .catch((error) => {
         console.error("error fetching data");
       });
-
-    /**     if(data && data.length > 0 ){
-        const specificArticleId = data[0].id;
-      fetch(`http://localhost:3002/api/articles/${specificArticleId}`)
-        .then((res) => res.json())
-        .then((specificArticle) => {
-          setSpecificArticle(specificArticle);
-          console.log("Specific article:", specificArticle);
-        })
-        .catch((error) =>{
-          console.error("error fetching specific article");
-        });
-      } */
   }, [titleQuery, setSearchParams]);
-
-  const { id } = useParams();
-
-  /* const fetchArticle = async () => {
-    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setData(data);
-      console.log(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching item data:", error);
-    });
-  } */
 
   return (
     <Container
       className="flex-grow-1 mt-5"
       fluid
       style={{
-        maxWidth: "1800px",
+        maxWidth: "1600px",
       }}
     >
       <Row>
@@ -99,7 +76,7 @@ export default function ArticleResultsPage({}) {
             <span className="article-results-title-query">"{titleQuery}"</span>
           </h2>
           <ArticleResultsList
-            articles={dummmy_articles}
+            articles={articles}
             bookmarkTogglerCreator={bookmarkTogglerCreator}
           />
         </Col>

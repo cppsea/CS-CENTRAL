@@ -6,7 +6,7 @@ import BodySection from "./Section/BodySection.jsx";
 import { Container, Row, Col, Stack } from "react-bootstrap";
 import "./ArticleComponents.scss";
 import "./Article.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 //dummy data for table of contents
 const tableOfContents = [
   "Introduction to Machine Learning",
@@ -83,6 +83,7 @@ export default function Article({ article }) {
 
   const [articleData, setArticleData] = useState({
     //header data
+    id: article.id ? article.id : 0,
     title: article.title ? article.title : "Intro to Machine Learning",
     desc: article.desc
       ? article.desc
@@ -90,8 +91,33 @@ export default function Article({ article }) {
     author: article.author ? article.author : "David Lam",
     date: article.date ? article.date : "October 29, 2023",
     isBookmarked: false,
+    headers:
+      article.headers && Array.isArray(article.headers)
+        ? article.headers
+        : [
+            {
+              title: "Introduction",
+              body: "Machine Learning has rapidly become a cornerstone of modern technological advancement, permeating various sectors and reshaping the way we perceive and interact with data. In this era of big data, understanding the basics of Machine Learning has become imperative for professionals across diverse fields, from business to healthcare and beyond. By harnessing the power of algorithms and data, Machine Learning enables systems to learn from experience and improve their performance over time without explicit programming.This introductory guide aims to provide a comprehensive overview of the fundamental concepts of Machine Learning, delving into its significance, various algorithms, real-world applications, challenges, ethical considerations, and the promising future it holds.",
+            },
+          ],
   });
 
+  console.log(articleData.headers);
+  //create array of content header objects to be used for body sections and table of contents
+  const contentHeaderSequence = articleData.headers.map(
+    ({ title, body }, index) => {
+      let id = `${title}-${index}`;
+      return {
+        heading: title
+          .split(" ")
+          .map((word) => word[0].toUpperCase() + word.slice(1))
+          .join(" "),
+        link: `http://localhost:5173/article_view/${articleData.id}#${id}`,
+        id: id,
+        body: body,
+      };
+    }
+  );
   //handler for toggling bookmark
   const toggleBookmark = () =>
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
@@ -115,13 +141,11 @@ export default function Article({ article }) {
           <Col xs={12} md={8}>
             <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
             <Stack className="gap-3">
-              <TableOfContents content_headings={tableOfContents} />
-              <BodySection
-                title={"Introduction"}
-                body={
-                  "Machine Learning has rapidly become a cornerstone of modern technological advancement, permeating various sectors and reshaping the way we perceive and interact with data. In this era of big data, understanding the basics of Machine Learning has become imperative for professionals across diverse fields, from business to healthcare and beyond. By harnessing the power of algorithms and data, Machine Learning enables systems to learn from experience and improve their performance over time without explicit programming.This introductory guide aims to provide a comprehensive overview of the fundamental concepts of Machine Learning, delving into its significance, various algorithms, real-world applications, challenges, ethical considerations, and the promising future it holds."
-                }
-              />
+              <TableOfContents contentSequence={contentHeaderSequence} />
+
+              {contentHeaderSequence.map(({ id, heading, body }, index) => {
+                return <BodySection id={id} title={heading} body={body} />;
+              })}
             </Stack>
           </Col>
 
