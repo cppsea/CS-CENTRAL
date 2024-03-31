@@ -8,21 +8,21 @@
   text-decoration: none;
   cursor: pointer;
 
-  @media (min-width: 300px) {
-    width: 200px;
-    font-size: 1em;
+  @media (min-width: 100px) {
+    width: 70vw;
+    font-size: 1.2em;
   }
   @media (min-width: 370px) {
-    width: 250px;
-    font-size: 1.2em;
+    width: 70vw;
+    font-size: 1.3em;
   }
   @media (min-width: 700px) {
-    width: 450px;
-    font-size: 1.5em;
+    width: 550px;
+    font-size: 2em;
   }
-  @media (min-width: 1000px) {
-    width: 240px;
-    font-size: 1.2em;
+  @media (min-width: 990px) {
+    width: 250px;
+    font-size: 1.4em;
   }
   @media (min-width: 1400px) {
     width: 350px;
