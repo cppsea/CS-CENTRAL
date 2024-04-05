@@ -1,0 +1,80 @@
+@import "../../../scss/variables";
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../../node_modules/bootstrap/scss/grid";
+@import "../../../../node_modules//bootstrap/scss/mixins";
+
+.bar1 {
+  height: 100%;
+  width: 10px;
+  flex-shrink: 0;
+}
+
+.bar2 {
+  margin-left: 10px;
+  height: 100%;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.popular-article-heading {
+  @include media-breakpoint-down(xl) {
+    font-size: 2em;
+  }
+  @include media-breakpoint-up(xxl) {
+    font-size: 3em;
+  }
+}
+
+.popular-article-container {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  margin-left: 10px;
+  height: 100%;
+  width: 100%;
+
+  @include media-breakpoint-up(xxl) {
+    max-width: 600px;
+  }
+}
+
+// Dark mode
+@include color-mode(dark) {
+  .see-more-link,
+  .popular-article-heading {
+    color: $primary-text-dark;
+  }
+
+  .see-more-link {
+    &:hover {
+      color: hsl(0, 0%, 85%);
+    }
+  }
+
+  .bar1,
+  .bar2,
+  .popular-article-container {
+    background-image: linear-gradient(180deg, #916a05, #224267);
+  }
+}
+
+// Light mode
+@include color-mode(light) {
+  .see-more-link,
+  .popular-article-heading {
+    color: $primary-text-light;
+  }
+
+  .see-more-link {
+    &:hover {
+      color: hsl(0, 1%, 27%);
+    }
+  }
+
+  .bar1,
+  .bar2,
+  .popular-article-container {
+    background-image: linear-gradient(180deg, #e9bf53, #79a2d2);
+  }
+}

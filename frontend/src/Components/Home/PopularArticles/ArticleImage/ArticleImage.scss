@@ -1,0 +1,32 @@
+@import "../../../../scss/variables";
+
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/mixins";
+
+.popular-article-img {
+  @media (min-width: 100px) {
+    width: 70vw;
+  }
+  @media (min-width: 370px) {
+    width: 70vw;
+  }
+  @media (min-width: 700px) {
+    width: 550px;
+  }
+  @media (min-width: 992px) {
+    width: 25vw;
+  }
+  @media (min-width: 1000px) {
+    width: 250px;
+  }
+  @media (min-width: 1100px) {
+    width: 25vw;
+  }
+  @media (min-width: 1400px) {
+    width: 25vw;
+  }
+  @media (min-width: 2000px) {
+    width: 480px;
+  }
+}
