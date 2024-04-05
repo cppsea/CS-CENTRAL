@@ -36,10 +36,10 @@
   @media (min-width: 760px) {
     flex-direction: row;
     gap: 40px;
-    width: 700px;
+    width: 70vw;
   }
 
-  @media (min-width: 990px) {
+  @media (min-width: 992px) {
     width: 350px;
     gap: 25px;
   }
@@ -119,10 +119,10 @@
   }
 
   @media (min-width: 760px) {
-    width: 60vw;
+    width: 52vw;
   }
 
-  @media (min-width: 990px) {
+  @media (min-width: 992px) {
     font-size: 1.4em;
     width: 34vw;
   }
@@ -158,11 +158,11 @@
   }
 
   @media (min-width: 760px) {
-    font-size: 0.9em;
-    width: 60vw;
+    font-size: 0.95em;
+    width: 52vw;
   }
 
-  @media (min-width: 990px) {
+  @media (min-width: 992px) {
     font-size: 1em;
     width: 35vw;
   }
