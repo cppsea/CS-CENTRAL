@@ -7,6 +7,7 @@
 .popular-article-title {
   text-decoration: none;
   cursor: pointer;
+  text-transform: uppercase;
 
   @include media-breakpoint-down(xl) {
     font-size: 1.2em;

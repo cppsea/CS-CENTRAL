@@ -21,6 +21,10 @@ export default function RecentArticleItem({
         <div className="d-flex w-100">
           <div className="recent-article-image-container">
             <Image src={articleImg} className="recent-article-img" />
+          </div>
+        </div>
+        <div className="d-flex gap-3 justify-content-between w-100">
+          <div>
             {toBeBookmarked ? (
               <Bookmark
                 className="recent-article-bookmark"
@@ -33,15 +37,19 @@ export default function RecentArticleItem({
               />
             )}
           </div>
-        </div>
-        <div className="d-flex flex-column gap-2 w-100">
-          <a href="/" className="recent-article-title">
-            {articleTitle.toUpperCase()}
-          </a>
-          <p className="recent-article-desc my-2 fst-italic">{articleDesc}</p>
-          <p className="recent-article-date-time">
-            by {articleAuthor} | {articleDatePublished} | {articleReadTime}
-          </p>
+          <div className="article-data-container">
+            <a href="/" className="recent-article-title">
+              {articleTitle.toUpperCase()}
+            </a>
+            {/* <p className="recent-article-desc my-2 fst-italic">{articleDesc}</p> */}
+            <p className="recent-article-date-time-author">
+              By {articleAuthor}
+            </p>
+            <p className="recent-article-date-time-author">
+              Published {articleDatePublished}
+            </p>
+          </div>
+
           {/* Related tags component here */}
         </div>
       </div>

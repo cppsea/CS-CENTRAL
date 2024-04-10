@@ -49,7 +49,7 @@ export default function RecentArticles({ recent_articles }) {
               articleImg={article.article_img}
               articleDesc={article.article_desc}
               articleDatePublished={article.article_date}
-              articleReadTime={article.article_read_time}
+              // articleReadTime={article.article_read_time}
               toBeBookmarked={isBookmarkedArticles[article.id]}
               bookmarkToggler={articleToggleHandler(article.id)}
             />
@@ -57,7 +57,7 @@ export default function RecentArticles({ recent_articles }) {
           {/** May add onClick function to fetch more articles */}
         </div>
         <a className="see-more-link" href="/">
-          See more
+          Older posts
         </a>
       </div>
     </>

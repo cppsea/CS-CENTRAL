@@ -31,7 +31,7 @@ export default function Home() {
       author: "Scott Wu",
       article_img: devin_ai,
       article_desc: "The world's first AI Software Engineer",
-      article_date: "03/20/2024",
+      article_date: "March 20, 2024",
       article_read_time: "10 min read",
     },
     {
@@ -40,7 +40,7 @@ export default function Home() {
       author: "Jeff",
       article_img: ai_brain,
       article_desc: "Learn more about deep learning and its applications",
-      article_date: "03/21/2024",
+      article_date: "March 21, 2024",
       article_read_time: "15 min read",
     },
     {
@@ -49,7 +49,7 @@ export default function Home() {
       author: "Darren",
       article_img: ai_computing,
       article_desc: "Explore some methods used in Machine Learning and AI",
-      article_date: "03/22/2024",
+      article_date: "March 22, 2024",
       article_read_time: "20 min read",
     },
     {
@@ -59,7 +59,7 @@ export default function Home() {
       article_img: ai_in_business,
       article_desc:
         "Deep dive into the application of Machine Learning in Business and Marketing",
-      article_date: "03/18/2024",
+      article_date: "March 18, 2024",
       article_read_time: "15 min read",
     },
     {
@@ -69,7 +69,7 @@ export default function Home() {
       article_img: quantum,
       article_desc:
         "Curious about what quantum computing is about. Here is an article for you!",
-      article_date: "03/20/2024",
+      article_date: "March 20, 2024",
       article_read_time: "12 min read",
     },
   ];
