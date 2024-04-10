@@ -242,7 +242,7 @@
 @include color-mode(dark) {
   .recent-article-title,
   .recent-article-desc,
-  .recent-article-date-time {
+  .recent-article-date-time-author {
     color: $primary-text-dark;
   }
 
@@ -268,8 +268,9 @@
     color: hsl(0, 1%, 27%);
   }
 
-  .recent-article-date-time {
-    font-weight: 200;
+  .recent-article-date-time-author {
+    color: hsl(0, 2%, 10%);
+    font-weight: 300;
   }
 
   .recent-article-bookmark {
