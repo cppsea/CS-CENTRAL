@@ -9,6 +9,22 @@
   height: 0.1px;
 }
 
+.see-more-link {
+  color: $link-text !important;
+
+  @media (min-width: 990px) {
+    font-size: 1em;
+  }
+
+  @media (min-width: 1400px) {
+    font-size: 1.3em;
+  }
+
+  @media (min-width: 1900px) {
+    font-size: 1.8em;
+  }
+}
+
 // Dark mode
 @include color-mode(dark) {
   .articles-divider {

@@ -198,7 +198,7 @@
 //   }
 // }
 
-.recent-article-date-time-author {
+.recent-article-date-time-author-container {
   font-weight: 100;
   font-style: italic;
   margin: 10px 0;
@@ -238,11 +238,17 @@
   }
 }
 
+.recent-article-author,
+.recent-article-date-time {
+  margin-bottom: 1px;
+}
+
 //COLOR MODES
 @include color-mode(dark) {
   .recent-article-title,
   .recent-article-desc,
-  .recent-article-date-time-author {
+  .recent-article-author,
+  .recent-article-date-time {
     color: $primary-text-dark;
   }
 
@@ -259,6 +265,7 @@
 @include color-mode(light) {
   .recent-article-title,
   .recent-article-desc,
+  .recent-article-author,
   .recent-article-date-time {
     color: $primary-text-light;
   }
@@ -268,7 +275,8 @@
     color: hsl(0, 1%, 27%);
   }
 
-  .recent-article-date-time-author {
+  .recent-article-author,
+  .recent-article-date-time {
     color: hsl(0, 2%, 10%);
     font-weight: 300;
   }
