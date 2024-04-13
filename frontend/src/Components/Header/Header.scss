@@ -16,9 +16,7 @@
 }
 
 #navbar_item {
-  text-transform: uppercase;
   color: $header-text;
-
   @include media-breakpoint-down(xl) {
     font-size: 1.1em;
   }
