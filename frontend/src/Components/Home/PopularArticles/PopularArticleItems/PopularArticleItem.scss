@@ -7,6 +7,7 @@
 .popular-article-title {
   text-decoration: none;
   cursor: pointer;
+  text-transform: uppercase;
 
   @media (min-width: 100px) {
     width: 70vw;

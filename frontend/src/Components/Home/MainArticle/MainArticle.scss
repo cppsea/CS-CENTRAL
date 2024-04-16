@@ -54,18 +54,35 @@ $color-mode-type: data;
 
 #main-title {
   font-weight: 600;
+  text-transform: uppercase;
 
-  @include media-breakpoint-down(md) {
-    font-size: 2em;
+  @media (min-width: 100px) {
+    font-size: 1.8em;
   }
 
-  @include media-breakpoint-up(md) {
+  @media (min-width: 760px) {
+    font-size: 3.5em;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 3em;
+  }
+
+  @media (min-width: 1400px) {
     font-size: 4em;
   }
 
-  @include media-breakpoint-up(xxl) {
-    font-size: 5em;
+  @media (min-width: 1900px) {
+    font-size: 4.5em;
   }
+
+  // @include media-breakpoint-up(md) {
+  //   font-size: 4em;
+  // }
+
+  // @include media-breakpoint-up(xxl) {
+  //   font-size: 5em;
+  // }
 }
 
 .article-description {
