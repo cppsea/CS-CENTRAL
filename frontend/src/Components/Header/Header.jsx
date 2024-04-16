@@ -29,7 +29,7 @@ export default function Header() {
         <Container>
           <Stack direction="horizontal" gap={2}>
             <Nav.Link href="/">
-              <Image className="p-1" src={logo} roundedCircle width={60} />
+              <Image className="p-1" src={logo} roundedCircle width={100} />
             </Nav.Link>
             <div className="header-divider"></div>
 
@@ -139,4 +139,3 @@ export default function Header() {
     </>
   );
 }
-

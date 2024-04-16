@@ -58,53 +58,50 @@ export default function Footer() {
           <Col
             xs={{ span: 12 }}
             lg={{ span: 6 }}
-            className="d-flex justify-content-center justify-content-lg-end align-items-center p-0"
+            className="d-flex justify-content-center justify-content-lg-start align-items-center p-0"
           >
-            <div className="d-flex flex-column justify-content-center align-items-center">
-              <div>
-                <h5
-                  className="footer-title d-flex align-items-center gap-2"
-                  id="CS-Catalog-footer-title"
-                >
-                  <span>CS</span> Catalog
-                </h5>
-              </div>
-              <div className="d-flex justify-content-center">
-                <ul
-                  className="flex-wrap justify-content-center row-gap-3 footer-more-info-links-container d-flex column-gap-5 p-0"
-                  id="more-info-links-container"
-                >
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-home-link">
-                      Home
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-feedback-link">
-                      Feedback
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-about-link">
-                      About
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-team-link">
-                      Our team
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="d-flex justify-content-center">
-                <span className="footer-copyright" id="CS-Catalog-copyright">
-                  CS Catalog @ 2024 All Rights Reserved
-                </span>
-              </div>
-            </div>
+            <h5
+              className="footer-title flex-column d-flex"
+              id="CS-Catalog-footer-title"
+            >
+              <span>CS</span> <span>CENTRAL</span>
+            </h5>
+            <ul
+              className="footer-more-info-links-container d-flex flex-column align-self-stretch justify-content-evenly m-0"
+              id="more-info-links-container"
+            >
+              <li className="footer-more-info-link-container">
+                <a className="more-info-link" id="footer-home-link">
+                  Home
+                </a>
+              </li>
+              <li className="footer-more-info-link-container">
+                <a className="more-info-link" id="footer-feedback-link">
+                  Feedback
+                </a>
+              </li>
+              <li className="footer-more-info-link-container">
+                <a className="more-info-link" id="footer-about-link">
+                  About
+                </a>
+              </li>
+              <li className="footer-more-info-link-container">
+                <a className="more-info-link" id="footer-team-link">
+                  Our team
+                </a>
+              </li>
+            </ul>
           </Col>
         </Row>
       </Container>
+      <Row className="">
+        <span
+          className="footer-copyright d-flex justify-content-center"
+          id="CS-Catalog-copyright"
+        >
+          CS Catalog @ 2024 All Rights Reserved
+        </span>
+      </Row>
     </footer>
   );
 }
