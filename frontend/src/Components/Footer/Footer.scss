@@ -23,7 +23,6 @@
 
 .footer-social-container > a {
   width: fit-content;
-  display: flex;
   align-items: center;
   gap: 10px;
 }
@@ -33,6 +32,7 @@
 .footer-social-name {
   font-size: 1rem;
   font-weight: 200;
+  margin-left: 10px;
 }
 .footer-social-icon,
 .footer-social-name {
@@ -48,21 +48,31 @@
   text-align: center;
   font-size: 1.8rem;
   font-weight: 300;
-  > span {
+  margin-left: 5rem;
+  > span:first-of-type {
     font-family: "Fredericka The Great";
-    font-size: 4rem;
+    font-size: 7rem;
     font-weight: normal;
+    border-bottom: 1px solid white;
   }
 }
 
+.vertical-divider {
+  border-right: 1px solid white;
+  width: 1px;
+}
 /*more info links*/
 
 .footer-more-info-links-container {
+  padding-left: 50px;
+  display: flex;
+  gap: 10px;
 }
 
 .footer-more-info-link-container {
   white-space: nowrap;
   overflow: hidden;
+  width: 147px;
 }
 
 .footer-socials-list,
@@ -76,7 +86,7 @@
 .social-link,
 .more-info-link {
   text-decoration: none;
-
+  margin-top: 40px;
   &:hover {
     font-weight: 700 !important;
     cursor: pointer;
@@ -92,4 +102,5 @@
   font-style: italic;
   font-weight: 200;
   font-size: 0.9rem;
+  padding-top: 1rem;
 }
