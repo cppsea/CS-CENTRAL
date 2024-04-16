@@ -22,19 +22,35 @@ const getArticlesById = (req, res) => {
   });
 };
 
+const trackUserInteraction = async (userId, articleId, actionType) => {
+  try {
+    // Insert the user interaction into the database
+    await pool.query(queries.trackUserInteraction, [userId, articleId, actionType]);
+  }
+
 const getRecommendedArticles = async (req, res) => {
   const numRecommended = parseInt(req.query.num);
-  const recommendedArticles = await pool.query(queries.getRecommendedArticles, [numRecommended]);
-  res.status(200).json(recommendedArticles.rows);
-  console.log("GET RECOMMENDED ARTICLES");
+  const userId = req.cookies.userId; 
+
+  try {
+    const recommendedArticles = await pool.query(queries.getRecommendedArticles, [numRecommended, userId]);
+    res.status(200).json(recommendedArticles.rows);
+    console.log("GET RECOMMENDED ARTICLES");
 };
 
 
-const addArticles = (req, res) => {
+const addArticles = async (req, res) => {
   const { title } = req.body;
-  pool.query(queries.addArticles, [title], (error, results) => {
+  const userId = req.cookies.userId; 
+
+  try {
+    await pool.query(queries.addArticles, [title]);
+    const newArticleId = await pool.query(queries.getArticleIdByTitle, [title]);
+    
+    await trackUserInteraction(userId, newArticleId.rows[0].id, 'view');
+    
     res.status(200).send("Article added");
-  });
+  } 
 };
 
 const deleteArticle = (req, res) => {
