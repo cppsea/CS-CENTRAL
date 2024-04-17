@@ -5,8 +5,6 @@ const requireAuth = require('../middleware/requireAuth');
 const authorizeArticle = require('../middleware/authorizeArticle')
 const router = Router();
 
-
-//require auth for all article routes
 router.use(requireAuth)
 
 router.get("/", async (req, res) => controller.getArticles(req, res));
