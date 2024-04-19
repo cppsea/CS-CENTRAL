@@ -89,7 +89,7 @@ export default function SignupCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
       <div className="d-flex justify-content-between gap-2">
         <Form.Group className="my-4">
           <Form.Control
