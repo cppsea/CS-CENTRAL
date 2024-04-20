@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./pages/HomePage/Home.jsx";
-import ArticleList from "./pages/ArticleList.jsx";
+import ArticleResultsPage from "./pages/ArticleResultsPage/ArticleResultsPage.jsx";
 import ArticleView from "./pages/ArticleView.jsx";
 import Signup from "./pages/SignPages/Signup.jsx";
 import Signin from "./pages/SignPages/Signin.jsx";
@@ -23,8 +23,8 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="article_search_results">
-            <Route index element={<ArticleList />} />
-            <Route path=":id" element={<ArticleList />} />
+            <Route index element={<ArticleResultsPage />} />
+            <Route path=":id" element={<ArticleResultsPage />} />
           </Route>
           <Route path="article_view">
             <Route index element={<ArticleView />} />
