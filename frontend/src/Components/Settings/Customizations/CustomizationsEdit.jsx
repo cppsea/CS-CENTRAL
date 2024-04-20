@@ -69,14 +69,14 @@ export default function CustomizationsEdit({
 
   return (
     <Container className="my-3 mx-0" fluid>
-      <h2 className="settings-header">Customizations</h2>
+      <h2 className="text-uppercase settings-header">Customizations</h2>
       <div className="settings-divider"></div>
       <Form noValidate onSubmit={handleSubmit}>
         <div className="my-3 settings-section-header-container">
           <div className="settings-arrow-marker-container">
             <ArrowMarker />
           </div>
-          <h4 className="settings-section-header">Customizations</h4>
+          <h4 className="text-uppercase settings-section-header">Customize Your Choice Of Articles</h4>
         </div>
 
         {/*Area of Interest */}

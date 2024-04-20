@@ -92,7 +92,7 @@ export default function ProfileEdit({
 
   return (
     <Container className="my-3 mx-0" fluid>
-      <h2 className="settings-header">Profile</h2>
+      <h2 className="text-uppercase settings-header">Profile</h2>
       <div className="settings-divider"></div>
 
       <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
@@ -101,7 +101,7 @@ export default function ProfileEdit({
             <div className="settings-arrow-marker-container">
               <ArrowMarker />
             </div>
-            <h4 className="settings-section-header">General</h4>
+            <h4 className="text-uppercase settings-section-header">General</h4>
           </div>
 
           <Row xs={1} sm={2} className="gy-3">
