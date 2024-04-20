@@ -72,7 +72,7 @@ export default function ArticleResultsPage({}) {
       <Row>
         <Col xs={{ order: 1 }} md={{ order: 0, span: 9 }}>
           <h2 className="article-results-title mb-5">
-            Results for{" "}
+            Displaying results for{" "}
             <span className="article-results-title-query">"{titleQuery}"</span>
           </h2>
           <ArticleResultsList
