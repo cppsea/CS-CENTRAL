@@ -30,14 +30,8 @@ $color-mode-type: data;
 
 // Custom stylings
 .main-image {
-  @include media-breakpoint-up(md) {
-    width: 100%;
-    // padding-right: 10px;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    width: 900px;
-  }
+  max-width: 100%;
+  height: auto;
 }
 
 .main-article-container {

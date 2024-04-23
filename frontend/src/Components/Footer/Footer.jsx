@@ -2,24 +2,28 @@ import { Container, Stack, Row, Col, Image } from "react-bootstrap";
 import { Discord, Github, Instagram } from "react-bootstrap-icons";
 import "./Footer.scss";
 import logo from "../../assets/logo.png";
+import CSCentralWhite from "../../assets/cs-central-white.png";
 export default function Footer() {
   return (
     <footer id="CS-Catalog-footer" className="footer p-4">
       <Container fluid style={{ maxWidth: "1000px" }}>
         <Row>
           <Col
-            xs={{ span: 12 }}
-            lg={{ span: 6 }}
-            className="d-flex justify-content-center justify-content-lg-start align-items-center p-0"
+            className="d-flex align-items-center justify-content-center"
+            xs
+            md={3}
           >
             <Image
               src={logo}
               id="CS-Catalog-footer-logo"
               className="footer-logo"
               roundedCircle
+              fluid
             />
+          </Col>
+          <Col className="d-flex">
             <ul
-              className="footer-socials-list d-flex flex-column align-self-stretch justify-content-evenly m-0"
+              className="footer-socials-list d-flex flex-column justify-content-evenly m-0"
               id="footer-socials-list"
             >
               <li
@@ -55,19 +59,13 @@ export default function Footer() {
               </li>
             </ul>
           </Col>
-          <Col
-            xs={{ span: 12 }}
-            lg={{ span: 6 }}
-            className="d-flex justify-content-center justify-content-lg-start align-items-center p-0"
-          >
-            <h5
-              className="footer-title flex-column d-flex"
-              id="CS-Catalog-footer-title"
-            >
-              <span>CS</span> <span>CENTRAL</span>
-            </h5>
+          <Col md="auto" className="vertical-divider"></Col>
+          <Col className="d-flex justify-content-center" xs md={3}>
+            <Image src={CSCentralWhite} fluid />
+          </Col>
+          <Col className="d-flex justify-content-left">
             <ul
-              className="footer-more-info-links-container d-flex flex-column align-self-stretch justify-content-evenly m-0"
+              className="footer-more-info-links-container d-flex flex-column justify-content-evenly m-0"
               id="more-info-links-container"
             >
               <li className="footer-more-info-link-container">

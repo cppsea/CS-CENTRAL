@@ -5,6 +5,9 @@
 @import "../../../node_modules//bootstrap/scss/mixins";
 
 .header-divider {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
   border: 1.5px solid $header-text;
   height: 75%;
   margin-left: 1em;

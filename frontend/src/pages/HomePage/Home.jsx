@@ -1,5 +1,4 @@
-import { Container, Row, Col, Stack } from "react-bootstrap";
-import AppTitle from "../../Components/Home/AppTitle/AppTitle";
+import { Container, Row, Col, Stack, Image } from "react-bootstrap";
 import MainArticle from "../../Components/Home/MainArticle/MainArticle";
 
 import main_article_img from "../../assets/Article_Images/main_article.png";
@@ -14,6 +13,7 @@ import devin_ai from "../../assets/Article_Images/devin_ai.png";
 import ai_in_business from "../../assets/Article_Images/ai_in_business.png";
 import quantum from "../../assets/Article_Images/quantum.png";
 import ai_brain from "../../assets/ml_brain.jpg";
+import CSCentralWhite from "../../assets/cs-central-white.png";
 
 export default function Home() {
   // demo feature article
@@ -81,9 +81,19 @@ export default function Home() {
     <>
       <Container fluid className="home-page flex-grow-1 mx-0 py-3">
         {/* Left section - Articles Display */}
-        <Row>
-          <Col>
-            <AppTitle />
+        <Row className="justify-content-around">
+          <Col className="d-flex flex-column justify-content-evenly cs-central-seperator">
+            <hr className="left-CS-central-hr" />
+          </Col>
+          <Col className="CS-central-top" xs={4} sm={3} md={2} lg={1}>
+            <Image
+              src={CSCentralWhite}
+              className="cs-central-img mx-auto d-block"
+              fluid
+            />
+          </Col>
+          <Col className="d-flex flex-column justify-content-evenly cs-central-seperator align-items-end">
+            <hr className="right-CS-central-hr" />
           </Col>
         </Row>
         {/* Right section - Popular Articles */}
@@ -104,6 +114,7 @@ export default function Home() {
           <Col></Col>
         </Row>
       </Container>
+      <hr />
     </>
   );
 }

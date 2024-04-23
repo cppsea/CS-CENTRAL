@@ -12,7 +12,6 @@
 /*First half of footer*/
 .footer-logo {
   background: $primary;
-  width: 50%;
   max-width: 200px;
   min-width: 100px;
 }
@@ -56,18 +55,15 @@
     border-bottom: 1px solid white;
   }
 }
-
-.vertical-divider {
-  border-right: 1px solid white;
-  width: 1px;
+@media (min-width: 992px) {
+  .vertical-divider {
+    border-left: 1px solid white;
+    padding-right: 200px;
+    width: 1px;
+  }
 }
+
 /*more info links*/
-
-.footer-more-info-links-container {
-  padding-left: 50px;
-  display: flex;
-  gap: 10px;
-}
 
 .footer-more-info-link-container {
   white-space: nowrap;

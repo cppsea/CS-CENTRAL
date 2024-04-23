@@ -9,11 +9,17 @@
     max-width: 1000px !important;
   }
 }
-
 // Dark mode
 @include color-mode(dark) {
   .home-page {
     background-color: $primary-bg-dark;
+  }
+
+  .cs-central-seperator hr {
+    color: white;
+    opacity: 100;
+    border-style: solid;
+    width: 90%;
   }
 }
 
