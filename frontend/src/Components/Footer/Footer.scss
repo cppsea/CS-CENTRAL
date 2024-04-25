@@ -20,18 +20,12 @@
 .footer-socials-list {
 }
 
-.footer-social-container > a {
-  width: fit-content;
-  align-items: center;
-  gap: 10px;
-}
 .footer-social-icon {
   font-size: 2rem;
 }
 .footer-social-name {
   font-size: 1rem;
   font-weight: 200;
-  margin-left: 10px;
 }
 .footer-social-icon,
 .footer-social-name {
@@ -55,29 +49,16 @@
     border-bottom: 1px solid white;
   }
 }
-@media (min-width: 992px) {
-  .vertical-divider {
-    border-left: 1px solid white;
-    padding-right: 200px;
-    width: 1px;
-  }
-}
-
 /*more info links*/
 
 .footer-more-info-link-container {
   white-space: nowrap;
   overflow: hidden;
-  width: 147px;
 }
 
-.footer-socials-list,
-.footer-links-container {
-  li {
-    list-style-type: none;
-  }
+.vr {
+  opacity: 100%;
 }
-
 //link hover/click styles
 .social-link,
 .more-info-link {
