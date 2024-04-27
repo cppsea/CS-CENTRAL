@@ -1,4 +1,5 @@
 @import "../../scss/variables.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
 
 //colors
 .footer {
@@ -10,21 +11,20 @@
 }
 
 /*First half of footer*/
-.footer-logo {
-  background: $primary;
-  max-width: 200px;
-  min-width: 100px;
-}
 
 /*Social Links*/
+@include media-breakpoint-up(sm) {
+  .divider {
+    border-right: 1px solid white;
+  }
+}
 .footer-socials-list {
 }
 
 .footer-social-icon {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
 }
 .footer-social-name {
-  font-size: 1rem;
   font-weight: 200;
 }
 .footer-social-icon,
@@ -56,12 +56,11 @@
   overflow: hidden;
 }
 
-.vr {
-  opacity: 100%;
-}
 //link hover/click styles
 .social-link,
 .more-info-link {
+  font-size: clamp(0.9rem, 3vw, 1.5rem);
+  font-weight: 200;
   text-decoration: none;
   margin-top: 40px;
   &:hover {

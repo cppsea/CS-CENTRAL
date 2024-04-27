@@ -13,7 +13,8 @@ import devin_ai from "../../assets/Article_Images/devin_ai.png";
 import ai_in_business from "../../assets/Article_Images/ai_in_business.png";
 import quantum from "../../assets/Article_Images/quantum.png";
 import ai_brain from "../../assets/ml_brain.jpg";
-import CSCentralWhite from "../../assets/cs-central-white.png";
+import cs_central_black_img from "../../assets/cs-central-black.png";
+import cs_central_white_img from "../../assets/cs-central-white.png";
 
 export default function Home() {
   // demo feature article
@@ -81,20 +82,14 @@ export default function Home() {
     <>
       <Container fluid className="home-page flex-grow-1 mx-0 py-3">
         {/* Left section - Articles Display */}
-        <Row className="justify-content-around">
-          <Col className="d-flex flex-column justify-content-evenly cs-central-seperator">
-            <hr className="left-CS-central-hr" />
-          </Col>
-          <Col className="CS-central-top" xs={4} sm={3} md={2} lg={1}>
-            <Image
-              src={CSCentralWhite}
-              className="cs-central-img mx-auto d-block"
-              fluid
+        <Row className="d-flex justify-content-center py-5">
+          <picture className="cs-central-img picture-fluid d-flex justify-content-center">
+            <source
+              srcset={cs_central_black_img}
+              media="(prefers-color-scheme: light)"
             />
-          </Col>
-          <Col className="d-flex flex-column justify-content-evenly cs-central-seperator align-items-end">
-            <hr className="right-CS-central-hr" />
-          </Col>
+            <img src={cs_central_white_img} />
+          </picture>
         </Row>
         {/* Right section - Popular Articles */}
         <Row className="justify-content-center">

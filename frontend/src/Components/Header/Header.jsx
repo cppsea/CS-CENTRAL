@@ -1,5 +1,6 @@
 import logo from "../../assets/logo.png";
 import avatar from "../../assets/avatar.jpg";
+
 import {
   Container,
   Nav,
@@ -10,12 +11,8 @@ import {
   OverlayTrigger,
   Popover,
   Button,
-  DropdownButton,
-  ButtonGroup,
-  Dropdown,
 } from "react-bootstrap";
-import SearchBar from "../SearchBar";
-import { SunFill, MoonFill } from "react-bootstrap-icons";
+import { Search, LightbulbFill } from "react-bootstrap-icons";
 
 import "./Header.scss";
 import { useState } from "react";
@@ -62,11 +59,12 @@ export default function Header() {
               </Nav>
             </Navbar.Collapse>
           </Stack>
-
           <Stack direction="horizontal" gap={3}>
-            <div style={{ justifyContent: "center" }}>
-              <SearchBar />
+            <div class="search-box">
+              <input type="text" className="form-control" />
+              <Search className="" />
             </div>
+            <LightbulbFill className="lightbulb" />
 
             <Nav variant="underline">
               <Nav.Item>

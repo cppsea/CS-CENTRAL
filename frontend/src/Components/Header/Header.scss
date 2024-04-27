@@ -4,6 +4,19 @@
 @import "../../../node_modules/bootstrap/scss/grid";
 @import "../../../node_modules//bootstrap/scss/mixins";
 
+@include color-mode(light) {
+  .lightbulb {
+    color: white;
+  }
+}
+@include color-mode(dark) {
+  .lightbulb {
+    color: black;
+  }
+  .form-control {
+    background-color: white;
+  }
+}
 .header-divider {
   @include media-breakpoint-down(md) {
     display: none;
@@ -40,7 +53,23 @@
     border-radius: 4px;
   }
 }
-
+.search-box {
+  position: relative;
+}
+.search-box input {
+  border-radius: 25px;
+}
+.search-box svg {
+  position: absolute;
+  right: 10px;
+  top: 20%;
+  font-size: 1.5rem;
+  color: black;
+}
+.lightbulb {
+  font-size: 2rem;
+  color: white;
+}
 #toggler {
   background-color: $primary;
   border: none;

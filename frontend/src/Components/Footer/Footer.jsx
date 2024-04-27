@@ -1,8 +1,7 @@
 import { Container, Stack, ListGroup, Row, Col, Image } from "react-bootstrap";
 import { Discord, Github, Instagram } from "react-bootstrap-icons";
 import "./Footer.scss";
-import logo from "../../assets/logo.png";
-import CSCentralWhite from "../../assets/cs-central-white.png";
+import cs_central_white_img from "../../assets/cs-central-white.png";
 export default function Footer() {
   return (
     <footer id="CS-Catalog-footer" className="footer p-4">
@@ -11,26 +10,23 @@ export default function Footer() {
           {/* Logo container*/}
           <Col
             className="d-flex align-items-center justify-content-center"
-            xs={{ span: 6 }}
-            md={{ span: 3 }}
+            xs={{ span: 4 }}
+            sm={{ span: 4 }}
+            md={{ span: 3, offset: 0 }}
             lg={3}
           >
-            <Image
-              src={logo}
-              id="CS-Catalog-footer-logo"
-              className="footer-logo"
-              roundedCircle
-            />
+            <Image src={cs_central_white_img} className="footer-logo" fluid />
           </Col>
           {/*social media container*/}
           <Col
-            className="d-flex justify-content-start border-end"
+            className="d-flex justify-content-sm-center justify-content-end divider"
             xs={{ span: 6 }}
-            md={{ span: 3 }}
+            sm={{ span: 4 }}
           >
             <ListGroup
-              className="footer-socials-list d-flex flex-column justify-content-evenly gap-2 ps-2"
+              className="footer-socials-list d-flex flex-column justify-content-evenly gap-3 ps-3"
               id="footer-socials-list"
+              fluid
             >
               <ListGroup.Item
                 className="footer-social-container bg-transparent p-0 border-0"
@@ -65,24 +61,16 @@ export default function Footer() {
               </ListGroup.Item>
             </ListGroup>
           </Col>
-          {/* CS central logo container */}
-          <Col
-            className="d-flex justify-content-center"
-            xs={{ span: 6 }}
-            lg={{ span: 3, offset: 1 }}
-            md={{ span: 3 }}
-          >
-            <Image src={CSCentralWhite} fluid />
-          </Col>
           {/* More info container */}
           <Col
-            className="d-flex justify-content-xs-start"
-            xs={{ span: 6 }}
+            className="d-flex justify-content-center"
+            xs={{ span: 12 }}
+            sm={{ span: 4 }}
             md={{ span: 3 }}
-            lg="auto"
+            lg={{ span: 2, offset: 1 }}
           >
             <ListGroup
-              className="footer-more-info-links-container d-flex flex-column justify-content-evenly "
+              className="footer-more-info-links-container d-flex flex-row flex-sm-column justify-content-evenly"
               id="more-info-links-container"
             >
               <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
