@@ -51,7 +51,7 @@ export default function ArticleResultsPage({}) {
               "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
             articleObject.author = "jeff";
             articleObject.date = "October 24, 2023";
-            articleObject.isBookmarked = true;
+            articleObject.isBookmarked = false;
           });
           setArticles(dataCopy);
         })

@@ -11,9 +11,9 @@ export default function ArticleHeaderTitle({
   return (
     <Stack direction="horizontal" gap={2}>
       {isBookmarked ? (
-        <Bookmark className="article-bookmark" onClick={bookmarkToggler} />
-      ) : (
         <BookmarkFill className="article-bookmark" onClick={bookmarkToggler} />
+      ) : (
+        <Bookmark className="article-bookmark" onClick={bookmarkToggler} />
       )}
       <h1 className="text-uppercase fw-bold article-title">{title}</h1>
     </Stack>
