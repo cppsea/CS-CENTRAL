@@ -9,7 +9,7 @@ export default function RelatedTags({ tags }) {
     >
       <h3
         id="related-topic-tags-section-title"
-        className="article-results-side-section-title"
+        className="text-uppercase article-results-side-section-title"
       >
         Related Topics
       </h3>

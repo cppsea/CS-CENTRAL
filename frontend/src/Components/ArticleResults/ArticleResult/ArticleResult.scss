@@ -6,26 +6,20 @@
 @import "../../../scss/variables";
 /*overall article result container*/
 .article-result {
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  gap: 20px;
+  display: flex;
+  gap: 10px;
   height: 100px;
   @include media-breakpoint-up(sm) {
     height: 150px;
-  }
-  @include media-breakpoint-up(lg) {
-    grid-template-columns: 250px 5fr;
   }
 }
 
 /*image*/
 .article-result-image-container {
   width: fit-content;
-  position: relative;
   display: flex;
   height: inherit;
   justify-content: center;
-  margin: auto;
 }
 
 .article-result-image {
@@ -41,10 +35,6 @@
   }
 }
 .article-result-bookmark {
-  position: absolute;
-  transform: rotate(-90deg);
-  top: 0;
-  right: -10px;
   width: fit-content;
 
   &:hover {
@@ -70,6 +60,7 @@
 
 .article-result-title {
   font-weight: 600;
+  text-transform: uppercase;
   margin-bottom: 0 !important;
   font-size: calc(0.8rem + 0.5vw);
   @include media-breakpoint-up(sm) {

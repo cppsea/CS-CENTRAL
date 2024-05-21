@@ -15,7 +15,7 @@ import TopicList from "./TopicList";
 export default function RelatedTopicsList({ topicLists }) {
   return (
     <Stack>
-      <h3 className="related-topics-heading mb-3">Related Topics</h3>
+      <h3 className="text-uppercase related-topics-heading mb-3">Related Topics</h3>
       <Stack gap={3}>
         {topicLists.map(({ topicCategory, topicList }) => (
           <TopicList
