@@ -1,5 +1,5 @@
 import { Container, Row, Col, Stack } from "react-bootstrap";
-import AppTitle from "../../Components/Home/AppTitle/AppTitle";
+import AppBrand from "../../Components/Home/AppBrand/AppBrand";
 import MainArticle from "../../Components/Home/MainArticle/MainArticle";
 
 import main_article_img from "../../assets/Article_Images/main_article.png";
@@ -83,7 +83,7 @@ export default function Home() {
         {/* Left section - Articles Display */}
         <Row>
           <Col>
-            <AppTitle />
+            <AppBrand />
           </Col>
         </Row>
         {/* Right section - Popular Articles */}
