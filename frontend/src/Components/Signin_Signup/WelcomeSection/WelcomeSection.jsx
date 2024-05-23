@@ -11,7 +11,7 @@ export default function WelcomeSection() {
       <div className=" d-flex flex-column align-items-center">
         <Image src="/logo_black.png" className="cc-wire-logo" />
       </div>
-      {/** -----> TODO: Take care of sizing on different viewports <-----*/}
+    
       <Stack gap={3}>
         <Button className="welcome-button" onClick={() => navigate("/")}>
           <span className="text-white text-uppercase welcome-btn-text">
