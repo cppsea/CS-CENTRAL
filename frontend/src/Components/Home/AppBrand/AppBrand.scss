@@ -9,104 +9,31 @@ $color-mode-type: data;
 
 // Dark mode
 @include color-mode(dark) {
-  .big-cs,
-  .text-between-divider-light,
-  .central-bottom-title {
-    color: $primary-text-dark;
-  }
-
-  .horizontal-bar {
-    background-color: $primary-bg-light;
-  }
-
-  .title-divider {
-    border-bottom: 1.5px solid $primary-text-dark;
+  .cc-logo-img {
+    content: url("logo_white.png");
   }
 }
 
 // Light mode
 @include color-mode(light) {
-  .big-cs,
-  .text-between-divider-light,
-  .central-bottom-title {
-    color: $primary-text-light;
-  }
-
-  .horizontal-bar {
-    background-color: $primary-bg-dark;
-  }
-
-  .title-divider {
-    border-bottom: 1.5px solid $primary-text-light;
+  .cc-logo-img {
+    content: url("logo_black.png");
   }
 }
 // --------------- End of Color Modes ----------------------
 
 // Custom stylings
-.title-divider {
-  width: 100%;
-  user-select: none;
-
-  @include media-breakpoint-down(xs) {
-    margin: 5px 0 5px;
-  }
-}
-
-.text-between-divider-light {
-  @include media-breakpoint-up(md) {
-    font-size: 3em;
-  }
-  @include media-breakpoint-down(md) {
-    font-size: 1.5em;
-  }
-}
-
-.app-title-container {
+.cc-logo-container {
   display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+  justify-content: center;
+  margin: 30px 0 50px 0;
+  padding: 15px 0;
 
-.big-cs {
-  font-family: "Fredericka The Great";
-
-  @media (min-width: 100px) {
-    font-size: 3em;
-    height: 17vh;
+  @include media-breakpoint-down(md) {
+    height: 8rem;
   }
 
-  @media (min-width: 768px) {
-    font-size: 2.5em;
-    height: 27vh;
-  }
-
-  @media (min-width: 830px) {
-    height: 24vh;
-  }
-
-  @media (min-width: 1400px) {
-    height: 15vh;
-  }
-
-  @media (min-width: 1900px) {
-    height: 8.5vh;
-  }
-}
-
-.horizontal-bar {
-  width: 100%;
-  height: 2px;
-}
-
-.central-bottom-title {
-  font-family: "Alumni_Sans";
-  text-transform: uppercase;
-
-  @media (min-width: 100px) {
-    font-size: 1.8em;
-  }
-
-  @media (min-width: 768px) {
-    font-size: 1.3em;
+  @include media-breakpoint-up(xxl) {
+    height: 15rem;
   }
 }
