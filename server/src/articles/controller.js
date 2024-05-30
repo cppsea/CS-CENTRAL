@@ -3,7 +3,7 @@ const queries = require("./queries");
 
 const getArticles = async (req, res) => {
   if (req.query.title) {
-    const articles = await pool.query(queries.getArticlesByTitle.replace('$1',req.query.title));
+    const articles = await pool.query(queries.getArticlesByTitle.replace('$1',req.query.title.toLowerCase()));
     res.status(200).json(articles.rows);
     console.log("GET ARTICLES");
     return;
