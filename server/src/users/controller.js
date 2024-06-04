@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const pool = require("../../db.js");
 const queries = require("./queries");
 const bcrypt = require('bcrypt');
@@ -88,8 +89,6 @@ const changeUser = async (req, res) => {
     }
 };
 
-
-
 const deleteAccount = async (req, res) => {
     try {
         const id = req.params.id;
@@ -101,10 +100,23 @@ const deleteAccount = async (req, res) => {
     }
 };
 
-const getBookmarks = async(req,res) =>
-    {
-
+const getBookmarks = async(req,res) =>{
+    try {
+        res.json(req.user.bookmarks);
+    } catch (err) {
+        console.error(err.message);
     }
+}
+
+const updateBookmarks = async(req,res) => {
+    try {
+        req.user.bookmarks = JSON.stringify(req.body.bookmarks);
+        await pool.query(queries.changeBookmarks, [req.user.bookmarks,req.user.username])
+        res.status(200).send("Bookmarks Changed");
+    } catch(err) {
+        console.error(err.message);
+    }
+}
 
 module.exports = {
     getUsers,
@@ -114,4 +126,5 @@ module.exports = {
     deleteAccount,
     loginUser,
     getBookmarks,
+    updateBookmarks,
 }
