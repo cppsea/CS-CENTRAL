@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const pool = require("../../db.js");
 const queries = require("./queries");
 const bcrypt = require('bcrypt');
@@ -10,8 +11,12 @@ const createToken = (id) =>
 
 const getUsers = async (req, res) => {
     try {
+        console.log("GET user");
+        /*
         const allUsers = await pool.query(queries.getUsers);
         res.status(200).json(allUsers.rows);
+        */
+       res.json(req.user);
     } catch (err) {
         console.error(err.message);
     }
@@ -59,8 +64,8 @@ const loginUser = async (req, res) => {
         }
         const user = result.rows[0];
         console.log("password:", user_password);
-        console.log("password hased:", user.user_password);
-        if(await bcrypt.compare(user_password, user.user_password)){
+        console.log("password hased:", user.password);
+        if(await bcrypt.compare(user_password, user.password)){
             //res.send("Success");
             const token = createToken(username);
             res.json({username,token})
@@ -84,8 +89,6 @@ const changeUser = async (req, res) => {
     }
 };
 
-
-
 const deleteAccount = async (req, res) => {
     try {
         const id = req.params.id;
@@ -96,6 +99,25 @@ const deleteAccount = async (req, res) => {
         console.error(err.message);
     }
 };
+
+const getBookmarks = async(req,res) =>{
+    try {
+        res.json(req.user.bookmarks);
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
+const updateBookmarks = async(req,res) => {
+    try {
+        req.user.bookmarks = JSON.stringify(req.body.bookmarks);
+        await pool.query(queries.changeBookmarks, [req.user.bookmarks,req.user.username])
+        res.status(200).send("Bookmarks Changed");
+    } catch(err) {
+        console.error(err.message);
+    }
+}
+
 module.exports = {
     getUsers,
     getUsersById,
@@ -103,4 +125,6 @@ module.exports = {
     changeUser,
     deleteAccount,
     loginUser,
+    getBookmarks,
+    updateBookmarks,
 }
