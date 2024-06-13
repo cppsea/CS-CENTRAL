@@ -7,6 +7,10 @@ import { Container, Row, Col, Stack } from "react-bootstrap";
 import "./ArticleComponents.scss";
 import "./Article.scss";
 import { useEffect, useState } from "react";
+import useBookmark from "../../hooks/useBookmark.jsx";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { toast } from "react-hot-toast";
+
 //dummy data for table of contents
 const tableOfContents = [
   "Introduction to Machine Learning",
@@ -74,11 +78,14 @@ const relatedTopicsList = [
 
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
+  const { isLoading, error, updateBookmark } = useBookmark();
+  // State to track when the bookmark action is completed
+  const [bookmarkActionCompleted, setBookmarkActionCompleted] = useState(false);
+
   //extracts article data pieces from provided article
 
   //these properties that i'm defining aside from title don't exist in the database yet,
   //mostly made up so feel free to change later on
-
   //will display default data from figma for now
 
   const [articleData, setArticleData] = useState({
@@ -121,39 +128,61 @@ export default function Article({ article }) {
   //handler for toggling bookmark
   const toggleBookmark = () =>
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
+
+  // toggleBookmark() function will be called only if there is a successful response from the server
+  const handleToggleBookmark = () => {
+    updateBookmark(article.id, article.isBookmarked, toggleBookmark);
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    
+    if (!isLoading) {
+      toast.success("Bookmark status updated");
+    }
+  }, [error, isLoading]);
+
   return (
     <>
-      <Container fluid className="h-100">
-        <Row className="mt-4 mb-4">
-          <Col>
-            <ArticleHeader
-              title={articleData.title}
-              description={articleData.desc}
-              author={articleData.author}
-              date={articleData.date}
-              isBookmarked={articleData.isBookmarked}
-              bookmarkToggler={toggleBookmark}
-            />
-          </Col>
-        </Row>
+      {isLoading ? (
+        <div className="flex flex-grow-1 text-center align-content-center">
+          <AiOutlineLoading3Quarters className="loading" />
+        </div>
+      ) : (
+        <Container fluid className="h-100">
+          <Row className="mt-4 mb-4">
+            <Col>
+              <ArticleHeader
+                title={articleData.title}
+                description={articleData.desc}
+                author={articleData.author}
+                date={articleData.date}
+                isBookmarked={articleData.isBookmarked}
+                bookmarkToggler={handleToggleBookmark}
+              />
+            </Col>
+          </Row>
 
-        <Row className=" gx-4 gy-5">
-          <Col xs={12} md={8}>
-            <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
-            <Stack className="gap-3">
-              <TableOfContents contentSequence={contentHeaderSequence} />
+          <Row className=" gx-4 gy-5">
+            <Col xs={12} md={8}>
+              <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
+              <Stack className="gap-3">
+                <TableOfContents contentSequence={contentHeaderSequence} />
 
-              {contentHeaderSequence.map(({ id, heading, body }, index) => {
-                return <BodySection id={id} title={heading} body={body} />;
-              })}
-            </Stack>
-          </Col>
+                {contentHeaderSequence.map(({ id, heading, body }, index) => {
+                  return <BodySection id={id} title={heading} body={body} />;
+                })}
+              </Stack>
+            </Col>
 
-          <Col xs={12} md={4} className="rel-topics-container ps-3">
-            <RelatedTopicsList topicLists={relatedTopicsList} />
-          </Col>
-        </Row>
-      </Container>
+            <Col xs={12} md={4} className="rel-topics-container ps-3">
+              <RelatedTopicsList topicLists={relatedTopicsList} />
+            </Col>
+          </Row>
+        </Container>
+      )}
     </>
   );
 }

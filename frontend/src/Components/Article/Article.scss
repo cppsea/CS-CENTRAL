@@ -16,6 +16,20 @@
   }
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  font-size: 4em;
+  animation: spin 500ms infinite;
+}
+
 @include color-mode(light) {
   .rel-topics-container {
     border-color: $divider-light;
