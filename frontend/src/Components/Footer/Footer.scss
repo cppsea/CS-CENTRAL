@@ -22,7 +22,7 @@
 }
 
 .footer-social-icon {
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1.5rem, 3vw, 1.5rem);
 }
 .footer-social-name {
   font-weight: 200;
@@ -59,8 +59,8 @@
 //link hover/click styles
 .social-link,
 .more-info-link {
-  font-size: clamp(0.9rem, 3vw, 1.5rem);
-  font-weight: 200;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  font-weight: 400;
   text-decoration: none;
   margin-top: 40px;
   &:hover {

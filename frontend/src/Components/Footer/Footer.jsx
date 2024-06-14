@@ -10,18 +10,24 @@ export default function Footer() {
           {/* Logo container*/}
           <Col
             className="d-flex align-items-center justify-content-center"
-            xs={{ span: 4 }}
-            sm={{ span: 4 }}
-            md={{ span: 3, offset: 0 }}
-            lg={3}
+            xs={{ span: 6 }}
+            sm={{ span: 6 }}
+            md={{ span: 6, offset: 0 }}
+            lg={{ span: 6 }}
           >
-            <Image src={cs_central_white_img} className="footer-logo" fluid />
+            <Image
+              src={cs_central_white_img}
+              className="footer-logo"
+              width={400}
+              fluid
+            />
           </Col>
           {/*social media container*/}
           <Col
             className="d-flex justify-content-sm-center justify-content-end divider"
             xs={{ span: 6 }}
             sm={{ span: 4 }}
+            md={{ span: 3 }}
           >
             <ListGroup
               className="footer-socials-list d-flex flex-column justify-content-evenly gap-3 ps-3"
@@ -34,7 +40,7 @@ export default function Footer() {
               >
                 <a className="social-link" target="_blank">
                   <Discord className="footer-social-icon " />
-                  <span className="footer-social-name ms-2">Discord</span>
+                  <span className="footer-social-name ms-4">Discord</span>
                 </a>
               </ListGroup.Item>
               <ListGroup.Item
@@ -43,7 +49,7 @@ export default function Footer() {
               >
                 <a className="social-link" target="_blank">
                   <Instagram className="footer-social-icon" />
-                  <span className="footer-social-name ms-2 ">Instagram</span>
+                  <span className="footer-social-name ms-4 ">Instagram</span>
                 </a>
               </ListGroup.Item>
               <ListGroup.Item
@@ -56,18 +62,18 @@ export default function Footer() {
                   target="_blank"
                 >
                   <Github className="footer-social-icon large" fluid />
-                  <span className="footer-social-name ms-2">Github</span>
+                  <span className="footer-social-name ms-4">Github</span>
                 </a>
               </ListGroup.Item>
             </ListGroup>
           </Col>
           {/* More info container */}
           <Col
-            className="d-flex justify-content-center"
+            className="d-flex justify-content-sm-start justify-content-md-center "
             xs={{ span: 12 }}
-            sm={{ span: 4 }}
+            sm={{ span: 2 }}
             md={{ span: 3 }}
-            lg={{ span: 2, offset: 1 }}
+            lg={{ span: 3 }}
           >
             <ListGroup
               className="footer-more-info-links-container d-flex flex-row flex-sm-column justify-content-evenly"
@@ -96,13 +102,13 @@ export default function Footer() {
             </ListGroup>
           </Col>
         </Row>
+        <Row
+          className="footer-copyright d-flex justify-content-center "
+          id="CS-Catalog-copyright "
+        >
+          CS Catalog @ 2024 All Rights Reserved
+        </Row>
       </Container>
-      <span
-        className="footer-copyright d-flex justify-content-center "
-        id="CS-Catalog-copyright "
-      >
-        CS Catalog @ 2024 All Rights Reserved
-      </span>
     </footer>
   );
 }
