@@ -1,0 +1,26 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../../scss/variables";
+
+.cc-logo {
+  margin-bottom: 10px;
+  width: 120px;
+
+  @include media-breakpoint-up(xxl) {
+    width: 200px;
+  }
+}
+
+.middle-slogan {
+  @include media-breakpoint-up(xxl) {
+    font-size: 2.5em;
+  }
+}
+
+.bottom-slogan {
+  @include media-breakpoint-up(xxl) {
+    font-size: 1.5em;
+  }
+}

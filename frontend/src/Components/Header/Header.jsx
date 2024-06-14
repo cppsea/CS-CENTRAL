@@ -48,8 +48,8 @@ export default function Header() {
       <Navbar expand={"lg"} className="sticky-top px-4 bg-header nav-menu">
         <Container>
           <Stack direction="horizontal" gap={2}>
-            <Nav.Link href="/" className="">
-              <Image className="p-1 header-logo " src={logo} width={70} />
+            <Nav.Link href="/">
+              <img className="p-1 cc-logo-header" src={"/cc_logo_white.png"} />
             </Nav.Link>
             <div className="header-divider"></div>
           </Stack>

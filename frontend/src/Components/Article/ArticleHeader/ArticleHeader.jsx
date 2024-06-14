@@ -27,7 +27,11 @@ export default function ArticleHeader({
 }) {
   return (
     <Stack gap={2}>
-      <ArticleHeaderTitle title={title} />
+      <ArticleHeaderTitle
+        title={title}
+        isBookmarked={isBookmarked}
+        bookmarkToggler={bookmarkToggler}
+      />
       <ArticleHeaderDesc desc={description} />
       <ArticleHeaderAuthorDate
         author={author}

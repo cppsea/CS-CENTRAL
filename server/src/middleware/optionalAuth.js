@@ -11,7 +11,7 @@ const requireAuth = async (req, res, next) => {
     const { authorization } = req.headers
     console.log(authorization);
     if (!authorization){
-        return res.status(401).json({error: 'Authorization token required'})
+        return next()
     }
 
     const token = authorization.split(' ')[1]
@@ -26,14 +26,13 @@ const requireAuth = async (req, res, next) => {
         const userResult = await pool.query(getUserByUsername, [id]);
 
         if(!userResult || !userResult.rows || userResult.rows.length === 0){
-            return res.status(401).json({ error: 'User not found' });
+            return next();
         }
         req.user = userResult.rows[0];
-        next()
     } catch (error) {
         console.log(error)
-        res.status(401).json({error: 'Request is not authorized'})
     }
+    next();
 }
 
 

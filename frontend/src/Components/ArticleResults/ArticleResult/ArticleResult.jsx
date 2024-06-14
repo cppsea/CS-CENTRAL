@@ -12,6 +12,8 @@ export default function ArticleResult({ article, bookmarkToggler }) {
     <div className="article-result">
       <div className="article-result-image-container">
         <Image src={article.image} className="article-result-image" />
+      </div>
+      <div>
         {article.isBookmarked ? (
           <BookmarkFill
             className="article-result-bookmark"
@@ -24,7 +26,6 @@ export default function ArticleResult({ article, bookmarkToggler }) {
           />
         )}
       </div>
-
       <div className="article-result-text">
         <h3 className="article-result-title" onClick={articleNavigate}>
           {article.title}

@@ -1,4 +1,5 @@
-import { Container, Row, Col, Stack, Image } from "react-bootstrap";
+import { Container, Row, Col, Stack } from "react-bootstrap";
+import AppBrand from "../../Components/Home/AppBrand/AppBrand";
 import MainArticle from "../../Components/Home/MainArticle/MainArticle";
 
 import main_article_img from "../../assets/Article_Images/main_article.png";
@@ -82,14 +83,10 @@ export default function Home() {
     <>
       <Container fluid className="home-page flex-grow-1 mx-0 py-3">
         {/* Left section - Articles Display */}
-        <Row className="d-flex justify-content-center py-5">
-          <picture className="cs-central-img picture-fluid d-flex justify-content-center">
-            <source
-              srcset={cs_central_black_img}
-              media="(prefers-color-scheme: light)"
-            />
-            <img src={cs_central_white_img} />
-          </picture>
+        <Row>
+          <Col>
+            <AppBrand />
+          </Col>
         </Row>
         {/* Right section - Popular Articles */}
         <Row className="justify-content-center">

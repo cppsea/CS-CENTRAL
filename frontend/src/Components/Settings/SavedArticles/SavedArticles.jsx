@@ -103,7 +103,7 @@ export default function SavedArticles() {
   };
   return (
     <Container className="my-3 h-100 d-flex flex-column m-0" fluid>
-      <h2 className="settings-header">Saved Articles</h2>
+      <h2 className="text-uppercase settings-header">Saved Articles</h2>
       <div className="settings-divider"></div>
 
       <Form className="flex-grow-1">
@@ -118,7 +118,7 @@ export default function SavedArticles() {
                 <div className="settings-arrow-marker-container">
                   <ArrowMarker />
                 </div>
-                <h4 className="settings-section-header">My Bookmarks</h4>
+                <h4 className="text-uppercase settings-section-header">My Bookmarks</h4>
               </div>
             </Col>
             <Col

@@ -51,7 +51,7 @@ export default function ArticleResultsPage({}) {
               "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
             articleObject.author = "jeff";
             articleObject.date = "October 24, 2023";
-            articleObject.isBookmarked = true;
+            articleObject.isBookmarked = false;
           });
           setArticles(dataCopy);
         })
@@ -72,7 +72,7 @@ export default function ArticleResultsPage({}) {
       <Row>
         <Col xs={{ order: 1 }} md={{ order: 0, span: 9 }}>
           <h2 className="article-results-title mb-5">
-            Results for{" "}
+            Displaying results for{" "}
             <span className="article-results-title-query">"{titleQuery}"</span>
           </h2>
           <ArticleResultsList

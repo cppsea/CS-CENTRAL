@@ -5,57 +5,37 @@ import cs_central_white_img from "../../assets/cs-central-white.png";
 export default function Footer() {
   return (
     <footer id="CS-Catalog-footer" className="footer p-4">
-      <Container>
-        <Row className="justify-content-center">
-          {/* Logo container*/}
+      <Container className="footer-container">
+        <Row>
           <Col
             className="d-flex align-items-center justify-content-center"
             xs={{ span: 6 }}
             sm={{ span: 6 }}
             md={{ span: 6, offset: 0 }}
             lg={{ span: 6 }}
+            className="d-flex justify-content-center align-items-center cc-logo-footer"
           >
             <Image
-              src={cs_central_white_img}
+              src={"/logo_white.png"}
+              id="CS-Catalog-footer-logo"
               className="footer-logo"
-              width={400}
-              fluid
             />
           </Col>
-          {/*social media container*/}
-          <Col
-            className="d-flex justify-content-sm-center justify-content-end divider"
-            xs={{ span: 6 }}
-            sm={{ span: 4 }}
-            md={{ span: 3 }}
-          >
-            <ListGroup
-              className="footer-socials-list d-flex flex-column justify-content-evenly gap-3 ps-3"
-              id="footer-socials-list"
-              fluid
-            >
-              <ListGroup.Item
-                className="footer-social-container bg-transparent p-0 border-0"
-                id="discord-social-container"
-              >
+          <Col xs={{ span: 12 }} lg={{ span: 6 }} className="links-container">
+            <div className="social-icons-container">
+              <div>
                 <a className="social-link" target="_blank">
                   <Discord className="footer-social-icon " />
                   <span className="footer-social-name ms-4">Discord</span>
                 </a>
-              </ListGroup.Item>
-              <ListGroup.Item
-                className="footer-social-container bg-transparent p-0 border-0"
-                id="instagram-social-container"
-              >
+              </div>
+              <div>
                 <a className="social-link" target="_blank">
                   <Instagram className="footer-social-icon" />
                   <span className="footer-social-name ms-4 ">Instagram</span>
                 </a>
-              </ListGroup.Item>
-              <ListGroup.Item
-                className="footer-social-container bg-transparent p-0 d-block border-0"
-                id="github-social-container"
-              >
+              </div>
+              <div>
                 <a
                   className="social-link"
                   href="https://github.com/cppsea/CS-Catalog"
@@ -64,42 +44,31 @@ export default function Footer() {
                   <Github className="footer-social-icon large" fluid />
                   <span className="footer-social-name ms-4">Github</span>
                 </a>
-              </ListGroup.Item>
-            </ListGroup>
-          </Col>
-          {/* More info container */}
-          <Col
-            className="d-flex justify-content-sm-start justify-content-md-center "
-            xs={{ span: 12 }}
-            sm={{ span: 2 }}
-            md={{ span: 3 }}
-            lg={{ span: 3 }}
-          >
-            <ListGroup
-              className="footer-more-info-links-container d-flex flex-row flex-sm-column justify-content-evenly"
-              id="more-info-links-container"
-            >
-              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+              </div>
+            </div>
+            <div className="vertical-divider"></div>
+            <div className="social-icons-container">
+              <div>
                 <a className="more-info-link" id="footer-home-link">
                   Home
                 </a>
-              </ListGroup.Item>
-              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+              </div>
+              <div>
                 <a className="more-info-link" id="footer-feedback-link">
                   Feedback
                 </a>
-              </ListGroup.Item>
-              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+              </div>
+              <div>
                 <a className="more-info-link" id="footer-about-link">
                   About
                 </a>
-              </ListGroup.Item>
-              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+              </div>
+              <div>
                 <a className="more-info-link" id="footer-team-link">
                   Our team
                 </a>
-              </ListGroup.Item>
-            </ListGroup>
+              </div>
+            </div>
           </Col>
         </Row>
         <Row

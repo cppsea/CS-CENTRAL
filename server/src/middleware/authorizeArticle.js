@@ -38,6 +38,7 @@ const authorizeArticle = async (req, res, next) => {
         const authorId = result.rows[0].author_id;
 
         if (req.user.id !== authorId) {
+            console.log('Unauthorized. You do not have permission to perform this action.')
             return res.status(403).json({ error: 'Unauthorized. You do not have permission to perform this action.' });
         }
 

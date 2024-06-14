@@ -48,8 +48,8 @@
 }
 
 .article-bookmark {
-  margin-left: 10px;
-  font-size: calc(0.8rem + 0.3vw);
+  
+  font-size: calc(1rem + 0.5vw + 0.5vh);
 
   &:hover {
     cursor: pointer;
@@ -224,7 +224,12 @@
   .table-contents-marker {
     background: $arrow-marker-light;
   }
-  .article-title,
+
+  .article-title {
+    color: $article-header-light;
+  }
+
+ 
   .related-topics-heading,
   .topic-list-title,
   .section-header,
@@ -250,7 +255,10 @@
     background: $arrow-marker-dark;
   }
 
-  .article-title,
+  .article-title {
+    color: $article-header-dark;
+  }
+
   .related-topics-heading,
   .topic-list-title,
   .section-header,
