@@ -12,7 +12,7 @@ const getBookmarks = async(req,res) => {
         })
         
     } catch (err) {
-        console.err(err.message)
+        console.error(err.message)
     }
 }
 
@@ -27,24 +27,38 @@ const addBookmarks = async(req,res) => {
             }
             res.status(201).json({ message: 'Bookmark added successfully' });
         })
-    } catch {
-        console.err(err.message)
+    } catch(err) {
+        console.error(err.message)
     }
 }
 
 const deleteBookmarks = async(req,res) => {
+    console.log(req.params.id.split(','));
+    const ids = req.params.id.split(',').map(Number);
     const id = parseInt(req.params.id);
-    try {
-        pool.query(queries.deleteBookmark,[id,req.user.id],(error,results)=>{
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ error: 'Internal Server Error' });
-            }
-            res.status(201).json({ message: 'Bookmark deleted successfully' });
-        })
+    console.log(ids);
 
-    } catch {
-        console.err(err.message)
+    try {
+        if (ids.length > 1) {
+            pool.query(queries.deleteMultipleBookmarks.replace('$1',ids.join(',')).replace('$2',req.user.id),(error,results)=>{
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+                res.status(201).json({ message: 'Bookmark deleted successfully' });
+            })
+        } else if (ids.length == 1) {
+            pool.query(queries.deleteBookmark,[id,req.user.id],(error,results)=>{
+                if (error) {
+                    console.error(error);
+                    return res.status(500).json({ error: 'Internal Server Error' });
+                }
+                res.status(201).json({ message: 'Bookmark deleted successfully' });
+            })
+        }
+
+    } catch(err) {
+        console.error(err.message)
     }
 }
 
