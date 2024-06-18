@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import "./Signup.scss";
 import "../SignForm.scss";
-
+import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 
 export default function SignupCard() {
@@ -18,15 +18,17 @@ export default function SignupCard() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
 
-  //whether form has run through validation yet
+  // Whether form has run through validation yet
   const [isValidated, setValidated] = useState(false);
 
-  // error messages
+  // Error messages
   const [errorMessages, setErrorMessages] = useState({});
 
-  // handle input entered
+  // Import the useSignup hook
+  const { signup, isLoading, error } = useSignup();
+
+  // Handle input entered
   const handleInput = (e) => {
     const { name, value } = e.target;
 
@@ -45,18 +47,11 @@ export default function SignupCard() {
   };
 
   const isValidationPassed = () => {
-    return Object.keys(errorMessages).length === 0 ? true : false;
+    return Object.keys(errorMessages).length === 0;
   };
 
-  useEffect(() => {
-    // might add API endpoints to handle backend authentication here
-    if (isValidated && isValidationPassed()) {
-      navigate("/signin");
-    }
-  }, [isValidationPassed]);
-
-  // handle submit
-  const handleSubmit = (e) => {
+  // Handle submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrMessages = {};
@@ -80,6 +75,11 @@ export default function SignupCard() {
 
     setValidated(true);
     setErrorMessages(newErrMessages);
+
+    // Call the signup function if no validation errors
+    if (isValidationPassed()) {
+      await signup(formVal.username, formVal.password);
+    }
   };
 
   return (
@@ -204,10 +204,11 @@ export default function SignupCard() {
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
+      {error && <div className="text-danger text-center mb-3">{error}</div>}
       <div className="d-grid">
-        <Button type="submit">
+        <Button type="submit" disabled={isLoading}>
           <span className="text-uppercase text-white fw-semibold sign-action-text">
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </span>
         </Button>
       </div>

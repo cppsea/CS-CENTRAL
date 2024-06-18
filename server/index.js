@@ -16,7 +16,7 @@ const app = express();
 
 const port = process.env.PORT;
 
-const port1= 8080
+// const port1= 8080
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +29,7 @@ app.use("/api/articles", articleRoutes);// must go BEFORE create_delete because 
 app.use("/api/articles", create_delete_articleRoutes);//the create_delete will have authorization checked, but the regular articleRoutes will not
 
 app.use("/api/courses", courseRoutes);
-app.use('/api/users', userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/images", imagesRoutes); // images routes
 
-app.listen(port1, () => console.log(`app listening on port ${port1}`));
+app.listen(port, () => console.log(`app listening on port ${port}`));

@@ -1,23 +1,29 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
+
 export const useLogin = () =>
 {
     const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
     const { dispatch } = useAuthContext()
-
-    const login = async (username,user_password) =>
+    const apiUrl = import.meta.env.VITE_API_URL; //change to .env
+    // const api = process.env.REACT_APP_API_URL
+    
+    
+        const login = async (username,user_password) => 
     {
         setIsLoading(true);
         setError(null);
-
-        const response = await fetch('http://localhost:3002/api/users/login',
+        const response = await fetch(`${apiUrl}/api/users/login`,
         {
             method : 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ username, user_password })
+            
         })
+        console.log(apiUrl)
+
 
         const json = await response.json();
 

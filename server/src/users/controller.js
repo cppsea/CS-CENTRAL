@@ -57,10 +57,11 @@ const loginUser = async (req, res) => {
         if(result.rows.length === 0){
             return res.status(400).send("Error finding username")
         }
-        const user = result.rows[0];
-        console.log("password:", user_password);
-        console.log("password hased:", user.user_password);
-        if(await bcrypt.compare(user_password, user.user_password)){
+        const user = result.rows[0]; //find the first user
+        // console.log(user); 
+        console.log("password:", user_password); //body request user_password, how response password 
+        console.log("password hashed:", user.password);
+        if(await bcrypt.compare(user_password, user.password)){
             //res.send("Success");
             const token = createToken(username);
             res.json({username,token})
@@ -70,6 +71,7 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         res.status(500).send();
+        console.log(error);
     }
 }
 
