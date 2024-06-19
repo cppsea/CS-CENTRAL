@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 export const useLogin = () =>
@@ -7,14 +8,16 @@ export const useLogin = () =>
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const { dispatch } = useAuthContext()
+    const navigate = useNavigate()
     const apiUrl = import.meta.env.VITE_API_URL; //change to .env
     // const api = process.env.REACT_APP_API_URL
     
     
-        const login = async (username,user_password) => 
+        const login = async (username,user_password,error) => 
     {
         setIsLoading(true);
         setError(null);
+        try {
         const response = await fetch(`${apiUrl}/api/users/login`,
         {
             method : 'POST',
@@ -39,8 +42,16 @@ export const useLogin = () =>
             dispatch({type: 'LOGIN', payload: json})
 
             setIsLoading(false)
+            console.log(localStorage)
+            navigate("/")
         }
+    
     }
+    catch (err) {
+        setError("Something went wrong. Please try again.");
+        setIsLoading(false);
+    }
+}
 
     return {login, isLoading, error}
 }
