@@ -58,7 +58,7 @@ export default function SignupCard() {
     const newErrMessages = {};
     const formValidation = auth.formValidation;
 
-    for (const fieldName in formValidation) {
+    for (const fieldName in formVal) {
       const validationFuncs = formValidation[fieldName];
 
       validationFuncs.forEach((validationFunc) => {
@@ -76,7 +76,6 @@ export default function SignupCard() {
 
     setValidated(true);
     setErrorMessages(newErrMessages);
-
     // Call the signup function if no validation errors
     if (Object.keys(newErrMessages).length === 0) {
       await signup(formVal.username, formVal.password);

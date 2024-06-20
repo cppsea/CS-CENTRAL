@@ -77,7 +77,9 @@ export default function SigninCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Login</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Login
+      </h2>
       <Form.Group className="my-4">
         <Form.Control
           name="username"
@@ -117,7 +119,9 @@ export default function SigninCard() {
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
-      {errorMessages.form && <p className="text-danger">{errorMessages.form}</p>}
+      {errorMessages.form && (
+        <p className="text-danger">{errorMessages.form}</p>
+      )}
       {error && <p className="text-danger">{error}</p>}
       <div className="d-grid">
         <Button type="submit" className="py-2" disabled={isLoading}>
