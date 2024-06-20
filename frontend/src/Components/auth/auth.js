@@ -23,7 +23,8 @@ const patterns = {
 export const validationFunctions = {
   checkEmpty: (name = "", value1 = "", value2 = "") =>
     value1.length > 0 || `${errorLabels[name]} field is required`,
-
+  noSpaces: (name = "", value1 = "", value2 = "") =>
+    !value1.includes(" ") || `${errorLabels[name]} cannot have any spaces`,
   checkPasswordLength: (name = "", value1 = "", value2 = "") =>
     value1.length >= 8 ||
     value1.length === 0 ||
@@ -37,21 +38,22 @@ export const validationFunctions = {
 
     return regex.test(value1) || value1.length === 0 ? true : "Invalid email";
   },
-  checkboxRequired: (name="", value1=false, value2="") =>{
-    return value1 || "This is required."
-  }
+  checkboxRequired: (name = "", value1 = false, value2 = "") => {
+    return value1 || "This is required.";
+  },
 };
 
 // an object containing input fields (keys)
 // and their associated validation funciton (values as an array)
 export const formValidation = {
-  username: [validationFunctions.checkEmpty],
+  username: [validationFunctions.checkEmpty, validationFunctions.noSpaces],
   fname: [validationFunctions.checkEmpty],
   lname: [validationFunctions.checkEmpty],
   email: [validationFunctions.checkEmpty, validationFunctions.checkValidEmail],
   password: [
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordLength,
+    validationFunctions.noSpaces,
   ],
   oldPassword: [
     validationFunctions.checkEmpty,
@@ -60,16 +62,17 @@ export const formValidation = {
   newPassword: [
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordLength,
+    validationFunctions.noSpaces,
   ],
   confirmPassword: [
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordMatch,
+    validationFunctions.noSpaces,
   ],
   confirmNewPassword: [
     validationFunctions.checkEmpty,
     validationFunctions.checkPasswordMatch,
+    validationFunctions.noSpaces,
   ],
-  confirmNewPasswordCheckbox: [
-    validationFunctions.checkboxRequired
-  ]
+  confirmNewPasswordCheckbox: [validationFunctions.checkboxRequired],
 };
