@@ -123,14 +123,14 @@ export default function Article({ article }) {
       };
     }
   );
-  
+
   //handler for toggling bookmark
   const toggleBookmark = () =>
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
 
   // toggleBookmark() function will be called only if there is a successful response from the server
-  const handleToggleBookmark = () => {
-    updateBookmark(article.id, article.isBookmarked, toggleBookmark);
+  const handleToggleBookmark = async () => {
+    await updateBookmark(article.id, article.isBookmarked, toggleBookmark);
   };
 
   useEffect(() => {
@@ -141,7 +141,7 @@ export default function Article({ article }) {
     if (!isLoading && articleData.isBookmarked) {
       toast.success("Bookmark status updated");
     }
-  }, [error, isLoading]);
+  }, [error, isLoading, articleData.isBookmarked]);
 
   return (
     <>

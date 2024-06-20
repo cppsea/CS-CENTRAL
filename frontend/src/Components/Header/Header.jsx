@@ -19,9 +19,17 @@ import { SunFill, MoonFill } from "react-bootstrap-icons";
 
 import "./Header.scss";
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -113,14 +121,26 @@ export default function Header() {
                           </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/signin"
-                              id="dropdown_items"
-                              style={{ color: "red" }}
-                            >
-                              Sign out
-                            </Nav.Link>
+                            {user ? (
+                              <Nav.Link
+                                className="fw-medium"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "red" }}
+                                onClick={handleLogout}
+                              >
+                                Sign out
+                              </Nav.Link>
+                            ) : (
+                              <Nav.Link
+                                className="fw-bold"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "lightblue" }}
+                              >
+                                Sign in
+                              </Nav.Link>
+                            )}
                           </Nav.Item>
                         </Nav>
                       </Popover.Body>

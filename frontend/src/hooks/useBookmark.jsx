@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import toast from "react-hot-toast";
 
 export default function useBookmark() {
   const [error, setError] = useState(null);
@@ -8,14 +9,14 @@ export default function useBookmark() {
 
   const updateBookmark = async (article_id, isBookmarked, toggleBookmark) => {
     try {
+      setError(null);
+      setIsLoading(true);
+
       if (!user) {
         setError("You need to be logged in");
         return;
       }
 
-      setIsLoading(true);
-      setError(null);
-      
       const response = await fetch(
         isBookmarked
           ? `http://localhost:3002/api/bookmarks/${article_id}`

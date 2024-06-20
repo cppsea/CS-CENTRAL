@@ -45,14 +45,6 @@ export default function ArticleResultsPage({}) {
     }
   };
 
-  const handleToggleBookmark = (article_id) => {
-    const article = articles.find((a) => a.id === article_id);
-    if (!article) return;
-
-    const toggleBookmark = bookmarkTogglerCreator(article_id);
-    updateBookmark(article_id, article.isBookmarked, toggleBookmark);
-  };
-
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -78,6 +70,15 @@ export default function ArticleResultsPage({}) {
 
     fetchArticles();
   }, [titleQuery, setSearchParams]);
+
+  // handle bookmark toggling with an article with its specified ID
+  const handleToggleBookmark = async (article_id) => {
+    const article = articles.find((a) => a.id === article_id);
+    if (!article) return;
+
+    const toggleBookmark = bookmarkTogglerCreator(article_id);
+    await updateBookmark(article_id, article.isBookmarked, toggleBookmark);
+  };
 
   // Handle errors from the bookmark hook
   useEffect(() => {

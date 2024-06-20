@@ -23,9 +23,9 @@ export default function RecentArticles({ recent_articles }) {
       return { ...prevArticles, [id]: !prevArticles[id] };
     });
 
-  const handleToggleBookmark = (article_id) => {
+  const handleToggleBookmark = async (article_id) => {
     const toggleBookmark = () => articleToggleHandler(article_id);
-    updateBookmark(
+    await updateBookmark(
       article_id,
       isBookmarkedArticles[article_id],
       toggleBookmark

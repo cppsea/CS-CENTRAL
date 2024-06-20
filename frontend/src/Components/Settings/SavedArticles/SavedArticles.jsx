@@ -98,14 +98,14 @@ export default function SavedArticles() {
 
   // Submit handler (the yes button in modal does not trigger submit event)
   // The function updateSavedArticles will be only executed if the server returns a response successfully
-  const submitHandler = () => {
-    articles.forEach((article, article_id) =>
-      updateBookmark(
-        article_id,
-        isDeletedArticles[article_id],
+  const submitHandler = async () => {
+    for (const article of articles) {
+      await updateBookmark(
+        article.id,
+        isDeletedArticles[article.id],
         updateSavedArticles
-      )
-    );
+      );
+    }
   };
 
   //state for whether delete confirmation modal is displayed or now

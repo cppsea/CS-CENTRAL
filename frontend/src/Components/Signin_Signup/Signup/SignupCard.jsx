@@ -49,7 +49,7 @@ export default function SignupCard() {
   };
 
   const isValidationPassed = () => {
-    return Object.keys(errorMessages).length === 0 ? true : false;
+    return Object.keys(errorMessages).length === 0;
   };
 
   // useEffect(() => {
@@ -60,10 +60,20 @@ export default function SignupCard() {
   // }, [isValidationPassed]);
   const validateInputField = () => {
     const newErrMessages = {};
-    const formValidation = auth.formValidation;
+    const { username, password, confirmPassword, fname, lname, email } =
+      auth.formValidation;
 
-    for (const fieldName in formValidation) {
-      const validationFuncs = formValidation[fieldName];
+    const fieldsToValidate = {
+      username,
+      password,
+      fname,
+      lname,
+      email,
+      confirmPassword,
+    };
+
+    for (const fieldName in fieldsToValidate) {
+      const validationFuncs = fieldsToValidate[fieldName];
 
       validationFuncs.forEach((validationFunc) => {
         let validateResult = validationFunc(
@@ -82,21 +92,34 @@ export default function SignupCard() {
     setErrorMessages(newErrMessages);
   };
 
-  // handle submit
+  // handle submit - validate all input fields on the client side before directing
+  // the user to Home page
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      validateInputField();
-
-      if (isValidated && isValidationPassed) {
-        signup(formVal.username, formVal.password);
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
+    validateInputField();
   };
+
+  useEffect(() => {
+    const handleSignup = async () => {
+      if (isValidated && isValidationPassed()) {
+        try {
+          await signup(formVal.username, formVal.password);
+          navigate("/");
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    };
+
+    handleSignup();
+  }, [errorMessages]);
+
+  // Handle errors from the bookmark hook
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <Form
