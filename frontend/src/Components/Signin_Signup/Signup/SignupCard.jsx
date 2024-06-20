@@ -46,6 +46,7 @@ export default function SignupCard() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  //does not work because state is not manipulated instantly, so this can potentially be checking before errors are being pushed here
   const isValidationPassed = () => {
     return Object.keys(errorMessages).length === 0;
   };
@@ -77,7 +78,7 @@ export default function SignupCard() {
     setErrorMessages(newErrMessages);
 
     // Call the signup function if no validation errors
-    if (isValidationPassed()) {
+    if (Object.keys(newErrMessages).length === 0) {
       await signup(formVal.username, formVal.password);
     }
   };
