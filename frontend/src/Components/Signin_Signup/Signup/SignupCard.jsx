@@ -6,8 +6,12 @@ import "./Signup.scss";
 import "../SignForm.scss";
 
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
+import { useSignup } from "../../../hooks/useSignup";
+import toast from "react-hot-toast";
 
 export default function SignupCard() {
+  const { signup, isLoading, error } = useSignup();
+
   const [formVal, setFormVal] = useState({
     username: "",
     fname: "",
@@ -48,17 +52,13 @@ export default function SignupCard() {
     return Object.keys(errorMessages).length === 0 ? true : false;
   };
 
-  useEffect(() => {
-    // might add API endpoints to handle backend authentication here
-    if (isValidated && isValidationPassed()) {
-      navigate("/signin");
-    }
-  }, [isValidationPassed]);
-
-  // handle submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  // useEffect(() => {
+  //   // might add API endpoints to handle backend authentication here
+  //   if (isValidated && isValidationPassed()) {
+  //     navigate("/");
+  //   }
+  // }, [isValidationPassed]);
+  const validateInputField = () => {
     const newErrMessages = {};
     const formValidation = auth.formValidation;
 
@@ -82,6 +82,22 @@ export default function SignupCard() {
     setErrorMessages(newErrMessages);
   };
 
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      validateInputField();
+
+      if (isValidated && isValidationPassed) {
+        signup(formVal.username, formVal.password);
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Form
       noValidate
@@ -89,7 +105,9 @@ export default function SignupCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Sign Up
+      </h2>
       <div className="d-flex justify-content-between gap-2">
         <Form.Group className="my-4">
           <Form.Control
@@ -205,7 +223,7 @@ export default function SignupCard() {
         </InputGroup>
       </Form.Group>
       <div className="d-grid">
-        <Button type="submit">
+        <Button type="submit" disabled={isLoading}>
           <span className="text-uppercase text-white fw-semibold sign-action-text">
             Register
           </span>
