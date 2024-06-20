@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
-
 export default function useBookmark() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,7 +17,9 @@ export default function useBookmark() {
 
     try {
       const response = await fetch(
-        `http://localhost:3002/api/bookmarks/${article_id}`,
+        isBookmarked
+          ? `http://localhost:3002/api/bookmarks/${article_id}`
+          : "http://localhost:3002/api/bookmarks",
         {
           method: isBookmarked ? "DELETE" : "POST",
           headers: {

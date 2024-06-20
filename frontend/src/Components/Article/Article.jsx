@@ -79,8 +79,6 @@ const relatedTopicsList = [
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
   const { isLoading, error, updateBookmark } = useBookmark();
-  // State to track when the bookmark action is completed
-  const [bookmarkActionCompleted, setBookmarkActionCompleted] = useState(false);
 
   //extracts article data pieces from provided article
 
@@ -125,6 +123,7 @@ export default function Article({ article }) {
       };
     }
   );
+  
   //handler for toggling bookmark
   const toggleBookmark = () =>
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
@@ -138,8 +137,8 @@ export default function Article({ article }) {
     if (error) {
       toast.error(error);
     }
-    
-    if (!isLoading) {
+
+    if (!isLoading && articleData.isBookmarked) {
       toast.success("Bookmark status updated");
     }
   }, [error, isLoading]);
