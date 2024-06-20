@@ -33,12 +33,7 @@ export default function ArticleHeader({
         bookmarkToggler={bookmarkToggler}
       />
       <ArticleHeaderDesc desc={description} />
-      <ArticleHeaderAuthorDate
-        author={author}
-        date={date}
-        bookmarkToggler={bookmarkToggler}
-        isBookmarked={isBookmarked}
-      />
+      <ArticleHeaderAuthorDate author={author} date={date} />
     </Stack>
   );
 }

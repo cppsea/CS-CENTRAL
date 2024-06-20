@@ -5,6 +5,9 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import "../Settings.scss";
 import SavedArticlesSearchBar from "./SearchBar/SavedArticlesSearchBar";
+import useBookmark from "../../../hooks/useBookmark";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import toast from "react-hot-toast";
 const test_articles = [
   {
     id: 0,
@@ -30,6 +33,8 @@ const test_articles = [
 ];
 
 export default function SavedArticles() {
+  const { isLoading, error, updateBookmark } = useBookmark();
+
   //array all the articles currently not deleted
   const [articles, setArticles] = useState([]);
 
@@ -54,7 +59,12 @@ export default function SavedArticles() {
 
   //use effect to get articles upon page load once, also init selected state of every article as false
   //just simulating retrieving articles
+  // Show any error from the server if possible
   useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+
     let initArticles = async () => {
       let retrieved_articles = await test_articles;
       setArticles(retrieved_articles);
@@ -67,12 +77,11 @@ export default function SavedArticles() {
     };
 
     initArticles();
-  }, []);
+  }, [error]);
 
-  //submit handler (the yes button in modal does not trigger submit event)
   //simply removed the selected articles from the displayed articles state
   //insert backend actions here
-  const submitHandler = () => {
+  const updateSavedArticles = () => {
     //filter out kept articles, replace articles state with them
     let keptArticles = articles.filter(
       (article) => !isDeletedArticles[article.id]
@@ -85,6 +94,18 @@ export default function SavedArticles() {
       initIsDeletedArticles[id] = false;
     });
     setIsDeletedArticles(initIsDeletedArticles);
+  };
+
+  // Submit handler (the yes button in modal does not trigger submit event)
+  // The function updateSavedArticles will be only executed if the server returns a response successfully
+  const submitHandler = () => {
+    articles.forEach((article, article_id) =>
+      updateBookmark(
+        article_id,
+        isDeletedArticles[article_id],
+        updateSavedArticles
+      )
+    );
   };
 
   //state for whether delete confirmation modal is displayed or now
@@ -118,7 +139,9 @@ export default function SavedArticles() {
                 <div className="settings-arrow-marker-container">
                   <ArrowMarker />
                 </div>
-                <h4 className="text-uppercase settings-section-header">My Bookmarks</h4>
+                <h4 className="text-uppercase settings-section-header">
+                  My Bookmarks
+                </h4>
               </div>
             </Col>
             <Col
@@ -136,15 +159,21 @@ export default function SavedArticles() {
         </Container>
 
         <div className="d-flex flex-wrap gap-4 p-0 pt-4">
-          {articles.map((article) => (
-            <SavedArticleItem
-              key={article.id}
-              articleImg={article.image}
-              articleTitle={article.title}
-              toBeDeleted={isDeletedArticles[article.id]}
-              deleteToggler={articleToggleHandler(article.id)}
-            />
-          ))}
+          {isLoading ? (
+            <div className="flex flex-grow-1 text-center align-content-center">
+              <AiOutlineLoading3Quarters className="loading" />
+            </div>
+          ) : (
+            articles.map((article) => (
+              <SavedArticleItem
+                key={article.id}
+                articleImg={article.image}
+                articleTitle={article.title}
+                toBeDeleted={isDeletedArticles[article.id]}
+                deleteToggler={articleToggleHandler(article.id)}
+              />
+            ))
+          )}
         </div>
         {/*Remove/Cancel will only show if there are any articles selected to be deleted*/}
         {Object.values(isDeletedArticles).some((isDeleted) => isDeleted) && (

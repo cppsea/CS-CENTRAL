@@ -26,12 +26,12 @@ export default function RecentArticleItem({
         <div className="d-flex gap-3 justify-content-between w-100">
           <div>
             {toBeBookmarked ? (
-              <Bookmark
+              <BookmarkFill
                 className="recent-article-bookmark"
                 onClick={bookmarkToggler}
               />
             ) : (
-              <BookmarkFill
+              <Bookmark
                 className="recent-article-bookmark"
                 onClick={bookmarkToggler}
               />
@@ -44,7 +44,9 @@ export default function RecentArticleItem({
             {/* <p className="recent-article-desc my-2 fst-italic">{articleDesc}</p> */}
             <div className="recent-article-date-time-author-container">
               <p className="recent-article-author">By {articleAuthor}</p>
-              <p className="recent-article-date-time">Published {articleDatePublished}</p>
+              <p className="recent-article-date-time">
+                Published {articleDatePublished}
+              </p>
             </div>
           </div>
 

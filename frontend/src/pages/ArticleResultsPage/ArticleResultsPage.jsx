@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import RelatedTags from "../../Components/ArticleResults/SideSections/RelatedTopicTags/RelatedTopicTags.jsx";
-import ArticleResultsList from "../../Components/ArticleResults/ArticleResultsList.jsx";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ArticleResultsPage.scss";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import toast from "react-hot-toast";
+import ArticleResult from "../../Components/ArticleResults/ArticleResult/ArticleResult.jsx";
+import useBookmark from "../../hooks/useBookmark.jsx";
+
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
@@ -23,7 +27,9 @@ const dummmy_articles = [
 ];
 
 export default function ArticleResultsPage({}) {
-  const [articles, setArticles] = useState();
+  const { isLoading, error, updateBookmark } = useBookmark();
+
+  const [articles, setArticles] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [specificArticle, setSpecificArticle] = useState();
   const titleQuery = searchParams.get("title");
@@ -39,51 +45,89 @@ export default function ArticleResultsPage({}) {
     }
   };
 
-  useEffect(() => {
-    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) =>
-        res.json().then((data) => {
-          let dataCopy = [...data];
+  const handleToggleBookmark = (article_id) => {
+    const article = articles.find((a) => a.id === article_id);
+    if (!article) return;
 
-          //we dont have author names, date, bookmarked, or image, so just inserting default in for now
-          dataCopy.forEach((articleObject) => {
-            articleObject.image =
-              "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
-            articleObject.author = "jeff";
-            articleObject.date = "October 24, 2023";
-            articleObject.isBookmarked = false;
-          });
-          setArticles(dataCopy);
-        })
-      )
-      .catch((error) => {
-        console.error("error fetching data");
-      });
+    const toggleBookmark = bookmarkTogglerCreator(article_id);
+    updateBookmark(article_id, article.isBookmarked, toggleBookmark);
+  };
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3002/api/articles/?title=${titleQuery}`
+        );
+        const data = await response.json();
+
+        const enrichedData = data.map((articleObject) => ({
+          ...articleObject,
+          image:
+            "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg",
+          author: "jeff",
+          date: "October 24, 2023",
+          isBookmarked: false,
+        }));
+
+        setArticles(enrichedData);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
+    fetchArticles();
   }, [titleQuery, setSearchParams]);
 
+  // Handle errors from the bookmark hook
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
   return (
-    <Container
-      className="flex-grow-1 mt-5"
-      fluid
-      style={{
-        maxWidth: "1600px",
-      }}
-    >
-      <Row>
-        <Col xs={{ order: 1 }} md={{ order: 0, span: 9 }}>
-          <h2 className="article-results-title mb-5">
-            Displaying results for{" "}
-            <span className="article-results-title-query">"{titleQuery}"</span>
-          </h2>
-          <ArticleResultsList
-            articles={articles}
-            bookmarkTogglerCreator={bookmarkTogglerCreator}
-          />
-        </Col>
-        <Col md={3} className="side-sections-container">
-          <RelatedTags tags={dummy_topic_tags} />
-        </Col>
-      </Row>
-    </Container>
+    <>
+      {isLoading ? (
+        <div className="flex flex-grow-1 text-center align-content-center">
+          <AiOutlineLoading3Quarters className="loading" />
+        </div>
+      ) : (
+        <Container
+          className="flex-grow-1 mt-5"
+          fluid
+          style={{
+            maxWidth: "1600px",
+          }}
+        >
+          <Row>
+            <Col xs={{ order: 1 }} md={{ order: 0, span: 9 }}>
+              <h2 className="article-results-title mb-5">
+                Displaying results for{" "}
+                <span className="article-results-title-query">
+                  "{titleQuery}"
+                </span>
+              </h2>
+              <div className="d-flex flex-column gap-3">
+                {articles && articles.length > 0 ? (
+                  articles.map((article) => (
+                    <ArticleResult
+                      article={article}
+                      key={article.id}
+                      bookmarkToggler={() => handleToggleBookmark(article.id)}
+                    />
+                  ))
+                ) : (
+                  <h2>Your query did not match any results</h2>
+                )}
+              </div>
+            </Col>
+            <Col md={3} className="side-sections-container">
+              <RelatedTags tags={dummy_topic_tags} />
+            </Col>
+          </Row>
+        </Container>
+      )}
+    </>
   );
 }

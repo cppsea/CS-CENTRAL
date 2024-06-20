@@ -7,15 +7,15 @@ export default function useBookmark() {
   const { user } = useAuthContext();
 
   const updateBookmark = async (article_id, isBookmarked, toggleBookmark) => {
-    if (!user) {
-      setError("You need to be logged in");
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-
     try {
+      if (!user) {
+        setError("You need to be logged in");
+        return;
+      }
+
+      setIsLoading(true);
+      setError(null);
+      
       const response = await fetch(
         isBookmarked
           ? `http://localhost:3002/api/bookmarks/${article_id}`
