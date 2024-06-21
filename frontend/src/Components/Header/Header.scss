@@ -4,113 +4,67 @@
 @import "../../../node_modules/bootstrap/scss/grid";
 @import "../../../node_modules//bootstrap/scss/mixins";
 
-@include color-mode(light) {
-  .lightbulb {
-    color: white;
-  }
-}
-@include color-mode(dark) {
-  .lightbulb {
-    color: black;
-  }
-  .form-control {
-    background-color: white;
-  }
-}
-@include media-breakpoint-down(sm) {
-  .nav-menu {
-    position: relative;
+.header-menu {
+  background-color: $header-bg-color;
+  height: 100px;
+  .navbar-nav {
+    .divider {
+      background-color: $text-dark-yellow;
+      width: 2px;
+      margin-right: 0.75rem;
+    }
+    .active {
+      color: white !important;
+    }
+    .nav-link {
+      font-weight: 500;
+      color: $text-dark-yellow;
+      &.show {
+        color: white;
+      }
+    }
     .search-box {
-      position: absolute;
-      bottom: -3rem;
-      width: 90%;
-      left: 0;
-      right: 0;
-      margin-left: auto;
-      margin-right: auto;
-      .input {
-        background-color: #d5d5d5;
+      input {
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        border-right: none;
+      }
+      span {
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        background-color: white;
       }
     }
   }
-}
-.header-divider {
-  @include media-breakpoint-down(md) {
-    display: none;
-  }
-  border: 1.5px solid $header-text;
-  height: 75%;
-  margin-left: 1em;
-  background-color: $header-text;
-}
-
-.bg-header {
-  background-color: $header-footer-bg;
-}
-
-#navbar_item {
-  color: $header-text;
-  text-transform: uppercase;
-  @include media-breakpoint-down(xl) {
-    font-size: 1.1em;
-  }
-  @include media-breakpoint-up(xxl) {
-    font-size: 1.5em;
+  .container {
+    background-color: $header-bg-color;
+    .navbar-collapse {
+      padding: 1rem;
+    }
+    .navbar-toggler {
+      background: white;
+    }
   }
 }
 
-#dropdown_items {
-  color: $link-text;
-  padding-left: 10px;
-  font-size: 1.2em;
-  &:hover {
-    font-weight: 600 !important;
-    background-color: $primary;
-    color: $header-text;
-    border-radius: 4px;
+@include media-breakpoint-down(sm) {
+  .header-menu {
+    position: relative;
+    .logo-area {
+      position: absolute;
+      left: 43%;
+    }
   }
 }
-.search-box {
-  position: relative;
-}
-.search-box input {
-  border-radius: 25px;
-}
-.search-box svg {
-  position: absolute;
-  right: 10px;
-  top: 20%;
-  font-size: 1.5rem;
-  color: black;
-}
-.lightbulb {
-  font-size: 2rem;
-  color: white;
-}
-#toggler {
-  background-color: $primary;
-  border: none;
-  margin-left: 10px;
-}
-
-#profile_menu_divider {
-  margin: 2px 0 2px 0;
-  width: 100%;
-  height: 0.1em;
-  background-color: rgb(18, 18, 18);
-}
-
-// added on 05/30/2024
-.cc-logo-header {
-  @include media-breakpoint-down(md) {
-    width: 4rem;
-  }
-
-  @include media-breakpoint-up(md) {
-    width: 5rem;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    width: 7rem;
+@include media-breakpoint-down(md) {
+  .header-menu {
+    position: relative;
+    .logo-area {
+      position: absolute;
+      left: 43%;
+      img {
+        width: 40%;
+      }
+    }
   }
 }

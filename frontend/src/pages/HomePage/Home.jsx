@@ -14,9 +14,7 @@ import devin_ai from "../../assets/Article_Images/devin_ai.png";
 import ai_in_business from "../../assets/Article_Images/ai_in_business.png";
 import quantum from "../../assets/Article_Images/quantum.png";
 import ai_brain from "../../assets/ml_brain.jpg";
-import cs_central_black_img from "../../assets/cs-central-black.png";
-import cs_central_white_img from "../../assets/cs-central-white.png";
-
+import { useTheme } from "../../hooks/useTheme";
 export default function Home() {
   // demo feature article
   const feature_article_example = {
@@ -78,10 +76,15 @@ export default function Home() {
 
   // useEffect to fetch the main feature article from the database (added later)
   useEffect(() => {}, []);
-
+  const { isDarkMode } = useTheme();
   return (
     <>
-      <Container fluid className="home-page flex-grow-1 mx-0 py-3">
+      <Container
+        fluid
+        className={`home-page flex-grow-1 mx-0 py-3 ${
+          isDarkMode ? "bg-dark text-white" : ""
+        }`}
+      >
         {/* Left section - Articles Display */}
         <Row>
           <Col>
@@ -106,7 +109,6 @@ export default function Home() {
           <Col></Col>
         </Row>
       </Container>
-      <hr />
     </>
   );
 }

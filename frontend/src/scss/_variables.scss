@@ -1,8 +1,8 @@
-
+$header-bg-color: #312f2f;
 $primary: #f65757;
 $secondary: #228b22;
 
-$form-select-indicator-color: #FFFF;
+$form-select-indicator-color: #ffff;
 
 $dropdown-bg: #4a4848;
 $dropdown-color: white;
@@ -10,7 +10,8 @@ $dropdown-link-color: white;
 $dropdown-link-hover-bg: #8c8888;
 $dropdown-link-disabled-color: #8c8888;
 
+$text-dark-yellow: #f4e4bb;
 
-@import './variables/variables-dark';
-@import './variables/variables-light';
-@import './variables/variables-universal';
+@import "./variables/variables-dark";
+@import "./variables/variables-light";
+@import "./variables/variables-universal";

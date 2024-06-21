@@ -6,7 +6,7 @@ import quantum from "../../../assets/Article_Images/quantum.png";
 import ai_brain from "../../../assets/ml_brain.jpg";
 
 import "./PopularArticles.scss";
-
+import { useTheme } from "../../../hooks/useTheme";
 export default function PopularArticles() {
   const popular_article_sample = [
     {
@@ -22,11 +22,18 @@ export default function PopularArticles() {
       article_img: ai_brain,
     },
   ];
+  const { isDarkMode } = useTheme();
 
   return (
     <>
       <Stack className="h-100">
-        <h1 className="popular-article-heading">Popular Articles</h1>
+        <h1
+          className={`popular-article-heading ${
+            isDarkMode ? "dark-mode" : "light-mode"
+          }`}
+        >
+          Popular Articles
+        </h1>
         <div className="d-flex">
           <div className="bar1"></div>
           <div className="bar2"></div>

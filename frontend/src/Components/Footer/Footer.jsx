@@ -1,83 +1,112 @@
-import { Container, Stack, ListGroup, Row, Col, Image } from "react-bootstrap";
+import { Container, ListGroup, Row, Col, Image } from "react-bootstrap";
 import { Discord, Github, Instagram } from "react-bootstrap-icons";
 import "./Footer.scss";
 import cs_central_white_img from "../../assets/cs-central-white.png";
+import { useTheme } from "../../hooks/useTheme";
+
 export default function Footer() {
+  const { darkMode, toggleTheme } = useTheme();
+
   return (
     <footer id="CS-Catalog-footer" className="footer p-4">
-      <Container className="footer-container">
-        <Row>
+      <Container>
+        <Row className="justify-content-center">
+          {/* Logo container*/}
           <Col
             className="d-flex align-items-center justify-content-center"
-            xs={{ span: 6 }}
-            sm={{ span: 6 }}
-            md={{ span: 6, offset: 0 }}
-            lg={{ span: 6 }}
-            className="d-flex justify-content-center align-items-center cc-logo-footer"
+            xs={{ span: 5 }}
+            sm={{ span: 4 }}
+            md={{ span: 3, offset: 0 }}
+            lg={3}
           >
-            <Image
-              src={"/logo_white.png"}
-              id="CS-Catalog-footer-logo"
-              className="footer-logo"
-            />
+            <Image src={cs_central_white_img} className="footer-logo" fluid />
           </Col>
-          <Col xs={{ span: 12 }} lg={{ span: 6 }} className="links-container">
-            <div className="social-icons-container">
-              <div>
+          {/*social media container*/}
+          <Col
+            className="d-flex justify-content-sm-center justify-content-end divider"
+            xs={{ span: 6 }}
+            sm={{ span: 4 }}
+          >
+            <ListGroup
+              className="footer-socials-list d-flex flex-column justify-content-evenly gap-3 ps-3"
+              id="footer-socials-list"
+              fluid
+            >
+              <ListGroup.Item
+                className="footer-social-container bg-transparent p-0 border-0"
+                id="discord-social-container"
+              >
                 <a className="social-link" target="_blank">
                   <Discord className="footer-social-icon " />
-                  <span className="footer-social-name ms-4">Discord</span>
+                  <span className="footer-social-name ms-2">Discord</span>
                 </a>
-              </div>
-              <div>
+              </ListGroup.Item>
+              <ListGroup.Item
+                className="footer-social-container bg-transparent p-0 border-0"
+                id="instagram-social-container"
+              >
                 <a className="social-link" target="_blank">
                   <Instagram className="footer-social-icon" />
-                  <span className="footer-social-name ms-4 ">Instagram</span>
+                  <span className="footer-social-name ms-2 ">Instagram</span>
                 </a>
-              </div>
-              <div>
+              </ListGroup.Item>
+              <ListGroup.Item
+                className="footer-social-container bg-transparent p-0 d-block border-0"
+                id="github-social-container"
+              >
                 <a
                   className="social-link"
                   href="https://github.com/cppsea/CS-Catalog"
                   target="_blank"
                 >
                   <Github className="footer-social-icon large" fluid />
-                  <span className="footer-social-name ms-4">Github</span>
+                  <span className="footer-social-name ms-2">Github</span>
                 </a>
-              </div>
-            </div>
-            <div className="vertical-divider"></div>
-            <div className="social-icons-container">
-              <div>
-                <a className="more-info-link" id="footer-home-link">
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+          {/* More info container */}
+          <Col
+            className="d-flex justify-content-center"
+            xs={{ span: 12 }}
+            sm={{ span: 4 }}
+            md={{ span: 3 }}
+            lg={{ span: 2, offset: 1 }}
+          >
+            <ListGroup
+              className="footer-more-info-links-container d-flex flex-row flex-sm-column justify-content-evenly pt-3 font-weight-bold"
+              id="more-info-links-container"
+            >
+              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+                <a className="more-info-link fs-5" id="footer-home-link">
                   Home
                 </a>
-              </div>
-              <div>
-                <a className="more-info-link" id="footer-feedback-link">
+              </ListGroup.Item>
+              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+                <a className="more-info-link fs-5" id="footer-feedback-link">
                   Feedback
                 </a>
-              </div>
-              <div>
-                <a className="more-info-link" id="footer-about-link">
+              </ListGroup.Item>
+              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+                <a className="more-info-link fs-5" id="footer-about-link">
                   About
                 </a>
-              </div>
-              <div>
-                <a className="more-info-link" id="footer-team-link">
+              </ListGroup.Item>
+              <ListGroup.Item className="footer-more-info-link-container bg-transparent border-0">
+                <a className="more-info-link fs-5" id="footer-team-link">
                   Our team
                 </a>
-              </div>
-            </div>
+              </ListGroup.Item>
+            </ListGroup>
           </Col>
         </Row>
-        <Row
-          className="footer-copyright d-flex justify-content-center "
-          id="CS-Catalog-copyright "
-        >
-          CS Catalog @ 2024 All Rights Reserved
-        </Row>
       </Container>
+      <span
+        className="footer-copyright d-flex justify-content-center "
+        id="CS-Catalog-copyright "
+      >
+        CS Catalog @ 2024 All Rights Reserved
+      </span>
     </footer>
   );
 }

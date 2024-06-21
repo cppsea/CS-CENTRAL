@@ -8,16 +8,22 @@
 $color-mode-type: data;
 
 // Dark mode
-@include color-mode(dark) {
+.dark-mode {
   .cc-logo-img {
     content: url("logo_white.png");
+  }
+  .cc-logo-container {
+    background-color: black;
   }
 }
 
 // Light mode
-@include color-mode(light) {
+.light-mode {
   .cc-logo-img {
     content: url("logo_black.png");
+  }
+  .cc-logo-container {
+    background-color: white;
   }
 }
 // --------------- End of Color Modes ----------------------
