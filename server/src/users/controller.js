@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const pool = require("../../db.js");
 const queries = require("./queries");
 const bcrypt = require('bcrypt');
@@ -10,8 +11,12 @@ const createToken = (id) =>
 
 const getUsers = async (req, res) => {
     try {
+        console.log("GET user");
+        /*
         const allUsers = await pool.query(queries.getUsers);
         res.status(200).json(allUsers.rows);
+        */
+       res.json(req.user);
     } catch (err) {
         console.error(err.message);
     }
@@ -34,7 +39,15 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
         const { username } = req.body;
-        pool.query(queries.createUser, [username, hashedPassword])
+        pool.query(queries.createUser, [username, hashedPassword], (err, results) => {
+            if(err){
+                console.error(err);
+                return res.status(500).json({
+                    
+                })
+            }
+
+        })
 
         const token = createToken(username);
 
@@ -57,10 +70,9 @@ const loginUser = async (req, res) => {
         if(result.rows.length === 0){
             return res.status(400).send("Error finding username")
         }
-        const user = result.rows[0]; //find the first user
-        // console.log(user); 
-        console.log("password:", user_password); //body request user_password, how response password 
-        console.log("password hashed:", user.password);
+        const user = result.rows[0];
+        console.log("password:", user_password);
+        console.log("password hased:", user.password);
         if(await bcrypt.compare(user_password, user.password)){
             //res.send("Success");
             const token = createToken(username);
@@ -71,7 +83,6 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         res.status(500).send();
-        console.log(error);
     }
 }
 
@@ -86,8 +97,6 @@ const changeUser = async (req, res) => {
     }
 };
 
-
-
 const deleteAccount = async (req, res) => {
     try {
         const id = req.params.id;
@@ -98,6 +107,7 @@ const deleteAccount = async (req, res) => {
         console.error(err.message);
     }
 };
+
 module.exports = {
     getUsers,
     getUsersById,
