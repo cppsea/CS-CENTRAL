@@ -6,13 +6,18 @@ const userRoutes = require("./src/users/routes.js");
 const auth_userRoutes = require("./src/users/authroutes.js");
 const bookmarkRoutes = require("./src/bookmarks/authroutes.js")
 
+const imagesRoutes = require("./src/images/routes.js");
 const cors = require("cors");
 require("dotenv").config();
 
+console.log(process.env.PGUSER);
+
 const app = express();
+// const number = 8080
 
 const port = process.env.PORT;
 
+// const port1= 8080
 
 app.use(cors());
 app.use(express.json());
@@ -31,5 +36,6 @@ app.use("/api/courses", courseRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/users', auth_userRoutes);
 
+app.use("/api/images", imagesRoutes); // images routes
 
 app.listen(port, () => console.log(`app listening on port ${port}`));

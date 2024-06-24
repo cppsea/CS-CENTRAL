@@ -70,7 +70,6 @@ const addArticles = (req, res) => {
     const { title,headers,author_id } = req.body;
     let headers_json = JSON.stringify(headers);
 
-    
     pool.query(queries.addArticles, [title, author_id,headers_json], (error, results) => {
       if (error) {
         console.error(error);
