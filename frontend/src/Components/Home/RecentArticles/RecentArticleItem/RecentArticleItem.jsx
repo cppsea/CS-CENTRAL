@@ -26,12 +26,12 @@ export default function RecentArticleItem({
         <div className="d-flex gap-3 justify-content-between w-100">
           <div>
             {toBeBookmarked ? (
-              <Bookmark
+              <BookmarkFill
                 className="recent-article-bookmark"
                 onClick={bookmarkToggler}
               />
             ) : (
-              <BookmarkFill
+              <Bookmark
                 className="recent-article-bookmark"
                 onClick={bookmarkToggler}
               />

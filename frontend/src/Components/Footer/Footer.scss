@@ -1,5 +1,9 @@
 @import "../../scss/variables.scss";
 
+@import "/node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "/node_modules/bootstrap/scss/grid";
+@import "/node_modules//bootstrap/scss/mixins";
+
 //colors
 .footer {
   background: $header-footer-bg;
@@ -11,10 +15,19 @@
 
 /*First half of footer*/
 .footer-logo {
-  background: $primary;
-  width: 50%;
-  max-width: 200px;
-  min-width: 100px;
+  @include media-breakpoint-down(md) {
+    height: 4.5rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    height: 6.5rem;
+  }
+}
+
+.cc-logo-footer {
+  @include media-breakpoint-up(lg) {
+    padding-right: 5rem !important;
+  }
 }
 
 /*Social Links*/
@@ -103,4 +116,28 @@
   font-weight: 200;
   font-size: 0.9rem;
   padding-top: 1rem;
+}
+
+.footer-container {
+  width: 50rem !important;
+  @include media-breakpoint-down(md) {
+    width: 20rem !important;
+  }
+}
+
+.links-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 !important;
+
+  @include media-breakpoint-down(lg) {
+    padding: 20px 0 !important;
+    justify-content: space-evenly;
+  }
+}
+
+.social-icons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
