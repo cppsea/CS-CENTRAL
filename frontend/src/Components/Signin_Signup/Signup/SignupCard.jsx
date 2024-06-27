@@ -6,7 +6,6 @@ import "./Signup.scss";
 import "../SignForm.scss";
 import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
-import { useSignup } from "../../../hooks/useSignup";
 import toast from "react-hot-toast";
 
 export default function SignupCard() {

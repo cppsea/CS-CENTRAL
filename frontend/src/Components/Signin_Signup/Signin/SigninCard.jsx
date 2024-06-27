@@ -5,6 +5,7 @@ import { useLogin } from "../../../hooks/useLogin";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import "./Signin.scss";
 import "../SignForm.scss";
+import { useNavigate } from "react-router-dom";
 
 const GoogleIcon = () => (
   <svg
@@ -19,9 +20,6 @@ const GoogleIcon = () => (
     {/* SVG content */}
   </svg>
 );
-
-import { useLogin } from "../../../hooks/useLogin";
-import { useNavigate } from "react-router-dom";
 
 export default function SigninCard() {
   const { isLoading, error, login } = useLogin();
