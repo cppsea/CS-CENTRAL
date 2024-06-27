@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import "./Signup.scss";
 import "../SignForm.scss";
@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 export default function SignupCard() {
   const { signup, isLoading, error } = useSignup();
+  const navigate = useNavigate();
 
   const [formVal, setFormVal] = useState({
     username: "",
@@ -28,9 +29,6 @@ export default function SignupCard() {
 
   // Error messages
   const [errorMessages, setErrorMessages] = useState({});
-
-  // Import the useSignup hook
-  const { signup, isLoading, error } = useSignup();
 
   // Handle input entered
   const handleInput = (e) => {
@@ -55,12 +53,6 @@ export default function SignupCard() {
     return Object.keys(errorMessages).length === 0;
   };
 
-  // useEffect(() => {
-  //   // might add API endpoints to handle backend authentication here
-  //   if (isValidated && isValidationPassed()) {
-  //     navigate("/");
-  //   }
-  // }, [isValidationPassed]);
   const validateInputField = () => {
     const newErrMessages = {};
     const { username, password, confirmPassword, fname, lname, email } =
