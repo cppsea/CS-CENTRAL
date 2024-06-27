@@ -39,7 +39,15 @@ const createUser = async (req, res) => {
         const salt = await bcrypt.genSalt()
         const hashedPassword = await bcrypt.hash(req.body.user_password, salt)
         const { username } = req.body;
-        pool.query(queries.createUser, [username, hashedPassword])
+        pool.query(queries.createUser, [username, hashedPassword], (err, results) => {
+            if(err){
+                console.error(err);
+                return res.status(500).json({
+                    
+                })
+            }
+
+        })
 
         const token = createToken(username);
 

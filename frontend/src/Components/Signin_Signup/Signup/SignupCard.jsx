@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import "./Signup.scss";
 import "../SignForm.scss";
-
+import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import { useSignup } from "../../../hooks/useSignup";
 import toast from "react-hot-toast";
@@ -22,15 +22,17 @@ export default function SignupCard() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
 
-  //whether form has run through validation yet
+  // Whether form has run through validation yet
   const [isValidated, setValidated] = useState(false);
 
-  // error messages
+  // Error messages
   const [errorMessages, setErrorMessages] = useState({});
 
-  // handle input entered
+  // Import the useSignup hook
+  const { signup, isLoading, error } = useSignup();
+
+  // Handle input entered
   const handleInput = (e) => {
     const { name, value } = e.target;
 
@@ -48,6 +50,7 @@ export default function SignupCard() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  //does not work because state is not manipulated instantly, so this can potentially be checking before errors are being pushed here
   const isValidationPassed = () => {
     return Object.keys(errorMessages).length === 0;
   };
@@ -245,10 +248,11 @@ export default function SignupCard() {
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
+      {error && <div className="text-danger text-center mb-3">{error}</div>}
       <div className="d-grid">
         <Button type="submit" disabled={isLoading}>
           <span className="text-uppercase text-white fw-semibold sign-action-text">
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </span>
         </Button>
       </div>

@@ -50,3 +50,18 @@
   height: 0.1em;
   background-color: rgb(18, 18, 18);
 }
+
+// added on 05/30/2024
+.cc-logo-header {
+  @include media-breakpoint-down(md) {
+    width: 4rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    width: 5rem;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    width: 7rem;
+  }
+}

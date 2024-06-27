@@ -37,7 +37,7 @@ export default function Header() {
         <Container>
           <Stack direction="horizontal" gap={2}>
             <Nav.Link href="/">
-              <Image className="p-1" src={logo} roundedCircle width={100} />
+              <img className="p-1 cc-logo-header" src={"/cc_logo_white.png"} />
             </Nav.Link>
             <div className="header-divider"></div>
 
