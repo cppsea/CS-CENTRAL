@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, InputGroup, Container, Row, Col } from "react-bootstrap";
 import * as auth from "../../auth/auth";
 
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import "./Signin.scss";
 import "../SignForm.scss";
+import { useLogin } from "../../../hooks/useLogin";
 export default function SigninCard() {
+  const { isLoading, error, login } = useLogin();
+
   const [formVal, setFormVal] = useState({
     username: "",
     password: "",
@@ -32,10 +35,11 @@ export default function SigninCard() {
     setShowPassword(!showPassword);
   };
 
-  // handle submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const isValidationPassed = () => {
+    return Object.keys(errorMessages).length === 0;
+  };
 
+  const validateInputField = () => {
     const errMessagesList = {};
     const checkEmpty = auth.validationFunctions.checkEmpty;
 
@@ -52,6 +56,27 @@ export default function SigninCard() {
     setErrorMessages(errMessagesList);
   };
 
+  // handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    validateInputField();
+  };
+
+  useEffect(() => {
+    const handleSignin = async () => {
+      if (isValidated && isValidationPassed()) {
+        try {
+          await login(formVal.username, formVal.password);
+          navigate("/");
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    };
+
+    handleSignin();
+  }, [errorMessages]);
+
   return (
     <Form
       noValidate
@@ -59,7 +84,9 @@ export default function SigninCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Login</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Login
+      </h2>
       <Form.Group className="my-4">
         <Form.Control
           name="username"

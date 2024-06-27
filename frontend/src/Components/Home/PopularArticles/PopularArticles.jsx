@@ -33,7 +33,7 @@ export default function PopularArticles() {
           <div className="popular-article-container">
             {popular_article_sample.map((article, id) => (
               <PopularArticleItem
-                key={article.id}
+                key={id}
                 number={id + 1}
                 title={article.title}
                 article_img={article.article_img}

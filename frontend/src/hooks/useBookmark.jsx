@@ -8,13 +8,12 @@ export default function useBookmark() {
   const { user } = useAuthContext();
 
   const updateBookmark = async (article_id, isBookmarked, toggleBookmark) => {
-    try {
-      setError(null);
-      setIsLoading(true);
+    setError(null);
+    setIsLoading(true);
 
+    try {
       if (!user) {
-        setError("You need to be logged in");
-        return;
+        throw new Error("You need to be logged in first!");
       }
 
       const response = await fetch(
@@ -34,7 +33,7 @@ export default function useBookmark() {
       );
 
       const json = await response.json();
-
+      // console.log(json);
       if (json.error) {
         throw new Error(json.error || "Failed to toggle bookmark");
       }
