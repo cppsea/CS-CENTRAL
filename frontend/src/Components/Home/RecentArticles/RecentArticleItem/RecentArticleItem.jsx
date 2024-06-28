@@ -4,7 +4,7 @@ import { Image } from "react-bootstrap";
 import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
 
 import "./RecentArticleItem.scss";
-
+import { useTheme } from "../../../../hooks/useTheme";
 export default function RecentArticleItem({
   articleTitle,
   articleAuthor,
@@ -15,6 +15,8 @@ export default function RecentArticleItem({
   toBeBookmarked,
   bookmarkToggler,
 }) {
+  const { isDarkMode } = useTheme();
+
   return (
     <>
       <div className="recent-article-container">
@@ -38,13 +40,20 @@ export default function RecentArticleItem({
             )}
           </div>
           <div className="article-data-container">
-            <a href="/" className="recent-article-title">
+            <a
+              href="/"
+              className={`recent-article-title ${
+                isDarkMode ? "text-white" : ""
+              }`}
+            >
               {articleTitle.toUpperCase()}
             </a>
             {/* <p className="recent-article-desc my-2 fst-italic">{articleDesc}</p> */}
             <div className="recent-article-date-time-author-container">
               <p className="recent-article-author">By {articleAuthor}</p>
-              <p className="recent-article-date-time">Published {articleDatePublished}</p>
+              <p className="recent-article-date-time">
+                Published {articleDatePublished}
+              </p>
             </div>
           </div>
 

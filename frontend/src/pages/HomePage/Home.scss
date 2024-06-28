@@ -9,7 +9,12 @@
     max-width: 1000px !important;
   }
 }
-
+.cs-central-img img {
+  width: 100%;
+  min-width: 250px;
+  max-width: 27vw;
+  height: auto;
+}
 // Dark mode
 @include color-mode(dark) {
   .home-page {

@@ -4,40 +4,10 @@
 @import "../../../../node_modules/bootstrap/scss/grid";
 @import "../../../../node_modules//bootstrap/scss/mixins";
 
-// --------------- Color Modes ----------------------------
-$color-mode-type: data;
-
-// Dark mode
-@include color-mode(dark) {
-  #main-title,
-  .article-description {
-    color: $primary-text-dark;
-  }
-}
-
-// Light mode
-@include color-mode(light) {
-  body {
-    background-color: $primary-bg-light;
-  }
-
-  #main-title,
-  .article-description {
-    color: $primary-text-light;
-  }
-}
-// --------------- End of Color Modes ----------------------
-
 // Custom stylings
 .main-image {
-  @include media-breakpoint-up(md) {
-    width: 100%;
-    // padding-right: 10px;
-  }
-
-  @include media-breakpoint-up(xxl) {
-    width: 900px;
-  }
+  max-width: 100%;
+  height: auto;
 }
 
 .main-article-container {

@@ -1,4 +1,5 @@
 @import "../../scss/variables.scss";
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
 
 @import "/node_modules/bootstrap/scss/bootstrap-grid.scss";
 @import "/node_modules/bootstrap/scss/grid";
@@ -31,21 +32,19 @@
 }
 
 /*Social Links*/
+@include media-breakpoint-up(sm) {
+  .divider {
+    border-right: 1px solid white;
+  }
+}
 .footer-socials-list {
 }
 
-.footer-social-container > a {
-  width: fit-content;
-  align-items: center;
-  gap: 10px;
-}
 .footer-social-icon {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 1.5rem);
 }
 .footer-social-name {
-  font-size: 1rem;
   font-weight: 200;
-  margin-left: 10px;
 }
 .footer-social-icon,
 .footer-social-name {
@@ -69,35 +68,18 @@
     border-bottom: 1px solid white;
   }
 }
-
-.vertical-divider {
-  border-right: 1px solid white;
-  width: 1px;
-}
 /*more info links*/
-
-.footer-more-info-links-container {
-  padding-left: 50px;
-  display: flex;
-  gap: 10px;
-}
 
 .footer-more-info-link-container {
   white-space: nowrap;
   overflow: hidden;
-  width: 147px;
-}
-
-.footer-socials-list,
-.footer-links-container {
-  li {
-    list-style-type: none;
-  }
 }
 
 //link hover/click styles
 .social-link,
 .more-info-link {
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  font-weight: 400;
   text-decoration: none;
   margin-top: 40px;
   &:hover {
