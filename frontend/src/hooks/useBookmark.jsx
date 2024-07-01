@@ -28,7 +28,7 @@ export default function useBookmark() {
           },
           body: isBookmarked
             ? undefined
-            : JSON.stringify({ articleID: article_id }),
+            : JSON.stringify({ article_id: article_id }),
         }
       );
 
