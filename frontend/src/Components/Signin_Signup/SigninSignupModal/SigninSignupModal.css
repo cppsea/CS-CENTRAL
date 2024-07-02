@@ -1,0 +1,61 @@
+/* Custom styles for the modal */
+.custom-modal .modal-dialog {
+  max-width: 400px; /* Adjust the width to make the modal smaller */
+}
+
+.modal-header-custom {
+  border-bottom: none; /* Remove the bottom border */
+  text-align: center;
+  justify-content: center; /* Center the header content */
+}
+
+.modal-title-custom {
+  width: 100%;
+  text-align: center;
+  font-weight: bold; /* Make the header text bold */
+}
+
+.modal-header-custom .btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+.modal-body-custom {
+  border-top: none;
+  border-bottom: none; /* Remove the top and bottom border */
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.modal-body-text {
+  font-size: 0.875rem; /* Make the body text smaller */
+}
+
+.modal-footer-custom {
+  border-top: none !important; /* Remove the top border */
+  display: flex;
+  justify-content: space-between; /* Ensure buttons are spaced apart */
+  width: 100%;
+}
+
+.btn-left, .btn-right {
+  margin: 0 auto;
+  width: 35%; /* Make the buttons smaller */
+  text-align: center;
+  padding: 0.375rem 0.75rem; /* Adjust padding for smaller size */
+  font-size: 1rem; /* Adjust font size for smaller buttons */
+}
+
+.btn-custom {
+  background-color: #79A2D2;
+  border-color: #79A2D2;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #2560a2;
+  border-color: #2560a2;
+}
+
