@@ -95,7 +95,7 @@ export default function Article({ article }) {
       : "Embark on a journey through the basics; explore what machine learning entails and how one can apply it in the real world.",
     author: article.author ? article.author : "David Lam",
     date: article.date ? article.date : "October 29, 2023",
-    isBookmarked: false,
+    isBookmarked: article.isBookmarked,
     headers:
       article.headers && Array.isArray(article.headers)
         ? article.headers
@@ -106,6 +106,8 @@ export default function Article({ article }) {
             },
           ],
   });
+
+  useEffect(() => {}, []);
 
   console.log(articleData.headers);
   //create array of content header objects to be used for body sections and table of contents
@@ -130,18 +132,18 @@ export default function Article({ article }) {
 
   // toggleBookmark() function will be called only if there is a successful response from the server
   const handleToggleBookmark = async () => {
-    await updateBookmark(article.id, article.isBookmarked, toggleBookmark);
+    await updateBookmark(
+      articleData.id,
+      articleData.isBookmarked,
+      toggleBookmark
+    );
   };
 
   useEffect(() => {
     if (error) {
       toast.error(error);
     }
-
-    if (!isLoading && articleData.isBookmarked) {
-      toast.success("Bookmark status updated");
-    }
-  }, [error, isLoading, articleData.isBookmarked]);
+  }, [error]);
 
   return (
     <>
