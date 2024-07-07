@@ -46,11 +46,18 @@ export default function ArticleResultsPage({}) {
   };
 
   useEffect(() => {
+    const authUser = localStorage.getItem("user");
+    const user = (authUser ? JSON.parse(authUser) : undefined);
     const fetchArticles = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:3002/api/articles/?title=${titleQuery}`
-        );
+        const response = await fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`,{
+          
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: (user ? `Bearer ${user.token}` : undefined),
+            }
+        });
         const data = await response.json();
 
         const enrichedData = data.map((articleObject) => ({
@@ -59,9 +66,8 @@ export default function ArticleResultsPage({}) {
             "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg",
           author: "jeff",
           date: "October 24, 2023",
-          isBookmarked: false,
+          isBookmarked: ( articleObject.isBookmarked ? articleObject.isBookmarked : false )
         }));
-
         setArticles(enrichedData);
       } catch (error) {
         toast.error(error.message);
