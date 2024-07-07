@@ -63,7 +63,7 @@ export default function SigninCard() {
       // If no errors, proceed with login
       try {
         await login(formVal.username, formVal.password);
-        navigate("/");
+        // navigate("/");
         // Redirect or perform other actions on successful login
       } catch (err) {
         setErrorMessages({ form: "Invalid credentials" });

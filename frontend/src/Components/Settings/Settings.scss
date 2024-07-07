@@ -139,7 +139,8 @@
   .settings-header,
   .settings-section-header,
   .settings-section-field-header,
-  .password-checkbox-label {
+  .password-checkbox-label,
+  .no-saved-articles-text {
     color: $primary-text-dark;
   }
 
@@ -164,7 +165,8 @@
   .settings-header,
   .settings-section-header,
   .settings-section-field-header,
-  .password-checkbox-label {
+  .password-checkbox-label,
+  .no-saved-articles-text {
     border-color: $primary-text-light !important;
   }
 

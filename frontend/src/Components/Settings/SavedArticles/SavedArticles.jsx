@@ -8,6 +8,9 @@ import SavedArticlesSearchBar from "./SearchBar/SavedArticlesSearchBar";
 import useBookmark from "../../../hooks/useBookmark";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { useDeleteMultipleBookmarks } from "../../../hooks/useDeleteMultipleBookmarks";
+import { useGetBookmarks } from "../../../hooks/useGetBookmarks";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 const test_articles = [
   {
     id: 0,
@@ -33,8 +36,19 @@ const test_articles = [
 ];
 
 export default function SavedArticles() {
-  const { isLoading, error, updateBookmark } = useBookmark();
+  const { user } = useAuthContext();
 
+  const {
+    getBookmarks,
+    bookmarks,
+    isLoading: getBookmarksIsLoading,
+    error: getBookmarksError,
+  } = useGetBookmarks();
+  const {
+    deleteMultipleBookmarks,
+    isLoading: deleteMultIsLoading,
+    error: deleteMultError,
+  } = useDeleteMultipleBookmarks();
   //array all the articles currently not deleted
   const [articles, setArticles] = useState([]);
 
@@ -61,12 +75,20 @@ export default function SavedArticles() {
   //just simulating retrieving articles
   // Show any error from the server if possible
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-
     let initArticles = async () => {
-      let retrieved_articles = await test_articles;
+      // if (active) {
+      await getBookmarks();
+      // }
+      if (getBookmarksError) {
+        toast.error(getBookmarksError);
+      }
+      const retrieved_articles = bookmarks;
+      console.log(bookmarks);
+      //fill in missing info for now
+      for (const article of retrieved_articles) {
+        article["image"] =
+          "https://builtin.com/cdn-cgi/image/f=auto,quality=80,width=752,height=435/https://builtin.com/sites/www.builtin.com/files/styles/byline_image/public/2021-12/machine-learning-examples-applications.png";
+      }
       setArticles(retrieved_articles);
 
       let initIsDeletedArticles = {};
@@ -75,12 +97,11 @@ export default function SavedArticles() {
       });
       setIsDeletedArticles(initIsDeletedArticles);
     };
-
     initArticles();
-  }, [error]);
+  }, [bookmarks.length]);
 
+  //handler for updating on clientside
   //simply removed the selected articles from the displayed articles state
-  //insert backend actions here
   const updateSavedArticles = () => {
     //filter out kept articles, replace articles state with them
     let keptArticles = articles.filter(
@@ -99,12 +120,14 @@ export default function SavedArticles() {
   // Submit handler (the yes button in modal does not trigger submit event)
   // The function updateSavedArticles will be only executed if the server returns a response successfully
   const submitHandler = async () => {
-    for (const article of articles) {
-      await updateBookmark(
-        article.id,
-        isDeletedArticles[article.id],
-        updateSavedArticles
-      );
+    await deleteMultipleBookmarks(
+      Object.keys(isDeletedArticles).filter(
+        (articleId) => isDeletedArticles[articleId]
+      ),
+      updateSavedArticles
+    );
+    if (deleteMultError) {
+      toast.error(deleteMultError);
     }
   };
 
@@ -159,7 +182,7 @@ export default function SavedArticles() {
         </Container>
 
         <div className="d-flex flex-wrap gap-4 p-0 pt-4">
-          {isLoading ? (
+          {getBookmarksIsLoading ? (
             <div className="flex flex-grow-1 text-center align-content-center">
               <AiOutlineLoading3Quarters className="loading" />
             </div>
@@ -173,6 +196,12 @@ export default function SavedArticles() {
                 deleteToggler={articleToggleHandler(article.id)}
               />
             ))
+          )}
+
+          {!getBookmarksIsLoading && articles.length === 0 && (
+            <h4 className="no-saved-articles-text">
+              You do not have any saved articles.
+            </h4>
           )}
         </div>
         {/*Remove/Cancel will only show if there are any articles selected to be deleted*/}
