@@ -10,22 +10,19 @@ export default function ArticleView() {
   useEffect(() => {
     const authUser = localStorage.getItem("user");
 
-    if (!authUser) {
-      throw new Error("You need to be logged in first!");
-    }
-
-    const user = JSON.parse(authUser);
+    const user = (authUser ? JSON.parse(authUser):undefined);
 
     fetch(`http://localhost:3002/api/articles/${name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
+        Authorization: (user ? `Bearer ${user.token}` : undefined),
       },
     })
       .then((res) =>
         res.json().then((data) => {
           let article = data[0];
+          article.isBookmarked = (article.isBookmarked ? article.isBookmarked : false);
           console.log(data);
           setArticle(article);
         })
