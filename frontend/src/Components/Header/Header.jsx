@@ -1,32 +1,29 @@
-import logo from "../../assets/logo.png";
-import avatar from "../../assets/avatar.jpg";
 import {
+  Button,
   Container,
+  Image,
   Nav,
   Navbar,
-  Image,
-  Stack,
   NavDropdown,
   OverlayTrigger,
   Popover,
-  Button,
-  DropdownButton,
-  ButtonGroup,
-  Dropdown,
+  Stack
 } from "react-bootstrap";
+import avatar from "../../assets/avatar.jpg";
 import SearchBar from "../SearchBar";
-import { SunFill, MoonFill } from "react-bootstrap-icons";
 
-import "./Header.scss";
-import { useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
+import "./Header.scss";
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
   const { user } = useAuthContext();
   const { logout } = useLogout();
-  const { username } = JSON.parse(localStorage.getItem("user"));
+  const storedUser = localStorage.getItem("user");
+  let username = null;
+  if (storedUser) {
+    username = JSON.parse(storedUser).username;
+  }
 
   const handleLogout = () => {
     logout();
