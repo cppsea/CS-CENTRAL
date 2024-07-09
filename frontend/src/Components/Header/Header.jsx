@@ -26,6 +26,7 @@ export default function Header() {
   const [isDark, setIsDark] = useState(false);
   const { user } = useAuthContext();
   const { logout } = useLogout();
+  const { username } = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
     logout();
@@ -88,28 +89,12 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John!
+                        {username
+                          ? username.charAt(0).toUpperCase() + username.slice(1)
+                          : "Guest"}
                       </Popover.Header>
                       <Popover.Body className="py-2">
                         <Nav>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/profile-settings"
-                              id="dropdown_items"
-                            >
-                              My Profile
-                            </Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/saved-articles"
-                              id="dropdown_items"
-                            >
-                              Saved Articles
-                            </Nav.Link>
-                          </Nav.Item>
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
