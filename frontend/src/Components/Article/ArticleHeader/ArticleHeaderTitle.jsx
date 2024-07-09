@@ -1,16 +1,20 @@
 import { Stack } from "react-bootstrap";
 
 import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 //component for article title
 export default function ArticleHeaderTitle({
   title,
   isBookmarked,
+  isPending,
   bookmarkToggler,
 }) {
   return (
     <Stack direction="horizontal" gap={2}>
-      {isBookmarked ? (
+      {isPending ? (
+        <AiOutlineLoading3Quarters className="loading fs-2" />
+      ) : isBookmarked ? (
         <BookmarkFill className="article-bookmark" onClick={bookmarkToggler} />
       ) : (
         <Bookmark className="article-bookmark" onClick={bookmarkToggler} />

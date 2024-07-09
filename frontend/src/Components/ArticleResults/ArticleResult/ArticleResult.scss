@@ -8,7 +8,15 @@
 .article-result {
   display: flex;
   gap: 10px;
-  height: 100px;
+  height: 100%;
+  padding: 0.5rem;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid $primary;
+    border-radius: 10px;
+  }
+
   @include media-breakpoint-up(sm) {
     height: 150px;
   }

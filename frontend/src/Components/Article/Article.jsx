@@ -80,6 +80,9 @@ const relatedTopicsList = [
 export default function Article({ article }) {
   const { isLoading, error, updateBookmark } = useBookmark();
 
+  // keep track of a specific article's bookmark toggling process
+  const [isPendingArticle, setIsPendingArticle] = useState(false);
+
   //extracts article data pieces from provided article
 
   //these properties that i'm defining aside from title don't exist in the database yet,
@@ -107,8 +110,6 @@ export default function Article({ article }) {
           ],
   });
 
-  useEffect(() => {}, []);
-
   console.log(articleData.headers);
   //create array of content header objects to be used for body sections and table of contents
   const contentHeaderSequence = articleData.headers.map(
@@ -127,8 +128,17 @@ export default function Article({ article }) {
   );
 
   //handler for toggling bookmark
-  const toggleBookmark = () =>
+  const toggleBookmark = () => {
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
+
+    // set pending state of an article being bookmarked to true
+    setIsPendingArticle(true);
+
+    // reset pending state to false
+    setTimeout(() => {
+      setIsPendingArticle(false);
+    }, 500);
+  };
 
   // toggleBookmark() function will be called only if there is a successful response from the server
   const handleToggleBookmark = async () => {
@@ -147,43 +157,38 @@ export default function Article({ article }) {
 
   return (
     <>
-      {isLoading ? (
-        <div className="flex flex-grow-1 text-center align-content-center">
-          <AiOutlineLoading3Quarters className="loading" />
-        </div>
-      ) : (
-        <Container fluid className="h-100">
-          <Row className="mt-4 mb-4">
-            <Col>
-              <ArticleHeader
-                title={articleData.title}
-                description={articleData.desc}
-                author={articleData.author}
-                date={articleData.date}
-                isBookmarked={articleData.isBookmarked}
-                bookmarkToggler={handleToggleBookmark}
-              />
-            </Col>
-          </Row>
+      <Container fluid className="h-100">
+        <Row className="mt-4 mb-4">
+          <Col>
+            <ArticleHeader
+              title={articleData.title}
+              description={articleData.desc}
+              author={articleData.author}
+              date={articleData.date}
+              isBookmarked={articleData.isBookmarked}
+              isPending={isPendingArticle}
+              bookmarkToggler={handleToggleBookmark}
+            />
+          </Col>
+        </Row>
 
-          <Row className=" gx-4 gy-5">
-            <Col xs={12} md={8}>
-              <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
-              <Stack className="gap-3">
-                <TableOfContents contentSequence={contentHeaderSequence} />
+        <Row className=" gx-4 gy-5">
+          <Col xs={12} md={8}>
+            <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
+            <Stack className="gap-3">
+              <TableOfContents contentSequence={contentHeaderSequence} />
 
-                {contentHeaderSequence.map(({ id, heading, body }, index) => {
-                  return <BodySection id={id} title={heading} body={body} />;
-                })}
-              </Stack>
-            </Col>
+              {contentHeaderSequence.map(({ id, heading, body }, index) => {
+                return <BodySection id={id} title={heading} body={body} />;
+              })}
+            </Stack>
+          </Col>
 
-            <Col xs={12} md={4} className="rel-topics-container ps-3">
-              <RelatedTopicsList topicLists={relatedTopicsList} />
-            </Col>
-          </Row>
-        </Container>
-      )}
+          <Col xs={12} md={4} className="rel-topics-container ps-3">
+            <RelatedTopicsList topicLists={relatedTopicsList} />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

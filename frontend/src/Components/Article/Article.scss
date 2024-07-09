@@ -26,8 +26,8 @@
 }
 
 .loading {
-  font-size: 4em;
-  animation: spin 500ms infinite;
+  font-size: 1.2rem;
+  animation: spin 500ms linear infinite;
 }
 
 @include color-mode(light) {

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 export default function useBookmark() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { user } = useAuthContext();
 
   const updateBookmark = async (article_id, isBookmarked, toggleBookmark) => {
@@ -18,8 +19,8 @@ export default function useBookmark() {
 
       const response = await fetch(
         isBookmarked
-          ? `http://localhost:3002/api/bookmarks/${article_id}`
-          : "http://localhost:3002/api/bookmarks",
+          ? `${apiUrl}/api/bookmarks/${article_id}`
+          : `${apiUrl}/api/bookmarks`,
         {
           method: isBookmarked ? "DELETE" : "POST",
           headers: {

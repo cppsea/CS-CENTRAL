@@ -23,6 +23,7 @@ export default function ArticleHeader({
   author,
   date,
   isBookmarked,
+  isPending,
   bookmarkToggler,
 }) {
   return (
@@ -30,6 +31,7 @@ export default function ArticleHeader({
       <ArticleHeaderTitle
         title={title}
         isBookmarked={isBookmarked}
+        isPending={isPending}
         bookmarkToggler={bookmarkToggler}
       />
       <ArticleHeaderDesc desc={description} />
