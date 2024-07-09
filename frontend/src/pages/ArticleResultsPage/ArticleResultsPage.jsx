@@ -6,7 +6,7 @@ import ArticleResult from "../../Components/ArticleResults/ArticleResult/Article
 import RelatedTags from "../../Components/ArticleResults/SideSections/RelatedTopicTags/RelatedTopicTags.jsx";
 import useBookmark from "../../hooks/useBookmark.jsx";
 import "./ArticleResultsPage.scss";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
@@ -55,9 +55,15 @@ export default function ArticleResultsPage({}) {
     }, 500);
   };
 
+  //holds whether article search has been attempted
+  const [searchAttempted, setSearchAttempted] = useState(false);
+
   useEffect(() => {
     const authUser = localStorage.getItem("user");
     const user = authUser ? JSON.parse(authUser) : undefined;
+
+    setSearchAttempted(false);
+
     const fetchArticles = async () => {
       try {
         const response = await fetch(
@@ -92,6 +98,8 @@ export default function ArticleResultsPage({}) {
         setPendingArticles(initPendingArticles);
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        setSearchAttempted(true);
       }
     };
 
@@ -132,7 +140,8 @@ export default function ArticleResultsPage({}) {
               </span>
             </h2>
             <div className="d-flex flex-column gap-3">
-              {articles && articles.length > 0 ? (
+              {articles &&
+                articles.length > 0 &&
                 articles.map((article) => (
                   <ArticleResult
                     key={article.id}
@@ -140,9 +149,19 @@ export default function ArticleResultsPage({}) {
                     isPending={!!pendingArticles[article.id]}
                     bookmarkToggler={() => handleToggleBookmark(article.id)}
                   />
-                ))
-              ) : (
-                <h2>Your query did not match any results</h2>
+                ))}
+
+              {(!articles || articles.length === 0) && searchAttempted && (
+                <h2 className="no-article-results">
+                  Your query did not match any results
+                </h2>
+              )}
+
+              {!searchAttempted && (
+                <AiOutlineLoading3Quarters
+                  className="loading m-auto"
+                  style={{ fontSize: "40px" }}
+                />
               )}
             </div>
           </Col>
