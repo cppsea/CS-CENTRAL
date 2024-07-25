@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Form,
@@ -7,6 +7,7 @@ import {
   InputGroup,
   Button,
   Stack,
+  Image,
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 
@@ -14,15 +15,19 @@ import "../Settings.scss";
 import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 export default function ProfileEdit({
   profile = {
+    id: 1,
     fname: "Joe",
-    lname: "",
+    lname: "Smith",
     email: "jsmith@gmail.com",
     username: "jsmith10",
     password: "password",
   },
 }) {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { user } = useAuthContext();
   const [profileDataCopy, setProfileDataCopy] = useState(profile);
   const [profileData, setProfileData] = useState(profile);
 
@@ -41,7 +46,14 @@ export default function ProfileEdit({
     email: false,
     username: false,
     password: false,
+    avatarUpload: false,
   });
+
+  // Later will be change to avatar image URL from the server
+  const DEFAULT_AVATAR = "/avatar.jpg";
+  // Manage the image URL for profile photo uploading
+  const [imageSrc, setImageSrc] = useState(DEFAULT_AVATAR);
+  const [imgSrcCopy, setImageSrcCopy] = useState(DEFAULT_AVATAR);
 
   // handle input entered
   const handleInput = (e) => {
@@ -57,6 +69,7 @@ export default function ProfileEdit({
   //resets changes, edit modes, error messages
   const resetChanges = () => {
     setProfileData(profileDataCopy);
+    setImageSrc(imgSrcCopy);
     setEditable({
       fname: false,
       lname: false,
@@ -67,10 +80,9 @@ export default function ProfileEdit({
     setErrorMessages({});
     setIsDataChanged(false);
   };
-  // handle submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
+  // Validate form fields
+  const validateForm = () => {
     const newErrMessages = {};
     const formValidation = auth.formValidation;
 
@@ -88,6 +100,81 @@ export default function ProfileEdit({
 
     setValidated(true);
     setErrorMessages(newErrMessages);
+
+    return Object.keys(newErrMessages).length === 0;
+  };
+
+  // Submit profile data to server
+  const submitProfileData = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/api/users/${profile.id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      if (response.ok) {
+        console.log("Profile updated successfully");
+        setProfileDataCopy(profileData);
+        setIsDataChanged(false);
+      } else {
+        console.error("Profile update failed");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  // Handle file input change
+  const handleImgFileChange = async (event) => {
+    // console.log(event.target.files);
+    const imgFile = event.target.files[0];
+    if (imgFile) {
+      setIsDataChanged(true);
+      // Create a URL for the selected file
+      const newImageSrc = URL.createObjectURL(imgFile);
+      setImageSrc(newImageSrc); // Update the image source state
+
+      // Create a FormData object to send the file
+      const formData = new FormData();
+      formData.append("profile_photo", imgFile);
+
+      // Upload the file to the server
+      try {
+        const response = await fetch(`${apiUrl}/api/users/${profile.id}`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("File uploaded successfully");
+        } else {
+          console.error("File upload failed");
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+      // Clean up the URL object when component unmounts
+      return () => URL.revokeObjectURL(newImageSrc);
+    }
+  };
+
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      await submitProfileData();
+      if (editable.avatarUpload) {
+        await handleImgFileChange();
+      }
+    }
   };
 
   return (
@@ -96,6 +183,39 @@ export default function ProfileEdit({
       <div className="settings-divider"></div>
 
       <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
+        <div>
+          {/** Profile Avatar Uploading */}
+          <div className="my-3 settings-section-header-container">
+            <div className="settings-arrow-marker-container">
+              <ArrowMarker />
+            </div>
+            <h4 className="text-uppercase settings-section-header">
+              Profile Avatar
+            </h4>
+          </div>
+          <div className="position-relative">
+            <Image src={imageSrc} className="profile-avatar" roundedCircle />
+
+            <div className="position-absolute avatar-edit-container">
+              <label
+                title="Upload Avatar"
+                htmlFor="file-upload"
+                className="settings-edit-button avatar-edit settings-edit-button-edit"
+                onClick={() => setEditable({ ...editable, avatarUpload: true })}
+              >
+                <PencilFill />
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/png, image/jpeg"
+                style={{ display: "none" }}
+                onChange={handleImgFileChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <div>
           <div className="my-3 settings-section-header-container">
             <div className="settings-arrow-marker-container">

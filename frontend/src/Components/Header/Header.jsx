@@ -9,7 +9,7 @@ import {
   Popover,
   Stack
 } from "react-bootstrap";
-import avatar from "../../assets/avatar.jpg";
+// import avatar from "../../assets/avatar.jpg";
 import SearchBar from "../SearchBar";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -130,7 +130,7 @@ export default function Header() {
                   }
                 >
                   <Button className=" bg-transparent border-0 p-0">
-                    <Image src={avatar} roundedCircle width={40} />
+                    <Image src={"/avatar.jpg"} roundedCircle width={40} />
                   </Button>
                 </OverlayTrigger>
               </Nav.Item>

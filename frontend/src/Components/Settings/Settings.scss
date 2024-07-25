@@ -134,6 +134,23 @@
   font-size: calc(0.9rem + 0.1vw);
 }
 
+.profile-avatar {
+  width: 10rem;
+  height: 10rem;
+}
+
+.avatar-edit-container {
+  top: 6.2rem;
+  left: 8.2rem;
+}
+
+.avatar-edit {
+  border-radius: 50% !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+
 //COLOR MODES
 @include color-mode(dark) {
   .settings-header,
