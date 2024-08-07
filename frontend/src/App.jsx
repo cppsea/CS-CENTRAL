@@ -12,6 +12,7 @@ import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
 import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
 import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
+import ArticleEditorPage from "./pages/ArticleEditorPage/ArticleEditorPage.jsx";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route index element={<ArticleView />} />
             <Route path=":name" element={<ArticleView />} />
           </Route>
+          <Route path="article-editor" element={<ArticleEditorPage />} />
           <Route path="settings" element={<SettingsPage />}>
             <Route index element={<ProfileEdit />} />
             <Route path="profile-settings" element={<ProfileEdit />} />
