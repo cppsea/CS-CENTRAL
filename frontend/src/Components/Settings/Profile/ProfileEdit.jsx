@@ -54,6 +54,7 @@ export default function ProfileEdit({
   // Manage the image URL for profile photo uploading
   const [imageSrc, setImageSrc] = useState(DEFAULT_AVATAR);
   const [imgSrcCopy, setImageSrcCopy] = useState(DEFAULT_AVATAR);
+  const [fileInput, setFileInput] = useState(null);
 
   // handle input entered
   const handleInput = (e) => {
@@ -104,9 +105,62 @@ export default function ProfileEdit({
     return Object.keys(newErrMessages).length === 0;
   };
 
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
+
+  // Handle file input change
+  const handleImgFileChange = async (event) => {
+    // console.log(event.target.files);
+    const imgFile = event.target.files[0];
+    // console.log(imgFile);
+    if (imgFile) {
+      setIsDataChanged(true);
+      setFileInput(imgFile);
+      // Covert an image file (binary data) into a text string that can be sent in a JSON payload
+      // const base64Image = await convertToBase64(imgFile);
+      // console.log(base64Image);
+
+      // Create a URL for the selected file
+      const newImageSrc = URL.createObjectURL(imgFile);
+      setImageSrc(newImageSrc); // Update the image source state
+
+      // Clean up the URL object when component unmounts
+      return () => URL.revokeObjectURL(newImageSrc);
+    }
+  };
+
   // Submit profile data to server
   const submitProfileData = async () => {
     try {
+      // Upload the profile photo file to the server
+      if (fileInput) {
+        // Create a FormData object to send the file
+        const formData = new FormData();
+        formData.append("image", fileInput);
+
+        const response = await fetch(`${apiUrl}/api/images`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "multipart/form-data",
+          },
+          body: formData,
+        });
+
+        if (response.ok) {
+          console.log("File uploaded successfully");
+        } else {
+          console.error("File upload failed");
+        }
+      }
+
+      // Update profile data if any changes occur
       const response = await fetch(`${apiUrl}/api/users/${profile.id}`, {
         method: "PUT",
         headers: {
@@ -128,52 +182,12 @@ export default function ProfileEdit({
     }
   };
 
-  // Handle file input change
-  const handleImgFileChange = async (event) => {
-    // console.log(event.target.files);
-    const imgFile = event.target.files[0];
-    if (imgFile) {
-      setIsDataChanged(true);
-      // Create a URL for the selected file
-      const newImageSrc = URL.createObjectURL(imgFile);
-      setImageSrc(newImageSrc); // Update the image source state
-
-      // Create a FormData object to send the file
-      const formData = new FormData();
-      formData.append("profile_photo", imgFile);
-
-      // Upload the file to the server
-      try {
-        const response = await fetch(`${apiUrl}/api/users/${profile.id}`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-          body: formData,
-        });
-
-        if (response.ok) {
-          console.log("File uploaded successfully");
-        } else {
-          console.error("File upload failed");
-        }
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
-      // Clean up the URL object when component unmounts
-      return () => URL.revokeObjectURL(newImageSrc);
-    }
-  };
-
   // handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       await submitProfileData();
-      if (editable.avatarUpload) {
-        await handleImgFileChange();
-      }
     }
   };
 
