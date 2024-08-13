@@ -6,10 +6,14 @@ const requireAuth = require('../middleware/requireAuth');
 
 const router = Router(); 
 
+
 router.post("/", validate(userSchema), controller.createUser);
 router.post("/login", validate(userSchema), controller.loginUser);
 router.get("/:id", validateParams(userIdSchema), requireAuth, controller.getUsersById);
 router.put("/:id", validateParams(userIdSchema), validate(changeUserSchema), requireAuth, controller.changeUser);
 router.delete("/:id", validateParams(userIdSchema), requireAuth, controller.deleteAccount);
+
+// Include profile routes
+router.use("/profiles", require('../profiles/routes'));
 
 module.exports = router;
