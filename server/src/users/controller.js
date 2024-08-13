@@ -114,25 +114,29 @@ const changeUser = async (req, res) => {
 
 const deleteAccount = async (req, res) => {
     try {
-        const { id } = req.params; 
-
-        // Ensure the authenticated user is the same as the user ID being deleted
-        if (req.user.id !== parseInt(id)) {
-            return res.status(403).json({ error: 'Access forbidden: You can only delete your own account' });
-        }
-
-        // First, delete all bookmarks associated with this user
-        await pool.query("DELETE FROM bookmarks WHERE user_id = $1", [id]);
-
-        // Then, delete the user
-        await pool.query(queries.deleteAccount, [id]);
-
-        res.status(200).send("User and related bookmarks deleted");
+      const { id } = req.params; // Assumes this has been validated by middleware
+  
+      // Ensure the authenticated user is the same as the user ID being deleted
+      if (req.user.id !== parseInt(id)) {
+        return res.status(403).json({ error: 'Access forbidden: You can only delete your own account' });
+      }
+  
+      // First, delete all bookmarks associated with this user
+      await pool.query("DELETE FROM bookmarks WHERE user_id = $1", [id]);
+  
+      // Delete the profile associated with this user
+      await pool.query("DELETE FROM profiles WHERE user_id = $1", [id]);
+  
+      // Then, delete the user
+      await pool.query(queries.deleteAccount, [id]);
+  
+      res.status(200).send("User and related data deleted");
     } catch (err) {
-        console.error(err.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+      console.error(err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-};
+  };
+  
 
 module.exports = {
     getUsers,

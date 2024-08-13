@@ -6,6 +6,8 @@ const userRoutes = require("./src/users/routes.js");
 const auth_userRoutes = require("./src/users/authroutes.js");
 const bookmarkRoutes = require("./src/bookmarks/routes.js");
 const auth_bookmarkRoutes = require("./src/bookmarks/authroutes.js")
+const profileRoutes = require("./src/profiles/routes.js");
+const auth_profileRoutes = require("./src/profiles/authroutes.js")
 
 const cors = require("cors");
 require("dotenv").config();
@@ -33,6 +35,9 @@ app.use("/api/courses", courseRoutes);
 
 app.use('/api/users', userRoutes);
 app.use('/api/users', auth_userRoutes);
+
+app.use('/api/profiles', profileRoutes);
+app.use('/api/profiles', auth_profileRoutes);
 
 // Test the database connection
 pool.connect((err, client, release) => {
