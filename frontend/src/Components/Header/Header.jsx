@@ -24,7 +24,7 @@ export default function Header() {
 
   // Profile image will be re-rendered everytime a new image upload occurs
   const { profileImg } = useContext(ProfileAvatarContext);
-
+  
   let username = null;
   if (storedUser) {
     username = JSON.parse(storedUser).username;
@@ -98,13 +98,15 @@ export default function Header() {
                       <Popover.Body className="py-2">
                         <Nav>
                           <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings"
-                              id="dropdown_items"
-                            >
-                              Settings
-                            </Nav.Link>
+                            {user && (
+                              <Nav.Link
+                                className="fw-medium"
+                                href="/settings"
+                                id="dropdown_items"
+                              >
+                                Settings
+                              </Nav.Link>
+                            )}
                           </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>

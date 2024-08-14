@@ -8,8 +8,8 @@ import "./ArticleComponents.scss";
 import "./Article.scss";
 import { useEffect, useState } from "react";
 import useBookmark from "../../hooks/useBookmark.jsx";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { toast } from "react-hot-toast";
+import { useAuthContext } from "../../hooks/useAuthContext.jsx";
 
 //dummy data for table of contents
 const tableOfContents = [
@@ -78,6 +78,7 @@ const relatedTopicsList = [
 
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
+  const { user } = useAuthContext();
   const { isLoading, error, updateBookmark } = useBookmark();
 
   // keep track of a specific article's bookmark toggling process
@@ -147,10 +148,12 @@ export default function Article({ article }) {
       articleData.isBookmarked,
       toggleBookmark
     );
-    if (!articleData.isBookmarked) {
-      toast.success("Article bookmark added");
-    } else {
-      toast.success("Article bookmark removed");
+    if (user) {
+      if (!articleData.isBookmarked) {
+        toast.success("Article bookmark added");
+      } else {
+        toast.success("Article bookmark removed");
+      }
     }
   };
 

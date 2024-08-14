@@ -73,8 +73,8 @@ export default function ProfileEdit() {
         const { first_name, last_name, email, profile_pic } = res;
 
         if (res) {
-          setImageSrc(res.profile_pic);
-          setImageSrcCopy(res.profile_pic); // Save a copy of fetched image source
+          setImageSrc(profile_pic);
+          setImageSrcCopy(profile_pic); // Save a copy of fetched image source
           setProfileData({
             ...profileData,
             fname: first_name,
@@ -83,15 +83,6 @@ export default function ProfileEdit() {
             avatar: profile_pic,
           });
         }
-
-        const fetchUser = await fetch(`${apiUrl}/api/users`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
-        const userData = await fetchUser.json();
-        console.log(userData);
       } catch (error) {
         console.error(error);
       }

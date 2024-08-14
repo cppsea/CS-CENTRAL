@@ -3,12 +3,18 @@ import { createContext, useEffect, useState } from "react";
 export const ProfileAvatarContext = createContext();
 
 export const ProfileAvatarProvider = ({ children }) => {
-  const [profileImg, setProfileImg] = useState(
-    localStorage.getItem("profileImage")
-  );
-
+  const defaultImg = "./default_avatar.jpg";
+  const [profileImg, setProfileImg] = useState(defaultImg);
+  
   useEffect(() => {
-    localStorage.setItem("profileImage", profileImg);
+    const storedImage = localStorage.getItem("profileImage");
+    if (profileImg === defaultImg && storedImage) {
+      setProfileImg(storedImage);
+    }
+
+    if (profileImg !== defaultImg && profileImg !== storedImage) {
+      localStorage.setItem("profileImage", profileImg);
+    }
   }, [profileImg]);
 
   return (
