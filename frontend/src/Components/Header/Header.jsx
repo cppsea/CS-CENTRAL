@@ -11,22 +11,20 @@ import {
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import { useAvatarStore } from "../../hooks/zustand/useAvatarStore";
 import "./Header.scss";
+import { ProfileAvatarContext } from "../../context/ProfileAvatarContext";
 
 export default function Header() {
   const { user } = useAuthContext();
   const { logout } = useLogout();
   const storedUser = localStorage.getItem("user");
 
-  const { avatar, getAvatar } = useAvatarStore();
-
-  useEffect(() => {
-    getAvatar();
-  }, [getAvatar]);
+  // Profile image will be re-rendered everytime a new image upload occurs
+  const { profileImg } = useContext(ProfileAvatarContext);
 
   let username = null;
   if (storedUser) {
@@ -138,7 +136,11 @@ export default function Header() {
                   }
                 >
                   <Button className=" bg-transparent border-0 p-0">
-                    <Image src={avatar} roundedCircle className="header-img" />
+                    <Image
+                      src={profileImg}
+                      roundedCircle
+                      className="header-img"
+                    />
                   </Button>
                 </OverlayTrigger>
               </Nav.Item>

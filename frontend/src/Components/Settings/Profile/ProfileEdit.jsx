@@ -1,22 +1,22 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
-  Button,
-  Col,
   Container,
   Form,
-  Image,
-  InputGroup,
   Row,
+  Col,
+  InputGroup,
+  Button,
   Stack,
+  Image,
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 
-import { useAuthContext } from "../../../hooks/useAuthContext";
-import { useAvatarStore } from "../../../hooks/zustand/useAvatarStore";
-import ArrowMarker from "../../ArrowMarker/ArrowMarker";
-import * as auth from "../../auth/auth";
 import "../Settings.scss";
+import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { ProfileAvatarContext } from "../../../context/ProfileAvatarContext";
 
 export default function ProfileEdit({
   profile = {
@@ -58,15 +58,23 @@ export default function ProfileEdit({
   const [imageSrcCopy, setImageSrcCopy] = useState(DEFAULT_AVATAR);
   const [fileInput, setFileInput] = useState(null);
   const fileInputRef = useRef(null); // Create a ref for the file input
+  const { setProfileImg } = useContext(ProfileAvatarContext);
 
-  const { avatar, setAvatar } = useAvatarStore();
-
+  // Fetch avatar whenever this page is loaded
   useEffect(() => {
-    if (avatar) {
-      setImageSrc(avatar);
-      setImageSrcCopy(avatar);
-    }
-  }, [avatar]);
+    const fetchAvtar = async () => {
+      const response = await fetch(`${apiUrl}/api/images`);
+      const res = await response.json();
+      const fetchedImgSrc = res.data.secure_url;
+
+      if (fetchedImgSrc) {
+        setImageSrc(fetchedImgSrc);
+        setImageSrcCopy(fetchedImgSrc); // Save a copy of fetched image source
+      }
+    };
+
+    fetchAvtar();
+  }, []);
 
   // handle input entered
   const handleInput = (e) => {
@@ -125,8 +133,9 @@ export default function ProfileEdit({
 
   // Handle file input change
   const handleImgFileChange = async (event) => {
+    // console.log(event.target.files);
     const imgFile = event.target.files[0];
-
+    // console.log(imgFile);
     if (imgFile) {
       setIsDataChanged(true);
       setFileInput(imgFile);
@@ -161,10 +170,11 @@ export default function ProfileEdit({
         const res = await response.json();
 
         if (response.ok) {
-          setAvatar(res.data.secure_url); // update the profile avatar state globally
+          setProfileImg(res.data.secure_url); // store the new image URL in local storage
           console.log(res.data);
           console.log("File uploaded successfully");
         } else {
+          console.log(res);
           console.error("File upload failed");
         }
       }
