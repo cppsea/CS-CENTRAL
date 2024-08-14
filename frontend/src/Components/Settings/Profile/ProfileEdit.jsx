@@ -1,21 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  Button,
+  Col,
   Container,
   Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  Stack,
   Image,
+  InputGroup,
+  Row,
+  Stack,
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 
-import "../Settings.scss";
-import * as auth from "../../auth/auth";
-import PasswordChangeModal from "./PasswordChangeModal";
-import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useAvatarStore } from "../../../hooks/zustand/useAvatarStore";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
+import * as auth from "../../auth/auth";
+import "../Settings.scss";
+import PasswordChangeModal from "./PasswordChangeModal";
+
 export default function ProfileEdit({
   profile = {
     id: 1,
@@ -30,6 +32,7 @@ export default function ProfileEdit({
   const { user } = useAuthContext();
   const [profileDataCopy, setProfileDataCopy] = useState(profile);
   const [profileData, setProfileData] = useState(profile);
+  const [isPending, setIsPending] = useState(false);
 
   // keep track of chnanges
   const [isDataChanged, setIsDataChanged] = useState(false);
@@ -49,12 +52,21 @@ export default function ProfileEdit({
     avatarUpload: false,
   });
 
-  // Later will be change to avatar image URL from the server
-  const DEFAULT_AVATAR = "/avatar.jpg";
   // Manage the image URL for profile photo uploading
+  const DEFAULT_AVATAR = "/default_avatar.jpg";
   const [imageSrc, setImageSrc] = useState(DEFAULT_AVATAR);
-  const [imgSrcCopy, setImageSrcCopy] = useState(DEFAULT_AVATAR);
+  const [imageSrcCopy, setImageSrcCopy] = useState(DEFAULT_AVATAR);
   const [fileInput, setFileInput] = useState(null);
+  const fileInputRef = useRef(null); // Create a ref for the file input
+
+  const { avatar, setAvatar } = useAvatarStore();
+
+  useEffect(() => {
+    if (avatar) {
+      setImageSrc(avatar);
+      setImageSrcCopy(avatar);
+    }
+  }, [avatar]);
 
   // handle input entered
   const handleInput = (e) => {
@@ -70,16 +82,22 @@ export default function ProfileEdit({
   //resets changes, edit modes, error messages
   const resetChanges = () => {
     setProfileData(profileDataCopy);
-    setImageSrc(imgSrcCopy);
+    setImageSrc(imageSrcCopy);
     setEditable({
       fname: false,
       lname: false,
       email: false,
       username: false,
       password: false,
+      avatarUpload: false,
     });
     setErrorMessages({});
     setIsDataChanged(false);
+    setFileInput(null);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   // Validate form fields
@@ -102,29 +120,16 @@ export default function ProfileEdit({
     setValidated(true);
     setErrorMessages(newErrMessages);
 
-    return Object.keys(newErrMessages).length === 0;
+    return Object.keys(errorMessages).length === 0;
   };
-
-  // const convertToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => resolve(reader.result);
-  //     reader.onerror = (error) => reject(error);
-  //   });
-  // };
 
   // Handle file input change
   const handleImgFileChange = async (event) => {
-    // console.log(event.target.files);
     const imgFile = event.target.files[0];
-    // console.log(imgFile);
+
     if (imgFile) {
       setIsDataChanged(true);
       setFileInput(imgFile);
-      // Covert an image file (binary data) into a text string that can be sent in a JSON payload
-      // const base64Image = await convertToBase64(imgFile);
-      // console.log(base64Image);
 
       // Create a URL for the selected file
       const newImageSrc = URL.createObjectURL(imgFile);
@@ -138,6 +143,7 @@ export default function ProfileEdit({
   // Submit profile data to server
   const submitProfileData = async () => {
     try {
+      setIsPending(true);
       // Upload the profile photo file to the server
       if (fileInput) {
         // Create a FormData object to send the file
@@ -148,12 +154,15 @@ export default function ProfileEdit({
           method: "POST",
           headers: {
             Authorization: `Bearer ${user.token}`,
-            "Content-Type": "multipart/form-data",
           },
           body: formData,
         });
 
+        const res = await response.json();
+
         if (response.ok) {
+          setAvatar(res.data.secure_url); // update the profile avatar state globally
+          console.log(res.data);
           console.log("File uploaded successfully");
         } else {
           console.error("File upload failed");
@@ -174,11 +183,22 @@ export default function ProfileEdit({
         console.log("Profile updated successfully");
         setProfileDataCopy(profileData);
         setIsDataChanged(false);
+        setEditable({
+          ...editable,
+          fname: false,
+          lname: false,
+          email: false,
+          username: false,
+          password: false,
+          avatarUpload: false,
+        });
       } else {
         console.error("Profile update failed");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -186,8 +206,14 @@ export default function ProfileEdit({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    // window.location.reload();
+    const isValidForm = validateForm();
+
+    if (isValidForm) {
+      console.log("Form is valid");
       await submitProfileData();
+    } else {
+      console.log("Form is invalid");
     }
   };
 
@@ -220,7 +246,9 @@ export default function ProfileEdit({
                 <PencilFill />
               </label>
               <input
+                ref={fileInputRef}
                 id="file-upload"
+                name="image"
                 type="file"
                 accept="image/png, image/jpeg"
                 style={{ display: "none" }}
@@ -458,13 +486,21 @@ export default function ProfileEdit({
             {/*only show save if there are actual changes*/}
             {isDataChanged && (
               <div>
-                <Button className="settings-confirm-button" type="submit">
-                  Save
+                <Button
+                  className="settings-confirm-button"
+                  disabled={!isDataChanged || isPending}
+                  type="submit"
+                >
+                  {isPending ? "Saving..." : "Save"}
                 </Button>
               </div>
             )}
             <div>
-              <Button className="settings-cancel-button" onClick={resetChanges}>
+              <Button
+                className="settings-cancel-button"
+                disabled={!isDataChanged || isPending}
+                onClick={resetChanges}
+              >
                 Cancel
               </Button>
             </div>

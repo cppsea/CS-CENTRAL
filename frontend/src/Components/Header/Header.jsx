@@ -7,19 +7,27 @@ import {
   NavDropdown,
   OverlayTrigger,
   Popover,
-  Stack
+  Stack,
 } from "react-bootstrap";
-// import avatar from "../../assets/avatar.jpg";
 import SearchBar from "../SearchBar";
 
+import { useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
+import { useAvatarStore } from "../../hooks/zustand/useAvatarStore";
 import "./Header.scss";
 
 export default function Header() {
   const { user } = useAuthContext();
   const { logout } = useLogout();
   const storedUser = localStorage.getItem("user");
+
+  const { avatar, getAvatar } = useAvatarStore();
+
+  useEffect(() => {
+    getAvatar();
+  }, [getAvatar]);
+
   let username = null;
   if (storedUser) {
     username = JSON.parse(storedUser).username;
@@ -130,7 +138,7 @@ export default function Header() {
                   }
                 >
                   <Button className=" bg-transparent border-0 p-0">
-                    <Image src={"/avatar.jpg"} roundedCircle width={40} />
+                    <Image src={avatar} roundedCircle className="header-img" />
                   </Button>
                 </OverlayTrigger>
               </Nav.Item>

@@ -90,7 +90,7 @@
 .settings-edit-button-unedit {
   &:disabled {
     background: $settings-input-bg-editable !important;
-    opacity: 1 !important;
+    // opacity: 1 !important;
   }
   color: #8f8d8d !important;
 }
@@ -103,6 +103,10 @@
     transition-property: filter;
     transition-delay: 44ms;
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 //confirm button
@@ -114,6 +118,10 @@
     filter: brightness(0.8);
     transition-property: filter;
     transition-delay: 44ms;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 
