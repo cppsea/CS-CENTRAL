@@ -3,9 +3,9 @@ import { createContext, useEffect, useState } from "react";
 export const ProfileAvatarContext = createContext();
 
 export const ProfileAvatarProvider = ({ children }) => {
-  const [profileImg, setProfileImg] = useState(() => {
-    return localStorage.getItem("profileImage");
-  });
+  const [profileImg, setProfileImg] = useState(
+    localStorage.getItem("profileImage")
+  );
 
   useEffect(() => {
     localStorage.setItem("profileImage", profileImg);
