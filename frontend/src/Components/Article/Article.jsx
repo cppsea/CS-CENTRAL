@@ -147,6 +147,11 @@ export default function Article({ article }) {
       articleData.isBookmarked,
       toggleBookmark
     );
+    if (!articleData.isBookmarked) {
+      toast.success("Article bookmark added");
+    } else {
+      toast.success("Article bookmark removed");
+    }
   };
 
   useEffect(() => {

@@ -1,37 +1,36 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import {
+  Button,
+  Col,
   Container,
   Form,
-  Row,
-  Col,
-  InputGroup,
-  Button,
-  Stack,
   Image,
+  InputGroup,
+  Row,
+  Stack,
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 
-import "../Settings.scss";
-import * as auth from "../../auth/auth";
-import PasswordChangeModal from "./PasswordChangeModal";
-import ArrowMarker from "../../ArrowMarker/ArrowMarker";
-import { useAuthContext } from "../../../hooks/useAuthContext";
+import { toast } from "react-hot-toast";
 import { ProfileAvatarContext } from "../../../context/ProfileAvatarContext";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import ArrowMarker from "../../ArrowMarker/ArrowMarker";
+import * as auth from "../../auth/auth";
+import "../Settings.scss";
+import PasswordChangeModal from "./PasswordChangeModal";
 
-export default function ProfileEdit({
-  profile = {
-    id: 1,
-    fname: "Joe",
-    lname: "Smith",
-    email: "jsmith@gmail.com",
-    username: "jsmith10",
-    password: "password",
-  },
-}) {
+export default function ProfileEdit() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { user } = useAuthContext();
-  const [profileDataCopy, setProfileDataCopy] = useState(profile);
-  const [profileData, setProfileData] = useState(profile);
+  const [profileData, setProfileData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    username: "emusk123",
+    password: "12345678",
+    avatar: "",
+  });
+  const [profileDataCopy, setProfileDataCopy] = useState(profileData);
   const [isPending, setIsPending] = useState(false);
 
   // keep track of chnanges
@@ -62,19 +61,44 @@ export default function ProfileEdit({
 
   // Fetch avatar whenever this page is loaded
   useEffect(() => {
-    const fetchAvtar = async () => {
-      const response = await fetch(`${apiUrl}/api/images`);
-      const res = await response.json();
-      const fetchedImgSrc = res.data.secure_url;
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/api/profiles`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const res = await response.json();
+        const { first_name, last_name, email, profile_pic } = res;
 
-      if (fetchedImgSrc) {
-        setImageSrc(fetchedImgSrc);
-        setImageSrcCopy(fetchedImgSrc); // Save a copy of fetched image source
+        if (res) {
+          setImageSrc(res.profile_pic);
+          setImageSrcCopy(res.profile_pic); // Save a copy of fetched image source
+          setProfileData({
+            ...profileData,
+            fname: first_name,
+            lname: last_name,
+            email: email,
+            avatar: profile_pic,
+          });
+        }
+
+        const fetchUser = await fetch(`${apiUrl}/api/users`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        const userData = await fetchUser.json();
+        console.log(userData);
+      } catch (error) {
+        console.error(error);
       }
     };
 
-    fetchAvtar();
-  }, []);
+    fetchProfile();
+  }, [user]);
 
   // handle input entered
   const handleInput = (e) => {
@@ -111,7 +135,8 @@ export default function ProfileEdit({
   // Validate form fields
   const validateForm = () => {
     const newErrMessages = {};
-    const formValidation = auth.formValidation;
+    const { fname, lname, email, username, password } = auth.formValidation;
+    const formValidation = { fname, lname, email, username, password };
 
     for (const fieldName in formValidation) {
       const validationFuncs = formValidation[fieldName];
@@ -153,6 +178,10 @@ export default function ProfileEdit({
   const submitProfileData = async () => {
     try {
       setIsPending(true);
+
+      // Upload the profile photo file to the server
+      let newAvatarUrl = profileData.avatar;
+
       // Upload the profile photo file to the server
       if (fileInput) {
         // Create a FormData object to send the file
@@ -170,43 +199,72 @@ export default function ProfileEdit({
         const res = await response.json();
 
         if (response.ok) {
-          setProfileImg(res.data.secure_url); // store the new image URL in local storage
-          console.log(res.data);
+          newAvatarUrl = res.data.secure_url; // get the new image URL from the Cloudinary
+          setProfileImg(newAvatarUrl); // store the new image URL in local storage
+          setProfileData({ ...profileData, avatar: newAvatarUrl }); // update profile data states
           console.log("File uploaded successfully");
         } else {
           console.log(res);
           console.error("File upload failed");
+          return;
         }
       }
 
       // Update profile data if any changes occur
-      const response = await fetch(`${apiUrl}/api/users/${profile.id}`, {
-        method: "PUT",
+      const response = await fetch(`${apiUrl}/api/profiles`, {
+        method: "GET",
         headers: {
           Authorization: `Bearer ${user.token}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(profileData),
       });
 
-      if (response.ok) {
-        console.log("Profile updated successfully");
-        setProfileDataCopy(profileData);
-        setIsDataChanged(false);
-        setEditable({
-          ...editable,
-          fname: false,
-          lname: false,
-          email: false,
-          username: false,
-          password: false,
-          avatarUpload: false,
+      if (response.status === 404) {
+        // if profile is not found, create one
+        await fetch(`${apiUrl}/api/profiles`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: profileData.fname,
+            last_name: profileData.lname,
+            email: profileData.email,
+            profile_pic: newAvatarUrl, // Use the updated avatar URL
+          }),
         });
       } else {
-        console.error("Profile update failed");
+        // If found, update profile data
+        await fetch(`${apiUrl}/api/profiles`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            first_name: profileData.fname,
+            last_name: profileData.lname,
+            email: profileData.email,
+            profile_pic: newAvatarUrl,
+          }),
+        });
       }
+
+      console.log("Profile updated successfully");
+      setProfileDataCopy(profileData);
+      setIsDataChanged(false);
+      setEditable({
+        ...editable,
+        fname: false,
+        lname: false,
+        email: false,
+        username: false,
+        password: false,
+        avatarUpload: false,
+      });
     } catch (error) {
       console.error("Error updating profile:", error);
+      toast.error(error.message);
     } finally {
       setIsPending(false);
     }
@@ -216,8 +274,8 @@ export default function ProfileEdit({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // window.location.reload();
     const isValidForm = validateForm();
+    console.log(errorMessages);
 
     if (isValidForm) {
       console.log("Form is valid");
@@ -414,6 +472,7 @@ export default function ProfileEdit({
                   <Form.Control
                     disabled={!editable.username}
                     name="username"
+                    placeholder="Username"
                     value={profileData.username}
                     className={`settings-input ${
                       editable.username
@@ -453,6 +512,7 @@ export default function ProfileEdit({
                     disabled={!editable.password}
                     name="password"
                     type="password"
+                    placeholder="Password"
                     value={profileData.password}
                     className={`settings-input ${
                       editable.password

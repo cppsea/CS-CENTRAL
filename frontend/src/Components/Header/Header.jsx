@@ -11,12 +11,11 @@ import {
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
+import { ProfileAvatarContext } from "../../context/ProfileAvatarContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
-import { useAvatarStore } from "../../hooks/zustand/useAvatarStore";
 import "./Header.scss";
-import { ProfileAvatarContext } from "../../context/ProfileAvatarContext";
 
 export default function Header() {
   const { user } = useAuthContext();
