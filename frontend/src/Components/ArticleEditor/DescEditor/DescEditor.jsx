@@ -1,38 +1,31 @@
 import EditorJS from "@editorjs/editorjs";
 import Paragraph from "@editorjs/paragraph";
-import Header from "@editorjs/header";
 import { useEffect } from "react";
 import { useRef } from "react";
-import List from "@editorjs/list";
 import Strikethrough from "@sotaproject/strikethrough";
-import SimpleImage from "@editorjs/simple-image";
 import Undo from "editorjs-undo";
-import DragDrop from "editorjs-drag-drop";
+import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
 
 export const EDITOR_JS_TOOLS = {
   paragraph: {
     class: Paragraph,
     inlineToolBar: true,
-  },
-  header: {
-    class: Header,
     config: {
-      levels: [1, 2],
-      defaultLevel: 1,
+      preserveBlank: true,
     },
   },
-  // list: {
-  //   class: List,
-  //   inlineToolbar: true,
-  // },
-  // strikethrough: Strikethrough,
-  // image: {
-  //   class: SimpleImage,
-  //   inlineToolBar: true,
-  // },
+
+  strikethrough: Strikethrough,
 };
 
-export default function ArticleEditor({ data, onChange, editorBlockId }) {
+//for description there should only be one block, we can increase this if we want
+const DESC_MAX_BLOCKS = 5;
+export default function DescEditor({
+  data,
+  onChange,
+  editorBlockId,
+  charLimit,
+}) {
   const ref = useRef();
   useEffect(() => {
     //Initialize editorjs if we don't have a reference
@@ -42,16 +35,22 @@ export default function ArticleEditor({ data, onChange, editorBlockId }) {
         tools: EDITOR_JS_TOOLS,
         data: data,
         onReady: async () => {
-          // new Undo({ editor });
-          // new DragDrop(editor);
+          new Undo({ editor });
         },
         async onChange(api, event) {
-          const data = await api.saver.save();
-          onChange(data);
-          console.log(data);
+          const content = await api.saver.save();
+          const onChangeEvent = Array.isArray(event) ? event : [event];
+
+          for (let currEvent of onChangeEvent) {
+            await enforceBlockLimit(content, currEvent, api, DESC_MAX_BLOCKS);
+            await enforceCharLimit(content, currEvent, api, charLimit);
+          }
+
+          onChange({
+            ...content,
+            blocks: content.blocks.slice(0, DESC_MAX_BLOCKS),
+          });
         },
-        defaultBlock: "header",
-        blockToolbar: false,
       });
 
       ref.current = editor;
