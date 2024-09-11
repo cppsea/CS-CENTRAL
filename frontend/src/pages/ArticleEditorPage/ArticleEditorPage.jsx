@@ -25,7 +25,7 @@ export default function ArticleEditorPage() {
       <div
         style={{
           width: "100%",
-          border: "1px solid red",
+          border: "1px solid #79A2D2",
         }}
       ></div>
       <DescEditor

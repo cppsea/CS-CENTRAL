@@ -5,6 +5,8 @@ import { useRef } from "react";
 import Undo from "editorjs-undo";
 import "./HeaderEditor.scss";
 import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
+import { Tab, Tabs } from "react-bootstrap";
+
 export const EDITOR_JS_TOOLS = {
   header: {
     class: Header,
@@ -64,5 +66,17 @@ export default function HeaderEditor({
     };
   }, []);
 
-  return <div id={editorBlockId} />;
+  return (
+    <>
+      <Tabs
+        defaultActiveKey="profile"
+        className="d-flex justify-content-end align-items-end"
+      >
+        <Tab eventKey="edit" className="edit-tab" title="Edit">
+        </Tab>
+        <Tab eventKey="preview" className="preview-tab" title="Preview">
+        </Tab>
+      </Tabs>
+    </>
+  );
 }
