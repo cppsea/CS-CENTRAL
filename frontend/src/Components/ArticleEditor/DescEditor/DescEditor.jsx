@@ -18,7 +18,6 @@ export const EDITOR_JS_TOOLS = {
   strikethrough: Strikethrough,
 };
 
-//for description there should only be one block, we can increase this if we want
 const DESC_MAX_BLOCKS = 5;
 export default function DescEditor({
   data,

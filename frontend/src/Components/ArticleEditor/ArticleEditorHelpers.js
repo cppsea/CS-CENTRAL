@@ -53,17 +53,20 @@ async function enforceBlockLimit(content, event, api, blockLimit) {
     //bring it to the previous block, and delete the new block
 
     const newBlockIndex = api.blocks.getCurrentBlockIndex();
-    console.log(newBlockIndex)
-    console.log(event.detail.target.id)
-    const newBlockText = content.blocks.filter(
-      (block) => block.id === event.detail.target.id
-    )[0].data.text;
-    const prevBlock = content.blocks[newBlockIndex - 1];
-    api.blocks.update(prevBlock.id, {
-      text: prevBlock.data.text + newBlockText,
-    });
-    api.blocks.delete(newBlockIndex);
 
+    const newBlock = content.blocks.filter(
+      (block) => block.id === event.detail.target.id
+    )[0];
+
+    const newBlockText = newBlock ? newBlock.data.text : "";
+    const prevBlock = content.blocks[newBlockIndex - 1];
+    if (prevBlock) {
+      api.blocks.update(prevBlock.id, {
+        text: prevBlock.data.text + newBlockText,
+      });
+    }
+
+    api.blocks.delete(newBlockIndex);
   }
 }
 

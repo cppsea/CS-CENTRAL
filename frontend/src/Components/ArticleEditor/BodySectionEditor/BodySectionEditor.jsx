@@ -1,20 +1,14 @@
 import EditorJS from "@editorjs/editorjs";
-import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
 import { useEffect } from "react";
 import { useRef } from "react";
+import Strikethrough from "@sotaproject/strikethrough";
 import Undo from "editorjs-undo";
-import "./HeaderEditor.scss";
 import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
+import List from "@editorjs/list";
+import SimpleImage from "@editorjs/simple-image";
+
 export const EDITOR_JS_TOOLS = {
-  header: {
-    class: Header,
-    config: {
-      levels: [1, 2],
-      defaultLevel: 1,
-      enableLineBreaks: false,
-    },
-  },
   paragraph: {
     class: Paragraph,
     inlineToolBar: true,
@@ -22,11 +16,19 @@ export const EDITOR_JS_TOOLS = {
       preserveBlank: true,
     },
   },
+  list: {
+    class: List,
+    inlineToolbar: true,
+  },
+  strikethrough: Strikethrough,
+  image: {
+    class: SimpleImage,
+    inlineToolBar: true,
+  },
 };
 
-//keep to one block
-const HEADER_MAX_BLOCKS = 1;
-export default function HeaderEditor({
+const BODY_SECTION_MAX_BLOCKS = 5;
+export default function BodySectionEditor({
   data,
   onChange,
   editorBlockId,
@@ -40,8 +42,7 @@ export default function HeaderEditor({
         holder: editorBlockId,
         tools: EDITOR_JS_TOOLS,
         data: data,
-
-        onReady: async (api) => {
+        onReady: async () => {
           new Undo({ editor });
         },
         async onChange(api, event) {
@@ -49,19 +50,25 @@ export default function HeaderEditor({
           const onChangeEvent = Array.isArray(event) ? event : [event];
 
           for (let currEvent of onChangeEvent) {
-            await enforceBlockLimit(content, currEvent, api, HEADER_MAX_BLOCKS);
+            await enforceBlockLimit(
+              content,
+              currEvent,
+              api,
+              BODY_SECTION_MAX_BLOCKS
+            );
             await enforceCharLimit(content, currEvent, api, charLimit);
           }
+
           onChange({
             ...content,
-            blocks: content.blocks.slice(0, HEADER_MAX_BLOCKS),
+            blocks: content.blocks.slice(0, BODY_SECTION_MAX_BLOCKS),
           });
         },
-        defaultBlock: "header",
       });
 
       ref.current = editor;
     }
+
     //Add a return function to handle cleanup
     return () => {
       if (ref.current && ref.current.destroy) {

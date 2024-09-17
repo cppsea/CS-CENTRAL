@@ -1,41 +1,74 @@
-import ArticleEditor from "../../Components/ArticleEditor/ArticleEditor";
+import BodySectionEditor from "../../Components/ArticleEditor/BodySectionEditor/BodySectionEditor";
 import DescEditor from "../../Components/ArticleEditor/DescEditor/DescEditor";
 import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEditor";
 import { useState } from "react";
+import { PlusCircle } from "react-bootstrap-icons";
 export default function ArticleEditorPage() {
-  const [headerData, setHeaderData] = useState({
-    time: new Date().getTime(),
-    blocks: [],
+  const [articleEditorData, setArticleEditorData] = useState({
+    header: { time: new Date().getTime(), blocks: [] },
+    description: { time: new Date().getTime(), blocks: [] },
+    articleBody: [{ time: new Date().getTime(), blocks: [] }],
   });
-  const [descData, setDescData] = useState({
-    time: new Date().getTime(),
-    blocks: [],
-  });
+
+  const setHeaderData = (newData) => {
+    setArticleEditorData({ ...articleEditorData, header: newData });
+  };
+  const setDescData = (newData) => {
+    setArticleEditorData({ ...articleEditorData, description: newData });
+  };
+  const setArticleBodySectionDataCreator = (index) => {
+    return (newData) => {
+      setArticleEditorData({
+        ...articleEditorData,
+        articleBody: [
+          ...articleEditorData.articleBody.slice(0, index),
+          newData,
+          ...articleEditorData.articleBody.slice(index + 1),
+        ],
+      });
+    };
+  };
+
+  const addNewBodySection = () => {
+    let newArticleEditorData = { ...articleEditorData };
+    newArticleEditorData.articleBody.push({
+      time: new Date().getTime(),
+      blocks: [],
+    });
+    setArticleEditorData(newArticleEditorData);
+  };
 
   return (
     <>
       <HeaderEditor
-        data={headerData}
-        onChange={(newData) => {
-          setHeaderData(newData);
-        }}
+        data={articleEditorData.header}
+        onChange={setHeaderData}
         editorBlockId={"header-editor"}
         charLimit={10}
       />
-      <div
-        style={{
-          width: "100%",
-          border: "1px solid red",
-        }}
-      ></div>
       <DescEditor
-        data={descData}
-        onChange={(newData) => {
-          setDescData(newData);
-        }}
-        editorBlockId={"description-editor"}
-        charLimit={10}
+        data={articleEditorData.description}
+        onChange={setDescData}
+        editorBlockId={"desc-editor"}
+        charLimit={50}
       />
+
+      {articleEditorData.articleBody.map((articleBodySectionData, index) => {
+        return (
+          <BodySectionEditor
+            key={`body-section-editor-${index}`}
+            data={articleBodySectionData}
+            onChange={setArticleBodySectionDataCreator(index)}
+            charLimit={20}
+            editorBlockId={`body-section-editor-${index}`}
+          />
+        );
+      })}
+
+      <PlusCircle onClick={addNewBodySection} />
+      <button onClick={() => console.log(JSON.stringify(articleEditorData))}>
+        Show Data
+      </button>
     </>
   );
 }
