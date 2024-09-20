@@ -7,6 +7,10 @@ import { Container, Row, Col, Stack } from "react-bootstrap";
 import "./ArticleComponents.scss";
 import "./Article.scss";
 import { useEffect, useState } from "react";
+import useBookmark from "../../hooks/useBookmark.jsx";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { toast } from "react-hot-toast";
+
 //dummy data for table of contents
 const tableOfContents = [
   "Introduction to Machine Learning",
@@ -74,11 +78,15 @@ const relatedTopicsList = [
 
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
+  const { isLoading, error, updateBookmark } = useBookmark();
+
+  // keep track of a specific article's bookmark toggling process
+  const [isPendingArticle, setIsPendingArticle] = useState(false);
+
   //extracts article data pieces from provided article
 
   //these properties that i'm defining aside from title don't exist in the database yet,
   //mostly made up so feel free to change later on
-
   //will display default data from figma for now
 
   const [articleData, setArticleData] = useState({
@@ -90,7 +98,7 @@ export default function Article({ article }) {
       : "Embark on a journey through the basics; explore what machine learning entails and how one can apply it in the real world.",
     author: article.author ? article.author : "David Lam",
     date: article.date ? article.date : "October 29, 2023",
-    isBookmarked: false,
+    isBookmarked: article.isBookmarked,
     headers:
       article.headers && Array.isArray(article.headers)
         ? article.headers
@@ -118,9 +126,35 @@ export default function Article({ article }) {
       };
     }
   );
+
   //handler for toggling bookmark
-  const toggleBookmark = () =>
+  const toggleBookmark = () => {
     setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
+
+    // set pending state of an article being bookmarked to true
+    setIsPendingArticle(true);
+
+    // reset pending state to false
+    setTimeout(() => {
+      setIsPendingArticle(false);
+    }, 500);
+  };
+
+  // toggleBookmark() function will be called only if there is a successful response from the server
+  const handleToggleBookmark = async () => {
+    await updateBookmark(
+      articleData.id,
+      articleData.isBookmarked,
+      toggleBookmark
+    );
+  };
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
+
   return (
     <>
       <Container fluid className="h-100">
@@ -132,7 +166,8 @@ export default function Article({ article }) {
               author={articleData.author}
               date={articleData.date}
               isBookmarked={articleData.isBookmarked}
-              bookmarkToggler={toggleBookmark}
+              isPending={isPendingArticle}
+              bookmarkToggler={handleToggleBookmark}
             />
           </Col>
         </Row>

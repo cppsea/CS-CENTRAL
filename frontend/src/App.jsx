@@ -12,6 +12,7 @@ import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
 import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
 import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           />
         </Route>
       </Routes>
+      <Toaster />
     </>
   );
 }

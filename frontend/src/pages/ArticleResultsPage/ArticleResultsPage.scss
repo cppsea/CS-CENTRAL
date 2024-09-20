@@ -13,6 +13,12 @@
   }
 }
 
+.no-article-results {
+  @include media-breakpoint-up(lg) {
+    padding-left: 20px;
+  }
+}
+
 .article-results-title-query {
   color: $primary;
 }
@@ -31,7 +37,8 @@
 }
 
 @include color-mode(light) {
-  .article-results-title {
+  .article-results-title,
+  .no-article-results {
     color: $primary-text-light;
   }
   .side-sections-container {
@@ -39,7 +46,8 @@
   }
 }
 @include color-mode(dark) {
-  .article-results-title {
+  .article-results-title,
+  .no-article-results {
     color: $primary-text-dark;
   }
   .side-sections-container {

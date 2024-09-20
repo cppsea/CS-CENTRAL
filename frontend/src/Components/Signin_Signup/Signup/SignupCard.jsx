@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import "./Signup.scss";
 import "../SignForm.scss";
 import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
+import toast from "react-hot-toast";
 
 export default function SignupCard() {
+  const { signup, isLoading, error } = useSignup();
+  const navigate = useNavigate();
+
   const [formVal, setFormVal] = useState({
     username: "",
     fname: "",
@@ -24,9 +28,6 @@ export default function SignupCard() {
 
   // Error messages
   const [errorMessages, setErrorMessages] = useState({});
-
-  // Import the useSignup hook
-  const { signup, isLoading, error } = useSignup();
 
   // Handle input entered
   const handleInput = (e) => {
@@ -51,15 +52,22 @@ export default function SignupCard() {
     return Object.keys(errorMessages).length === 0;
   };
 
-  // Handle submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const validateInputField = () => {
     const newErrMessages = {};
-    const formValidation = auth.formValidation;
+    const { username, password, confirmPassword, fname, lname, email } =
+      auth.formValidation;
 
-    for (const fieldName in formVal) {
-      const validationFuncs = formValidation[fieldName];
+    const fieldsToValidate = {
+      username,
+      password,
+      fname,
+      lname,
+      email,
+      confirmPassword,
+    };
+
+    for (const fieldName in fieldsToValidate) {
+      const validationFuncs = fieldsToValidate[fieldName];
 
       validationFuncs.forEach((validationFunc) => {
         let validateResult = validationFunc(
@@ -76,11 +84,36 @@ export default function SignupCard() {
 
     setValidated(true);
     setErrorMessages(newErrMessages);
-    // Call the signup function if no validation errors
-    if (Object.keys(newErrMessages).length === 0) {
-      await signup(formVal.username, formVal.password);
-    }
   };
+
+  // handle submit - validate all input fields on the client side before directing
+  // the user to Home page
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    validateInputField();
+  };
+
+  useEffect(() => {
+    const handleSignup = async () => {
+      if (isValidated && isValidationPassed()) {
+        try {
+          await signup(formVal.username, formVal.password);
+          navigate("/");
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    };
+
+    handleSignup();
+  }, [errorMessages]);
+
+  // Handle errors from the bookmark hook
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   return (
     <Form
@@ -89,7 +122,9 @@ export default function SignupCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Sign Up
+      </h2>
       <div className="d-flex justify-content-between gap-2">
         <Form.Group className="my-4">
           <Form.Control

@@ -1,27 +1,33 @@
-import logo from "../../assets/logo.png";
-import avatar from "../../assets/avatar.jpg";
 import {
+  Button,
   Container,
+  Image,
   Nav,
   Navbar,
-  Image,
-  Stack,
   NavDropdown,
   OverlayTrigger,
   Popover,
-  Button,
-  DropdownButton,
-  ButtonGroup,
-  Dropdown,
+  Stack
 } from "react-bootstrap";
+import avatar from "../../assets/avatar.jpg";
 import SearchBar from "../SearchBar";
-import { SunFill, MoonFill } from "react-bootstrap-icons";
 
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
-import { useState } from "react";
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
+  const storedUser = localStorage.getItem("user");
+  let username = null;
+  if (storedUser) {
+    username = JSON.parse(storedUser).username;
+  }
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <>
@@ -80,28 +86,12 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John!
+                        {username
+                          ? username.charAt(0).toUpperCase() + username.slice(1)
+                          : "Guest"}
                       </Popover.Header>
                       <Popover.Body className="py-2">
                         <Nav>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/profile-settings"
-                              id="dropdown_items"
-                            >
-                              My Profile
-                            </Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/saved-articles"
-                              id="dropdown_items"
-                            >
-                              Saved Articles
-                            </Nav.Link>
-                          </Nav.Item>
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
@@ -113,14 +103,26 @@ export default function Header() {
                           </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/signin"
-                              id="dropdown_items"
-                              style={{ color: "red" }}
-                            >
-                              Sign out
-                            </Nav.Link>
+                            {user ? (
+                              <Nav.Link
+                                className="fw-medium"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "red" }}
+                                onClick={handleLogout}
+                              >
+                                Sign out
+                              </Nav.Link>
+                            ) : (
+                              <Nav.Link
+                                className="fw-bold"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "lightblue" }}
+                              >
+                                Sign in
+                              </Nav.Link>
+                            )}
                           </Nav.Item>
                         </Nav>
                       </Popover.Body>

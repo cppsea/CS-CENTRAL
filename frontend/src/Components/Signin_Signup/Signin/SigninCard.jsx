@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, InputGroup, Container, Row, Col } from "react-bootstrap";
 import * as auth from "../../auth/auth";
 import { useLogin } from "../../../hooks/useLogin";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import "./Signin.scss";
 import "../SignForm.scss";
+import { useNavigate } from "react-router-dom";
 
 const GoogleIcon = () => (
   <svg
@@ -21,6 +22,9 @@ const GoogleIcon = () => (
 );
 
 export default function SigninCard() {
+  const { isLoading, error, login } = useLogin();
+  const navigate = useNavigate();
+
   const [formVal, setFormVal] = useState({
     username: "",
     password: "",
@@ -29,7 +33,6 @@ export default function SigninCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [isValidated, setValidated] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
-  const { login, isLoading, error } = useLogin();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -60,6 +63,7 @@ export default function SigninCard() {
       // If no errors, proceed with login
       try {
         await login(formVal.username, formVal.password);
+        // navigate("/");
         // Redirect or perform other actions on successful login
       } catch (err) {
         setErrorMessages({ form: "Invalid credentials" });

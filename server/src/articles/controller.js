@@ -4,6 +4,7 @@ const queries = require("./queries");
 const getArticles = async (req, res) => {
   console.log("GET ARTICLES");
   if (req.user) {
+    console.log("WITH USER")
     if (req.query.title) {
       const articles = await pool.query(queries.auth_getArticlesByTitle.replace('$1',req.query.title).replace('$2',req.user.id),(error, results) => {
         if (error) {
@@ -22,6 +23,7 @@ const getArticles = async (req, res) => {
       });
     }
   } else {
+    console.log("WITHOUT USER")
     if (req.query.title) {
       pool.query(queries.getArticlesByTitle.replace('$1',req.query.title),(error, results) => {
         if (error) {

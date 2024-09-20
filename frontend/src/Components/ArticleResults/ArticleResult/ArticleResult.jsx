@@ -2,7 +2,8 @@ import { Image } from "react-bootstrap";
 import "./ArticleResult.scss";
 import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
-export default function ArticleResult({ article, bookmarkToggler }) {
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+export default function ArticleResult({ article, isPending, bookmarkToggler }) {
   const navigate = useNavigate();
 
   const articleNavigate = () => {
@@ -10,11 +11,13 @@ export default function ArticleResult({ article, bookmarkToggler }) {
   };
   return (
     <div className="article-result">
-      <div className="article-result-image-container">
+      <div className="article-result-image-container" onClick={articleNavigate}>
         <Image src={article.image} className="article-result-image" />
       </div>
       <div>
-        {article.isBookmarked ? (
+        {isPending ? (
+          <AiOutlineLoading3Quarters className="loading" />
+        ) : article.isBookmarked ? (
           <BookmarkFill
             className="article-result-bookmark"
             onClick={bookmarkToggler}

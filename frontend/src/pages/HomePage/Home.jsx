@@ -14,7 +14,6 @@ import devin_ai from "../../assets/Article_Images/devin_ai.png";
 import ai_in_business from "../../assets/Article_Images/ai_in_business.png";
 import quantum from "../../assets/Article_Images/quantum.png";
 import ai_brain from "../../assets/ml_brain.jpg";
-
 export default function Home() {
   // demo feature article
   const feature_article_example = {
@@ -74,8 +73,11 @@ export default function Home() {
     },
   ];
 
+
+
   // useEffect to fetch the main feature article from the database (added later)
-  useEffect(() => {}, []);
+  useEffect(() => {
+  }, []);
 
   return (
     <>
