@@ -3,3 +3,19 @@
     display: none !important;
   }
 }
+
+.nav-tabs {
+  height: 100px;
+}
+.nav-tabs .nav-link {
+  color: white;
+  background-color: #79A2D2; 
+  opacity: 50%;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+  color: #fff !important; 
+  background-color: #79A2D2 !important; 
+  border-color: #007bff !important; 
+  opacity: 100%;
+}
