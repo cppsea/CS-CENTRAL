@@ -1,0 +1,38 @@
+.editor-toggle {
+  display: flex;
+  justify-content: flex-end; /* Align tabs to the right */
+  margin-bottom: 1rem;
+  position: relative;
+  top: 20px; /* Distance from the top */
+  right: 20px; /* Distance from the right */
+  border-bottom: 2px solid #b0c4de; /* Light blue line at the bottom */
+  
+  button {
+    padding: 5px 15px; /* Smaller padding for inactive tabs */
+    cursor: pointer;
+    background-color: #b0c4de; /* Light blue background */
+    border: none;
+    border-radius: 10px 10px 0 0; /* Rounded top corners */
+    color: white;
+    margin-right: 0; /* No space between tabs */
+    position: relative;
+    top: 2px; /* Slightly raise the tab to overlap the bottom border */
+    z-index: 0; /* Default z-index for non-active tabs */
+
+    &.active {
+      background-color: #7aa3d8; /* Darker blue for the active tab */
+      color: white;
+      z-index: 1; /* Bring the active tab to the front */
+      padding: 8px 18px; /* Slightly larger padding for the active tab */
+    }
+
+    &:not(.active) {
+      background-color: #b0c4de;
+      opacity: 0.7; /* Slight transparency for inactive tab */
+    }
+
+    &:hover {
+      background-color: #5f87c2; /* Even darker blue on hover */
+    }
+  }
+}
