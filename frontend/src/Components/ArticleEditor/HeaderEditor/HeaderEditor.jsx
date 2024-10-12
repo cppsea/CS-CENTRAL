@@ -76,15 +76,7 @@ export default function HeaderEditor({
 
   return (
     <>
-      <Tabs
-        defaultActiveKey="profile"
-        className="d-flex justify-content-end align-items-end"
-      >
-        <Tab eventKey="edit" className="edit-tab" title="Edit">
-        </Tab>
-        <Tab eventKey="preview" className="preview-tab" title="Preview">
-        </Tab>
-      </Tabs>
+      <div id={editorBlockId} />
     </>
   );
 }
