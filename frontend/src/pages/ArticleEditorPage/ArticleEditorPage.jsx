@@ -56,16 +56,15 @@ export default function ArticleEditorPage() {
     }
   };
 
+  const [draggedIndex, setDraggedIndex] = useState(null);
   const handleDragStart = (e, index) => {
-    e.dataTransfer.setData("text/plain", index);
+    setDraggedIndex(index);
   };
 
   const handleDrop = (e, dropIndex) => {
     e.preventDefault();
 
-    let draggedIndex = e.dataTransfer.getData("text/plain");
-
-    if (draggedIndex !== dropIndex) {
+    if (draggedIndex !== null && draggedIndex !== dropIndex) {
       let newArticleBody = [...articleEditorData.articleBody];
       let draggedBody = newArticleBody[draggedIndex];
 
@@ -80,6 +79,7 @@ export default function ArticleEditorPage() {
         ...articleEditorData,
         articleBody: newArticleBody,
       });
+      setDraggedIndex(null);
     }
   };
 
@@ -175,7 +175,9 @@ export default function ArticleEditorPage() {
           >
             <div draggable>ToolBar</div>
             <BodySectionEditor
-              key={`body-section-editor-${index}`}
+              key={`body-section-editor-${index}-${JSON.stringify(
+                articleBodySectionData
+              )}`}
               data={articleBodySectionData}
               onChange={setArticleBodySectionDataCreator(index)}
               charLimit={20}
