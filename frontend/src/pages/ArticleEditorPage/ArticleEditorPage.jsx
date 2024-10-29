@@ -23,14 +23,14 @@ export default function ArticleEditorPage() {
   };
   const setArticleBodySectionDataCreator = (index) => {
     return (newData) => {
-      setArticleEditorData({
-        ...articleEditorData,
+      setArticleEditorData((prevData) => ({
+        ...prevData,
         articleBody: [
-          ...articleEditorData.articleBody.slice(0, index),
+          ...prevData.articleBody.slice(0, index),
           newData,
-          ...articleEditorData.articleBody.slice(index + 1),
+          ...prevData.articleBody.slice(index + 1),
         ],
-      });
+      }));
     };
   };
 
@@ -53,6 +53,33 @@ export default function ArticleEditorPage() {
         setImage(reader.result);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDragStart = (e, index) => {
+    e.dataTransfer.setData("text/plain", index);
+  };
+
+  const handleDrop = (e, dropIndex) => {
+    e.preventDefault();
+
+    let draggedIndex = e.dataTransfer.getData("text/plain");
+
+    if (draggedIndex !== dropIndex) {
+      let newArticleBody = [...articleEditorData.articleBody];
+      let draggedBody = newArticleBody[draggedIndex];
+
+      newArticleBody = [
+        ...newArticleBody.slice(0, draggedIndex),
+        ...newArticleBody.slice(draggedIndex + 1),
+      ];
+
+      newArticleBody.splice(dropIndex, 0, draggedBody);
+
+      setArticleEditorData({
+        ...articleEditorData,
+        articleBody: newArticleBody,
+      });
     }
   };
 
@@ -140,13 +167,21 @@ export default function ArticleEditorPage() {
 
       {articleEditorData.articleBody.map((articleBodySectionData, index) => {
         return (
-          <BodySectionEditor
-            key={`body-section-editor-${index}`}
-            data={articleBodySectionData}
-            onChange={setArticleBodySectionDataCreator(index)}
-            charLimit={20}
-            editorBlockId={`body-section-editor-${index}`}
-          />
+          <div
+            key={index}
+            onDragOver={(e) => e.preventDefault()}
+            onDragStart={(e) => handleDragStart(e, index)}
+            onDrop={(e) => handleDrop(e, index)}
+          >
+            <div draggable>ToolBar</div>
+            <BodySectionEditor
+              key={`body-section-editor-${index}`}
+              data={articleBodySectionData}
+              onChange={setArticleBodySectionDataCreator(index)}
+              charLimit={20}
+              editorBlockId={`body-section-editor-${index}`}
+            />
+          </div>
         );
       })}
 
