@@ -4,6 +4,8 @@ import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEdit
 import { useState } from "react";
 import { PlusCircle } from "react-bootstrap-icons";
 import { Tab, Tabs, Image, Form, Button } from "react-bootstrap";
+import { GripVertical } from "react-bootstrap-icons";
+import "./ArticleEditorPage.scss";
 
 export default function ArticleEditorPage() {
   const [articleEditorData, setArticleEditorData] = useState({
@@ -173,8 +175,11 @@ export default function ArticleEditorPage() {
             onDragStart={(e) => handleDragStart(e, index)}
             onDrop={(e) => handleDrop(e, index)}
           >
-            <div draggable>ToolBar</div>
+            <span id="drag-icon" draggable="true">
+              <GripVertical size={24} />
+            </span>
             <BodySectionEditor
+              className="body-section-editor"
               key={`body-section-editor-${index}-${JSON.stringify(
                 articleBodySectionData
               )}`}

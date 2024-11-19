@@ -1,0 +1,18 @@
+@import "../../scss/variables";
+
+.body-section-editor{
+    position: relative;
+    z-index: 1;
+}
+
+#drag-icon {
+    max-width: inherit;
+    position: relative;
+    float: right;
+    margin-top: -10px;
+    margin-right: 5px;
+    z-index: 2;
+    &:hover{
+        cursor: move;
+    }
+}
