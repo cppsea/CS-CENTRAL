@@ -7,7 +7,7 @@ export const useArticleDelete = () => {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const deleteArticle = async (articleId, error) => {
+  const deleteArticle = async (articleId) => {
     setIsLoading(true);
     setError(null);
 
@@ -25,14 +25,14 @@ export const useArticleDelete = () => {
       }
 
       // If there are already exisiting articles
-      const exisitingArticles =
-        JSON.parse(localStorage.getItem("articles")) || [];
+      // temporary, replace with wherever articles are stored
+      const exisitingArticles = [];
 
       const updatedArticles = exisitingArticles.filter(
         (article) => article.id === articleId
       );
 
-      localStorage.setItem("articles", JSON.stringify(updatedArticles));
+      // update stored articles with updatedArticles
 
       navigate("/");
     } catch (err) {

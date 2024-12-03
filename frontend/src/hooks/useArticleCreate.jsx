@@ -7,7 +7,7 @@ export const useArticleCreate = () => {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const createArticle = async (articleEditorData, error) => {
+  const createArticle = async (articleEditorData) => {
     setIsLoading(true);
     setError(null);
 
@@ -26,12 +26,12 @@ export const useArticleCreate = () => {
       }
 
       // If there are already exisiting articles
-      const exisitingArticles =
-        JSON.parse(localStorage.getItem("articles")) || [];
+      // temporary, replace with wherever articles are stored
+      const exisitingArticles = [];
 
       exisitingArticles.push(json);
 
-      localStorage.setItem("articles", JSON.stringify(exisitingArticles));
+      // update stored articles with exisitingArticles
 
       navigate("/");
     } catch (err) {

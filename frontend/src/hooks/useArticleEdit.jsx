@@ -7,7 +7,7 @@ export const useArticleEdit = () => {
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const editArticle = async (articleId, articleEditorData, error) => {
+  const editArticle = async (articleId, articleEditorData) => {
     setIsLoading(true);
     setError(null);
 
@@ -26,14 +26,14 @@ export const useArticleEdit = () => {
       }
 
       // If there are already exisiting articles
-      const exisitingArticles =
-        JSON.parse(localStorage.getItem("articles")) || [];
+      // temporary, replace with wherever articles are stored
+      const exisitingArticles = [];
 
       const updatedArticles = exisitingArticles.map((article) =>
         article.id === articleId ? { ...article, ...json } : article
       );
 
-      localStorage.setItem("articles", JSON.stringify(updatedArticles));
+      // update stored articles with updatedArticles
 
       navigate("/");
     } catch (err) {
