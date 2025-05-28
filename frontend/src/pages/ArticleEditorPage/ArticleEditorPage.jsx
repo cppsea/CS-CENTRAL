@@ -2,9 +2,8 @@ import BodySectionEditor from "../../Components/ArticleEditor/BodySectionEditor/
 import DescEditor from "../../Components/ArticleEditor/DescEditor/DescEditor";
 import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEditor";
 import { useState } from "react";
-import { PlusCircle } from "react-bootstrap-icons";
+import { PlusCircle, ArrowsMove, Trash } from "react-bootstrap-icons";
 import { Tab, Tabs, Image, Form, Button } from "react-bootstrap";
-import { GripVertical } from "react-bootstrap-icons";
 import "./ArticleEditorPage.scss";
 
 export default function ArticleEditorPage() {
@@ -43,6 +42,18 @@ export default function ArticleEditorPage() {
       blocks: [],
     });
     setArticleEditorData(newArticleEditorData);
+  };
+
+  const removeBodySection = (index) => {
+    let newArticleBody = [...articleEditorData.articleBody];
+    newArticleBody = [
+      ...newArticleBody.slice(0, index),
+      ...newArticleBody.slice(index + 1),
+    ];
+    setArticleEditorData({
+      ...articleEditorData,
+      articleBody: newArticleBody,
+    });
   };
 
   const [image, setImage] = useState(null);
@@ -165,34 +176,48 @@ export default function ArticleEditorPage() {
         editorBlockId={"desc-editor"}
         charLimit={50}
       />
-      <h2>article body sections editorjs instance</h2>
-
-      {articleEditorData.articleBody.map((articleBodySectionData, index) => {
-        return (
-          <div
-            key={index}
-            onDragOver={(e) => e.preventDefault()}
-            onDragStart={(e) => handleDragStart(e, index)}
-            onDrop={(e) => handleDrop(e, index)}
-          >
-            <span id="drag-icon" draggable="true">
-              <GripVertical size={24} />
-            </span>
-            <BodySectionEditor
-              className="body-section-editor"
-              key={`body-section-editor-${index}-${JSON.stringify(
-                articleBodySectionData
-              )}`}
-              data={articleBodySectionData}
-              onChange={setArticleBodySectionDataCreator(index)}
-              charLimit={20}
-              editorBlockId={`body-section-editor-${index}`}
-            />
-          </div>
-        );
-      })}
-
-      <PlusCircle onClick={addNewBodySection} />
+      <div className="article-body-container">
+        <h2 className="article-body-header">Article Body</h2>
+        <div className="article-body-content">
+          {articleEditorData.articleBody.map(
+            (articleBodySectionData, index) => {
+              return (
+                <div
+                  key={index}
+                  className="article-body-section"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDragStart={(e) => handleDragStart(e, index)}
+                  onDrop={(e) => handleDrop(e, index)}
+                >
+                  <div className="body-section-editor">
+                    <BodySectionEditor
+                      key={`body-section-editor-${index}-${JSON.stringify(
+                        articleBodySectionData
+                      )}`}
+                      data={articleBodySectionData}
+                      onChange={setArticleBodySectionDataCreator(index)}
+                      charLimit={20}
+                      editorBlockId={`body-section-editor-${index}`}
+                    />
+                  </div>
+                  <div className="icons">
+                    <span id="drag-icon" draggable="true">
+                      <ArrowsMove size={24} id="drag-icon" />
+                    </span>
+                    <Trash
+                      id="trash-icon"
+                      size={24}
+                      onClick={() => removeBodySection(index)}
+                    />
+                  </div>
+                  <hr className="body-divider" />
+                </div>
+              );
+            }
+          )}
+          <PlusCircle id="plus-button" size={24} onClick={addNewBodySection} />
+        </div>
+      </div>
       <button onClick={() => console.log(JSON.stringify(articleEditorData))}>
         Show Data
       </button>

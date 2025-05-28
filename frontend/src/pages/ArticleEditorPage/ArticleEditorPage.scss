@@ -1,18 +1,109 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
 @import "../../scss/variables";
 
-.body-section-editor{
-    position: relative;
-    z-index: 1;
+.article-body-container {
+  margin-top: 10px;
+  padding: 10px 50px;
+
+  .article-body-header {
+    font-weight: bold;
+    font-size: 1.25rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+
+  .article-body-content {
+    max-width: 1000px;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+
+    .article-body-section{
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      gap: 16px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid;
+        padding: 10px 0;
+      }
+
+      .body-section-editor{
+        flex-grow: 1;
+      }
+
+      .icons{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+  
+        #trash-icon {
+          cursor: pointer;
+          transition: transform 0.2s ease;
+          
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+  
+        #drag-icon {
+          cursor: move;
+          transition: transform 0.2s ease;
+          
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+
+    #plus-button {
+      align-self: flex-end;
+      cursor: pointer;
+      padding-top: 10px;
+      box-sizing: content-box;
+      transition: transform 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
 }
 
-#drag-icon {
-    max-width: inherit;
-    position: relative;
-    float: right;
-    margin-top: -10px;
-    margin-right: 5px;
-    z-index: 2;
-    &:hover{
-        cursor: move;
+// fix plus button for editorjs
+
+@include color-mode(light){
+  .article-body-content{
+    background-color: $article-editor-body-light;
+  }
+}
+
+@include color-mode(dark){
+  .article-body-content{
+    background-color: $article-editor-body-dark;
+
+    .ce-toolbar__actions--opened {
+      .ce-toolbar__plus {
+        color: white;
+      }
+
+      .ce-toolbar__settings-btn {
+        color: white;
+      }
+
+      .ce-toolbar__plus:hover,
+      .ce-toolbar__settings-btn:hover {
+        background-color: #3d3d3d;
+      }
     }
+  }
 }
