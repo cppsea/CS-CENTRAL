@@ -6,23 +6,21 @@ import { useNavigate } from "react-router-dom";
 export const useSignup = () => {
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+
     const { dispatch } = useAuthContext();
     const navigate = useNavigate();
     const apiUrl = import.meta.env.VITE_API_URL;
     // const api = process.env.REACT_APP_API_URL
     
-
-    console.log("API URL from environment:", apiUrl); // Debug log
-
-    const signup = async (username, user_password) => {
+    const signup = async (user) => {
         setIsLoading(true);
         setError(null);
-
+        console.log(user)
         try {
             const response = await fetch(`${apiUrl}/api/users`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, user_password })
+                body: JSON.stringify(user)
             });
 
             let json;
@@ -50,7 +48,7 @@ export const useSignup = () => {
         } catch (err) {
             setError("Something went wrong. Please try again.");
             setIsLoading(false);
-        }
+        } 
     };
 
     return { signup, isLoading, error };

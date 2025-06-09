@@ -1,4 +1,3 @@
-import logo from "../../assets/logo.png";
 import avatar from "../../assets/avatar.jpg";
 import {
   Container,
@@ -10,19 +9,20 @@ import {
   OverlayTrigger,
   Popover,
   Button,
-  DropdownButton,
-  ButtonGroup,
-  Dropdown,
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
-import { SunFill, MoonFill } from "react-bootstrap-icons";
 
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
-import { useState } from "react";
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
 
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
@@ -80,7 +80,7 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John!
+                        Hello {user ? user.first_name : "Guest"}!
                       </Popover.Header>
                       <Popover.Body className="py-2">
                         <Nav>
@@ -113,14 +113,26 @@ export default function Header() {
                           </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/signin"
-                              id="dropdown_items"
-                              style={{ color: "red" }}
-                            >
-                              Sign out
-                            </Nav.Link>
+                            {user ? (
+                              <Nav.Link
+                                className="fw-medium"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "red" }}
+                                onClick={handleLogout}
+                              >
+                                Sign out
+                              </Nav.Link>
+                            ) : (
+                              <Nav.Link
+                                className="fw-bold"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "lightblue" }}
+                              >
+                                Sign in
+                              </Nav.Link>
+                            )}
                           </Nav.Item>
                         </Nav>
                       </Popover.Body>

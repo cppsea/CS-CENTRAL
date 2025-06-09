@@ -45,6 +45,7 @@ export default function SigninCard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const errMessagesList = {};
     const checkEmpty = auth.validationFunctions.checkEmpty;
 
@@ -55,18 +56,18 @@ export default function SigninCard() {
         errMessagesList[fieldName] = validateResult;
       }
     }
+    setErrorMessages(errMessagesList);
 
     if (Object.keys(errMessagesList).length === 0) {
       // If no errors, proceed with login
       try {
-        await login(formVal.username, formVal.password);
+        await login({ username: formVal.username, password: formVal.password });
         // Redirect or perform other actions on successful login
       } catch (err) {
         setErrorMessages({ form: "Invalid credentials" });
       }
     } else {
       setValidated(true);
-      setErrorMessages(errMessagesList);
     }
   };
 

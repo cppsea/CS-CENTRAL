@@ -10,16 +10,17 @@ export const useLogin = () => {
   const apiUrl = import.meta.env.VITE_API_URL; //change to .env
   // const api = process.env.REACT_APP_API_URL
 
-  const login = async (username, user_password, error) => {
+  const login = async (user, error) => {
     setIsLoading(true);
     setError(null);
+
+    const { username, password } = user;
     try {
       const response = await fetch(`${apiUrl}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, user_password }),
+        body: JSON.stringify({ username, password }),
       });
-      console.log(apiUrl);
 
       const json = await response.json();
 

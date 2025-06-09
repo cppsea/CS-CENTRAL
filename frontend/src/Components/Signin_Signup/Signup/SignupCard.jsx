@@ -54,7 +54,6 @@ export default function SignupCard() {
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrMessages = {};
     const formValidation = auth.formValidation;
 
@@ -78,7 +77,13 @@ export default function SignupCard() {
     setErrorMessages(newErrMessages);
     // Call the signup function if no validation errors
     if (Object.keys(newErrMessages).length === 0) {
-      await signup(formVal.username, formVal.password);
+      await signup({
+        first_name: formVal.fname,
+        last_name: formVal.lname,
+        username: formVal.username,        
+        password: formVal.password,
+        email: formVal.email,
+      });
     }
   };
 
