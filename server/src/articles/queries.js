@@ -1,3 +1,5 @@
+const getMyArticles = "SELECT * FROM articles WHERE author_id = $1";
+
 const getArticles = "SELECT * FROM articles";
 const getArticlesById = "SELECT * FROM articles WHERE id = $1";
 const addArticles =
@@ -20,6 +22,7 @@ const auth_getArticlesByTitle =
   "SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS \"isBookmarked\" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($2) WHERE title LIKE '%$1%'";
 
 module.exports = {
+  getMyArticles,
   getArticles,
   getArticlesById,
   addArticles,

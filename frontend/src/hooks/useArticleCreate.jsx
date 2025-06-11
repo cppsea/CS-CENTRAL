@@ -6,16 +6,20 @@ export const useArticleCreate = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const createArticle = async (articleEditorData) => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/createarticle`, {
+      const response = await fetch(`${apiUrl}/api/articles/`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ articleEditorData }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: JSON.stringify(articleEditorData),
       });
 
       const json = await response.json();

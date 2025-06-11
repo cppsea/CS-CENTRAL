@@ -1,20 +1,18 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
-export const useArticleDelete = () => {
+export const useGetMyArticles = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const deleteArticle = async (articleId) => {
+  const getMyArticles = async () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${apiUrl}/api/articles/${articleId}`, {
-        method: "DELETE",
+      const response = await fetch(`${apiUrl}/api/articles/my-articles`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user?.token}`,
@@ -27,12 +25,14 @@ export const useArticleDelete = () => {
         setError(json.error);
         return;
       }
+
+      return json;
     } catch (err) {
-      setError("Something went wrong. Couldn't delete article.");
+      setError("Something went wrong. Couldn't get articles.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { deleteArticle, isLoading, error };
+  return { getMyArticles, isLoading, error };
 };

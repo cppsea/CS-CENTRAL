@@ -12,6 +12,9 @@ import {
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
 
+import { SunFill, MoonFill } from "react-bootstrap-icons";
+import { useState, useEffect } from "react";
+
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
@@ -23,6 +26,21 @@ export default function Header() {
   const handleLogout = () => {
     logout();
   };
+
+  const [theme, setTheme] = useState(() => {
+    const stored = localStorage.getItem("theme");
+    return (
+      stored ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
   return (
     <>
       <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
@@ -63,10 +81,26 @@ export default function Header() {
             </Navbar.Collapse>
           </Stack>
 
-          <Stack direction="horizontal" gap={3}>
-            <div style={{ justifyContent: "center" }}>
+          <Stack
+            direction="horizontal"
+            gap={3}
+            className="flex-grow-1 justify-content-end align-items-center header-right"
+          >
+            <div className="search-container flex-grow-1">
               <SearchBar />
             </div>
+
+            <Button
+              variant="link"
+              className="p-0 me-2 toggle-theme-button"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              {theme === "dark" ? (
+                <SunFill size={24} />
+              ) : (
+                <MoonFill size={24} />
+              )}
+            </Button>
 
             <Nav variant="underline">
               <Nav.Item>

@@ -2,6 +2,21 @@ const { query } = require("express");
 const pool = require("../../db.js");
 const queries = require("./queries");
 
+const getMyArticles = async (req, res) => {
+  const authorId = req.user.id;
+  if (authorId) {
+    pool.query(queries.getMyArticles, [authorId], (error, results) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+      return res.status(200).json(results.rows);
+    });
+  } else {
+    return res.status(404).json({ error: "Not authorized to access" });
+  }
+};
+
 const getArticles = async (req, res) => {
   console.log("GET ARTICLES");
   if (req.user) {
@@ -126,7 +141,8 @@ const editArticle = (req, res) => {
 
 const publishArticle = (req, res) => {
   try {
-    const { id, author_id } = req.body;
+    const { id } = req.body;
+    const author_id = req.user.id;
 
     pool.query(queries.publishArticle, [id, author_id], (error, results) => {
       if (error) {
@@ -150,7 +166,8 @@ const publishArticle = (req, res) => {
 
 const unpublishArticle = (req, res) => {
   try {
-    const { id, author_id } = req.body;
+    const { id } = req.body;
+    const author_id = req.user.id;
 
     pool.query(queries.unpublishArticle, [id, author_id], (error, results) => {
       if (error) {
@@ -180,6 +197,7 @@ const deleteArticle = (req, res) => {
 };
 
 module.exports = {
+  getMyArticles,
   getArticles,
   getArticlesById,
   addArticles,

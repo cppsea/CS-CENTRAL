@@ -26,12 +26,17 @@
   }
 }
 
+.search-container {
+  padding-left: 10px;
+}
+
 #dropdown_items {
   color: $link-text;
+  font-weight: 500;
   padding-left: 10px;
+  padding-right: 10px;
   font-size: 1.2em;
   &:hover {
-    font-weight: 600 !important;
     background-color: $primary;
     color: $header-text;
     border-radius: 4px;
