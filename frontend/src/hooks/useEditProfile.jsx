@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const useEditProfile = () => {
   const [error, setError] = useState(null);
@@ -12,6 +13,7 @@ export const useEditProfile = () => {
   const editProfile = async (profileFormData) => {
     if (!user) {
       navigate("/signin");
+      toast.error("Please log in or create an account.");
     }
     setIsLoading(true);
     setError(null);
@@ -41,6 +43,7 @@ export const useEditProfile = () => {
       return json;
     } catch (err) {
       setError("Something went wrong. Could not update profile.");
+      toast.error("Something went wrong. Could not update profile.");
     } finally {
       setIsLoading(false);
     }

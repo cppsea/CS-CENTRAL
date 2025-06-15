@@ -14,7 +14,7 @@ import CustomizationsEdit from "./Components/Settings/Customizations/Customizati
 import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
 import ArticleEditorPage from "./pages/ArticleEditorPage/ArticleEditorPage.jsx";
 import MyArticlesPage from "./pages/MyArticlesPage/MyArticlesPage.jsx";
-
+import { Toaster } from "react-hot-toast";
 function App() {
   return (
     <>
@@ -46,6 +46,7 @@ function App() {
           />
         </Route>
       </Routes>
+      <Toaster/>
     </>
   );
 }

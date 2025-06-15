@@ -17,6 +17,7 @@ import PasswordChangeModal from "./PasswordChangeModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEditProfile } from "../../../hooks/useEditProfile";
+import toast from "react-hot-toast";
 export default function ProfileEdit({
   profile = {
     fname: "Joe",
@@ -128,8 +129,7 @@ export default function ProfileEdit({
 
     setValidated(true);
     setErrorMessages(newErrMessages);
-
-    return Object.keys(errorMessages).length === 0;
+    return Object.keys(newErrMessages).length === 0;
   };
 
   //process profile data into FormData object
@@ -160,18 +160,22 @@ export default function ProfileEdit({
       const formData = processProfileData();
       await editProfile(formData);
 
-      setEditable({
-        fname: false,
-        lname: false,
-        email: false,
-        username: false,
-        password: false,
-        avatar: false,
-      });
-      setErrorMessages({});
-      setIsDataChanged(false);
+      if (!editProfileError) {
+        setEditable({
+          fname: false,
+          lname: false,
+          email: false,
+          username: false,
+          password: false,
+          avatar: false,
+        });
+        setErrorMessages({});
+        setIsDataChanged(false);
+        toast.success("Profile successfully updated.");
+      }
     } else {
       console.log("Invalid Form");
+      toast.error("Invalid form data.");
     }
   };
 
