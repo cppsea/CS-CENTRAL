@@ -8,7 +8,7 @@ export const useEditProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, dispatch } = useAuthContext();
 
   const editProfile = async (profileFormData) => {
     if (!user) {
@@ -36,6 +36,7 @@ export const useEditProfile = () => {
       }
 
       //update user in auth context with updated user info
+      dispatch({ type: "LOGIN", payload: { ...json.user, token: user.token } });
       localStorage.setItem(
         "user",
         JSON.stringify({ ...json.user, token: user.token })

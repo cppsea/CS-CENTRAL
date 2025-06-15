@@ -1,4 +1,3 @@
-import avatar from "../../assets/avatar.jpg";
 import {
   Container,
   Nav,
@@ -19,10 +18,11 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
 
+const DEFAULT_AVATAR = "/default_avatar.jpg";
+
 export default function Header() {
   const { user } = useAuthContext();
   const { logout } = useLogout();
-
   const handleLogout = () => {
     logout();
   };
@@ -174,7 +174,12 @@ export default function Header() {
                   }
                 >
                   <Button className=" bg-transparent border-0 p-0">
-                    <Image src={avatar} roundedCircle width={40} />
+                    <Image
+                      src={user ? user.avatar : DEFAULT_AVATAR}
+                      roundedCircle
+                      width={50}
+                      height={50}
+                    />
                   </Button>
                 </OverlayTrigger>
               </Nav.Item>
