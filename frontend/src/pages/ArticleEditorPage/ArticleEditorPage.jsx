@@ -10,11 +10,11 @@ export default function ArticleEditorPage() {
   const [articleEditorData, setArticleEditorData] = useState({
     header: { time: new Date().getTime(), blocks: [] },
     description: { time: new Date().getTime(), blocks: [] },
-    articleBody: [
-      { time: new Date().getTime(), blocks: [] },
-      { time: new Date().getTime(), blocks: [] },
-    ],
+    articleBody: [],
   });
+
+  //keeps track of the ids of body sections
+  const [bodySectionIdSet, setBodySectionIdSet] = useState(new Set());
 
   const setHeaderData = (newData) => {
     setArticleEditorData({ ...articleEditorData, header: newData });
@@ -22,22 +22,27 @@ export default function ArticleEditorPage() {
   const setDescData = (newData) => {
     setArticleEditorData({ ...articleEditorData, description: newData });
   };
-  const setArticleBodySectionDataCreator = (index) => {
-    return (newData) => {
-      setArticleEditorData((prevData) => ({
-        ...prevData,
-        articleBody: [
-          ...prevData.articleBody.slice(0, index),
-          newData,
-          ...prevData.articleBody.slice(index + 1),
-        ],
-      }));
-    };
+  const setArticleBodySectionDataCreator = (index) => (newData) => {
+    setArticleEditorData((prev) => {
+      return {
+        ...prev,
+        articleBody: prev.articleBody.map((section, i) => {
+          //preserves the random UUID we have created
+          return i === index ? { ...section, ...newData } : section;
+        }),
+      };
+    });
   };
 
   const addNewBodySection = () => {
     let newArticleEditorData = { ...articleEditorData };
+    let newId = crypto.randomUUID();
+    while (bodySectionIdSet.has(newId)) {
+      newId = crypto.randomUUID();
+    }
+    setBodySectionIdSet(bodySectionIdSet.add(newId));
     newArticleEditorData.articleBody.push({
+      id: newId,
       time: new Date().getTime(),
       blocks: [],
     });
@@ -54,6 +59,9 @@ export default function ArticleEditorPage() {
       ...articleEditorData,
       articleBody: newArticleBody,
     });
+
+    bodySectionIdSet.delete(articleEditorData.articleBody[index].id);
+    setBodySectionIdSet(new Set(bodySectionIdSet));
   };
 
   const [image, setImage] = useState(null);
@@ -166,7 +174,7 @@ export default function ArticleEditorPage() {
         data={articleEditorData.header}
         onChange={setHeaderData}
         editorBlockId={"header-editor"}
-        charLimit={10}
+        charLimit={50}
       />
       <h2>desc editorjs instance</h2>
 
@@ -174,7 +182,7 @@ export default function ArticleEditorPage() {
         data={articleEditorData.description}
         onChange={setDescData}
         editorBlockId={"desc-editor"}
-        charLimit={50}
+        charLimit={200}
       />
       <div className="article-body-container">
         <h2 className="article-body-header">Article Body</h2>
@@ -191,12 +199,10 @@ export default function ArticleEditorPage() {
                 >
                   <div className="body-section-editor">
                     <BodySectionEditor
-                      key={`body-section-editor-${index}-${JSON.stringify(
-                        articleBodySectionData
-                      )}`}
+                      key={`body-section-editor-${articleBodySectionData.id}`}
                       data={articleBodySectionData}
                       onChange={setArticleBodySectionDataCreator(index)}
-                      charLimit={20}
+                      charLimit={1000}
                       editorBlockId={`body-section-editor-${index}`}
                     />
                   </div>

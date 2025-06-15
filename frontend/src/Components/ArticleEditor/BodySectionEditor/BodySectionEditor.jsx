@@ -27,7 +27,7 @@ export const EDITOR_JS_TOOLS = {
   },
 };
 
-const BODY_SECTION_MAX_BLOCKS = 5;
+const BODY_SECTION_MAX_BLOCKS = 1000;
 export default function BodySectionEditor({
   data,
   onChange,
@@ -58,7 +58,6 @@ export default function BodySectionEditor({
             );
             await enforceCharLimit(content, currEvent, api, charLimit);
           }
-
           onChange({
             ...content,
             blocks: content.blocks.slice(0, BODY_SECTION_MAX_BLOCKS),

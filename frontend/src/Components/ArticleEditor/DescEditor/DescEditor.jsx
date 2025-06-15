@@ -17,7 +17,7 @@ export const EDITOR_JS_TOOLS = {
   strikethrough: Strikethrough,
 };
 
-const DESC_MAX_BLOCKS = 5;
+const DESC_MAX_BLOCKS = 10;
 export default function DescEditor({
   data,
   onChange,

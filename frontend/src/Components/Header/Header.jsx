@@ -17,11 +17,14 @@ import { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_AVATAR = "/default_avatar.jpg";
 
 export default function Header() {
   const { user } = useAuthContext();
+  const navigate = useNavigate();
   const { logout } = useLogout();
   const handleLogout = () => {
     logout();
@@ -37,6 +40,15 @@ export default function Header() {
     );
   });
 
+  const checkLoggedIn = (e) => {
+    if (!user) {
+      e.preventDefault();
+      logout();
+      navigate("/signin");
+      toast.error("Please login or create an account.");
+      e.stopPropagation();
+    }
+  };
   useEffect(() => {
     document.documentElement.setAttribute("data-bs-theme", theme);
     localStorage.setItem("theme", theme);
@@ -123,6 +135,7 @@ export default function Header() {
                               className="fw-medium"
                               href="/settings/profile-settings"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               My Profile
                             </Nav.Link>
@@ -132,6 +145,7 @@ export default function Header() {
                               className="fw-medium"
                               href="/settings/saved-articles"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               Saved Articles
                             </Nav.Link>
@@ -141,6 +155,7 @@ export default function Header() {
                               className="fw-medium"
                               href="/settings"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               Settings
                             </Nav.Link>
