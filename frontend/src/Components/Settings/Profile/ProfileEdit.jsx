@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Container,
   Form,
@@ -7,6 +7,7 @@ import {
   InputGroup,
   Button,
   Stack,
+  Image,
 } from "react-bootstrap";
 import { PencilFill } from "react-bootstrap-icons";
 
@@ -14,6 +15,8 @@ import "../Settings.scss";
 import * as auth from "../../auth/auth";
 import PasswordChangeModal from "./PasswordChangeModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useEditProfile } from "../../../hooks/useEditProfile";
 export default function ProfileEdit({
   profile = {
     fname: "Joe",
@@ -21,8 +24,16 @@ export default function ProfileEdit({
     email: "jsmith@gmail.com",
     username: "jsmith10",
     password: "password",
+    avatar: null,
   },
 }) {
+  const { user } = useAuthContext();
+
+  const {
+    editProfile,
+    isLoading: editProfileIsLoading,
+    error: editProfileError,
+  } = useEditProfile();
   const [profileDataCopy, setProfileDataCopy] = useState(profile);
   const [profileData, setProfileData] = useState(profile);
 
@@ -41,6 +52,7 @@ export default function ProfileEdit({
     email: false,
     username: false,
     password: false,
+    avatar: false,
   });
 
   // handle input entered
@@ -54,25 +66,53 @@ export default function ProfileEdit({
     });
   };
 
+  //profile avatar
+  const DEFAULT_AVATAR = "/default_avatar.jpg";
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarImgSrc, setAvatarImgSrc] = useState(DEFAULT_AVATAR);
+  const [avatarImgSrcCopy, setAvatarImgSrcCopy] = useState(DEFAULT_AVATAR);
+  const imageFileInputRef = useRef(null);
+
+  const handleImageChange = async (event) => {
+    const imgFile = event.target.files[0];
+    if (imgFile) {
+      setIsDataChanged(true);
+      setAvatarFile(imgFile);
+
+      // Create a URL for the selected file and update
+      const newImageSrc = URL.createObjectURL(imgFile);
+      setAvatarImgSrc(newImageSrc);
+
+      // Clean up the URL object when component unmounts
+      return () => URL.revokeObjectURL(newImageSrc);
+    }
+  };
+
   //resets changes, edit modes, error messages
   const resetChanges = () => {
     setProfileData(profileDataCopy);
+    setAvatarImgSrc(avatarImgSrcCopy);
     setEditable({
       fname: false,
       lname: false,
       email: false,
       username: false,
       password: false,
+      avatar: false,
     });
     setErrorMessages({});
     setIsDataChanged(false);
-  };
-  // handle submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    setAvatarFile(null);
 
+    if (imageFileInputRef.current) {
+      fileInputRef.current.value = null;
+    }
+  };
+
+  const validateForm = () => {
     const newErrMessages = {};
-    const formValidation = auth.formValidation;
+    const { fname, lname, email, username, password } = auth.formValidation;
+    const formValidation = { fname, lname, email, username, password };
 
     for (const fieldName in formValidation) {
       const validationFuncs = formValidation[fieldName];
@@ -88,7 +128,70 @@ export default function ProfileEdit({
 
     setValidated(true);
     setErrorMessages(newErrMessages);
+
+    return Object.keys(errorMessages).length === 0;
   };
+
+  //process profile data into FormData object
+
+  const processProfileData = () => {
+    const {
+      fname: first_name,
+      lname: last_name,
+      email,
+      username,
+    } = profileData;
+    const formData = new FormData();
+    formData.append("first_name", first_name);
+    formData.append("last_name", last_name);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("avatar", avatarFile);
+
+    return formData;
+  };
+  // handle submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const isFormValid = validateForm();
+    console.log(errorMessages);
+    if (isFormValid) {
+      const formData = processProfileData();
+      await editProfile(formData);
+
+      setEditable({
+        fname: false,
+        lname: false,
+        email: false,
+        username: false,
+        password: false,
+        avatar: false,
+      });
+      setErrorMessages({});
+      setIsDataChanged(false);
+    } else {
+      console.log("Invalid Form");
+    }
+  };
+
+  //load profile info
+  useEffect(() => {
+    if (user) {
+      const { first_name, last_name, email, avatar, username } = user;
+      if (avatar) {
+        setAvatarImgSrc(avatar);
+        setAvatarImgSrcCopy(avatar);
+      }
+      setProfileData({
+        ...profileData,
+        fname: first_name,
+        lname: last_name,
+        email: email,
+        username: username,
+      });
+    }
+  }, [user]);
 
   return (
     <Container className="my-3 mx-0" fluid>
@@ -96,6 +199,45 @@ export default function ProfileEdit({
       <div className="settings-divider"></div>
 
       <Form noValidate validated={isValidated} onSubmit={handleSubmit}>
+        <div>
+          {/** Profile Avatar Uploading */}
+          <div className="my-3 settings-section-header-container">
+            <div className="settings-arrow-marker-container">
+              <ArrowMarker />
+            </div>
+            <h4 className="text-uppercase settings-section-header">
+              Profile Avatar
+            </h4>
+          </div>
+          <div className="position-relative">
+            <Image
+              src={avatarImgSrc}
+              className="profile-avatar"
+              roundedCircle
+            />
+
+            <div className="position-absolute avatar-edit-container">
+              <label
+                title="Upload Avatar"
+                htmlFor="file-upload"
+                className="settings-edit-button avatar-edit settings-edit-button-edit"
+                onClick={() => setEditable({ ...editable, avatarUpload: true })}
+              >
+                <PencilFill />
+              </label>
+              <input
+                ref={imageFileInputRef}
+                id="file-upload"
+                name="avatar"
+                type="file"
+                accept="image/png, image/jpeg"
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+        </div>
+
         <div>
           <div className="my-3 settings-section-header-container">
             <div className="settings-arrow-marker-container">
@@ -324,7 +466,11 @@ export default function ProfileEdit({
             {/*only show save if there are actual changes*/}
             {isDataChanged && (
               <div>
-                <Button className="settings-confirm-button" type="submit">
+                <Button
+                  className="settings-confirm-button"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
                   Save
                 </Button>
               </div>
