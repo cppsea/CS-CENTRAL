@@ -3,7 +3,7 @@ import DescEditor from "../../Components/ArticleEditor/DescEditor/DescEditor";
 import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEditor";
 import { useState } from "react";
 import { PlusCircle, ArrowsMove, Trash } from "react-bootstrap-icons";
-import { Tab, Tabs } from "react-bootstrap";
+import { Tab, Tabs, Form, Image } from "react-bootstrap";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "./ArticleEditorPage.scss";
@@ -13,6 +13,7 @@ export default function ArticleEditorPage() {
   const { user } = useAuthContext();
   const [articleEditorData, setArticleEditorData] = useState({
     header: { time: new Date().getTime(), blocks: [] },
+    image: "/ai_image.jpg",
     description: { time: new Date().getTime(), blocks: [] },
     articleBody: [],
   });
@@ -68,19 +69,6 @@ export default function ArticleEditorPage() {
     setBodySectionIdSet(new Set(bodySectionIdSet));
   };
 
-  const [image, setImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const [draggedIndex, setDraggedIndex] = useState(null);
   const handleDragStart = (e, index) => {
     setDraggedIndex(index);
@@ -119,6 +107,17 @@ export default function ArticleEditorPage() {
         break;
       default:
         break;
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setArticleEditorData({...articleEditorData, image: reader.result})
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -197,12 +196,32 @@ export default function ArticleEditorPage() {
             charLimit={50}
           />
           <h2>desc editorjs instance</h2>
-
           <DescEditor
             data={articleEditorData.description}
             onChange={setDescData}
             editorBlockId={"desc-editor"}
             charLimit={200}
+          />{" "}
+          <Form.Label className="d-block p-0 m-0 form-control-lg fw-bold pt-3">
+            Article Image
+          </Form.Label>
+          {articleEditorData.image && (
+            <div className="mt-3">
+              <Image src={articleEditorData.image} width="300" alt="Uploaded preview" fluid />
+            </div>
+          )}
+          <Form.Label
+            className="bg-primary p-2 rounded mt-2 upload-button"
+            htmlFor="file-upload"
+          >
+            Upload Image
+          </Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            id="file-upload"
+            style={{ display: "none" }}
           />
           <div className="article-body-container">
             <h2 className="article-body-header">Article Body</h2>

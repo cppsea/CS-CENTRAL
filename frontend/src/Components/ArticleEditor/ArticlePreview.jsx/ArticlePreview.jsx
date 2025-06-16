@@ -47,7 +47,9 @@ export default function ArticlePreview({ articleEditorData, user }) {
       <Row className=" gx-4 gy-5">
         <Col xs={12} md={8}>
           <Stack className="gap-3">
-            <ArticleImage image={"/ai_image.jpg"} alt_text={"AI-image"} />
+            <ArticleImage
+              image={articleEditorData.image}
+            />
             {/* <TableOfContents contentSequence={contentHeaderSequence} /> */}
 
             {articleEditorData.articleBody.map((bodySection, index) => {
