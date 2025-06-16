@@ -115,7 +115,7 @@ export default function ArticleEditorPage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setArticleEditorData({...articleEditorData, image: reader.result})
+        setArticleEditorData({ ...articleEditorData, image: reader.result });
       };
       reader.readAsDataURL(file);
     }
@@ -188,44 +188,56 @@ export default function ArticleEditorPage() {
       </Form> */}
       {isEditView ? (
         <>
-          <h2>header editorjs instance</h2>
-          <HeaderEditor
-            data={articleEditorData.header}
-            onChange={setHeaderData}
-            editorBlockId={"header-editor"}
-            charLimit={50}
-          />
-          <h2>desc editorjs instance</h2>
-          <DescEditor
-            data={articleEditorData.description}
-            onChange={setDescData}
-            editorBlockId={"desc-editor"}
-            charLimit={200}
-          />{" "}
-          <Form.Label className="d-block p-0 m-0 form-control-lg fw-bold pt-3">
-            Article Image
-          </Form.Label>
-          {articleEditorData.image && (
-            <div className="mt-3">
-              <Image src={articleEditorData.image} width="300" alt="Uploaded preview" fluid />
+          <div className="container">
+            <h2 className="header">Title</h2>
+            <div className="text-container">
+              <HeaderEditor
+                data={articleEditorData.header}
+                onChange={setHeaderData}
+                editorBlockId={"header-editor"}
+                charLimit={50}
+              />
             </div>
-          )}
-          <Form.Label
-            className="bg-primary p-2 rounded mt-2 upload-button"
-            htmlFor="file-upload"
-          >
-            Upload Image
-          </Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            id="file-upload"
-            style={{ display: "none" }}
-          />
-          <div className="article-body-container">
-            <h2 className="article-body-header">Article Body</h2>
-            <div className="article-body-content">
+          </div>
+          <div className="container">
+            <h2 className="header">Description</h2>
+            <div className="text-container">
+              <DescEditor
+                data={articleEditorData.description}
+                onChange={setDescData}
+                editorBlockId={"desc-editor"}
+                charLimit={200}
+              />{" "}
+            </div>
+          </div>
+          <div className="container">
+            <h2 className="header">Article Image</h2>
+            {articleEditorData.image && (
+              <div className="image-container">
+                <Image
+                  src={articleEditorData.image}
+                  width="300"
+                  alt="Uploaded preview"
+                  fluid
+                />
+              </div>
+            )}
+            <div className="image-container">
+              <Form.Label className="upload-button" htmlFor="file-upload">
+                Upload Image
+              </Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                id="file-upload"
+                style={{ display: "none" }}
+              />
+            </div>
+          </div>
+          <div className="container">
+            <h2 className="header">Article Body</h2>
+            <div className="text-container">
               {articleEditorData.articleBody.map(
                 (articleBodySectionData, index) => {
                   return (

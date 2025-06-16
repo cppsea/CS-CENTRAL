@@ -4,19 +4,19 @@
 @import "../../../node_modules//bootstrap/scss/mixins";
 @import "../../scss/variables";
 
-.article-body-container {
+.container {
   margin-top: 10px;
   padding: 10px 50px;
 
-  .article-body-header {
+  .header {
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     max-width: 1000px;
     margin: 0 auto;
     padding: 10px 0;
   }
 
-  .article-body-content {
+  .text-container {
     max-width: 1000px;
     padding: 20px;
     border-radius: 16px;
@@ -24,7 +24,7 @@
     flex-direction: column;
     margin: 0 auto;
 
-    .article-body-section{
+    .article-body-section {
       display: flex;
       align-items: flex-start;
       width: 100%;
@@ -35,29 +35,29 @@
         padding: 10px 0;
       }
 
-      .body-section-editor{
+      .body-section-editor {
         flex-grow: 1;
       }
 
-      .icons{
+      .icons {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
         gap: 8px;
-  
+
         #trash-icon {
           cursor: pointer;
           transition: transform 0.2s ease;
-          
+
           &:hover {
             transform: scale(1.2);
           }
         }
-  
+
         #drag-icon {
           cursor: move;
           transition: transform 0.2s ease;
-          
+
           &:hover {
             transform: scale(1.2);
           }
@@ -71,7 +71,7 @@
       padding-top: 10px;
       box-sizing: content-box;
       transition: transform 0.2s ease;
-      
+
       &:hover {
         transform: scale(1.2);
       }
@@ -79,31 +79,62 @@
   }
 }
 
+#header-editor {
+  .codex-editor__redactor {
+    padding-bottom: 30px !important;
+  }
+  .ce-header {
+    word-wrap: break-word;
+  }
+}
+
+.image-container {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  img {
+    width: auto;
+  }
+}
+
+.upload-button {
+  background-color: $primary;
+  color: aliceblue;
+  margin-top: 10px;
+  padding: 5px 40px;
+  border-radius: 8px;
+  font-size: 1.15rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 // fix plus button for editorjs
 
-@include color-mode(light){
-  .article-body-content{
+@include color-mode(light) {
+  .text-container {
     background-color: $article-editor-body-light;
   }
 }
 
-@include color-mode(dark){
-  .article-body-content{
+@include color-mode(dark) {
+  .text-container {
     background-color: $article-editor-body-dark;
+  }
 
-    .ce-toolbar__actions--opened {
-      .ce-toolbar__plus {
-        color: white;
-      }
+  .ce-toolbar__actions--opened {
+    .ce-toolbar__plus {
+      color: white;
+    }
 
-      .ce-toolbar__settings-btn {
-        color: white;
-      }
+    .ce-toolbar__settings-btn {
+      color: white;
+    }
 
-      .ce-toolbar__plus:hover,
-      .ce-toolbar__settings-btn:hover {
-        background-color: #3d3d3d;
-      }
+    .ce-toolbar__plus:hover,
+    .ce-toolbar__settings-btn:hover {
+      background-color: #3d3d3d;
     }
   }
 }
