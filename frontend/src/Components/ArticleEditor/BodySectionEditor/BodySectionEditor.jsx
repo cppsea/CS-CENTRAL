@@ -7,8 +7,16 @@ import Undo from "editorjs-undo";
 import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
 import List from "@editorjs/list";
 import SimpleImage from "@editorjs/simple-image";
-
+import Header from "@editorjs/header";
 export const EDITOR_JS_TOOLS = {
+  header: {
+    class: Header,
+    config: {
+      levels: [2],
+      defaultLevel: 2,
+      enableLineBreaks: false,
+    },
+  },
   paragraph: {
     class: Paragraph,
     inlineToolBar: true,

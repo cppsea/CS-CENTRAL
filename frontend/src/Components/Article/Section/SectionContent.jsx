@@ -1,3 +1,4 @@
+import BlocksParser from "../../BlocksParser/BlocksParser";
 //Component for the body content of an article section's content
 export default function SectionContent({ content }) {
   return (
@@ -5,7 +6,9 @@ export default function SectionContent({ content }) {
       <div className=" section-content-marker-container">
         <div className="section-content-marker">&nbsp;</div>
       </div>
-      <p className="section-content-text pt-3 ps-4">{content}</p>
+      <p className="section-content-text pt-1 ps-4">
+        <BlocksParser blocks={content} />
+      </p>
     </div>
   );
 }

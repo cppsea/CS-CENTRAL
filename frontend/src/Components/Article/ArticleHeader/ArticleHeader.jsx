@@ -7,8 +7,9 @@ import ArticleHeaderAuthorDate from "./ArticleHeaderAuthorDate";
 /*
 takes in:
 
-string representing article title,
-string representing article description,
+
+json block containing article title,
+json block containing article description,
 string of author's name,
 string containing date of creation 
 (for now this is simply normal data like "Oct 9, 2023",
@@ -18,21 +19,23 @@ string containing date of creation
 */
 
 export default function ArticleHeader({
-  title,
-  description,
+  titleBlocks,
+  descriptionBlocks,
   author,
   date,
   isBookmarked,
   bookmarkToggler,
+  disableBookmark,
 }) {
   return (
     <Stack gap={2}>
       <ArticleHeaderTitle
-        title={title}
+        titleBlocks={titleBlocks}
         isBookmarked={isBookmarked}
         bookmarkToggler={bookmarkToggler}
+        disableBookmark={disableBookmark}
       />
-      <ArticleHeaderDesc desc={description} />
+      <ArticleHeaderDesc descriptionBlocks={descriptionBlocks} />
       <ArticleHeaderAuthorDate
         author={author}
         date={date}

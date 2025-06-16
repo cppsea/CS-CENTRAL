@@ -3,10 +3,14 @@ import DescEditor from "../../Components/ArticleEditor/DescEditor/DescEditor";
 import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEditor";
 import { useState } from "react";
 import { PlusCircle, ArrowsMove, Trash } from "react-bootstrap-icons";
-import { Tab, Tabs, Image, Form, Button } from "react-bootstrap";
+import { Tab, Tabs } from "react-bootstrap";
+
+import { useAuthContext } from "../../hooks/useAuthContext";
 import "./ArticleEditorPage.scss";
+import ArticlePreview from "../../Components/ArticleEditor/ArticlePreview.jsx/ArticlePreview";
 
 export default function ArticleEditorPage() {
+  const { user } = useAuthContext();
   const [articleEditorData, setArticleEditorData] = useState({
     header: { time: new Date().getTime(), blocks: [] },
     description: { time: new Date().getTime(), blocks: [] },
@@ -104,18 +108,33 @@ export default function ArticleEditorPage() {
     }
   };
 
+  const [isEditView, setIsEditView] = useState(true);
+  const toggleEditView = (key) => {
+    switch (key) {
+      case "edit":
+        setIsEditView(true);
+        break;
+      case "preview":
+        setIsEditView(false);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       {/*placeholder for styling of page, insert editor js instances in*/}
       <Tabs
-        defaultActiveKey="profile"
+        defaultActiveKey="edit"
         className="d-flex justify-content-end align-items-end"
+        onSelect={(key) => toggleEditView(key)}
       >
         <Tab eventKey="edit" className="edit-tab" title="Edit"></Tab>
         <Tab eventKey="preview" className="preview-tab" title="Preview"></Tab>
       </Tabs>
 
-      <Form className="form-editor w-75 m-auto mb-3">
+      {/* <Form className="form-editor w-75 m-auto mb-3">
         <Form.Group>
           <Form.Label className="p-0 m-0 form-control-lg fw-bold pt-3">
             Title
@@ -167,66 +186,86 @@ export default function ArticleEditorPage() {
             Submit
           </Button>
         </Form.Group>
-      </Form>
+      </Form> */}
+      {isEditView ? (
+        <>
+          <h2>header editorjs instance</h2>
+          <HeaderEditor
+            data={articleEditorData.header}
+            onChange={setHeaderData}
+            editorBlockId={"header-editor"}
+            charLimit={50}
+          />
+          <h2>desc editorjs instance</h2>
 
-      <h2>header editorjs instance</h2>
-      <HeaderEditor
-        data={articleEditorData.header}
-        onChange={setHeaderData}
-        editorBlockId={"header-editor"}
-        charLimit={50}
-      />
-      <h2>desc editorjs instance</h2>
-
-      <DescEditor
-        data={articleEditorData.description}
-        onChange={setDescData}
-        editorBlockId={"desc-editor"}
-        charLimit={200}
-      />
-      <div className="article-body-container">
-        <h2 className="article-body-header">Article Body</h2>
-        <div className="article-body-content">
-          {articleEditorData.articleBody.map(
-            (articleBodySectionData, index) => {
-              return (
-                <div
-                  key={index}
-                  className="article-body-section"
-                  onDragOver={(e) => e.preventDefault()}
-                  onDragStart={(e) => handleDragStart(e, index)}
-                  onDrop={(e) => handleDrop(e, index)}
-                >
-                  <div className="body-section-editor">
-                    <BodySectionEditor
-                      key={`body-section-editor-${articleBodySectionData.id}`}
-                      data={articleBodySectionData}
-                      onChange={setArticleBodySectionDataCreator(index)}
-                      charLimit={1000}
-                      editorBlockId={`body-section-editor-${index}`}
-                    />
-                  </div>
-                  <div className="icons">
-                    <span id="drag-icon" draggable="true">
-                      <ArrowsMove size={24} id="drag-icon" />
-                    </span>
-                    <Trash
-                      id="trash-icon"
-                      size={24}
-                      onClick={() => removeBodySection(index)}
-                    />
-                  </div>
-                  <hr className="body-divider" />
-                </div>
-              );
-            }
-          )}
-          <PlusCircle id="plus-button" size={24} onClick={addNewBodySection} />
-        </div>
-      </div>
-      <button onClick={() => console.log(JSON.stringify(articleEditorData))}>
-        Show Data
-      </button>
+          <DescEditor
+            data={articleEditorData.description}
+            onChange={setDescData}
+            editorBlockId={"desc-editor"}
+            charLimit={200}
+          />
+          <div className="article-body-container">
+            <h2 className="article-body-header">Article Body</h2>
+            <div className="article-body-content">
+              {articleEditorData.articleBody.map(
+                (articleBodySectionData, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="article-body-section"
+                      onDragOver={(e) => e.preventDefault()}
+                      onDragStart={(e) => handleDragStart(e, index)}
+                      onDrop={(e) => handleDrop(e, index)}
+                    >
+                      <div className="body-section-editor">
+                        <BodySectionEditor
+                          key={`body-section-editor-${articleBodySectionData.id}`}
+                          data={articleBodySectionData}
+                          onChange={setArticleBodySectionDataCreator(index)}
+                          charLimit={1000}
+                          editorBlockId={`body-section-editor-${index}`}
+                        />
+                      </div>
+                      <div className="icons">
+                        <span id="drag-icon" draggable="true">
+                          <ArrowsMove size={24} id="drag-icon" />
+                        </span>
+                        <Trash
+                          id="trash-icon"
+                          size={24}
+                          onClick={() => removeBodySection(index)}
+                        />
+                      </div>
+                      <hr className="body-divider" />
+                    </div>
+                  );
+                }
+              )}
+              <PlusCircle
+                id="plus-button"
+                size={24}
+                onClick={addNewBodySection}
+              />
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              console.log("header");
+              console.log(JSON.stringify(articleEditorData.header));
+              console.log("\nDescription");
+              console.log(JSON.stringify(articleEditorData.description));
+              console.log("\nArticle Body");
+              console.log(JSON.stringify(articleEditorData.articleBody));
+            }}
+          >
+            Show Data
+          </button>
+        </>
+      ) : (
+        <>
+          <ArticlePreview articleEditorData={articleEditorData} user={user} />
+        </>
+      )}
     </>
   );
 }

@@ -48,7 +48,6 @@
 }
 
 .article-bookmark {
-  
   font-size: calc(1rem + 0.5vw + 0.5vh);
 
   &:hover {
@@ -162,6 +161,8 @@
 }
 
 .section-content-text {
+  margin: 0;
+  margin-bottom: 0.2rem;
   width: calc(100% - 0.7rem);
   font-size: calc(1rem + 0.1vw);
 
@@ -229,7 +230,6 @@
     color: $article-header-light;
   }
 
- 
   .related-topics-heading,
   .topic-list-title,
   .section-header,
