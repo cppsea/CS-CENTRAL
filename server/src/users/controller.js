@@ -5,6 +5,7 @@ const queries = require("./queries");
 const bcrypt = require("bcrypt");
 const { cloudinary1 } = require("../images/config");
 const jwt = require("jsonwebtoken");
+const fs = require("fs/promises");
 
 const createToken = (id) => {
   return jwt.sign({ id: id }, process.env.SECRET, { expiresIn: "3d" });
@@ -143,6 +144,8 @@ const editUser = async (req, res) => {
         return res.status(500).json({
           error: "Error uploading image to Cloudinary",
         });
+      } finally {
+        fs.unlink(req.file.path);
       }
 
       //add references in database

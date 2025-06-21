@@ -19,16 +19,16 @@ export default function BlocksParser({ blocks }) {
         break;
       case "image":
         processedBlock = (
-          <Figure>
+          <Figure key={block.data.url}>
             <Figure.Image src={block.data.url} />
             <Figure.Caption>{block.data.caption}</Figure.Caption>
           </Figure>
         );
         break;
       case "list":
-        let listItemElements = block.data.items.map((item) => {
+        let listItemElements = block.data.items.map((item, index) => {
           let itemProcessedHTMLString = DOMPurify.sanitize(item);
-          return <li>{parse(itemProcessedHTMLString)}</li>;
+          return <li key={item + index}>{parse(itemProcessedHTMLString)}</li>;
         });
         processedBlock = <ol>{listItemElements}</ol>;
         break;

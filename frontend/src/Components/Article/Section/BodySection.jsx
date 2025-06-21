@@ -18,7 +18,7 @@ export default function BodySection({ id, bodySectionBlocks }) {
         }
       />
       {bodyContentBlocks.map((block, index) => {
-        return <SectionContent content={[block]} />;
+        return <SectionContent key={block.id} content={[block]} />;
       })}
     </div>
   );
