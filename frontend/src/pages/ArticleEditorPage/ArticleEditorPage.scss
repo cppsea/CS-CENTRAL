@@ -4,6 +4,14 @@
 @import "../../../node_modules//bootstrap/scss/mixins";
 @import "../../scss/variables";
 
+//create an image preview- use lightbox? or maybe modify modals
+
+@include color-mode(dark) {
+  body {
+    background-color: $primary-bg-dark;
+  }
+}
+
 .container {
   margin-top: 10px;
   padding: 10px 50px;
@@ -23,6 +31,7 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    word-wrap: break-word;
 
     .article-body-section {
       display: flex;
@@ -37,6 +46,12 @@
 
       .body-section-editor {
         flex-grow: 1;
+
+        .ce-block__content,
+        .ce-toolbar__content {
+          width: 100%;
+          max-width: 80ch;
+        }
       }
 
       .icons {
@@ -81,10 +96,24 @@
 
 #header-editor {
   .codex-editor__redactor {
-    padding-bottom: 30px !important;
+    padding-bottom: 20px !important;
   }
-  .ce-header {
-    word-wrap: break-word;
+  .ce-block__content {
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: none;
+  }
+}
+
+#desc-editor {
+  .codex-editor__redactor {
+    padding-bottom: 0px !important;
+  }
+
+  .ce-block__content,
+  .ce-toolbar__content {
+    width: 100%;
+    max-width: 85ch;
   }
 }
 
@@ -93,7 +122,10 @@
   margin: 0 auto;
 
   img {
-    width: auto;
+    width: 1000px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
   }
 }
 
@@ -124,17 +156,17 @@
   }
 
   .ce-toolbar__actions--opened {
-    .ce-toolbar__plus {
-      color: white;
-    }
-
+    .ce-toolbar__plus,
     .ce-toolbar__settings-btn {
       color: white;
+      background-color: $article-editor-body-dark;
+      border-color: $article-editor-body-dark;
     }
 
     .ce-toolbar__plus:hover,
     .ce-toolbar__settings-btn:hover {
-      background-color: #3d3d3d;
+      background-color: $primary-bg-dark;
+      border-color: $primary-bg-dark;
     }
   }
 }

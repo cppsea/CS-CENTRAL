@@ -107,7 +107,7 @@ export default function Header() {
               className="p-0 me-2 toggle-theme-button"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
-              {theme === "dark" ? (
+              {theme === "light" ? (
                 <SunFill size={24} />
               ) : (
                 <MoonFill size={24} />

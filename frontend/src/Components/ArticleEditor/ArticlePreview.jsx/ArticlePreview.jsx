@@ -3,6 +3,7 @@ import ArticleHeader from "../../Article/ArticleHeader/ArticleHeader";
 import ArticleImage from "../../Article/ArticleImage";
 import BodySection from "../../Article/Section/BodySection";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import "./ArticlePreview.scss";
 export default function ArticlePreview({ articleEditorData, user }) {
   //insert dummy data if title and description blocks are empty
   let titleBlocks = articleEditorData.header.blocks;
@@ -23,7 +24,7 @@ export default function ArticlePreview({ articleEditorData, user }) {
   }
 
   return (
-    <Container fluid className="h-100">
+    <Container fluid className="preview-container">
       <Row className="mt-4 mb-4">
         <Col>
           <ArticleHeader
@@ -44,12 +45,15 @@ export default function ArticlePreview({ articleEditorData, user }) {
         </Col>
       </Row>
 
+      <Row>
+        <Col xs={12}>
+          <ArticleImage image={articleEditorData.image} />
+        </Col>
+      </Row>
+
       <Row className=" gx-4 gy-5">
         <Col xs={12} md={8}>
           <Stack className="gap-3">
-            <ArticleImage
-              image={articleEditorData.image}
-            />
             {/* <TableOfContents contentSequence={contentHeaderSequence} /> */}
 
             {articleEditorData.articleBody.map((bodySection, index) => {
