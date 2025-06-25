@@ -22,6 +22,7 @@ const requireAuth = async (req, res, next) => {
     console.log("decoded token payload: ", id);
     //uses id to find in database
     const userResult = await pool.query(getUserByUsername, [id]);
+
     if (!userResult || !userResult.rows || userResult.rows.length === 0) {
       return next();
     }

@@ -1,0 +1,12 @@
+.preview-image-modal {
+  .modal-dialog {
+    width: auto;
+    max-width: none;
+  }
+
+  .modal-content {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+  }
+}

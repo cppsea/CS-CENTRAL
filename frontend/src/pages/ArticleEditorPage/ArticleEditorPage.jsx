@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { useGetArticleByID } from "../../hooks/useGetArticleByID";
 import { useArticleCreate } from "../../hooks/useArticleCreate";
 import { useArticleEdit } from "../../hooks/useArticleEdit";
+import ArticleImagePreview from "../../Components/Article/ArticleImagePreview/ArticleImagePreview";
 
 export default function ArticleEditorPage() {
   const { user } = useAuthContext();
@@ -186,8 +187,16 @@ export default function ArticleEditorPage() {
       setArticleEditorData(newArticle);
     }
   };
+  const [show, setShow] = useState(false);
+
   return (
     <>
+      <ArticleImagePreview
+        imageSrc={articleEditorData.image}
+        show={show}
+        setShow={setShow}
+      />
+
       {/*placeholder for styling of page, insert editor js instances in*/}
       <Tabs
         defaultActiveKey="edit"
@@ -198,59 +207,6 @@ export default function ArticleEditorPage() {
         <Tab eventKey="preview" className="preview-tab" title="Preview"></Tab>
       </Tabs>
 
-      {/* <Form className="form-editor w-75 m-auto mb-3">
-        <Form.Group>
-          <Form.Label className="p-0 m-0 form-control-lg fw-bold pt-3">
-            Title
-          </Form.Label>
-          <Form.Control
-            className="text-box"
-            as="textarea"
-            rows={2}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className="">
-          <Form.Label className="p-0 m-0 form-control-lg fw-bold pt-3">
-            Description
-          </Form.Label>
-          <Form.Control className="" as="textarea" rows={2}></Form.Control>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label className="d-block p-0 m-0 form-control-lg fw-bold pt-3">
-            Article Image
-          </Form.Label>
-
-          {image && (
-            <div className="mt-3">
-              <Image src={image} width="300" alt="Uploaded preview" fluid />
-            </div>
-          )}
-          <Form.Label
-            className="bg-primary p-2 rounded mt-2 upload-button"
-            htmlFor="file-upload"
-          >
-            Upload Image
-          </Form.Label>
-          <Form.Control
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            id="file-upload"
-            style={{ display: "none" }}
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label className="d-block p-0 m-0 form-control-lg fw-bold pt-3">
-            Article Body
-          </Form.Label>
-          <Form.Control className="" as="textarea" rows={4}></Form.Control>
-        </Form.Group>
-        <Form.Group className="d-flex justify-content-center">
-          <Button className="mt-3" variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form.Group>
-      </Form> */}
       {isEditView ? (
         <>
           <div className="container">
@@ -289,6 +245,7 @@ export default function ArticleEditorPage() {
                   width="300"
                   alt="Uploaded preview"
                   fluid
+                  onClick={() => setShow(true)}
                 />
               </div>
             )}

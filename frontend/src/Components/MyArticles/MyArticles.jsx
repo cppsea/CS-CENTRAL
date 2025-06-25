@@ -1,4 +1,4 @@
-import { Row, Col, Dropdown, Image, Button } from "react-bootstrap";
+import { Row, Col, Dropdown, Image, Button, Modal } from "react-bootstrap";
 import { ThreeDotsVertical, Plus } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,10 @@ export default function MyArticles() {
 
   const [articles, setArticles] = useState([]);
 
+  const [show, setShow] = useState(false);
+  const [action, setAction] = useState("");
+  const [selectedArticleId, setSelectedArticleId] = useState(null);
+
   const fetchArticles = async () => {
     const data = await getMyArticles();
     if (data) setArticles(data);
@@ -32,17 +36,30 @@ export default function MyArticles() {
     navigate(`/article-editor`);
   };
 
-  const handleDelete = async (articleId) => {
-    await deleteArticle(articleId);
-    fetchArticles();
+  const handleShow = (type, articleId) => {
+    setAction(type);
+    setSelectedArticleId(articleId);
+    setShow(true);
   };
 
-  const handlePublishToggle = async (articleId, isPublished) => {
-    if (isPublished) {
-      await unpublishArticle(articleId);
-    } else {
-      await publishArticle(articleId);
+  const handleClose = () => {
+    setAction("");
+    setSelectedArticleId(null);
+    setShow(false);
+  };
+
+  const handleConfirm = async () => {
+    if (!selectedArticleId) return;
+
+    if (action === "delete") {
+      await deleteArticle(selectedArticleId);
+    } else if (action === "publish") {
+      await publishArticle(selectedArticleId);
+    } else if (action === "unpublish") {
+      await unpublishArticle(selectedArticleId);
     }
+
+    handleClose();
     fetchArticles();
   };
 
@@ -63,6 +80,26 @@ export default function MyArticles() {
           Add New Article
         </Button>
       </div>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to {action} this article?</Modal.Body>
+        <Modal.Footer>
+          <Button className="modal-button" variant="" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            className="modal-button"
+            variant={action === "delete" ? "danger" : "primary"}
+            onClick={handleConfirm}
+          >
+            {action.charAt(0).toUpperCase() + action.slice(1)}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Row xs={1} md={2} lg={3} className="g-4">
         {articles.map((article) => (
           <Col key={article.id}>
@@ -89,13 +126,18 @@ export default function MyArticles() {
                   <Dropdown.Menu>
                     <Dropdown.Item
                       onClick={() =>
-                        handlePublishToggle(article.id, article.is_published)
+                        handleShow(
+                          article.is_published ? "unpublish" : "publish",
+                          article.id
+                        )
                       }
                     >
                       {article.is_published ? "Unpublish" : "Publish"}
                     </Dropdown.Item>
                     <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
-                    <Dropdown.Item onClick={() => handleDelete(article.id)}>
+                    <Dropdown.Item
+                      onClick={() => handleShow("delete", article.id)}
+                    >
                       Delete
                     </Dropdown.Item>
                   </Dropdown.Menu>
