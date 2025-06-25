@@ -5,6 +5,7 @@ const userQueries = require("../users/queries.js");
 const { cloudinary1 } = require("../images/config");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
+const { error } = require("console");
 
 //helper functions
 
@@ -242,6 +243,41 @@ const addArticle = async (req, res) => {
         .json({ error: "Article editor data must be json" });
     }
 
+    try {
+      let article = JSON.parse(req.body.articleEditorData);
+
+      if (
+        !article.header?.blocks ||
+        article.header.blocks.length === 0 ||
+        !article.header.blocks[0].data?.text ||
+        typeof article.header.blocks[0].data?.text !== "string"
+      ) {
+        throw Error("The header cannot be empty and must have text provided.");
+      }
+      if (
+        !article.description?.blocks ||
+        article.description.blocks.length === 0 ||
+        !article.description.blocks[0].data?.text ||
+        typeof article.description.blocks[0].data?.text !== "string"
+      ) {
+        throw Error(
+          "The description cannot be empty and must have text provided."
+        );
+      }
+
+      if (
+        !article.articleBody ||
+        article.articleBody.length === 0 ||
+        !article.articleBody[0].blocks ||
+        article.articleBody[0].blocks.length === 0
+      ) {
+        throw Error("The article body cannot be empty.");
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err.message });
+    }
+
     //get user id
     const token = req.headers.authorization.split(" ")[1];
     const jwtUsername = jwt.verify(token, process.env.SECRET).id;
@@ -390,6 +426,41 @@ const editArticle = async (req, res) => {
       return res
         .status(400)
         .json({ error: "Article editor data must be json" });
+    }
+
+    try {
+      let article = JSON.parse(req.body.articleEditorData);
+
+      if (
+        !article.header?.blocks ||
+        article.header.blocks.length === 0 ||
+        !article.header.blocks[0].data?.text ||
+        typeof article.header.blocks[0].data?.text !== "string"
+      ) {
+        throw Error("The header cannot be empty and must have text provided.");
+      }
+      if (
+        !article.description?.blocks ||
+        article.description.blocks.length === 0 ||
+        !article.description.blocks[0].data?.text ||
+        typeof article.description.blocks[0].data?.text !== "string"
+      ) {
+        throw Error(
+          "The description cannot be empty and must have text provided."
+        );
+      }
+
+      if (
+        !article.articleBody ||
+        article.articleBody.length === 0 ||
+        !article.articleBody[0].blocks ||
+        article.articleBody[0].blocks.length === 0
+      ) {
+        throw Error("The article body cannot be empty.");
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(400).json({ error: err.message });
     }
 
     //check to see if article exists
@@ -731,7 +802,7 @@ const deleteArticle = async (req, res) => {
 
     const imageIds = images.map((image) => image.id);
 
-    await pool.query(queries.deleteImages, imageIds);
+    await pool.query(queries.deleteImages, [imageIds]);
     await parallelDeleteImages(images, 5);
   } catch (err) {
     console.log(err);

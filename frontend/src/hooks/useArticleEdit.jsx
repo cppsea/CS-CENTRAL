@@ -11,6 +11,12 @@ export const useArticleEdit = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const editArticle = async (articleId, articleEditorData) => {
+    if (!user) {
+      toast.error("Please log in or create an account");
+      navigate("/signin");
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     let article = null;

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export const useArticleDelete = () => {
@@ -9,6 +10,11 @@ export const useArticleDelete = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const deleteArticle = async (articleId) => {
+    if (!user) {
+      toast.error("Please log in or create an account");
+      navigate("/signin");
+      return;
+    }
     setIsLoading(true);
     setError(null);
 
@@ -25,10 +31,17 @@ export const useArticleDelete = () => {
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
         return;
+      }
+
+      if (response.ok) {
+        toast.success("Article deleted!");
+        navigate("/article-editor");
       }
     } catch (err) {
       setError("Something went wrong. Couldn't delete article.");
+      toast.error("Something went wrong. Couldn't delete article.");
     } finally {
       setIsLoading(false);
     }

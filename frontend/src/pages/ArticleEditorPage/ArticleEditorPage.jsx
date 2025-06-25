@@ -13,7 +13,7 @@ import { Tab, Tabs, Form, Image, Button } from "react-bootstrap";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "./ArticleEditorPage.scss";
 import ArticlePreview from "../../Components/ArticleEditor/ArticlePreview.jsx/ArticlePreview";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetArticleByID } from "../../hooks/useGetArticleByID";
 import { useArticleCreate } from "../../hooks/useArticleCreate";
 import { useArticleEdit } from "../../hooks/useArticleEdit";
@@ -22,6 +22,7 @@ import ArticleImagePreview from "../../Components/Article/ArticleImagePreview/Ar
 export default function ArticleEditorPage() {
   const { user } = useAuthContext();
   const params = useParams();
+  const navigate = useNavigate();
   const [articleEditorData, setArticleEditorData] = useState({
     header: { time: new Date().getTime(), blocks: [] },
     image: "/ai_image.jpg",
@@ -181,6 +182,11 @@ export default function ArticleEditorPage() {
       newArticle = await editArticle(params.articleID, articleEditorData);
     } else {
       newArticle = await createArticle(articleEditorData);
+
+      //after creation, if they succeeded navigate them to edit route
+      if (!articleCreateIsLoading && !articleCreateError && newArticle) {
+        navigate(`/article-editor/${newArticle.id}`);
+      }
     }
 
     if (newArticle) {
