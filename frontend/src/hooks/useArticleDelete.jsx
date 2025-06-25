@@ -40,6 +40,7 @@ export const useArticleDelete = () => {
         navigate("/article-editor");
       }
     } catch (err) {
+      console.log(err);
       setError("Something went wrong. Couldn't delete article.");
       toast.error("Something went wrong. Couldn't delete article.");
     } finally {

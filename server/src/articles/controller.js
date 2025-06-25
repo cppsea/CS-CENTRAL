@@ -786,7 +786,15 @@ const deleteArticle = async (req, res) => {
   } catch (err) {
     return res.status(401).json({ error: "User not found" });
   }
+  //check to see if article exists
+  let articleResult = await pool.query(queries.getArticlesById, [articleId]);
+  if (articleResult.rowCount == 0) {
+    return res
+      .status(400)
+      .json({ error: "Article not found or Not authorized to delete" });
+  }
 
+  articleResult = articleResult.rows[0];
   if (!user || user.id !== articleResult.author_id) {
     return res
       .status(403)
@@ -811,7 +819,7 @@ const deleteArticle = async (req, res) => {
   //delete article
   try {
     await pool.query(queries.deleteArticle, [articleId]);
-    return res.status(200).send("Article deleted");
+    return res.status(200).send({ message: "Article successfully deleted" });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Could not delete article." });
