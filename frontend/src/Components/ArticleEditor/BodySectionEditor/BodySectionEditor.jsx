@@ -1,7 +1,6 @@
 import EditorJS from "@editorjs/editorjs";
 import Paragraph from "@editorjs/paragraph";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Strikethrough from "@sotaproject/strikethrough";
 import Undo from "editorjs-undo";
 import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
@@ -41,17 +40,22 @@ export default function BodySectionEditor({
   onChange,
   editorBlockId,
   charLimit,
+  hasLoadedInitialData,
 }) {
-  const ref = useRef();
+  const editorRef = useRef();
+  const hasRenderedInitialData = useRef(false);
+  const [isEditorReady, setIsEditorReady] = useState(false);
+
   useEffect(() => {
     //Initialize editorjs if we don't have a reference
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: editorBlockId,
         tools: EDITOR_JS_TOOLS,
         data: data,
         onReady: async () => {
           new Undo({ editor });
+          setIsEditorReady(true);
         },
         async onChange(api, event) {
           const content = await api.saver.save();
@@ -73,16 +77,39 @@ export default function BodySectionEditor({
         },
       });
 
-      ref.current = editor;
+      editorRef.current = editor;
     }
 
     //Add a return function to handle cleanup
     return () => {
-      if (ref.current && ref.current.destroy) {
-        ref.current.destroy();
+      if (editorRef.current && editorRef.current.destroy) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        hasRenderedInitialData.current = false;
       }
     };
   }, []);
+  useEffect(() => {
+    if (
+      isEditorReady &&
+      hasLoadedInitialData &&
+      data &&
+      !hasRenderedInitialData.current
+    ) {
+      editorRef.current
+        .clear()
+        .then(() => editorRef.current.render(data))
+        .then(() => {
+          hasRenderedInitialData.current = true;
+        })
+        .catch((err) => console.error("EditorJS render error:", err));
+    }
+  }, [isEditorReady, hasLoadedInitialData, data]);
 
+  useEffect(() => {
+    if (hasLoadedInitialData && data) {
+      // console.log("BodySectionEditor initial data:", data);
+    }
+  }, [hasLoadedInitialData, data]);
   return <div id={editorBlockId} />;
 }

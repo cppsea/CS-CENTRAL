@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import processEditorData from "./ArticleEditorDataProcessor/ArticleEditorDataProcessor";
+import toast from "react-hot-toast";
 
 export const useArticleEdit = () => {
   const [error, setError] = useState(null);
@@ -11,40 +13,36 @@ export const useArticleEdit = () => {
   const editArticle = async (articleId, articleEditorData) => {
     setIsLoading(true);
     setError(null);
+    let article = null;
+
+    let processedArticle = await processEditorData(articleEditorData);
 
     try {
       const response = await fetch(`${apiUrl}/api/articles/${articleId}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${user?.token}`,
         },
-        body: JSON.stringify(articleEditorData),
+        body: processedArticle,
       });
 
       const json = await response.json();
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
         return;
       }
 
-      // If there are already exisiting articles
-      // temporary, replace with wherever articles are stored
-      const exisitingArticles = [];
-
-      const updatedArticles = exisitingArticles.map((article) =>
-        article.id === articleId ? { ...article, ...json } : article
-      );
-
-      // update stored articles with updatedArticles
-
-      navigate("/");
+      article = json.article;
     } catch (err) {
       setError("Something went wrong. Couldn't edit article.");
+      toast.error("Something went wrong. Couldn't edit article.");
     } finally {
       setIsLoading(false);
     }
+
+    return article;
   };
 
   return { editArticle, isLoading, error };

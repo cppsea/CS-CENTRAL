@@ -1,16 +1,26 @@
 import BodySectionEditor from "../../Components/ArticleEditor/BodySectionEditor/BodySectionEditor";
 import DescEditor from "../../Components/ArticleEditor/DescEditor/DescEditor";
 import HeaderEditor from "../../Components/ArticleEditor/HeaderEditor/HeaderEditor";
-import { useState } from "react";
-import { PlusCircle, ArrowsMove, Trash } from "react-bootstrap-icons";
-import { Tab, Tabs, Form, Image } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import {
+  PlusCircle,
+  ArrowsMove,
+  Trash,
+  CloudSnowFill,
+} from "react-bootstrap-icons";
+import { Tab, Tabs, Form, Image, Button } from "react-bootstrap";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
 import "./ArticleEditorPage.scss";
 import ArticlePreview from "../../Components/ArticleEditor/ArticlePreview.jsx/ArticlePreview";
+import { useParams } from "react-router-dom";
+import { useGetArticleByID } from "../../hooks/useGetArticleByID";
+import { useArticleCreate } from "../../hooks/useArticleCreate";
+import { useArticleEdit } from "../../hooks/useArticleEdit";
 
 export default function ArticleEditorPage() {
   const { user } = useAuthContext();
+  const params = useParams();
   const [articleEditorData, setArticleEditorData] = useState({
     header: { time: new Date().getTime(), blocks: [] },
     image: "/ai_image.jpg",
@@ -22,10 +32,10 @@ export default function ArticleEditorPage() {
   const [bodySectionIdSet, setBodySectionIdSet] = useState(new Set());
 
   const setHeaderData = (newData) => {
-    setArticleEditorData({ ...articleEditorData, header: newData });
+    setArticleEditorData((prev) => ({ ...prev, header: newData }));
   };
   const setDescData = (newData) => {
-    setArticleEditorData({ ...articleEditorData, description: newData });
+    setArticleEditorData((prev) => ({ ...prev, description: newData }));
   };
   const setArticleBodySectionDataCreator = (index) => (newData) => {
     setArticleEditorData((prev) => {
@@ -40,18 +50,25 @@ export default function ArticleEditorPage() {
   };
 
   const addNewBodySection = () => {
-    let newArticleEditorData = { ...articleEditorData };
-    let newId = crypto.randomUUID();
-    while (bodySectionIdSet.has(newId)) {
-      newId = crypto.randomUUID();
-    }
-    setBodySectionIdSet(bodySectionIdSet.add(newId));
-    newArticleEditorData.articleBody.push({
-      id: newId,
-      time: new Date().getTime(),
-      blocks: [],
+    setArticleEditorData((prev) => {
+      let newId = crypto.randomUUID();
+      while (bodySectionIdSet.has(newId)) {
+        newId = crypto.randomUUID();
+      }
+      setBodySectionIdSet(bodySectionIdSet.add(newId));
+
+      return {
+        ...prev,
+        articleBody: [
+          ...prev.articleBody,
+          {
+            id: newId,
+            time: new Date().getTime(),
+            blocks: [],
+          },
+        ],
+      };
     });
-    setArticleEditorData(newArticleEditorData);
   };
 
   const removeBodySection = (index) => {
@@ -88,10 +105,10 @@ export default function ArticleEditorPage() {
 
       newArticleBody.splice(dropIndex, 0, draggedBody);
 
-      setArticleEditorData({
-        ...articleEditorData,
+      setArticleEditorData((prev) => ({
+        ...prev,
         articleBody: newArticleBody,
-      });
+      }));
       setDraggedIndex(null);
     }
   };
@@ -115,12 +132,60 @@ export default function ArticleEditorPage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setArticleEditorData({ ...articleEditorData, image: reader.result });
+        setArticleEditorData((prev) => ({ ...prev, image: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const {
+    getArticleByID,
+    isLoading: getArticleIsLoading,
+    error: getArticleError,
+  } = useGetArticleByID();
+
+  //for ensuring it calls only once
+  const hasRun = useRef(false);
+  useEffect(() => {
+    const fetchArticle = async () => {
+      if (hasRun.current) return;
+      if (!user || !params.articleID) return;
+      hasRun.current = true;
+      const retrievedArticle = await getArticleByID(params.articleID);
+      if (retrievedArticle) {
+        setArticleEditorData(retrievedArticle);
+        setHasLoadedInitialData(true);
+      }
+    };
+    fetchArticle();
+  }, [user]);
+
+  const {
+    createArticle,
+    isLoading: articleCreateIsLoading,
+    error: articleCreateError,
+  } = useArticleCreate();
+  const {
+    editArticle,
+    isLoading: articleEditIsLoading,
+    error: articleEditError,
+  } = useArticleEdit();
+
+  const [hasLoadedInitialData, setHasLoadedInitialData] = useState(false);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    let newArticle;
+    if (params.articleID) {
+      newArticle = await editArticle(params.articleID, articleEditorData);
+    } else {
+      newArticle = await createArticle(articleEditorData);
+    }
+
+    if (newArticle) {
+      setArticleEditorData(newArticle);
+    }
+  };
   return (
     <>
       {/*placeholder for styling of page, insert editor js instances in*/}
@@ -189,6 +254,9 @@ export default function ArticleEditorPage() {
       {isEditView ? (
         <>
           <div className="container">
+            <Button onClick={submitHandler}>
+              {articleEditorData.id ? "Save" : "Create"}
+            </Button>
             <h2 className="header">Title</h2>
             <div className="text-container">
               <HeaderEditor
@@ -196,6 +264,7 @@ export default function ArticleEditorPage() {
                 onChange={setHeaderData}
                 editorBlockId={"header-editor"}
                 charLimit={50}
+                hasLoadedInitialData={hasLoadedInitialData}
               />
             </div>
           </div>
@@ -207,6 +276,7 @@ export default function ArticleEditorPage() {
                 onChange={setDescData}
                 editorBlockId={"desc-editor"}
                 charLimit={200}
+                hasLoadedInitialData={hasLoadedInitialData}
               />{" "}
             </div>
           </div>
@@ -255,6 +325,7 @@ export default function ArticleEditorPage() {
                           onChange={setArticleBodySectionDataCreator(index)}
                           charLimit={1000}
                           editorBlockId={`body-section-editor-${index}`}
+                          hasLoadedInitialData={hasLoadedInitialData}
                         />
                       </div>
                       <div className="icons">
@@ -283,10 +354,14 @@ export default function ArticleEditorPage() {
             onClick={() => {
               console.log("header");
               console.log(JSON.stringify(articleEditorData.header));
+              console.log("image");
+              console.log(articleEditorData.image);
               console.log("\nDescription");
               console.log(JSON.stringify(articleEditorData.description));
               console.log("\nArticle Body");
               console.log(JSON.stringify(articleEditorData.articleBody));
+
+              console.log(articleEditorData.articleBody);
             }}
           >
             Show Data

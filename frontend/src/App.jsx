@@ -33,6 +33,10 @@ function App() {
             <Route path=":name" element={<ArticleView />} />
           </Route>
           <Route path="article-editor" element={<ArticleEditorPage />} />
+          <Route
+            path="article-editor/:articleID"
+            element={<ArticleEditorPage />}
+          />
           <Route path="my-articles" element={<MyArticlesPage />} />
           <Route path="settings" element={<SettingsPage />}>
             <Route index element={<ProfileEdit />} />
@@ -46,7 +50,7 @@ function App() {
           />
         </Route>
       </Routes>
-      <Toaster/>
+      <Toaster />
     </>
   );
 }

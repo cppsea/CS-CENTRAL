@@ -1,4 +1,3 @@
-import { Image } from "react-bootstrap";
 const dataURLtoFile = (dataurl, filename) => {
   var arr = dataurl.split(","),
     mime = arr[0].match(/:(.*?);/)[1],
@@ -21,7 +20,7 @@ const getTypeofImage = (dataUrl) => {
 
 const DEFAULT_IMAGE = "/ai_image.jpg";
 //data must inserted into a FormData object to support multiple image files being sent
-export default function processEditorData(articleEditorData) {
+export default async function processEditorData(articleEditorData) {
   let articleEditorDataCopy = { ...articleEditorData };
   const formData = new FormData();
   let currentImageIndex = 0;
@@ -29,12 +28,11 @@ export default function processEditorData(articleEditorData) {
 
   // if article main image is the default one, process it into an image file
   if (articleEditorDataCopy.image == DEFAULT_IMAGE) {
-    const tempImage = <Image src={DEFAULT_IMAGE} />;
-    fetch(tempImage.src)
+    await fetch(DEFAULT_IMAGE)
       .then((res) => res.blob())
       .then((blob) => {
         const file = new File([blob], "ai_image.jpg", { type: blob.type });
-        articleEditorDataCopy.image = file;
+        formData.append("main_image", file);
       });
   }
 
@@ -52,7 +50,7 @@ export default function processEditorData(articleEditorData) {
 
   articleEditorDataCopy.articleBody.forEach((bodySection, sectionIndex) => {
     bodySection.blocks.forEach((block, blockIndex) => {
-      if ((block.type = "image" && isDataUrl(block.data.url))) {
+      if (block.type === "image" && isDataUrl(block.data.url)) {
         const imageFile = dataURLtoFile(
           block.data.url,
           block.data.caption + "." + getTypeofImage(block.data.url)

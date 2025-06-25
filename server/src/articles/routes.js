@@ -14,7 +14,11 @@ router.get("/my-articles", (req, res) => controller.getMyArticles(req, res));
 router.get("/", async (req, res) => controller.getArticles(req, res));
 router.get("/:id", (req, res) => controller.getArticlesById(req, res));
 
-router.post("/", (req, res) => controller.addArticle(req, res));
+router.post(
+  "/",
+  upload.fields([{ name: "main_image", maxCount: 1 }, { name: "images" }]),
+  (req, res) => controller.addArticle(req, res)
+);
 router.put(
   "/:id",
   upload.fields([{ name: "main_image", maxCount: 1 }, { name: "images" }]),

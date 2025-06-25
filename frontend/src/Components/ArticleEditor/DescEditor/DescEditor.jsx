@@ -23,11 +23,14 @@ export default function DescEditor({
   onChange,
   editorBlockId,
   charLimit,
+  hasLoadedInitialData,
 }) {
-  const ref = useRef();
+  const editorRef = useRef();
+  const hasRenderedInitialData = useRef(false);
+  const [isEditorReady, setIsEditorReady] = useState(false);
   useEffect(() => {
     //Initialize editorjs if we don't have a reference
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: editorBlockId,
         tools: EDITOR_JS_TOOLS,
@@ -35,6 +38,7 @@ export default function DescEditor({
         data: data,
         onReady: async () => {
           new Undo({ editor });
+          setIsEditorReady(true);
         },
         async onChange(api, event) {
           const content = await api.saver.save();
@@ -52,16 +56,35 @@ export default function DescEditor({
         },
       });
 
-      ref.current = editor;
+      editorRef.current = editor;
     }
 
     //Add a return function to handle cleanup
     return () => {
-      if (ref.current && ref.current.destroy) {
-        ref.current.destroy();
+      if (editorRef.current && editorRef.current.destroy) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        hasRenderedInitialData.current = false;
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (
+      isEditorReady &&
+      hasLoadedInitialData &&
+      data &&
+      !hasRenderedInitialData.current
+    ) {
+      editorRef.current
+        .clear()
+        .then(() => editorRef.current.render(data))
+        .then(() => {
+          hasRenderedInitialData.current = true;
+        })
+        .catch((err) => console.error("EditorJS render error:", err));
+    }
+  }, [isEditorReady, hasLoadedInitialData, data]);
 
   return (
     <>

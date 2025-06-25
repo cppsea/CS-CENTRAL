@@ -34,7 +34,11 @@ async function enforceCharLimit(content, event, api, charLimit) {
       // Update the working block with the limited text
       try {
         await api.blocks.update(workingBlockId, {
-          text: workingBlockSaved.data.text.substr(0, workingBlockLimit),
+          type: workingBlockSaved.type,
+          data: {
+            ...workingBlockSaved.data,
+            text: workingBlockSaved.data.text.substr(0, workingBlockLimit),
+          },
         });
       } catch (error) {
         console.error("Error updating block:", error);
@@ -62,7 +66,11 @@ async function enforceBlockLimit(content, event, api, blockLimit) {
     const prevBlock = content.blocks[newBlockIndex - 1];
     if (prevBlock) {
       api.blocks.update(prevBlock.id, {
-        text: prevBlock.data.text + newBlockText,
+        type: prevBlock.type,
+        data: {
+          ...prevBlock.data,
+          text: (prevBlock.data.text || "") + (newBlockText || ""),
+        },
       });
     }
 

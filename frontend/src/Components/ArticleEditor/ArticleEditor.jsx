@@ -48,7 +48,6 @@ export default function ArticleEditor({ data, onChange, editorBlockId }) {
         async onChange(api, event) {
           const data = await api.saver.save();
           onChange(data);
-          console.log(data);
         },
         defaultBlock: "header",
         blockToolbar: false,

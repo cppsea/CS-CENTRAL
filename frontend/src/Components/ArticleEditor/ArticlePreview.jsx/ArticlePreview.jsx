@@ -29,7 +29,7 @@ export default function ArticlePreview({ articleEditorData, user }) {
           <ArticleHeader
             titleBlocks={titleBlocks}
             descriptionBlocks={descriptionBlocks}
-            author={`${user.first_name} ${user.last_name}`}
+            author={user ? `${user.first_name} ${user.last_name}` : "Guest"}
             date={(() => {
               let today = new Date();
               var dd = String(today.getDate()).padStart(2, "0");
@@ -75,8 +75,6 @@ export default function ArticlePreview({ articleEditorData, user }) {
                 />
               );
             })}
-
-            {}
           </Stack>
         </Col>
       </Row>

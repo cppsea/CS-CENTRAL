@@ -1,42 +1,40 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import processEditorData from "./ArticleEditorDataProcessor/ArticleEditorDataProcessor";
 import toast from "react-hot-toast";
-
-export const useArticleCreate = () => {
+export const useGetArticleByID = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const createArticle = async (articleEditorData) => {
+  const getArticleByID = async (articleId) => {
     setIsLoading(true);
     setError(null);
-    let article = null;
 
-    let processedArticle = await processEditorData(articleEditorData);
+    let article = null;
     try {
-      const response = await fetch(`${apiUrl}/api/articles/`, {
-        method: "POST",
+      const response = await fetch(`${apiUrl}/api/articles/${articleId}`, {
+        method: "GET",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${user?.token}`,
         },
-        body: processedArticle,
       });
 
       const json = await response.json();
-
       if (!response.ok) {
         setError(json.error);
         toast.error(json.error);
-        return;
       }
 
-      article = json.article;
+      if (response.ok & (json.length === 0)) {
+        setError("No articles found with this ID.");
+        toast.error("No articles found with this ID.");
+      }
+      article = json[0];
     } catch (err) {
-      setError("Something went wrong. Couldn't create article.");
-      toast.error("Something went wrong. Couldn't create article.");
+      setError("Something went wrong. Couldn't retrieve article.");
     } finally {
       setIsLoading(false);
     }
@@ -44,5 +42,5 @@ export const useArticleCreate = () => {
     return article;
   };
 
-  return { createArticle, isLoading, error };
+  return { getArticleByID, isLoading, error };
 };

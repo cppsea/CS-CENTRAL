@@ -2,11 +2,10 @@ import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
 import { useEffect } from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Undo from "editorjs-undo";
 import "./HeaderEditor.scss";
 import { enforceBlockLimit, enforceCharLimit } from "../ArticleEditorHelpers";
-import { Tab, Tabs } from "react-bootstrap";
 
 export const EDITOR_JS_TOOLS = {
   header: {
@@ -33,11 +32,15 @@ export default function HeaderEditor({
   onChange,
   editorBlockId,
   charLimit,
+  hasLoadedInitialData,
 }) {
-  const ref = useRef();
+  const editorRef = useRef();
+  const hasRenderedInitialData = useRef(false);
+  const [isEditorReady, setIsEditorReady] = useState(false);
+
   useEffect(() => {
     //Initialize editorjs if we don't have a reference
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: editorBlockId,
         tools: EDITOR_JS_TOOLS,
@@ -45,6 +48,7 @@ export default function HeaderEditor({
 
         onReady: async (api) => {
           new Undo({ editor });
+          setIsEditorReady(true);
         },
         async onChange(api, event) {
           const content = await api.saver.save();
@@ -63,17 +67,35 @@ export default function HeaderEditor({
         defaultBlock: "header",
       });
 
-      ref.current = editor;
+      editorRef.current = editor;
     }
 
     //Add a return function to handle cleanup
     return () => {
-      if (ref.current && ref.current.destroy) {
-        ref.current.destroy();
+      if (editorRef.current && editorRef.current.destroy) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+        hasRenderedInitialData.current = false;
       }
     };
   }, []);
 
+  useEffect(() => {
+    if (
+      isEditorReady &&
+      hasLoadedInitialData &&
+      data &&
+      !hasRenderedInitialData.current 
+    ) {
+      editorRef.current
+        .clear()
+        .then(() => editorRef.current.render(data))
+        .then(() => {
+          hasRenderedInitialData.current = true;
+        })
+        .catch((err) => console.error("EditorJS render error:", err));
+    }
+  }, [isEditorReady, hasLoadedInitialData, data]);
   return (
     <>
       <div id={editorBlockId} />

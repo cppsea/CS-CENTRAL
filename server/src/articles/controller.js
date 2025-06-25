@@ -10,7 +10,6 @@ const fs = require("fs/promises");
 
 const parallelUploadImages = async (images, concurrency = 5) => {
   const pLimit = (await import("p-limit")).default;
-
   const limit = pLimit(concurrency);
   const successes = []; // keep successful uploads
   try {
@@ -22,6 +21,10 @@ const parallelUploadImages = async (images, concurrency = 5) => {
             const { secure_url, public_id } = await cloudinary1.uploader.upload(
               file.path
             );
+            successes.push({
+              url: secure_url,
+              public_id,
+            });
 
             return {
               url: secure_url,
@@ -34,6 +37,7 @@ const parallelUploadImages = async (images, concurrency = 5) => {
         })
       )
     );
+
     return successes; // every upload succeeded
   } catch (err) {
     // if any uploads fail, we need to delete the ones that succeeded
@@ -68,14 +72,19 @@ const parallelDeleteImages = async (images, concurrency = 5) => {
 const processArticle = async (article) => {
   //go through all image blocks, grab corresponding image urls, replace in data and return
 
-  let newArticle = { ...article };
-  newArticle.articleBody.forEach((section, sectionIndex) => {
-    section.blocks.forEach((block, blockIndex) => {
+  //currently we're storing the entire article data inside article body
+  let newArticle = { ...article.article_body };
+  newArticle.articleBody.forEach(async (section, sectionIndex) => {
+    await section.blocks.forEach(async (block, blockIndex) => {
       if (block.type === "image") {
         //id stored in the url field
         const imageId = block.data.url;
-        const imageResult = pool.query(queries.getImageByImageId, [imageId]);
+        let imageResult = await pool.query(queries.getImageByImageId, [
+          imageId,
+        ]);
+
         imageResult = imageResult.rows[0];
+
         newArticle.articleBody[sectionIndex].blocks[blockIndex].data.url =
           imageResult.url;
       }
@@ -84,10 +93,12 @@ const processArticle = async (article) => {
 
   //process main article image
   const imageId = newArticle.image;
-  const imageResult = pool.query(queries.getImageByImageId, [imageId]);
+  let imageResult = await pool.query(queries.getImageByImageId, [imageId]);
   imageResult = imageResult.rows[0];
   newArticle.image = imageResult.url;
 
+  //add in id
+  newArticle.id = article.id;
   return newArticle;
 };
 //route middle ware
@@ -108,7 +119,6 @@ const getMyArticles = async (req, res) => {
 };
 
 const getArticles = async (req, res) => {
-  console.log("GET ARTICLES");
   if (req.user) {
     if (req.query.title) {
       const articles = await pool.query(
@@ -163,27 +173,33 @@ const getArticlesById = async (req, res) => {
     pool.query(
       queries.auth_getArticlesById,
       [req.user.id, id],
-      (error, results) => {
+      async (error, results) => {
         if (error) {
           console.error(error);
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        const articles = results.rows.map((articleObject) =>
-          processArticle(articleObject)
-        );
+
+        const articles = [];
+
+        for (const articleObject of results.rows) {
+          let processedArticle = await processArticle(articleObject);
+          articles.push(processedArticle);
+        }
         res.status(200).json(articles);
       }
     );
   } else {
-    pool.query(queries.getArticlesById, [id], (error, results) => {
+    pool.query(queries.getArticlesById, [id], async (error, results) => {
       if (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal Server Error" });
       }
-      const articles = results.rows.map((articleObject) =>
-        processArticle(articleObject)
-      );
+      const articles = [];
 
+      for (const articleObject of results.rows) {
+        let processedArticle = await processArticle(articleObject);
+        articles.push(processedArticle);
+      }
       res.status(200).json(articles);
     });
   }
@@ -280,13 +296,23 @@ const addArticle = async (req, res) => {
       //upload images to images table and create references in article_images
       await pool.query("BEGIN");
 
+      //we need to create an empty article in database to get article id
+      let dummyArticle = await pool.query(queries.addArticles, [
+        "",
+        user.id,
+        {},
+      ]);
+      dummyArticle = dummyArticle.rows[0];
+
+      const articleID = dummyArticle.id;
       const imageEntities = [];
       if (uploads.length > 0) {
-        for (const upload in uploads) {
+        for (const upload of uploads) {
           let result = await pool.query(queries.insertImage, [
             upload.public_id,
             upload.url,
           ]);
+
           result = result.rows[0];
           imageEntities.push(result);
           await pool.query(queries.insertArticleImage, [result.id, articleID]);
@@ -310,16 +336,19 @@ const addArticle = async (req, res) => {
             ].data.url = imageEntities[imageIndex].id;
             newArticleDataUserCopy.articleBody[sectionIndex].blocks[
               blockIndex
-            ].data.url = imageEntities[imageIndex].public_url;
+            ].data.url = imageEntities[imageIndex].url;
+
             imageIndex++;
           }
         });
       });
 
-      let newArticleResult = await pool.query(queries.addArticles, [
-        newArticleData.title,
-        user.id,
+      //need to edit prior empty article with real data
+      let newArticleResult = await pool.query(queries.editArticle, [
+        newArticleData.header.blocks[0].data.text,
         newArticleData,
+        articleID,
+        user.id,
       ]);
       newArticleResult = newArticleResult.rows[0];
       newArticleDataUserCopy.id = newArticleResult.id;
@@ -330,7 +359,7 @@ const addArticle = async (req, res) => {
     } catch (error) {
       //rollback changes to database and delete the new images from cloudinary
       //if errors occured during uploading new images then nothing major should happen
-
+      console.error(error);
       try {
         await pool.query("ROLLBACK");
         await parallelDeleteImages(uploadedImagesCopy);
@@ -365,9 +394,7 @@ const editArticle = async (req, res) => {
 
     //check to see if article exists
     const articleID = req.params.id;
-    const articleResult = await pool.query(queries.getArticlesById, [
-      articleID,
-    ]);
+    let articleResult = await pool.query(queries.getArticlesById, [articleID]);
     if (articleResult.rowCount == 0) {
       return res
         .status(400)
@@ -450,19 +477,21 @@ const editArticle = async (req, res) => {
 
       //need to record all old images so need to grab them here before we add new ones
       //get all images associated with old article
-      const oldImages = await pool.query(queries.getAllImagesByArticleID, [
+      let oldImages = await pool.query(queries.getAllImagesByArticleID, [
         articleID,
       ]);
       oldImages = oldImages.rows;
 
       const imageEntities = [];
       if (uploads.length > 0) {
-        for (const upload in uploads) {
+        for (const upload of uploads) {
           let result = await pool.query(queries.insertImage, [
             upload.public_id,
             upload.url,
           ]);
+
           result = result.rows[0];
+
           imageEntities.push(result);
           await pool.query(queries.insertArticleImage, [result.id, articleID]);
         }
@@ -471,6 +500,7 @@ const editArticle = async (req, res) => {
       let imageIndex = 0;
       let oldMainImage = null;
       const oldImagesToKeepUrls = new Set();
+
       //process main article image
       if (mainImageExists) {
         const mainImageID = oldArticleData.image;
@@ -492,10 +522,16 @@ const editArticle = async (req, res) => {
       //go through new data, when we encounter image block if it is a new image replace database copy with image id and user copy with url
       //if we encounter old image, record it as an image to keep instead of deleting/replacing
 
-      newArticleData.articleBody.map((section, sectionIndex) => {
-        section.blocks.map((block, blockIndex) => {
+      for (const [
+        sectionIndex,
+        section,
+      ] of newArticleData.articleBody.entries()) {
+        for (const [blockIndex, block] of section.blocks.entries()) {
           if (block.type === "image") {
-            if (isOldImage(block.data.url)) {
+            if (
+              typeof block.data.url === "string" &&
+              isOldImage(block.data.url)
+            ) {
               oldImagesToKeepUrls.add(block.data.url);
             } else {
               newArticleData.articleBody[sectionIndex].blocks[
@@ -503,12 +539,12 @@ const editArticle = async (req, res) => {
               ].data.url = imageEntities[imageIndex].id;
               newArticleDataUserCopy.articleBody[sectionIndex].blocks[
                 blockIndex
-              ].data.url = imageEntities[imageIndex].public_url;
+              ].data.url = imageEntities[imageIndex].url;
               imageIndex++;
             }
           }
-        });
-      });
+        }
+      }
 
       //go through old data, record all old image ids
       const oldImageIdsinBody = new Set();
@@ -523,7 +559,7 @@ const editArticle = async (req, res) => {
       //filter out the ones that are in OldImageIds and arent one of the ones to keep
       oldImages = oldImages.filter(
         (image) =>
-          oldImageIdsinBody.has(image.id) && !oldImagesToKeepUrls.has(image.id)
+          oldImageIdsinBody.has(image.id) && !oldImagesToKeepUrls.has(image.url)
       );
       //add in the old main image if needed
       if (oldMainImage) {
@@ -533,32 +569,74 @@ const editArticle = async (req, res) => {
       //delete them from cloudinary and database
       try {
         await parallelDeleteImages(oldImages, 5);
-        await pool.query(
-          queries.deleteImages,
-          oldImages.map((image) => image.id)
-        );
+
+        await pool.query(queries.deleteImages, [
+          oldImages.map((image) => image.id),
+        ]);
       } catch (error) {
         console.log(error);
       }
 
-      let newArticleResult = await pool.query(queries.addArticles, [
-        newArticleData.title,
-        user.id,
+      for (const [
+        sectionIndex,
+        section,
+      ] of newArticleData.articleBody.entries()) {
+        for (const [blockIndex, block] of section.blocks.entries()) {
+          if (
+            block.type === "image" &&
+            typeof block.data.url === "string" &&
+            isOldImage(block.data.url)
+          ) {
+            // Find image based off URL
+            const result = await pool.query(queries.getImageByUrl, [
+              block.data.url,
+            ]);
+
+            const image = result.rows[0];
+            if (image) {
+              newArticleData.articleBody[sectionIndex].blocks[
+                blockIndex
+              ].data.url = image.id;
+            } else {
+              console.warn("Image not found for URL:", block.data.url);
+            }
+          }
+        }
+      }
+
+      //if there was no new main image provided, do the same
+      if (!mainImageExists && isOldImage(newArticleData.image)) {
+        let result = await pool.query(queries.getImageByUrl, [
+          newArticleData.image,
+        ]);
+        result = result.rows[0];
+        //replace with id
+        newArticleData.image = result.id;
+      }
+
+      //update article in database
+
+      let newArticleResult = await pool.query(queries.editArticle, [
+        newArticleData.header.blocks[0].data.text,
         newArticleData,
+        articleID,
+        user.id,
       ]);
       newArticleResult = newArticleResult.rows[0];
       newArticleDataUserCopy.id = newArticleResult.id;
+
       await pool.query("COMMIT");
 
       //return new article
       return res.status(200).json({ article: newArticleDataUserCopy });
+      W;
     } catch (error) {
       //rollback changes to database and delete the new images from cloudinary
       //if errors occured during uploading new images then nothing major should happen
 
       //if errors happen during image deletion then we cannot really bring the old images back, references in database will still stay the same but the urls may be invalid
       //users will have to reupload images
-
+      console.error(error);
       try {
         await pool.query("ROLLBACK");
         await parallelDeleteImages(uploadedImagesCopy);
