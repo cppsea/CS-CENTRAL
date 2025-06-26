@@ -1,24 +1,29 @@
 import { Stack } from "react-bootstrap";
 import SectionHeader from "./SectionHeader";
+import BlocksParser from "../../BlocksParser/BlocksParser";
 
 /*
-component for table of contents in article page, takes in array of objects containing strings for a heading and link to direct to the corresponding section
+component for table of contents in article page, 
+takes in array of objects containing heading block data text and section id
 
--will display the number corresponding to its position next to it
 */
 export default function TableOfContents({ contentSequence }) {
   return (
     <div className="d-flex flex-column position-relative">
-      <SectionHeader header={"Table of Contents"} />
+      <SectionHeader
+        headerBlock={[{ type: "header", data: { text: "Table of Contents" } }]}
+      />
       <div className="table-contents-marker-container">
         <div className="table-contents-marker">&nbsp;</div>
       </div>
       <Stack className="pt-1 ps-3" gap={2}>
-        {contentSequence.map(({ heading, link }, index) => (
-          <a className="table-content-heading ps-3" key={heading} href={link}>
-            {index + 1}. {heading}
-          </a>
-        ))}
+        {contentSequence.map(({ heading, link }, index) => {
+          return (
+            <a className="table-content-heading ps-3" key={heading.data.text + link} href={link} >
+              {index + 1}. <BlocksParser blocks={[heading]} />
+            </a>
+          );
+        })}
       </Stack>
     </div>
   );

@@ -3,6 +3,7 @@ import ArticleHeader from "../../Article/ArticleHeader/ArticleHeader";
 import ArticleImage from "../../Article/ArticleImage";
 import BodySection from "../../Article/Section/BodySection";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+import TableOfContents from "../../Article/Section/TableOfContents";
 import "./ArticlePreview.scss";
 export default function ArticlePreview({ articleEditorData, user }) {
   //insert dummy data if title and description blocks are empty
@@ -21,6 +22,26 @@ export default function ArticlePreview({ articleEditorData, user }) {
     descriptionBlocks = [
       { type: "paragraph", data: { text: "This is a description." } },
     ];
+  }
+
+  let contentSequence = [];
+
+  for (const sectionIndex in articleEditorData.articleBody) {
+    const section = articleEditorData.articleBody[sectionIndex];
+    if (section.blocks.length > 0 && section.blocks[0].type === "header") {
+      contentSequence.push({
+        heading: section.blocks[0],
+        link: `#${section.id}`,
+      });
+    } else {
+      contentSequence.push({
+        heading: {
+          type: "header",
+          data: { text: `Section ${Number(sectionIndex) + 1}` },
+        },
+        link: `#${section.id}`,
+      });
+    }
   }
 
   return (
@@ -54,7 +75,7 @@ export default function ArticlePreview({ articleEditorData, user }) {
       <Row className=" gx-4 gy-5">
         <Col xs={12} md={8}>
           <Stack className="gap-3">
-            {/* <TableOfContents contentSequence={contentHeaderSequence} /> */}
+            <TableOfContents contentSequence={contentSequence} />
 
             {articleEditorData.articleBody.map((bodySection, index) => {
               //assumes that if there is a title, it will be the first block
@@ -68,7 +89,7 @@ export default function ArticlePreview({ articleEditorData, user }) {
               ) {
                 currentBodySectionBlocks.splice(0, 0, {
                   type: "header",
-                  data: { text: "Section Title", level: 2 },
+                  data: { text: `Section ${index + 1}`, level: 2 },
                 });
               }
               return (
