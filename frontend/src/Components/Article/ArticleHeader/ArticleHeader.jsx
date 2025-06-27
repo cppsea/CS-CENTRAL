@@ -2,6 +2,7 @@ import { Stack } from "react-bootstrap";
 import ArticleHeaderDesc from "./ArticleHeaderDesc";
 import ArticleHeaderTitle from "./ArticleHeaderTitle";
 import ArticleHeaderAuthorDate from "./ArticleHeaderAuthorDate";
+import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
 
 //Component for the article header
 /*
@@ -32,16 +33,27 @@ export default function ArticleHeader({
       <ArticleHeaderTitle
         titleBlocks={titleBlocks}
         isBookmarked={isBookmarked}
-        bookmarkToggler={bookmarkToggler}
-        disableBookmark={disableBookmark}
+        disableBookmark
       />
       <ArticleHeaderDesc descriptionBlocks={descriptionBlocks} />
-      <ArticleHeaderAuthorDate
-        author={author}
-        date={date}
-        bookmarkToggler={bookmarkToggler}
-        isBookmarked={isBookmarked}
-      />
+      <div className="d-inline-flex align-items-center">
+        <ArticleHeaderAuthorDate author={author} date={date} />
+
+        <div className="mx-3">
+          {!disableBookmark &&
+            (isBookmarked ? (
+              <BookmarkFill
+                className="article-bookmark"
+                onClick={bookmarkToggler}
+              />
+            ) : (
+              <Bookmark
+                className="article-bookmark"
+                onClick={bookmarkToggler}
+              />
+            ))}
+        </div>
+      </div>
     </Stack>
   );
 }

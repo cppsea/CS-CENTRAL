@@ -59,7 +59,7 @@ const parallelDeleteImages = async (images, concurrency = 5) => {
       images.map((image) =>
         limit(async () => {
           //delete image
-          await cloudinary1.uploader.destroy(image.public_id);
+          let result = await cloudinary1.uploader.destroy(image.public_id);
           successes.push(image.public_id);
         })
       )
@@ -100,6 +100,23 @@ const processArticle = async (article) => {
 
   //add in id
   newArticle.id = article.id;
+
+  //add in author name
+  let author = await pool.query(queries.getUserByAuthorID, [article.author_id]);
+  author = author.rows[0];
+
+  newArticle.author = `${author.first_name} ${author.last_name}`;
+
+  //process publish date into Month Day, Year format
+  const date = new Date(article.published_at);
+  const publishDate = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(date);
+
+  newArticle.published_at = publishDate;
+
   return newArticle;
 };
 //route middle ware
@@ -122,47 +139,79 @@ const getMyArticles = async (req, res) => {
 const getArticles = async (req, res) => {
   if (req.user) {
     if (req.query.title) {
-      const articles = await pool.query(
+      await pool.query(
         queries.auth_getArticlesByTitle
           .replace("$1", req.query.title)
           .replace("$2", req.user.id),
-        (error, results) => {
+        async (error, results) => {
           if (error) {
             console.error(error);
             return res.status(500).json({ error: "Internal Server Error" });
           }
-          res.status(200).json(results.rows);
+
+          const articles = [];
+
+          for (const articleObject of results.rows) {
+            let processedArticle = await processArticle(articleObject);
+            articles.push(processedArticle);
+          }
+          res.status(200).json(articles);
         }
       );
     } else {
-      pool.query(queries.auth_getArticles, [req.user.id], (error, results) => {
-        if (error) {
-          console.error(error);
-          return res.status(500).json({ error: "Internal Server Error" });
+      pool.query(
+        queries.auth_getArticles,
+        [req.user.id],
+        async (error, results) => {
+          if (error) {
+            console.error(error);
+            return res.status(500).json({ error: "Internal Server Error" });
+          }
+          const articles = [];
+
+          for (const articleObject of results.rows) {
+            let processedArticle = await processArticle(articleObject);
+            articles.push(processedArticle);
+          }
+
+          res.status(200).json(articles);
         }
-        res.status(200).json(results.rows);
-      });
+      );
     }
   } else {
     if (req.query.title) {
       pool.query(
         queries.getArticlesByTitle.replace("$1", req.query.title),
-        (error, results) => {
+        async (error, results) => {
           if (error) {
             console.error(error);
             return res.status(500).json({ error: "Internal Server Error" });
           }
-          res.status(200).json(results.rows);
+          const articles = [];
+
+          for (const articleObject of results.rows) {
+            let processedArticle = await processArticle(articleObject);
+            articles.push(processedArticle);
+          }
+
+          res.status(200).json(articles);
         }
       );
       return;
     } else {
-      pool.query(queries.getArticles, (error, results) => {
+      pool.query(queries.getArticles, async (error, results) => {
         if (error) {
           console.error(error);
           return res.status(500).json({ error: "Internal Server Error" });
         }
-        res.status(200).json(results.rows);
+        const articles = [];
+
+        for (const articleObject of results.rows) {
+          let processedArticle = await processArticle(articleObject);
+          articles.push(processedArticle);
+        }
+
+        res.status(200).json(articles);
       });
     }
   }
@@ -803,9 +852,7 @@ const deleteArticle = async (req, res) => {
 
   try {
     //get all images relating to the article, delete them from database and cloudinary
-    const images = await pool.query(queries.getAllImagesByArticleID, [
-      articleId,
-    ]);
+    let images = await pool.query(queries.getAllImagesByArticleID, [articleId]);
     images = images.rows;
 
     const imageIds = images.map((image) => image.id);

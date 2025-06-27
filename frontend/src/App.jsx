@@ -30,7 +30,7 @@ function App() {
           </Route>
           <Route path="article_view">
             <Route index element={<ArticleView />} />
-            <Route path=":name" element={<ArticleView />} />
+            <Route path=":articleID" element={<ArticleView />} />
           </Route>
           <Route path="article-editor" element={<ArticleEditorPage />} />
           <Route

@@ -10,9 +10,9 @@ const getArticlesByTitle =
   "SELECT * FROM articles WHERE LOWER(title) LIKE '%$1%'"; //https://www.w3schools.com/sql/sql_like.asp
 const deleteArticle = "DELETE FROM articles WHERE id = $1";
 const publishArticle =
-  "UPDATE articles set is_published = TRUE WHERE id = $1 AND author_id = $2 RETURNING *";
+  "UPDATE articles set is_published = TRUE, published_at = CURRENT_TIMESTAMP WHERE id = $1 AND author_id = $2 RETURNING *";
 const unpublishArticle =
-  "UPDATE articles set is_published = FALSE WHERE id = $1 AND author_id = $2 RETURNING *";
+  "UPDATE articles set is_published = FALSE, published_at = NULL WHERE id = $1 AND author_id = $2 RETURNING *";
 
 const insertImage =
   "INSERT INTO images (public_id, url) VALUES ($1, $2) RETURNING *";
@@ -32,6 +32,7 @@ const auth_getArticles =
 const auth_getArticlesByTitle =
   "SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS \"isBookmarked\" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($2) WHERE title LIKE '%$1%'";
 
+const getUserByAuthorID = "SELECT * FROM users WHERE users.id = $1";
 module.exports = {
   getMyArticles,
   getArticles,
@@ -52,4 +53,5 @@ module.exports = {
   deleteImages,
   getAllImagesByArticleID,
   getImageByUrl,
+  getUserByAuthorID,
 };

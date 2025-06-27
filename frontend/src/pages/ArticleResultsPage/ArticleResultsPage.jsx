@@ -45,12 +45,8 @@ export default function ArticleResultsPage({}) {
         res.json().then((data) => {
           let dataCopy = [...data];
 
-          //we dont have author names, date, bookmarked, or image, so just inserting default in for now
+          //we dont have bookmarked, so just inserting default in for now
           dataCopy.forEach((articleObject) => {
-            articleObject.image =
-              "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
-            articleObject.author = "jeff";
-            articleObject.date = "October 24, 2023";
             articleObject.isBookmarked = false;
           });
           setArticles(dataCopy);
