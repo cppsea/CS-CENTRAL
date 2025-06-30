@@ -153,6 +153,16 @@ export default function Header() {
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
+                              href="/my-articles"
+                              id="dropdown_items"
+                              onClick={checkLoggedIn}
+                            >
+                              My Articles
+                            </Nav.Link>
+                          </Nav.Item>
+                          <Nav.Item>
+                            <Nav.Link
+                              className="fw-medium"
                               href="/settings"
                               id="dropdown_items"
                               onClick={checkLoggedIn}

@@ -193,6 +193,32 @@ export default function ArticleEditorPage() {
       setArticleEditorData(newArticle);
     }
   };
+
+  // for edit/preview tabs to float dynamically with the changing header size
+  useEffect(() => {
+    const header = document.querySelector(".bg-header");
+    const tabs = document.querySelector(".tab-contents");
+
+    if (!header || !tabs) return;
+
+    const updateHeaderHeight = () => {
+      const height = header.offsetHeight;
+      tabs.style.setProperty("--header-height", `${height}px`);
+    };
+
+    updateHeaderHeight();
+
+    window.addEventListener("resize", updateHeaderHeight);
+
+    const resizeObserver = new ResizeObserver(updateHeaderHeight);
+    resizeObserver.observe(header);
+
+    return () => {
+      window.removeEventListener("resize", updateHeaderHeight);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
   const [show, setShow] = useState(false);
 
   return (
@@ -203,138 +229,139 @@ export default function ArticleEditorPage() {
         setShow={setShow}
       />
 
-      {/*placeholder for styling of page, insert editor js instances in*/}
-      <Tabs
-        defaultActiveKey="edit"
-        className="d-flex justify-content-end align-items-end"
-        onSelect={(key) => toggleEditView(key)}
-      >
-        <Tab eventKey="edit" className="edit-tab" title="Edit"></Tab>
-        <Tab eventKey="preview" className="preview-tab" title="Preview"></Tab>
-      </Tabs>
+      <div className="article-editor-wrapper">
+        <Tabs
+          defaultActiveKey="edit"
+          className="tab-contents d-flex justify-content-end align-items-end"
+          onSelect={(key) => toggleEditView(key)}
+        >
+          <Tab eventKey="edit" className="edit-tab" title="Edit"></Tab>
+          <Tab eventKey="preview" className="preview-tab" title="Preview"></Tab>
+        </Tabs>
 
-      {isEditView ? (
-        <>
-          <div className="container">
-            <Button onClick={submitHandler}>
+        {isEditView ? (
+          <>
+            <Button className="floating-button" onClick={submitHandler}>
               {articleEditorData.id ? "Save" : "Create"}
             </Button>
-            <h2 className="header">Title</h2>
-            <div className="text-container">
-              <HeaderEditor
-                data={articleEditorData.header}
-                onChange={setHeaderData}
-                editorBlockId={"header-editor"}
-                charLimit={50}
-                hasLoadedInitialData={hasLoadedInitialData}
-              />
-            </div>
-          </div>
-          <div className="container">
-            <h2 className="header">Description</h2>
-            <div className="text-container">
-              <DescEditor
-                data={articleEditorData.description}
-                onChange={setDescData}
-                editorBlockId={"desc-editor"}
-                charLimit={200}
-                hasLoadedInitialData={hasLoadedInitialData}
-              />{" "}
-            </div>
-          </div>
-          <div className="container">
-            <h2 className="header">Article Image</h2>
-            {articleEditorData.image && (
-              <div className="image-container">
-                <Image
-                  src={articleEditorData.image}
-                  width="300"
-                  alt="Uploaded preview"
-                  fluid
-                  onClick={() => setShow(true)}
+            <div className="container">
+              <h2 className="header">Title</h2>
+              <div className="text-container">
+                <HeaderEditor
+                  data={articleEditorData.header}
+                  onChange={setHeaderData}
+                  editorBlockId={"header-editor"}
+                  charLimit={50}
+                  hasLoadedInitialData={hasLoadedInitialData}
                 />
               </div>
-            )}
-            <div className="image-container">
-              <Form.Label className="upload-button" htmlFor="file-upload">
-                Upload Image
-              </Form.Label>
-              <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                id="file-upload"
-                style={{ display: "none" }}
-              />
             </div>
-          </div>
-          <div className="container">
-            <h2 className="header">Article Body</h2>
-            <div className="text-container">
-              {articleEditorData.articleBody.map(
-                (articleBodySectionData, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="article-body-section"
-                      onDragOver={(e) => e.preventDefault()}
-                      onDragStart={(e) => handleDragStart(e, index)}
-                      onDrop={(e) => handleDrop(e, index)}
-                    >
-                      <div className="body-section-editor">
-                        <BodySectionEditor
-                          key={`body-section-editor-${articleBodySectionData.id}`}
-                          data={articleBodySectionData}
-                          onChange={setArticleBodySectionDataCreator(index)}
-                          charLimit={1000}
-                          editorBlockId={`body-section-editor-${index}`}
-                          hasLoadedInitialData={hasLoadedInitialData}
-                        />
-                      </div>
-                      <div className="icons">
-                        <span id="drag-icon" draggable="true">
-                          <ArrowsMove size={24} id="drag-icon" />
-                        </span>
-                        <Trash
-                          id="trash-icon"
-                          size={24}
-                          onClick={() => removeBodySection(index)}
-                        />
-                      </div>
-                      <hr className="body-divider" />
-                    </div>
-                  );
-                }
+            <div className="container">
+              <h2 className="header">Description</h2>
+              <div className="text-container">
+                <DescEditor
+                  data={articleEditorData.description}
+                  onChange={setDescData}
+                  editorBlockId={"desc-editor"}
+                  charLimit={200}
+                  hasLoadedInitialData={hasLoadedInitialData}
+                />{" "}
+              </div>
+            </div>
+            <div className="container">
+              <h2 className="header">Article Image</h2>
+              {articleEditorData.image && (
+                <div className="image-container">
+                  <Image
+                    src={articleEditorData.image}
+                    width="300"
+                    alt="Uploaded preview"
+                    fluid
+                    onClick={() => setShow(true)}
+                  />
+                </div>
               )}
-              <PlusCircle
-                id="plus-button"
-                size={24}
-                onClick={addNewBodySection}
-              />
+              <div className="image-container">
+                <Form.Label className="upload-button" htmlFor="file-upload">
+                  Upload Image
+                </Form.Label>
+                <Form.Control
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  id="file-upload"
+                  style={{ display: "none" }}
+                />
+              </div>
             </div>
-          </div>
-          <button
-            onClick={() => {
-              console.log("header");
-              console.log(JSON.stringify(articleEditorData.header));
-              console.log("image");
-              console.log(articleEditorData.image);
-              console.log("\nDescription");
-              console.log(JSON.stringify(articleEditorData.description));
-              console.log("\nArticle Body");
-              console.log(JSON.stringify(articleEditorData.articleBody));
+            <div className="container">
+              <h2 className="header">Article Body</h2>
+              <div className="text-container">
+                {articleEditorData.articleBody.map(
+                  (articleBodySectionData, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="article-body-section"
+                        onDragOver={(e) => e.preventDefault()}
+                        onDragStart={(e) => handleDragStart(e, index)}
+                        onDrop={(e) => handleDrop(e, index)}
+                      >
+                        <div className="body-section-editor">
+                          <BodySectionEditor
+                            key={`body-section-editor-${articleBodySectionData.id}`}
+                            data={articleBodySectionData}
+                            onChange={setArticleBodySectionDataCreator(index)}
+                            charLimit={1000}
+                            editorBlockId={`body-section-editor-${index}`}
+                            hasLoadedInitialData={hasLoadedInitialData}
+                          />
+                        </div>
+                        <div className="icons">
+                          <span id="drag-icon" draggable="true">
+                            <ArrowsMove size={24} id="drag-icon" />
+                          </span>
+                          <Trash
+                            id="trash-icon"
+                            size={24}
+                            onClick={() => removeBodySection(index)}
+                          />
+                        </div>
+                        <hr className="body-divider" />
+                      </div>
+                    );
+                  }
+                )}
+                <PlusCircle
+                  id="plus-button"
+                  size={24}
+                  onClick={addNewBodySection}
+                />
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                console.log("header");
+                console.log(JSON.stringify(articleEditorData.header));
+                console.log("image");
+                console.log(articleEditorData.image);
+                console.log("\nDescription");
+                console.log(JSON.stringify(articleEditorData.description));
+                console.log("\nArticle Body");
+                console.log(JSON.stringify(articleEditorData.articleBody));
 
-              console.log(articleEditorData.articleBody);
-            }}
-          >
-            Show Data
-          </button>
-        </>
-      ) : (
-        <>
-          <ArticlePreview articleEditorData={articleEditorData} user={user} />
-        </>
-      )}
+                console.log(articleEditorData.articleBody);
+              }}
+            >
+              Show Data
+            </button>
+          </>
+        ) : (
+          <>
+            <ArticlePreview articleEditorData={articleEditorData} user={user} />
+          </>
+        )}
+      </div>
     </>
   );
 }

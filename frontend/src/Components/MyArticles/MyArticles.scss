@@ -33,10 +33,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
   overflow: hidden;
+  z-index: 1;
 
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
   }
 
   .article-image-container {
@@ -87,6 +89,7 @@
       position: absolute;
       top: 12px;
       right: 12px;
+      z-index: 2;
 
       .dropdown-toggle {
         padding: 4px;
@@ -118,14 +121,23 @@
     }
   }
 
-  .article-title {
-    margin-top: auto;
+  .article-text {
     padding: 1rem;
-    font-size: 1.125rem;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    .article-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .article-date {
+      margin-top: 0.25rem;
+      font-size: 0.875rem;
+      opacity: 0.7;
+      font-style: italic;
+    }
   }
 }
 

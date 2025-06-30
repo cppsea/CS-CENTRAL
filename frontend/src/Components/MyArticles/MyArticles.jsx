@@ -63,8 +63,8 @@ export default function MyArticles() {
     fetchArticles();
   };
 
-  const handleEdit = () => {
-    navigate(`/article-editor`);
+  const handleEdit = (articleId) => {
+    navigate(`/article-editor/${articleId}`);
   };
 
   return (
@@ -103,7 +103,16 @@ export default function MyArticles() {
       <Row xs={1} md={2} lg={3} className="g-4">
         {articles.map((article) => (
           <Col key={article.id}>
-            <div className="article-card">
+            <div
+              className="article-card"
+              onClick={() =>
+                navigate(
+                  `/${
+                    article.is_published ? "article_view" : "article-editor"
+                  }/${article.id}`
+                )
+              }
+            >
               <div className="article-image-container">
                 <Image
                   src={
@@ -119,7 +128,10 @@ export default function MyArticles() {
                 >
                   {article.is_published ? "Published" : "Draft"}
                 </span>
-                <Dropdown className="article-actions">
+                <Dropdown
+                  className="article-actions"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   <Dropdown.Toggle variant="link" id="dropdown-actions">
                     <ThreeDotsVertical />
                   </Dropdown.Toggle>
@@ -134,7 +146,9 @@ export default function MyArticles() {
                     >
                       {article.is_published ? "Unpublish" : "Publish"}
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleEdit(article.id)}>
+                      Edit
+                    </Dropdown.Item>
                     <Dropdown.Item
                       onClick={() => handleShow("delete", article.id)}
                     >
@@ -143,7 +157,14 @@ export default function MyArticles() {
                   </Dropdown.Menu>
                 </Dropdown>
               </div>
-              <div className="article-title">{article.title}</div>
+              <div className="article-text">
+                <div className="article-title">{article.title}</div>
+                {article.published_at && (
+                  <div className="article-date">
+                    {new Date(article.published_at).toLocaleDateString()}
+                  </div>
+                )}
+              </div>
             </div>
           </Col>
         ))}

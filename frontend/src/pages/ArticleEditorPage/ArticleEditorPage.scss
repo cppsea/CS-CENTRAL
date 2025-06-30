@@ -12,6 +12,28 @@
   }
 }
 
+.tab-contents {
+  position: sticky;
+  z-index: 1000;
+  top: var(--header-height, 164px);
+  height: 70px;
+}
+
+.floating-button {
+  position: sticky;
+  float: right;
+  top: calc(100vh - 70px);
+  margin-bottom: 20px;
+  margin-right: 10px;
+  z-index: 1000;
+  color: aliceblue !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
 .container {
   margin-top: 10px;
   padding: 10px 50px;
@@ -127,6 +149,10 @@
     max-height: 500px;
     object-fit: cover;
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .upload-button {
@@ -145,12 +171,19 @@
 // fix plus button for editorjs
 
 @include color-mode(light) {
+  .tab-contents {
+    background-color: $white;
+  }
   .text-container {
     background-color: $article-editor-body-light;
   }
 }
 
 @include color-mode(dark) {
+  .tab-contents {
+    background-color: $primary-bg-dark;
+  }
+
   .text-container {
     background-color: $article-editor-body-dark;
   }

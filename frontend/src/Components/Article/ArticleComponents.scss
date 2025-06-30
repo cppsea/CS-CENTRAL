@@ -173,6 +173,10 @@
   @media screen and (max-width: 500px) {
     font-size: calc(0.7rem + 0.3vw);
   }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 //Related Topics List
@@ -208,6 +212,10 @@
   height: 25vh;
   max-height: 400px;
   min-height: 300px;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   @media screen and (max-width: 800px) {
     min-height: 200px;

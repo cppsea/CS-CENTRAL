@@ -9,4 +9,10 @@
     max-height: 500px;
     object-fit: cover;
   }
+
+  img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }

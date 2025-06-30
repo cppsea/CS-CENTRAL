@@ -1,7 +1,12 @@
 import { Modal, Image } from "react-bootstrap";
 import "./ArticleImagePreview.scss";
 
-export default function ArticleImagePreview({ imageSrc, show, setShow }) {
+export default function ArticleImagePreview({
+  imageSrc,
+  show,
+  setShow,
+  caption,
+}) {
   return (
     <Modal
       show={show}
@@ -15,6 +20,7 @@ export default function ArticleImagePreview({ imageSrc, show, setShow }) {
       <Modal.Body>
         <Image src={imageSrc} fluid />
       </Modal.Body>
+      {caption && <Modal.Footer>{caption}</Modal.Footer>}
     </Modal>
   );
 }
