@@ -124,12 +124,19 @@ const processArticle = async (article) => {
 const getMyArticles = async (req, res) => {
   const authorId = req.user.id;
   if (authorId) {
-    pool.query(queries.getMyArticles, [authorId], (error, results) => {
+    pool.query(queries.getMyArticles, [authorId], async (error, results) => {
       if (error) {
         console.error(error);
         return res.status(500).json({ error: "Internal Server Error" });
       }
-      return res.status(200).json(results.rows);
+      const articles = [];
+
+      for (const articleObject of results.rows) {
+        let processedArticle = await processArticle(articleObject);
+        articles.push(processedArticle);
+      }
+
+      res.status(200).json(articles);
     });
   } else {
     return res.status(404).json({ error: "Not authorized to access" });
