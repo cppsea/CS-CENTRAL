@@ -1,0 +1,44 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../scss/variables";
+
+.arrow-marker {
+  width: 100%;
+  height: 100%;
+  display: inline-flex;
+}
+
+//rectangle point
+.arrow-marker-base {
+  height: 100%;
+  width: 16%;
+}
+
+//gap between parts
+.arrow-marker-gap {
+  width: 16%;
+}
+
+//pointy part
+.arrow-marker-point {
+  height: 100%;
+  width: 68%;
+  clip-path: polygon(0 0, 0 100%, 50% 100%, 100% 50%, 50% 0%);
+}
+
+//COLOR MODES
+@include color-mode(light) {
+  .arrow-marker-base,
+  .arrow-marker-point {
+    background: $arrow-marker-light;
+  }
+}
+
+@include color-mode(dark) {
+  .arrow-marker-base,
+  .arrow-marker-point {
+    background: $arrow-marker-dark;
+  }
+}
