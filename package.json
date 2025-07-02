@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "server": "nodemon --quiet server",
         "client": "npm start --prefix frontend",
-        "dev": "concurrently \"npm run server\" \"npm run client\""
+        "admin": "npm start --prefix admin-frontend",
+        "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run admin\" "
     },
     "repository": {
         "type": "git",
