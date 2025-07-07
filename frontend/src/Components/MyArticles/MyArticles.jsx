@@ -108,7 +108,7 @@ export default function MyArticles() {
               onClick={() =>
                 navigate(
                   `/${
-                    article.is_published ? "article_view" : "article-editor"
+                    article.published_at ? "article_view" : "article-editor"
                   }/${article.id}`
                 )
               }
@@ -123,10 +123,10 @@ export default function MyArticles() {
                 />
                 <span
                   className={`status ${
-                    article.is_published ? "published" : "draft"
+                    article.published_at ? "published" : "draft"
                   }`}
                 >
-                  {article.is_published ? "Published" : "Draft"}
+                  {article.published_at ? "Published" : "Draft"}
                 </span>
                 <Dropdown
                   className="article-actions"
@@ -139,12 +139,12 @@ export default function MyArticles() {
                     <Dropdown.Item
                       onClick={() =>
                         handleShow(
-                          article.is_published ? "unpublish" : "publish",
+                          article.published_at ? "unpublish" : "publish",
                           article.id
                         )
                       }
                     >
-                      {article.is_published ? "Unpublish" : "Publish"}
+                      {article.published_at ? "Unpublish" : "Publish"}
                     </Dropdown.Item>
                     <Dropdown.Item onClick={() => handleEdit(article.id)}>
                       Edit

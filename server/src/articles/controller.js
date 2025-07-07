@@ -108,12 +108,16 @@ const processArticle = async (article) => {
   newArticle.author = `${author.first_name} ${author.last_name}`;
 
   //process publish date into Month Day, Year format
-  const date = new Date(article.published_at);
-  const publishDate = new Intl.DateTimeFormat("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  }).format(date);
+  let publishDate = null;
+
+  if (article.published_at) {
+    const date = new Date(article.published_at);
+    publishDate = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  }
 
   newArticle.published_at = publishDate;
 
