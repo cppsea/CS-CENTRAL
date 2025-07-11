@@ -4,12 +4,10 @@ import {
   Navbar,
   Image,
   Stack,
-  NavDropdown,
   OverlayTrigger,
   Popover,
   Button,
 } from "react-bootstrap";
-import SearchBar from "../SearchBar";
 
 import { SunFill, MoonFill } from "react-bootstrap-icons";
 import { useState, useEffect } from "react";
@@ -55,7 +53,7 @@ export default function Header() {
   }, [theme]);
   return (
     <>
-      <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
+      <Navbar expand="sm" fixed="top" className="sticky-top px-4 bg-header">
         <Container>
           <Stack direction="horizontal" gap={2}>
             <Nav.Link href="/">
@@ -63,34 +61,13 @@ export default function Header() {
             </Nav.Link>
             <div className="header-divider"></div>
 
-            <Navbar.Toggle aria-controls="basic-navbar-nav" id="toggler" />
-            <Navbar.Collapse>
-              <Nav variant="underline" className="ms-auto px-2">
-                <Nav.Item>
-                  <Nav.Link className="fw-medium" href="/" id="navbar_item">
-                    Machine Learning
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link className="fw-medium" href="/" id="navbar_item">
-                    Data Science
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <NavDropdown
-                    className="fw-semibold"
-                    title="More"
-                    align={{ lg: "end" }}
-                    id="navbar_item"
-                  >
-                    <NavDropdown.Item>Software Engineering</NavDropdown.Item>
-                    <NavDropdown.Item>Cybersecurity</NavDropdown.Item>
-                    <NavDropdown.Item>Game Development</NavDropdown.Item>
-                    <NavDropdown.Item>General Programming</NavDropdown.Item>
-                  </NavDropdown>
-                </Nav.Item>
-              </Nav>
-            </Navbar.Collapse>
+            <Nav className="ms-auto px-2">
+              <Nav.Item>
+                <Nav.Link className="fw-medium" href="/" id="navbar_item">
+                  Admin
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
           </Stack>
 
           <Stack
@@ -98,10 +75,6 @@ export default function Header() {
             gap={3}
             className="flex-grow-1 justify-content-end align-items-center header-right"
           >
-            <div className="search-container flex-grow-1">
-              <SearchBar />
-            </div>
-
             <Button
               variant="link"
               className="p-0 me-2 toggle-theme-button"
@@ -138,26 +111,6 @@ export default function Header() {
                               onClick={checkLoggedIn}
                             >
                               My Profile
-                            </Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/saved-articles"
-                              id="dropdown_items"
-                              onClick={checkLoggedIn}
-                            >
-                              Saved Articles
-                            </Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/my-articles"
-                              id="dropdown_items"
-                              onClick={checkLoggedIn}
-                            >
-                              My Articles
                             </Nav.Link>
                           </Nav.Item>
                           <Nav.Item>
