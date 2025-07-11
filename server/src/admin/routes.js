@@ -5,8 +5,7 @@ const { Router } = require("express");
 const controller = require("./controller");
 
 const { getUserByUsername } = require("../users/queries");
-const { searchUsers } = require("./queries.js");
-
+const queries = require("./queries.js");
 const requireAdminAuth = async (req, res, next) => {
   //verify that user is authenticated
   const { authorization } = req.headers;
@@ -27,6 +26,14 @@ const requireAdminAuth = async (req, res, next) => {
       return res.status(401).json({ error: "User not found" });
     }
     req.user = userResult.rows[0];
+
+    //check if user has admin
+    const checkAdminResult = await pool.query(queries.getAdminByUserID, [
+      req.user.id,
+    ]);
+    if (checkAdminResult.rowCount === 0) {
+      throw Error("Admin role association not found with user.");
+    }
     next();
   } catch (error) {
     console.log(error);
@@ -49,5 +56,5 @@ router.patch("/articles/:id/publish", controller.publishArticle);
 router.patch("/articles/:id/unpublish", controller.unpublishArticle);
 router.get("/articles/:id", controller.getArticle);
 router.delete("/articles/:id", controller.deleteArticle);
-
+router.get("/articles", controller.searchArticles);
 module.exports = router;

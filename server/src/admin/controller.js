@@ -7,10 +7,66 @@ const { cloudinary1 } = require("../images/config");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
 
+//helper functions
 const createAdminToken = (id) => {
   return jwt.sign({ id: id }, process.env.ADMIN_SECRET, { expiresIn: "15m" });
 };
 
+const processArticle = async (article) => {
+  //go through all image blocks, grab corresponding image urls, replace in data and return
+
+  //currently we're storing the entire article data inside article body
+  let newArticle = { ...article.article_body };
+  newArticle.articleBody.forEach(async (section, sectionIndex) => {
+    await section.blocks.forEach(async (block, blockIndex) => {
+      if (block.type === "image") {
+        //id stored in the url field
+        const imageId = block.data.url;
+        let imageResult = await pool.query(queries.getImageByImageId, [
+          imageId,
+        ]);
+
+        imageResult = imageResult.rows[0];
+
+        newArticle.articleBody[sectionIndex].blocks[blockIndex].data.url =
+          imageResult.url;
+      }
+    });
+  });
+
+  //process main article image
+  const imageId = newArticle.image;
+  let imageResult = await pool.query(queries.getImageByImageId, [imageId]);
+  imageResult = imageResult.rows[0];
+  newArticle.image = imageResult.url;
+
+  //add in id
+  newArticle.id = article.id;
+
+  //add in author name
+  let author = await pool.query(queries.getUserByAuthorID, [article.author_id]);
+  author = author.rows[0];
+
+  newArticle.author = `${author.first_name} ${author.last_name}`;
+
+  //process publish date into Month Day, Year format
+  let publishDate = null;
+
+  if (article.published_at) {
+    const date = new Date(article.published_at);
+    publishDate = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  }
+
+  newArticle.published_at = publishDate;
+
+  return newArticle;
+};
+
+//route functionsw
 const loginAdminUser = async (req, res) => {
   const { username, password } = req.body;
   console.log("received admin login request for username:", username);
@@ -207,7 +263,29 @@ const searchUsers = async (req, res) => {
   }
 };
 
-const searchArticles = async (req, res) => {};
+const searchArticles = async (req, res) => {
+  const { id, author_id, title, is_published } = req.body;
+
+  try {
+    let results = await pool.query(queries.searchArticles, [
+      id,
+      author_id,
+      title,
+      is_published,
+    ]);
+
+    let processedArticles = [];
+    for (const article of results.rows) {
+      let currArticle = await processArticle(article);
+      processedArticles.push(currArticle);
+    }
+
+    return res.status(200).json({ articles: processedArticles });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Could not search for articles" });
+  }
+};
 
 const getArticle = async (req, res) => {
   //get article id
@@ -219,7 +297,10 @@ const getArticle = async (req, res) => {
     if (result.rowCount == 0) {
       throw Error("Article not found.");
     }
-    return res.status(200).json({ article: result.rows[0] });
+
+    const processedArticle = await processArticle(result.rows[0]);
+
+    return res.status(200).json({ article: processedArticle });
   } catch (error) {
     console.error(error);
     return res.status(400).json({ error: "Article not found." });
@@ -323,4 +404,5 @@ module.exports = {
   unpublishArticle,
   getArticle,
   deleteArticle,
+  searchArticles,
 };

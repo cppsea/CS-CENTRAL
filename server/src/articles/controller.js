@@ -5,7 +5,6 @@ const userQueries = require("../users/queries.js");
 const { cloudinary1 } = require("../images/config");
 const jwt = require("jsonwebtoken");
 const fs = require("fs/promises");
-const { error } = require("console");
 
 //helper functions
 
