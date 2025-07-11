@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 const DEFAULT_AVATAR = "/default_avatar.jpg";
 
 export default function Header() {
-  const { user } = useAuthContext();
+  const { admin } = useAuthContext();
   const navigate = useNavigate();
   const { logout } = useLogout();
   const handleLogout = () => {
@@ -39,7 +39,7 @@ export default function Header() {
   });
 
   const checkLoggedIn = (e) => {
-    if (!user) {
+    if (!admin) {
       e.preventDefault();
       logout();
       navigate("/signin");
@@ -99,33 +99,13 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello {user ? user.first_name : "Guest"}!
+                        Hello {admin ? admin.first_name : "Guest"}!
                       </Popover.Header>
                       <Popover.Body className="py-2">
                         <Nav>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings/profile-settings"
-                              id="dropdown_items"
-                              onClick={checkLoggedIn}
-                            >
-                              My Profile
-                            </Nav.Link>
-                          </Nav.Item>
-                          <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/settings"
-                              id="dropdown_items"
-                              onClick={checkLoggedIn}
-                            >
-                              Settings
-                            </Nav.Link>
-                          </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>
-                            {user ? (
+                            {admin ? (
                               <Nav.Link
                                 className="fw-medium"
                                 href="/signin"
@@ -153,7 +133,7 @@ export default function Header() {
                 >
                   <Button className=" bg-transparent border-0 p-0">
                     <Image
-                      src={user ? user.avatar : DEFAULT_AVATAR}
+                      src={admin ? admin.avatar : DEFAULT_AVATAR}
                       roundedCircle
                       width={50}
                       height={50}

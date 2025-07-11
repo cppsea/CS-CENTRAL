@@ -5,9 +5,9 @@ export const AuthContext = createContext();
 export const authReducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      return { user: action.payload };
+      return { admin: action.payload };
     case "LOGOUT":
-      return { user: null };
+      return { admin: null };
     default:
       return state;
   }
@@ -15,13 +15,13 @@ export const authReducer = (state, action) => {
 
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, {
-    user: null,
+    admin: null,
   });
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      dispatch({ type: "LOGIN", payload: user });
+    const admin = JSON.parse(localStorage.getItem("admin"));
+    if (admin) {
+      dispatch({ type: "LOGIN", payload: admin });
     }
   }, []);
 

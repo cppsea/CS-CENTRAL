@@ -16,7 +16,7 @@ export const useLogin = () => {
 
     const { username, password } = user;
     try {
-      const response = await fetch(`${apiUrl}/api/users/login`, {
+      const response = await fetch(`${apiUrl}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -30,7 +30,7 @@ export const useLogin = () => {
       }
       if (response.ok) {
         //save user to local storage
-        localStorage.setItem("user", JSON.stringify(json));
+        localStorage.setItem("admin", JSON.stringify(json));
 
         //update authcontext
         dispatch({ type: "LOGIN", payload: json });

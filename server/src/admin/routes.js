@@ -42,19 +42,26 @@ const requireAdminAuth = async (req, res, next) => {
 };
 
 const router = Router();
-router.use(requireAdminAuth);
 
 router.post("/login", controller.loginAdminUser);
-router.post("/", controller.giveAdminToUser);
-router.delete("/", controller.giveAdminToUser);
+router.post("/", requireAdminAuth, controller.giveAdminToUser);
+router.delete("/", requireAdminAuth, controller.giveAdminToUser);
 
-router.get("/users", controller.searchUsers);
-router.get("/users/:id", controller.getUserData);
-router.delete("/users/:id", controller.deleteUser);
+router.get("/users", requireAdminAuth, controller.searchUsers);
+router.get("/users/:id", requireAdminAuth, controller.getUserData);
+router.delete("/users/:id", requireAdminAuth, controller.deleteUser);
 
-router.patch("/articles/:id/publish", controller.publishArticle);
-router.patch("/articles/:id/unpublish", controller.unpublishArticle);
-router.get("/articles/:id", controller.getArticle);
-router.delete("/articles/:id", controller.deleteArticle);
-router.get("/articles", controller.searchArticles);
+router.patch(
+  "/articles/:id/publish",
+  requireAdminAuth,
+  controller.publishArticle
+);
+router.patch(
+  "/articles/:id/unpublish",
+  requireAdminAuth,
+  controller.unpublishArticle
+);
+router.get("/articles/:id", requireAdminAuth, controller.getArticle);
+router.delete("/articles/:id", requireAdminAuth, controller.deleteArticle);
+router.get("/articles", requireAdminAuth, controller.searchArticles);
 module.exports = router;

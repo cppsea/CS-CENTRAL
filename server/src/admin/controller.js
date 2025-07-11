@@ -77,6 +77,14 @@ const loginAdminUser = async (req, res) => {
     }
     const user = result.rows[0];
 
+    //check if user is admin
+    const checkAdminResult = await pool.query(queries.getAdminByUserID, [
+      user.id,
+    ]);
+    if (checkAdminResult.rowCount === 0) {
+      throw Error("Admin role association not found with user.");
+    }
+
     //get avatar url
     let avatarUrlResult = null;
     if (user.avatar_id != null) {
@@ -107,7 +115,8 @@ const loginAdminUser = async (req, res) => {
       return res.send("Not allowed");
     }
   } catch (error) {
-    return res.status(500).send();
+    console.error(error);
+    return res.status(500).send({ error: "Wrong credentials" });
   }
 };
 
