@@ -5,13 +5,16 @@ import Home from "./pages/HomePage/Home";
 import UsersPage from "./pages/UsersPage/UsersPage";
 import ArticlesPage from "./pages/ArticlesPage/ArticlesPage";
 import SigninPage from "./pages/SignInPage/SignInPage";
+import { useAuthContext } from "./hooks/useAuthContext";
+import LoggedOutHomePage from "./pages/LoggedOutHome/LoggedOutHomePage";
 function App() {
+  const { admin } = useAuthContext();
   return (
     <>
       <Routes>
         <Route path="/" element={<BasePage />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/signin" element={<SigninPage />} />
+          <Route path="/" element={admin ? <Home /> : <LoggedOutHomePage />} />
+          {!admin && <Route path="/signin" element={<SigninPage />} />}
         </Route>
       </Routes>
       <Toaster />
