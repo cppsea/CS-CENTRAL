@@ -7,11 +7,11 @@ const getUserByAuthorID = "SELECT * FROM users WHERE users.id = $1";
 const searchUsers = `
   SELECT * FROM users
   WHERE
-    ($1 IS NULL OR username ILIKE '%' || $1 || '%')
-    AND ($2 IS NULL OR first_name ILIKE '%' || $2 || '%')
-    AND ($3 IS NULL OR last_name ILIKE '%' || $3 || '%')
-    AND ($4 IS NULL OR id = $4)
-    AND ($5 IS NULL OR email ILIKE '%' || $5 || '%')
+    ($1::text IS NULL OR username ILIKE '%' || $1::text || '%')
+    AND ($2::text IS NULL OR first_name ILIKE '%' || $2::text || '%')
+    AND ($3::text IS NULL OR last_name ILIKE '%' || $3::text || '%')
+    AND ($4::int IS NULL OR id = $4::int)
+    AND ($5::text IS NULL OR email ILIKE '%' || $5::text || '%')
 `;
 
 const giveAdminByUserID =
@@ -30,10 +30,10 @@ const deleteArticleByID = "DELETE * FROM articles WHERE id = $1 RETURNING *";
 const searchArticles = `
   SELECT * FROM articles
   WHERE
-    ($1 IS NULL OR id = $1)
-    AND ($2 IS NULL OR author_id = $2)
-    AND ($3 IS NULL OR title ILIKE '%' || $3 || '%')
-    AND ($4 IS NULL OR is_published = $4);
+    ($1::int IS NULL OR id = $1::int)
+    AND ($2::int IS NULL OR author_id = $2::int)
+    AND ($3::text IS NULL OR title ILIKE '%' || $3::text || '%')
+    AND ($4::boolean IS NULL OR is_published = $4::boolean);
 `;
 const getImageByImageId = "SELECT * FROM images WHERE images.id = $1";
 

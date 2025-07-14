@@ -47,7 +47,7 @@ router.post("/login", controller.loginAdminUser);
 router.post("/", requireAdminAuth, controller.giveAdminToUser);
 router.delete("/", requireAdminAuth, controller.giveAdminToUser);
 
-router.get("/users", requireAdminAuth, controller.searchUsers);
+router.post("/users", requireAdminAuth, controller.searchUsers);
 router.get("/users/:id", requireAdminAuth, controller.getUserData);
 router.delete("/users/:id", requireAdminAuth, controller.deleteUser);
 
@@ -63,5 +63,5 @@ router.patch(
 );
 router.get("/articles/:id", requireAdminAuth, controller.getArticle);
 router.delete("/articles/:id", requireAdminAuth, controller.deleteArticle);
-router.get("/articles", requireAdminAuth, controller.searchArticles);
+router.post("/articles", requireAdminAuth, controller.searchArticles);
 module.exports = router;

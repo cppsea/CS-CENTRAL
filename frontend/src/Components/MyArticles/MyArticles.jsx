@@ -158,7 +158,9 @@ export default function MyArticles() {
                 </Dropdown>
               </div>
               <div className="article-text">
-                <div className="article-title">{article.title}</div>
+                <div className="article-title">
+                  {article.header.blocks[0].data.text}
+                </div>
                 {article.published_at && (
                   <div className="article-date">
                     {new Date(article.published_at).toLocaleDateString()}
