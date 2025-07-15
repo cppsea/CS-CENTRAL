@@ -6,8 +6,11 @@ import "./Signup.scss";
 import "../SignForm.scss";
 import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
 
 export default function SignupCard() {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [formVal, setFormVal] = useState({
     username: "",
     fname: "",
@@ -77,13 +80,15 @@ export default function SignupCard() {
     setErrorMessages(newErrMessages);
     // Call the signup function if no validation errors
     if (Object.keys(newErrMessages).length === 0) {
+      showSpinner();
       await signup({
         first_name: formVal.fname,
         last_name: formVal.lname,
-        username: formVal.username,        
+        username: formVal.username,
         password: formVal.password,
         email: formVal.email,
       });
+      hideSpinner();
     }
   };
 
@@ -94,7 +99,9 @@ export default function SignupCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Sign Up
+      </h2>
       <div className="d-flex justify-content-between gap-2">
         <Form.Group className="my-4">
           <Form.Control

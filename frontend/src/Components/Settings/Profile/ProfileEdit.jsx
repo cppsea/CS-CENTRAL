@@ -18,6 +18,7 @@ import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import { useEditProfile } from "../../../hooks/useEditProfile";
 import toast from "react-hot-toast";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
 export default function ProfileEdit({
   profile = {
     fname: "Joe",
@@ -28,6 +29,8 @@ export default function ProfileEdit({
     avatar: null,
   },
 }) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const { user } = useAuthContext();
 
   const {
@@ -150,8 +153,10 @@ export default function ProfileEdit({
 
     return formData;
   };
+
   // handle submit
   const handleSubmit = async (e) => {
+    showSpinner();
     e.preventDefault();
 
     const isFormValid = validateForm();
@@ -177,6 +182,7 @@ export default function ProfileEdit({
       console.log("Invalid Form");
       toast.error("Invalid form data.");
     }
+    hideSpinner();
   };
 
   //load profile info

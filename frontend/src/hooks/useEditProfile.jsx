@@ -32,6 +32,7 @@ export const useEditProfile = () => {
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
         return;
       }
 

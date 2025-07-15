@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import toast from "react-hot-toast";
 export const useGetMyArticles = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -23,12 +23,15 @@ export const useGetMyArticles = () => {
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
+
         return;
       }
 
       return json;
     } catch (err) {
       setError("Something went wrong. Couldn't get articles.");
+      toast.error("Something went wrong. Couldn't get articles.");
     } finally {
       setIsLoading(false);
     }

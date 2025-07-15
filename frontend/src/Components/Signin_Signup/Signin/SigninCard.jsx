@@ -5,6 +5,7 @@ import { useLogin } from "../../../hooks/useLogin";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
 import "./Signin.scss";
 import "../SignForm.scss";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
 
 const GoogleIcon = () => (
   <svg
@@ -21,6 +22,8 @@ const GoogleIcon = () => (
 );
 
 export default function SigninCard() {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [formVal, setFormVal] = useState({
     username: "",
     password: "",
@@ -61,10 +64,13 @@ export default function SigninCard() {
     if (Object.keys(errMessagesList).length === 0) {
       // If no errors, proceed with login
       try {
+        showSpinner();
         await login({ username: formVal.username, password: formVal.password });
         // Redirect or perform other actions on successful login
       } catch (err) {
         setErrorMessages({ form: "Invalid credentials" });
+      } finally {
+        hideSpinner();
       }
     } else {
       setValidated(true);

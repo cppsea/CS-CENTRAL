@@ -181,7 +181,7 @@ const editUser = async (req, res) => {
         avatarUrlResult = await pool.query(queries.getAvatarURLByUserId, [
           user.id,
         ]);
-        avatarUrlResult = avatarUrlResult.rows[0].url;
+        avatarUrlResult = avatarUrlResult.rows[0]?.url;
       } catch (error) {
         console.log(error);
         return res.status(500).send();

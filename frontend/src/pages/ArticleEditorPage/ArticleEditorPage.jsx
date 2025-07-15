@@ -19,7 +19,10 @@ import { useArticleCreate } from "../../hooks/useArticleCreate";
 import { useArticleEdit } from "../../hooks/useArticleEdit";
 import ArticleImagePreview from "../../Components/Article/ArticleImagePreview/ArticleImagePreview";
 
+import { useLoadingSpinner } from "../../context/SpinnerContext";
 export default function ArticleEditorPage() {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const { user } = useAuthContext();
   const params = useParams();
   const navigate = useNavigate();
@@ -153,11 +156,14 @@ export default function ArticleEditorPage() {
       if (hasRun.current) return;
       if (!user || !params.articleID) return;
       hasRun.current = true;
+
+      showSpinner();
       const retrievedArticle = await getArticleByID(params.articleID);
       if (retrievedArticle) {
         setArticleEditorData(retrievedArticle);
         setHasLoadedInitialData(true);
       }
+      hideSpinner();
     };
     fetchArticle();
   }, [user]);
@@ -178,6 +184,8 @@ export default function ArticleEditorPage() {
     e.preventDefault();
 
     let newArticle;
+    showSpinner();
+
     if (params.articleID) {
       newArticle = await editArticle(params.articleID, articleEditorData);
     } else {
@@ -192,6 +200,7 @@ export default function ArticleEditorPage() {
     if (newArticle) {
       setArticleEditorData(newArticle);
     }
+    hideSpinner();
   };
 
   // for edit/preview tabs to float dynamically with the changing header size
@@ -339,22 +348,6 @@ export default function ArticleEditorPage() {
                 />
               </div>
             </div>
-            <button
-              onClick={() => {
-                console.log("header");
-                console.log(JSON.stringify(articleEditorData.header));
-                console.log("image");
-                console.log(articleEditorData.image);
-                console.log("\nDescription");
-                console.log(JSON.stringify(articleEditorData.description));
-                console.log("\nArticle Body");
-                console.log(JSON.stringify(articleEditorData.articleBody));
-
-                console.log(articleEditorData.articleBody);
-              }}
-            >
-              Show Data
-            </button>
           </>
         ) : (
           <>

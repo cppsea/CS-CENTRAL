@@ -4,6 +4,7 @@ import RelatedTags from "../../Components/ArticleResults/SideSections/RelatedTop
 import ArticleResultsList from "../../Components/ArticleResults/ArticleResultsList.jsx";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ArticleResultsPage.scss";
+import { useLoadingSpinner } from "../../context/SpinnerContext.jsx";
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
@@ -23,6 +24,8 @@ const dummmy_articles = [
 ];
 
 export default function ArticleResultsPage({}) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [articles, setArticles] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [specificArticle, setSpecificArticle] = useState();
@@ -40,21 +43,27 @@ export default function ArticleResultsPage({}) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) =>
-        res.json().then((data) => {
-          let dataCopy = [...data];
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-          //we dont have bookmarked, so just inserting default in for now
-          dataCopy.forEach((articleObject) => {
-            articleObject.isBookmarked = false;
-          });
-          setArticles(dataCopy);
-        })
-      )
-      .catch((error) => {
-        console.error("error fetching data");
-      });
+    const fetchArticles = async () => {
+      try {
+        showSpinner();
+        let res = await fetch(`${apiUrl}/api/articles/?title=${titleQuery}`);
+        res = await res.json();
+        let dataCopy = [...res];
+
+        //we dont have bookmarked, so just inserting default in for now
+        dataCopy.forEach((articleObject) => {
+          articleObject.isBookmarked = false;
+        });
+        setArticles(dataCopy);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        hideSpinner();
+      }
+    };
+    fetchArticles();
   }, [titleQuery, setSearchParams]);
 
   return (

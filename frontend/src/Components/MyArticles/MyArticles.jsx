@@ -9,7 +9,11 @@ import { useArticleDelete } from "../../hooks/useArticleDelete";
 import { usePublishArticle } from "../../hooks/usePublishArticle";
 import { useUnpublishArticle } from "../../hooks/useUnpublishArticle";
 
+import { useLoadingSpinner } from "../../context/SpinnerContext";
+
 export default function MyArticles() {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const navigate = useNavigate();
 
   const { getMyArticles } = useGetMyArticles();
@@ -24,8 +28,10 @@ export default function MyArticles() {
   const [selectedArticleId, setSelectedArticleId] = useState(null);
 
   const fetchArticles = async () => {
+    showSpinner();
     const data = await getMyArticles();
     if (data) setArticles(data);
+    hideSpinner();
   };
 
   useEffect(() => {

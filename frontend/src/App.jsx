@@ -15,7 +15,11 @@ import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
 import ArticleEditorPage from "./pages/ArticleEditorPage/ArticleEditorPage.jsx";
 import MyArticlesPage from "./pages/MyArticlesPage/MyArticlesPage.jsx";
 import { Toaster } from "react-hot-toast";
+import { useLoadingSpinner } from "./context/SpinnerContext.jsx";
+import LoadingSpinner from "./Components/LoadingSpinner/LoadingSpinner.jsx";
 function App() {
+  const { spinnerIsShowing } = useLoadingSpinner();
+
   return (
     <>
       <Routes>
@@ -50,6 +54,7 @@ function App() {
           />
         </Route>
       </Routes>
+      {spinnerIsShowing && <LoadingSpinner />}
       <Toaster />
     </>
   );

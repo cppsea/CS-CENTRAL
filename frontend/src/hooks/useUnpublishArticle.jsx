@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export const useUnpublishArticle = () => {
   const [error, setError] = useState(null);
@@ -27,10 +28,12 @@ export const useUnpublishArticle = () => {
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
         return;
       }
     } catch (err) {
       setError("Something went wrong. Couldn't publish article.");
+      toast.error("Something went wrong. Couldn't publish article.");
     } finally {
       setIsLoading(false);
     }

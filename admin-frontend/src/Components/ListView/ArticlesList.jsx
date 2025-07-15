@@ -22,8 +22,6 @@ export default function ArticlesList({ articles, setArticles }) {
     error: publishError,
   } = usePublishArticle();
 
-  // const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
   const handleDeleteArticle = async (id) => {
     showSpinner();
     let json = await deleteArticle(id);
@@ -36,7 +34,6 @@ export default function ArticlesList({ articles, setArticles }) {
 
   const handleUnpublishArticle = async (id) => {
     showSpinner();
-    // await delay(2000);
     let json = await unpublishArticle(id);
 
     if (json && !json.error) {
@@ -51,7 +48,6 @@ export default function ArticlesList({ articles, setArticles }) {
 
   const handlePublishArticle = async (id) => {
     showSpinner();
-    // await delay(2000);
     let json = await publishArticle(id);
 
     if (json && !json.error) {
