@@ -25,7 +25,7 @@ export default function ArticlesPage() {
       <ArticleSearchBar
         onSearch={(results) => setArticles(results.articles || [])}
       />
-      <ArticlesList articles={articles} />
+      <ArticlesList articles={articles} setArticles={setArticles} />
     </>
   );
 }

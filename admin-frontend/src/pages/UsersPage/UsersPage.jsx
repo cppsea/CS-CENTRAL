@@ -23,7 +23,7 @@ export default function UsersPage() {
   return (
     <>
       <UserSearchBar onSearch={(results) => setUsers(results.users || [])} />
-      <UsersList users={users} />
+      <UsersList users={users} setUsers={setUsers} />
     </>
   );
 }

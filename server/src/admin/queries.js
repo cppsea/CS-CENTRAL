@@ -1,17 +1,35 @@
-const getUserByUsername = "SELECT * FROM users WHERE username = $1";
+const getUserByUsername = `
+SELECT 
+    users.*, 
+    roles.name AS role
+  FROM users
+  LEFT JOIN user_roles ON users.id = user_roles.user_id
+  LEFT JOIN roles ON user_roles.role_id = roles.id WHERE username = $1`;
+
 const getAvatarURLByAvatarId = "SELECT * FROM images WHERE images.id = $1";
 const getUsersById = "SELECT * FROM users WHERE id = $1";
 const deleteUserById = "DELETE FROM users WHERE id = $1";
-const getUserByAuthorID = "SELECT * FROM users WHERE users.id = $1";
+const getUserByAuthorID = `
+SELECT 
+    users.*, 
+    roles.name AS role
+  FROM users
+  LEFT JOIN user_roles ON users.id = user_roles.user_id
+  LEFT JOIN roles ON user_roles.role_id = roles.id WHERE users.id = $1`;
 
 const searchUsers = `
-  SELECT * FROM users
+  SELECT 
+    users.*, 
+    roles.name AS role
+  FROM users
+  LEFT JOIN user_roles ON users.id = user_roles.user_id
+  LEFT JOIN roles ON user_roles.role_id = roles.id
   WHERE
-    ($1::text IS NULL OR username ILIKE '%' || $1::text || '%')
-    AND ($2::text IS NULL OR first_name ILIKE '%' || $2::text || '%')
-    AND ($3::text IS NULL OR last_name ILIKE '%' || $3::text || '%')
-    AND ($4::int IS NULL OR id = $4::int)
-    AND ($5::text IS NULL OR email ILIKE '%' || $5::text || '%')
+    ($1::text IS NULL OR users.username ILIKE '%' || $1::text || '%')
+    AND ($2::text IS NULL OR users.first_name ILIKE '%' || $2::text || '%')
+    AND ($3::text IS NULL OR users.last_name ILIKE '%' || $3::text || '%')
+    AND ($4::int IS NULL OR users.id = $4::int)
+    AND ($5::text IS NULL OR users.email ILIKE '%' || $5::text || '%')
 `;
 
 const giveAdminByUserID =
@@ -25,7 +43,7 @@ const publishArticle =
 const unpublishArticle =
   "UPDATE articles set is_published = FALSE, published_at = NULL WHERE id = $1 RETURNING *";
 const getArticleByID = "SELECT * FROM articles WHERE id = $1";
-const deleteArticleByID = "DELETE * FROM articles WHERE id = $1 RETURNING *";
+const deleteArticleByID = "DELETE FROM articles WHERE id = $1 RETURNING *";
 
 const searchArticles = `
   SELECT * FROM articles

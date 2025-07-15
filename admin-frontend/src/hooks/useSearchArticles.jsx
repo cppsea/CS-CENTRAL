@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export const useSearchArticles = () => {
   const [error, setError] = useState(null);
@@ -24,6 +25,7 @@ export const useSearchArticles = () => {
 
       if (!response.ok) {
         setError(json.error);
+        toast.error(json.error);
         return;
       }
 

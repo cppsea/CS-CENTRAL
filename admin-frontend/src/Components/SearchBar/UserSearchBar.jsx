@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import { useSearchUsers } from "../../hooks/useSearchUsers";
 import "./SearchBar.scss";
+import { useLoadingSpinner } from "../../context/SpinnerContext";
 
 export default function UserSearchBar({ onSearch }) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [searchParams, setSearchParams] = useState({
     username: "",
     first_name: "",
@@ -42,6 +45,7 @@ export default function UserSearchBar({ onSearch }) {
       email: "",
     });
 
+    showSpinner();
     const results = await searchUsers({
       username: null,
       first_name: null,
@@ -51,6 +55,7 @@ export default function UserSearchBar({ onSearch }) {
     });
 
     if (results) onSearch?.(results);
+    hideSpinner();
   };
 
   return (

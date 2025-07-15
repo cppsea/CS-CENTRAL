@@ -4,13 +4,16 @@ import App from "./App.jsx";
 import { AuthContextProvider } from "./context/AuthContext";
 import { BrowserRouter } from "react-router-dom";
 import "./scss/custom.scss";
+import { SpinnerProvider } from "./context/SpinnerContext.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <BrowserRouter>
-        <App />
+        <SpinnerProvider>
+          <App />
+        </SpinnerProvider>
       </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>

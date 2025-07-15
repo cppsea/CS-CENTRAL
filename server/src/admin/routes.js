@@ -37,7 +37,11 @@ const requireAdminAuth = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
-    res.status(401).json({ error: "Admin Request is not authorized" });
+    res
+      .status(401)
+      .json({
+        error: "Admin Request is not authorized. Try logging in again.",
+      });
   }
 };
 
@@ -45,7 +49,7 @@ const router = Router();
 
 router.post("/login", controller.loginAdminUser);
 router.post("/", requireAdminAuth, controller.giveAdminToUser);
-router.delete("/", requireAdminAuth, controller.giveAdminToUser);
+router.delete("/", requireAdminAuth, controller.removeAdminFromUser);
 
 router.post("/users", requireAdminAuth, controller.searchUsers);
 router.get("/users/:id", requireAdminAuth, controller.getUserData);

@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import { useSearchArticles } from "../../hooks/useSearchArticles";
 import "./SearchBar.scss";
+import { useLoadingSpinner } from "../../context/SpinnerContext";
 
 export default function ArticleSearchBar({ onSearch }) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [searchParams, setSearchParams] = useState({
     id: "",
     author_id: "",
@@ -34,8 +37,10 @@ export default function ArticleSearchBar({ onSearch }) {
         searchParams.is_published === "" ? null : searchParams.is_published,
     };
 
+    showSpinner();
     const results = await searchArticles(params);
     if (results) onSearch?.(results);
+    hideSpinner();
   };
 
   const handleShowAll = async () => {

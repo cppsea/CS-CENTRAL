@@ -7,8 +7,13 @@ import ArticlesPage from "./pages/ArticlesPage/ArticlesPage";
 import SigninPage from "./pages/SignInPage/SignInPage";
 import { useAuthContext } from "./hooks/useAuthContext";
 import LoggedOutHomePage from "./pages/LoggedOutHome/LoggedOutHomePage";
+import LoadingSpinner from "./Components/LoadingSpinner/LoadingSpinner";
+import { useEffect } from "react";
+import { useLoadingSpinner } from "./context/SpinnerContext";
 function App() {
   const { admin } = useAuthContext();
+  const { spinnerIsShowing } = useLoadingSpinner();
+
   return (
     <>
       <Routes>
@@ -18,6 +23,7 @@ function App() {
         </Route>
       </Routes>
       <Toaster />
+      {spinnerIsShowing && <LoadingSpinner />}
     </>
   );
 }

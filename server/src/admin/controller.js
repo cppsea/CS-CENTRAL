@@ -191,7 +191,7 @@ const removeAdminFromUser = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "User successfully given admin privileges." });
+      .json({ message: "Admin privileges succesfully removed from user." });
   } catch (error) {
     console.log(error);
     return res
