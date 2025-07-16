@@ -17,6 +17,14 @@ SELECT
   LEFT JOIN user_roles ON users.id = user_roles.user_id
   LEFT JOIN roles ON user_roles.role_id = roles.id WHERE users.id = $1`;
 
+
+const getAllAdmins = `
+SELECT
+    users.*,
+    roles.name AS role
+  FROM users
+  INNER JOIN user_roles ON users.id = user_roles.user_id
+  INNER JOIN roles ON user_roles.role_id = roles.id WHERE roles.name = 'admin';`
 const searchUsers = `
   SELECT 
     users.*, 
@@ -55,6 +63,8 @@ const searchArticles = `
 `;
 const getImageByImageId = "SELECT * FROM images WHERE images.id = $1";
 
+
+
 module.exports = {
   getUserByUsername,
   getAvatarURLByAvatarId,
@@ -71,4 +81,5 @@ module.exports = {
   getImageByImageId,
   getUserByAuthorID,
   searchArticles,
+  getAllAdmins
 };

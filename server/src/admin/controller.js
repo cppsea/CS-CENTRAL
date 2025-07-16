@@ -66,7 +66,7 @@ const processArticle = async (article) => {
   return newArticle;
 };
 
-//route functionsw
+//route functions
 const loginAdminUser = async (req, res) => {
   const { username, password } = req.body;
   console.log("received admin login request for username:", username);
@@ -117,6 +117,17 @@ const loginAdminUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).send({ error: "Wrong credentials" });
+  }
+};
+
+const getAdmins = async (req, res) => {
+  try {
+    let result = await pool.query(queries.getAllAdmins, []);
+
+    return res.status(200).json({ admins: result.rows });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to retreive admins." });
   }
 };
 
@@ -414,4 +425,5 @@ module.exports = {
   getArticle,
   deleteArticle,
   searchArticles,
+  getAdmins
 };

@@ -104,16 +104,20 @@ export default function ArticlesList({ articles, setArticles }) {
                       >
                         Delete
                       </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => handlePublishArticle(article.id)}
-                      >
-                        Publish
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => handleUnpublishArticle(article.id)}
-                      >
-                        Unpublish
-                      </Dropdown.Item>
+                      {!article.is_published && (
+                        <Dropdown.Item
+                          onClick={() => handlePublishArticle(article.id)}
+                        >
+                          Publish
+                        </Dropdown.Item>
+                      )}
+                      {article.is_published && (
+                        <Dropdown.Item
+                          onClick={() => handleUnpublishArticle(article.id)}
+                        >
+                          Unpublish
+                        </Dropdown.Item>
+                      )}
                     </Dropdown.Menu>
                   </Dropdown>
                 </Col>

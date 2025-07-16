@@ -48,6 +48,7 @@ const requireAdminAuth = async (req, res, next) => {
 const router = Router();
 
 router.post("/login", controller.loginAdminUser);
+router.get("/", requireAdminAuth, controller.getAdmins);
 router.post("/", requireAdminAuth, controller.giveAdminToUser);
 router.delete("/", requireAdminAuth, controller.removeAdminFromUser);
 
