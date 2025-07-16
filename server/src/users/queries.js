@@ -2,6 +2,8 @@ const createUser =
   "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)";
 const changeUser =
   "UPDATE users SET username = $1, password = $2 WHERE id = $3";
+const changeUserPassword =
+  "UPDATE users SET password = $1 WHERE id = $2 RETURNING *;";
 const changeBookmarks = "UPDATE users SET bookmarks = $1 WHERE username = $2";
 const deleteAccount = "DELETE FROM users WHERE id = $1";
 const getUsers = "SELECT * FROM users";
@@ -33,4 +35,5 @@ module.exports = {
   updateUserProfile,
   getAvatarURLByAvatarId,
   getAvatarURLByUserId,
+  changeUserPassword,
 };

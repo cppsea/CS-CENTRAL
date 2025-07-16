@@ -89,6 +89,7 @@ const loginUser = async (req, res) => {
     if (await bcrypt.compare(password, user.password)) {
       const token = createToken(username);
       res.json({
+        id: user.id,
         first_name: user.first_name,
         last_name: user.last_name,
         username: user.username,
@@ -97,10 +98,11 @@ const loginUser = async (req, res) => {
         token,
       });
     } else {
-      res.send("Not allowed");
+      res.status(400).json({ error: "Wrong credentials. Try again." });
     }
   } catch (error) {
-    res.status(500).send();
+    console.error(error);
+    res.status(500).send({ error: "Internal server error." });
   }
 };
 
@@ -191,6 +193,7 @@ const editUser = async (req, res) => {
         return res.status(200).json({
           message: "Profile update successful",
           user: {
+            id: user.id,
             first_name,
             last_name,
             email,
@@ -210,6 +213,60 @@ const editUser = async (req, res) => {
     return res.status(500).json({
       error: "Internal Server Error",
     });
+  }
+};
+
+const changeUserPassword = async (req, res) => {
+  const { old_password, new_password } = req.body;
+
+  if (
+    !old_password ||
+    !new_password ||
+    typeof old_password != "string" ||
+    typeof new_password != "string"
+  ) {
+    return res.status(400).json({
+      error: "You need to provide your old password and new password.",
+    });
+  }
+
+  try {
+    //extract unique username from jwt to make sure we are changing the user that the jwt is associated with
+    const token = req.headers.authorization.split(" ")[1];
+    const jwtUsername = jwt.verify(token, process.env.SECRET).id;
+    let user = null;
+    try {
+      user = await pool.query(queries.getUserByUsername, [jwtUsername]);
+      user = user.rows[0];
+    } catch (err) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    console.log("password:", old_password);
+    console.log("password hashed:", user.password);
+
+    //if old password is correct, replace with new password hash
+    if (await bcrypt.compare(old_password, user.password)) {
+      const salt = await bcrypt.genSalt();
+      const hashedPassword = await bcrypt.hash(new_password, salt);
+      let result = await pool.query(queries.changeUserPassword, [
+        hashedPassword,
+        user.id,
+      ]);
+
+      if (result.rowCount === 0) {
+        return res.status(400).json({ error: "Failed to update password." });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Successfully updated password." });
+    } else {
+      return res.status(400).json({ error: "Old password is not correct." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: "Internal server error." });
   }
 };
 
@@ -243,4 +300,5 @@ module.exports = {
   deleteAccount,
   loginUser,
   editUser,
+  changeUserPassword,
 };

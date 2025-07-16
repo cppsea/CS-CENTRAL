@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import { useLoadingSpinner } from "../../../context/SpinnerContext";
 export default function ProfileEdit({
   profile = {
+    id: 1,
     fname: "Joe",
     lname: "",
     email: "jsmith@gmail.com",
@@ -188,13 +189,14 @@ export default function ProfileEdit({
   //load profile info
   useEffect(() => {
     if (user) {
-      const { first_name, last_name, email, avatar, username } = user;
+      const { id, first_name, last_name, email, avatar, username } = user;
       if (avatar) {
         setAvatarImgSrc(avatar);
         setAvatarImgSrcCopy(avatar);
       }
       setProfileData({
         ...profileData,
+        id: id,
         fname: first_name,
         lname: last_name,
         email: email,
@@ -497,6 +499,7 @@ export default function ProfileEdit({
           show={editable.password}
           onHide={() => setEditable({ ...editable, password: false })}
           className="border-0 bg-editable-input"
+          userId={profileData.id}
         />
       </Form>
     </Container>
