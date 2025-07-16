@@ -13,10 +13,12 @@ import { useDeleteUser } from "../../hooks/useDeleteUser";
 import { useGiveAdmin } from "../../hooks/useGiveAdmin";
 import { useRemoveAdmin } from "../../hooks/useRemoveAdmin";
 import { useLoadingSpinner } from "../../context/SpinnerContext";
+import { useNavigate } from "react-router-dom";
 
 const DEFAULT_AVATAR = "/default_avatar.jpg";
 
 export default function UsersList({ users, setUsers }) {
+  const navigate = useNavigate();
   const { deleteUser } = useDeleteUser();
   const { giveAdmin } = useGiveAdmin();
   const { removeAdmin } = useRemoveAdmin();
@@ -63,7 +65,11 @@ export default function UsersList({ users, setUsers }) {
         )}
         {users &&
           users.map((user) => (
-            <Card key={user.id} className="my-4 p-4 border-0 item-card">
+            <Card
+              key={user.id}
+              className="my-4 p-4 border-0 item-card"
+              onClick={() => navigate(`/users/${user.id}`)}
+            >
               <Row className="align-items-center">
                 <Col xs="auto">
                   <Image
@@ -75,7 +81,7 @@ export default function UsersList({ users, setUsers }) {
                 </Col>
                 <Col>
                   <div className="fw-semibold">
-                    Username
+                    {user.username}
                     <span className="fw-normal">
                       | {user.first_name} {user.last_name}
                     </span>
@@ -91,7 +97,7 @@ export default function UsersList({ users, setUsers }) {
                     {user?.role === "admin" && "Admin"}
                   </div>
                   <div className="fw-semibold">{user.id}</div>
-                  <Dropdown>
+                  <Dropdown onClick={(e) => e.stopPropagation()}>
                     <Dropdown.Toggle variant="link" />
                     <Dropdown.Menu>
                       <Dropdown.Item>Edit</Dropdown.Item>

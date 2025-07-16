@@ -4,6 +4,12 @@
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "../../../node_modules//bootstrap/scss/mixins";
 
+.item-card {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 @include color-mode(light) {
   .item-card {
     background-color: $article-editor-body-light;

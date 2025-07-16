@@ -4,7 +4,9 @@ import { useDeleteArticle } from "../../hooks/useDeleteArticle";
 import { useUnpublishArticle } from "../../hooks/useUnpublishArticle";
 import { usePublishArticle } from "../../hooks/usePublishArticle";
 import { useLoadingSpinner } from "../../context/SpinnerContext";
+import { useNavigate } from "react-router-dom";
 export default function ArticlesList({ articles, setArticles }) {
+  const navigate = useNavigate();
   const { showSpinner, hideSpinner } = useLoadingSpinner();
   const {
     deleteArticle,
@@ -69,7 +71,11 @@ export default function ArticlesList({ articles, setArticles }) {
         )}
         {articles &&
           articles.map((article) => (
-            <Card className="my-4 p-4 border-0 item-card" key={article.id}>
+            <Card
+              key={article.id}
+              className="my-4 p-4 border-0 item-card"
+              onClick={() => navigate(`/articles/${article.id}`)}
+            >
               <Row className="align-items-center">
                 <Col>
                   <div className="fw-semibold">
@@ -90,7 +96,7 @@ export default function ArticlesList({ articles, setArticles }) {
                   <div className="fw-semibold">
                     {article.is_published ? "Published" : "Unpublished"}
                   </div>
-                  <Dropdown>
+                  <Dropdown onClick={(e) => e.stopPropagation()}>
                     <Dropdown.Toggle variant="link" />
                     <Dropdown.Menu>
                       <Dropdown.Item

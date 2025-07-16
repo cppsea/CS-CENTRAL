@@ -3,27 +3,15 @@
 @import "../../../node_modules/bootstrap/scss/variables";
 @import "../../../node_modules//bootstrap/scss/mixins";
 @import "../../scss/variables";
-//Related Topics Container
-.rel-topics-container {
-  border-width: 1px;
-  @include media-breakpoint-down(md) {
-    border-top-style: solid;
-    margin-bottom: 20px;
-  }
+.preview-container {
+  max-width: 1000px;
+  padding-bottom: 30px;
 
-  @include media-breakpoint-up(md) {
-    border-left-style: solid;
-  }
-}
-
-@include color-mode(light) {
-  .rel-topics-container {
-    border-color: $divider-light;
-  }
-}
-
-@include color-mode(dark) {
-  .rel-topics-container {
-    border-color: $divider-dark;
+  .article-image {
+    max-width: 100%;
+    width: 1000px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
   }
 }

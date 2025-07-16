@@ -8,60 +8,6 @@ import "./ArticleComponents.scss";
 import "./Article.scss";
 import { useEffect, useState } from "react";
 
-
-//dummy data for related topics list
-const relatedTopicsList = [
-  {
-    topicCategory: "FOUNDATIONAL CONCEPTS",
-    topicList: [
-      {
-        topic:
-          "Artificial Intelligence (AI) and its Intersection with Machine Learning",
-        link: "/",
-      },
-      {
-        topic: "Data Preprocessing and Feature Engineering in Machine Learning",
-        link: "/",
-      },
-    ],
-  },
-  {
-    topicCategory: "TYPES OF MACHINE LEARNING",
-    topicList: [
-      {
-        topic:
-          "Supervised, Unsupervised, and Reinforcement Learning Techniques",
-        link: "/",
-      },
-      {
-        topic: "Deep Learning and Neural Networks",
-        link: "/",
-      },
-      {
-        topic: "Natural Language Processing (NLP) and Machine Learning",
-        link: "/",
-      },
-    ],
-  },
-  {
-    topicCategory: "APPLICATIONS",
-    topicList: [
-      {
-        topic: "Machine Learning in Business and Marketing",
-        link: "/",
-      },
-      {
-        topic: "Machine Learning in Healthcare and Biotechnology",
-        link: "/",
-      },
-      {
-        topic: "The Role of Machine Learning in Automation and Robotics",
-        link: "/",
-      },
-    ],
-  },
-];
-
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
   //extracts article data pieces from provided article
@@ -94,12 +40,9 @@ export default function Article({ article }) {
     }
   }
 
-  //handler for toggling bookmark
-  const toggleBookmark = () =>
-    setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
   return (
     <>
-      <Container fluid className="h-100">
+      <Container fluid className="preview-container">
         <Row className="mt-4 mb-4">
           <Col>
             <ArticleHeader
@@ -107,18 +50,22 @@ export default function Article({ article }) {
               descriptionBlocks={descriptionBlocks}
               author={articleData.author}
               date={articleData.published_at}
-              isBookmarked={articleData.isBookmarked}
-              bookmarkToggler={toggleBookmark}
+              disableBookmark
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs={12}>
+            <ArticleImage
+              image={articleData.image}
+              alt_text={`${articleData.header.blocks[0].data.text} image`}
             />
           </Col>
         </Row>
 
         <Row className=" gx-4 gy-5">
           <Col xs={12} md={8}>
-            <ArticleImage
-              image={articleData.image}
-              alt_text={`${articleData.header.blocks[0].data.text} image`}
-            />
             <Stack className="gap-3">
               <TableOfContents contentSequence={contentSequence} />
 
@@ -146,10 +93,6 @@ export default function Article({ article }) {
                 );
               })}
             </Stack>
-          </Col>
-
-          <Col xs={12} md={4} className="rel-topics-container ps-3">
-            <RelatedTopicsList topicLists={relatedTopicsList} />
           </Col>
         </Row>
       </Container>

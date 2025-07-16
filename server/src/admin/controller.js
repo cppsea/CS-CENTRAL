@@ -211,7 +211,7 @@ const getUserData = async (req, res) => {
 
   //retrieve user
   try {
-    let result = await pool.query(queries.getUsersById, [id]);
+    let result = await pool.query(queries.getUserByAuthorID, [id]);
     if (result.rowCount == 0) {
       throw Error("No users found.");
     }
