@@ -6,7 +6,6 @@ import {
   Col,
   Image,
   Dropdown,
-  Spinner,
 } from "react-bootstrap";
 import "./ListView.scss";
 import { useDeleteUser } from "../../hooks/useDeleteUser";
@@ -65,30 +64,34 @@ export default function UsersList({ users, setUsers }) {
         )}
         {users &&
           users.map((user) => (
-            <Card
-              key={user.id}
-              className="my-4 p-4 border-0 item-card"
-              onClick={() => navigate(`/users/${user.id}`)}
-            >
+            <Card key={user.id} className="my-4 p-4 border-0 item-card">
               <Row className="align-items-center">
-                <Col xs="auto">
-                  <Image
-                    src={user.avatar_id || DEFAULT_AVATAR}
-                    roundedCircle
-                    width={50}
-                    height={50}
-                  />
+                <Col
+                  className="left-side-card"
+                  onClick={() => navigate(`/users/${user.id}`)}
+                >
+                  <Row className="align-items-center">
+                    <Col xs="auto">
+                      <Image
+                        src={user.avatar_id || DEFAULT_AVATAR}
+                        roundedCircle
+                        width={50}
+                        height={50}
+                      />
+                    </Col>
+                    <Col>
+                      <div className="fw-semibold">
+                        {user.username}{" "}
+                        <span className="fw-normal">
+                          | {user.first_name} {user.last_name}
+                        </span>
+                      </div>
+                      <div className="text-muted text-truncate">
+                        {user.email}
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
-                <Col>
-                  <div className="fw-semibold">
-                    {user.username}
-                    <span className="fw-normal">
-                      | {user.first_name} {user.last_name}
-                    </span>
-                  </div>
-                  <div className="text-muted text-truncate">{user.email}</div>
-                </Col>
-
                 <Col
                   xs="auto"
                   className="text-end d-flex align-items-center gap-3"
@@ -97,7 +100,7 @@ export default function UsersList({ users, setUsers }) {
                     {user?.role === "admin" && "Admin"}
                   </div>
                   <div className="fw-semibold">{user.id}</div>
-                  <Dropdown onClick={(e) => e.stopPropagation()}>
+                  <Dropdown>
                     <Dropdown.Toggle variant="link" />
                     <Dropdown.Menu>
                       <Dropdown.Item>Edit</Dropdown.Item>

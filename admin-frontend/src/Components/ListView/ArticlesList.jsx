@@ -71,13 +71,12 @@ export default function ArticlesList({ articles, setArticles }) {
         )}
         {articles &&
           articles.map((article) => (
-            <Card
-              key={article.id}
-              className="my-4 p-4 border-0 item-card"
-              onClick={() => navigate(`/articles/${article.id}`)}
-            >
+            <Card key={article.id} className="my-4 p-4 border-0 item-card">
               <Row className="align-items-center">
-                <Col>
+                <Col
+                  className="left-side-card"
+                  onClick={() => navigate(`/articles/${article.id}`)}
+                >
                   <div className="fw-semibold">
                     {article.header.blocks[0].data.text}
                     <span className="fw-normal"> | {article.author}</span>
@@ -94,9 +93,9 @@ export default function ArticlesList({ articles, setArticles }) {
                 >
                   <div>{article.id}</div>
                   <div className="fw-semibold">
-                    {article.is_published ? "Published" : "Unpublished"}
+                    {article.published_at ? "Published" : "Unpublished"}
                   </div>
-                  <Dropdown onClick={(e) => e.stopPropagation()}>
+                  <Dropdown>
                     <Dropdown.Toggle variant="link" />
                     <Dropdown.Menu>
                       <Dropdown.Item
@@ -104,14 +103,14 @@ export default function ArticlesList({ articles, setArticles }) {
                       >
                         Delete
                       </Dropdown.Item>
-                      {!article.is_published && (
+                      {!article.published_at && (
                         <Dropdown.Item
                           onClick={() => handlePublishArticle(article.id)}
                         >
                           Publish
                         </Dropdown.Item>
                       )}
-                      {article.is_published && (
+                      {article.published_at && (
                         <Dropdown.Item
                           onClick={() => handleUnpublishArticle(article.id)}
                         >
