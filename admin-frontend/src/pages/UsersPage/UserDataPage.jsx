@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetUserData } from "../hooks/useGetUserData.jsx";
-import UserData from "../Components/UserData/UserData.jsx";
+import { useGetUserData } from "../../hooks/useGetUserData.jsx";
+import UserData from "../../Components/UserData/UserData.jsx";
 
 export default function UserDataPage() {
   const [user, setUser] = useState();

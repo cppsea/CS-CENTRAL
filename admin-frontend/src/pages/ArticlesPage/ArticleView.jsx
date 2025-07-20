@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Article from "../Components/Article/Article.jsx";
-import { useGetArticleByID } from "../hooks/useGetArticleByID.jsx";
+import Article from "../../Components/Article/Article.jsx";
+import { useGetArticleByID } from "../../hooks/useGetArticleByID.jsx";
 
 export default function ArticleView() {
   const [article, setArticle] = useState();

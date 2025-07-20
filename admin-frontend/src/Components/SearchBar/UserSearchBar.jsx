@@ -3,41 +3,65 @@ import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import { useSearchUsers } from "../../hooks/useSearchUsers";
 import "./SearchBar.scss";
 import { useLoadingSpinner } from "../../context/SpinnerContext";
+import { useSearchParams } from "react-router-dom";
+import { useGetAdmins } from "../../hooks/useGetAdmins";
 
 export default function UserSearchBar({ onSearch }) {
   const { showSpinner, hideSpinner } = useLoadingSpinner();
 
-  const [searchParams, setSearchParams] = useState({
-    username: "",
-    first_name: "",
-    last_name: "",
-    id: "",
-    email: "",
+  const { getAdmins } = useGetAdmins();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleShowAdmins = async () => {
+    showSpinner();
+    setSearchParams({ type: "admin" });
+    const results = await getAdmins();
+    if (results) onSearch?.(results, { type: "admin" });
+    hideSpinner();
+  };
+
+  const [formParams, setFormParams] = useState({
+    username: searchParams.get("username") || "",
+    first_name: searchParams.get("first_name") || "",
+    last_name: searchParams.get("last_name") || "",
+    email: searchParams.get("email") || "",
+    id: searchParams.get("id") ? parseInt(searchParams.get("id")) : "",
   });
 
   const { searchUsers } = useSearchUsers();
 
   const handleChange = (e) => {
-    setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
+    setFormParams({ ...formParams, [e.target.name]: e.target.value });
   };
 
   const handleSearch = async (e) => {
     e.preventDefault();
 
     const params = {
-      username: searchParams.username || null,
-      first_name: searchParams.first_name || null,
-      last_name: searchParams.last_name || null,
-      email: searchParams.email || null,
-      id: searchParams.id ? parseInt(searchParams.id) : null,
+      username: formParams.username || null,
+      first_name: formParams.first_name || null,
+      last_name: formParams.last_name || null,
+      email: formParams.email || null,
+      id: formParams.id ? parseInt(formParams.id) : null,
     };
 
+    showSpinner();
     const results = await searchUsers(params);
-    if (results) onSearch?.(results);
+    if (results) onSearch?.(results, params);
+    hideSpinner();
   };
 
   const handleShowAll = async () => {
-    setSearchParams({
+    const emptyParams = {
+      username: null,
+      first_name: null,
+      last_name: null,
+      id: null,
+      email: null,
+    };
+
+    setFormParams({
       username: "",
       first_name: "",
       last_name: "",
@@ -46,15 +70,8 @@ export default function UserSearchBar({ onSearch }) {
     });
 
     showSpinner();
-    const results = await searchUsers({
-      username: null,
-      first_name: null,
-      last_name: null,
-      id: null,
-      email: null,
-    });
-
-    if (results) onSearch?.(results);
+    const results = await searchUsers(emptyParams);
+    if (results) onSearch?.(results, emptyParams);
     hideSpinner();
   };
 
@@ -70,7 +87,7 @@ export default function UserSearchBar({ onSearch }) {
               type="text"
               placeholder="Username"
               name="username"
-              value={searchParams.username}
+              value={formParams.username}
               onChange={handleChange}
             />
           </Col>
@@ -84,7 +101,7 @@ export default function UserSearchBar({ onSearch }) {
               type="text"
               placeholder="First Name"
               name="first_name"
-              value={searchParams.first_name}
+              value={formParams.first_name}
               onChange={handleChange}
             />
           </Col>
@@ -98,7 +115,7 @@ export default function UserSearchBar({ onSearch }) {
               type="text"
               placeholder="Last Name"
               name="last_name"
-              value={searchParams.last_name}
+              value={formParams.last_name}
               onChange={handleChange}
             />
           </Col>
@@ -112,7 +129,7 @@ export default function UserSearchBar({ onSearch }) {
               type="text"
               placeholder="Email"
               name="email"
-              value={searchParams.email}
+              value={formParams.email}
               onChange={handleChange}
             />
           </Col>
@@ -126,12 +143,15 @@ export default function UserSearchBar({ onSearch }) {
               type="text"
               placeholder="ID"
               name="id"
-              value={searchParams.id}
+              value={formParams.id}
               onChange={handleChange}
             />
           </Col>
         </Row>
         <Row className="justify-content-end">
+          <Col xs="auto">
+            <Button onClick={handleShowAdmins}>Show Admins</Button>
+          </Col>
           <Col xs="auto">
             <Button onClick={handleShowAll}>Show All</Button>
           </Col>

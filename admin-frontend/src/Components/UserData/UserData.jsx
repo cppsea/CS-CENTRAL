@@ -22,10 +22,11 @@ export default function UserData({ user }) {
                 {user.first_name} {user.last_name}
               </div>
 
-              <div className="mb-1">
-                <strong>Role: </strong>
-                <span>{user.role}</span>
-              </div>
+              {user.role && (
+                <div className="mb-1 text-uppercase text-muted">
+                  <strong>{user.role}</strong>
+                </div>
+              )}
 
               <div className="mb-1">
                 <strong>Username: </strong>

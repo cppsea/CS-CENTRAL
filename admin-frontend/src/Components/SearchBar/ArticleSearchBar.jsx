@@ -3,25 +3,22 @@ import { Form, Row, Col, Container, Button } from "react-bootstrap";
 import { useSearchArticles } from "../../hooks/useSearchArticles";
 import "./SearchBar.scss";
 import { useLoadingSpinner } from "../../context/SpinnerContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function ArticleSearchBar({ onSearch }) {
   const { showSpinner, hideSpinner } = useLoadingSpinner();
 
+  const [urlSearchParams] = useSearchParams();
   const [searchParams, setSearchParams] = useState({
-    id: "",
-    author_id: "",
-    title: "",
-    is_published: false,
+    id: urlSearchParams.get("id") || "",
+    author_id: urlSearchParams.get("author_id") || "",
+    title: urlSearchParams.get("title") || "",
   });
 
   const { searchArticles } = useSearchArticles();
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setSearchParams({
-      ...searchParams,
-      [name]: type === "checkbox" ? checked : value,
-    });
+    setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };
 
   const handleSearch = async (e) => {
@@ -33,32 +30,29 @@ export default function ArticleSearchBar({ onSearch }) {
         ? parseInt(searchParams.author_id)
         : null,
       title: searchParams.title || null,
-      is_published:
-        searchParams.is_published === "" ? null : searchParams.is_published,
     };
 
     showSpinner();
     const results = await searchArticles(params);
-    if (results) onSearch?.(results);
+    if (results) onSearch?.(results, params);
     hideSpinner();
   };
 
   const handleShowAll = async () => {
+    const emptyParams = {
+      id: null,
+      author_id: null,
+      title: null,
+    };
+
     setSearchParams({
       id: "",
       author_id: "",
       title: "",
-      is_published: false,
     });
 
-    const results = await searchArticles({
-      id: null,
-      author_id: null,
-      title: null,
-      is_published: null,
-    });
-
-    if (results) onSearch?.(results);
+    const results = await searchArticles(emptyParams);
+    if (results) onSearch?.(results, emptyParams);
   };
 
   return (
@@ -102,19 +96,6 @@ export default function ArticleSearchBar({ onSearch }) {
               placeholder="Article ID"
               name="id"
               value={searchParams.id}
-              onChange={handleChange}
-            />
-          </Col>
-        </Row>
-        <Row className="align-items-center">
-          <Form.Label column lg={1}>
-            Published (Yes)
-          </Form.Label>
-          <Col>
-            <Form.Check
-              type="checkbox"
-              name="is_published"
-              checked={searchParams.is_published}
               onChange={handleChange}
             />
           </Col>
