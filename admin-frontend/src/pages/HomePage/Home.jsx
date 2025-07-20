@@ -1,40 +1,24 @@
 import { useState } from "react";
-import { Tab, Tabs } from "react-bootstrap";
+import { Card, Col, Container, Stack, Row, Tab, Tabs } from "react-bootstrap";
 import "./Home.scss";
 import UsersPage from "../UsersPage/UsersPage";
 import ArticlesPage from "../ArticlesPage/ArticlesPage";
 
 export default function Home() {
-  const [isUsersView, setIsUsersView] = useState(true);
-  const toggleEditView = (key) => {
-    switch (key) {
-      case "users":
-        setIsUsersView(true);
-        break;
-      case "articles":
-        setIsUsersView(false);
-        break;
-      default:
-        break;
-    }
-  };
-
   return (
-    <>
-      <Tabs
-        defaultActiveKey="users"
-        className="tab-contents d-flex justify-content-left align-items-end"
-        onSelect={(key) => toggleEditView(key)}
-      >
-        <Tab eventKey="users" className="users-tab" title="Users"></Tab>
-        <Tab
-          eventKey="articles"
-          className="articles-tab"
-          title="Articles"
-        ></Tab>
-      </Tabs>
-
-      {isUsersView ? <UsersPage /> : <ArticlesPage />}
-    </>
+    <Container
+      style={{
+        padding: "210px",
+      }}
+    >
+      <Stack className="d-flex justify-content-center align-items-center">
+        <h1 className="text-center w-100 mb-4">
+          Welcome to the admin portal of CS Central.
+        </h1>
+        <h4 className="text-muted">
+          You can use the header to manage users, articles, and more.
+        </h4>
+      </Stack>
+    </Container>
   );
 }

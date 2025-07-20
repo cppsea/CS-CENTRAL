@@ -61,10 +61,19 @@ export default function Header() {
             </Nav.Link>
             <div className="header-divider"></div>
 
-            <Nav className="ms-auto px-2">
+            <Nav variant="underline" className="ms-auto px-2">
               <Nav.Item>
-                <Nav.Link className="fw-medium" href="/" id="navbar_item">
-                  Admin
+                <Nav.Link className="fw-medium" href="/users" id="navbar_item">
+                  Users
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link
+                  className="fw-medium"
+                  href="/articles"
+                  id="navbar_item"
+                >
+                  Articles
                 </Nav.Link>
               </Nav.Item>
             </Nav>
