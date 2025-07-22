@@ -5,22 +5,14 @@ import ArticleResultsList from "../../Components/ArticleResults/ArticleResultsLi
 import { Col, Container, Row } from "react-bootstrap";
 import "./ArticleResultsPage.scss";
 import { useLoadingSpinner } from "../../context/SpinnerContext.jsx";
+import { useToggleBookmark } from "../../hooks/useToggleBookmark.jsx";
+import { useAuthContext } from "../../hooks/useAuthContext.jsx";
+import toast from "react-hot-toast";
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
   { label: "Computer Vision" },
   { label: "Data Science" },
-];
-const dummmy_articles = [
-  {
-    id: 1,
-    image:
-      "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg",
-    title: "Machine Learning in Business and Marketing",
-    author: "Jeff",
-    date: "October 24, 2023",
-    isBookmarked: true,
-  },
 ];
 
 export default function ArticleResultsPage({}) {
@@ -31,15 +23,36 @@ export default function ArticleResultsPage({}) {
   const [specificArticle, setSpecificArticle] = useState();
   const titleQuery = searchParams.get("title");
 
-  //bookmark toggler creator function, returns function that toggles bookmark for certain id
-  const bookmarkTogglerCreator = (id) => () => {
-    let articleIndex = articles.findIndex((article) => article.id === id);
-    if (articleIndex !== -1) {
-      const newArticles = [...articles];
-      newArticles[articleIndex].isBookmarked =
-        !newArticles[articleIndex].isBookmarked;
-      setArticles(newArticles);
+  const { user } = useAuthContext();
+
+  const { toggleBookmark } = useToggleBookmark();
+  //bookmark toggler creator function, returns function that toggles bookmark for certain id depending on server response
+  const bookmarkTogglerCreator = (id) => async () => {
+    if (!user) {
+      toast.error("You must be logged in to bookmark articles.");
+      return;
     }
+    let articleIndex = articles.findIndex((article) => article.id === id);
+    if (articleIndex == -1) return;
+
+    let bookmarkArticle = articles[articleIndex];
+
+    showSpinner();
+    let result = await toggleBookmark(
+      bookmarkArticle.id,
+      bookmarkArticle.isBookmarked
+    );
+    await ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))(250);
+    if (!result.error) {
+      setArticles((prev) =>
+        prev.map((currArticle) =>
+          currArticle.id === id
+            ? { ...currArticle, isBookmarked: !currArticle.isBookmarked }
+            : currArticle
+        )
+      );
+    }
+    hideSpinner();
   };
 
   useEffect(() => {
@@ -48,14 +61,15 @@ export default function ArticleResultsPage({}) {
     const fetchArticles = async () => {
       try {
         showSpinner();
-        let res = await fetch(`${apiUrl}/api/articles/?title=${titleQuery}`);
+        let res = await fetch(`${apiUrl}/api/articles/?title=${titleQuery}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user ? `Bearer ${user?.token}` : "",
+          },
+        });
         res = await res.json();
         let dataCopy = [...res];
-
-        //we dont have bookmarked, so just inserting default in for now
-        dataCopy.forEach((articleObject) => {
-          articleObject.isBookmarked = false;
-        });
         setArticles(dataCopy);
       } catch (err) {
         console.log(err);

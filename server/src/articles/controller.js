@@ -73,7 +73,10 @@ const processArticle = async (article) => {
   //go through all image blocks, grab corresponding image urls, replace in data and return
 
   //currently we're storing the entire article data inside article body
-  let newArticle = { ...article.article_body };
+  let newArticle = {
+    ...article.article_body,
+    isBookmarked: article.isBookmarked,
+  };
   newArticle.articleBody.forEach(async (section, sectionIndex) => {
     await section.blocks.forEach(async (block, blockIndex) => {
       if (block.type === "image") {
@@ -160,7 +163,6 @@ const getArticles = async (req, res) => {
           }
 
           const articles = [];
-
           for (const articleObject of results.rows) {
             let processedArticle = await processArticle(articleObject);
             articles.push(processedArticle);

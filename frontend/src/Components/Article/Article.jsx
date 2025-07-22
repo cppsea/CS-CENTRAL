@@ -7,8 +7,10 @@ import { Container, Row, Col, Stack } from "react-bootstrap";
 import "./ArticleComponents.scss";
 import "./Article.scss";
 import { useEffect, useState } from "react";
-
-
+import { useToggleBookmark } from "../../hooks/useToggleBookmark.jsx";
+import { useAuthContext } from "../../hooks/useAuthContext.jsx";
+import { useLoadingSpinner } from "../../context/SpinnerContext.jsx";
+import toast from "react-hot-toast";
 //dummy data for related topics list
 const relatedTopicsList = [
   {
@@ -64,14 +66,16 @@ const relatedTopicsList = [
 
 //this component accepts an article object and displays the corresponding article
 export default function Article({ article }) {
+  const { user } = useAuthContext();
+  const { toggleBookmark } = useToggleBookmark();
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
   //extracts article data pieces from provided article
 
   let titleBlocks = article.header.blocks;
   let descriptionBlocks = article.description.blocks;
 
   const [articleData, setArticleData] = useState({
-    ...article,
-    isBookmarked: false,
+    ...article
   });
 
   let contentSequence = [];
@@ -94,9 +98,24 @@ export default function Article({ article }) {
     }
   }
 
-  //handler for toggling bookmark
-  const toggleBookmark = () =>
-    setArticleData({ ...articleData, isBookmarked: !articleData.isBookmarked });
+  //handler for toggling bookmark depending on server response
+  const toggleBookmarkHandler = async () => {
+    if (!user) {
+      toast.error("You must be logged in to bookmark this article.");
+      return;
+    }
+    showSpinner();
+    await ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))(250);
+    let result = toggleBookmark(articleData.id, articleData.isBookmarked);
+
+    if (!result.error) {
+      setArticleData({
+        ...articleData,
+        isBookmarked: !articleData.isBookmarked,
+      });
+    }
+    hideSpinner();
+  };
   return (
     <>
       <Container fluid className="h-100">
@@ -108,7 +127,7 @@ export default function Article({ article }) {
               author={articleData.author}
               date={articleData.published_at}
               isBookmarked={articleData.isBookmarked}
-              bookmarkToggler={toggleBookmark}
+              bookmarkToggler={toggleBookmarkHandler}
             />
           </Col>
         </Row>

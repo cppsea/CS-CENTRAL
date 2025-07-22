@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 
 import Home from "./pages/HomePage/Home.jsx";
 import ArticleResultsPage from "./pages/ArticleResultsPage/ArticleResultsPage.jsx";
@@ -14,7 +14,7 @@ import CustomizationsEdit from "./Components/Settings/Customizations/Customizati
 import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
 import ArticleEditorPage from "./pages/ArticleEditorPage/ArticleEditorPage.jsx";
 import MyArticlesPage from "./pages/MyArticlesPage/MyArticlesPage.jsx";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useLoadingSpinner } from "./context/SpinnerContext.jsx";
 import LoadingSpinner from "./Components/LoadingSpinner/LoadingSpinner.jsx";
 function App() {
@@ -48,6 +48,7 @@ function App() {
             <Route path="saved-articles" element={<SavedArticles />} />
             <Route path="customizations" element={<CustomizationsEdit />} />
           </Route>
+
           <Route
             path="*"
             element={<h1 className="text-center">404 - Page Not Found</h1>}
