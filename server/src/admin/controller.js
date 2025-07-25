@@ -413,6 +413,48 @@ const publishArticle = async (req, res) => {
   }
 };
 
+const getCommentsByUser = async (req, res) => {
+  const user_id = Number(req.params.id);
+
+  if (!user_id || isNaN(user_id)) {
+    return res.status(400).json({ error: "User ID must be a number." });
+  }
+
+  try {
+    let commentsResult = await pool.query(queries.getCommentsByUserID, [
+      user_id,
+    ]);
+
+    return res.status(200).json({ comments: commentsResult.rows });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  const comment_id = Number(req.params.id);
+  if (!comment_id || isNaN(comment_id)) {
+    return res.status(400).json({ error: "Comment ID must be a number." });
+  }
+
+  try {
+    let deleteCommentResult = await pool.query(queries.deleteComment, [
+      comment_id,
+    ]);
+
+    if (deleteCommentResult.rowCount === 0) {
+      return res.status(400).json({
+        error: "Failed to delete comment.",
+      });
+    }
+    return res.status(200).json({ message: "Comment deleted successfully." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   loginAdminUser,
   giveAdminToUser,
@@ -425,5 +467,7 @@ module.exports = {
   getArticle,
   deleteArticle,
   searchArticles,
-  getAdmins
+  getAdmins,
+  getCommentsByUser,
+  deleteComment,
 };

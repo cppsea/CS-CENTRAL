@@ -17,14 +17,13 @@ SELECT
   LEFT JOIN user_roles ON users.id = user_roles.user_id
   LEFT JOIN roles ON user_roles.role_id = roles.id WHERE users.id = $1`;
 
-
 const getAllAdmins = `
 SELECT
     users.*,
     roles.name AS role
   FROM users
   INNER JOIN user_roles ON users.id = user_roles.user_id
-  INNER JOIN roles ON user_roles.role_id = roles.id WHERE roles.name = 'admin';`
+  INNER JOIN roles ON user_roles.role_id = roles.id WHERE roles.name = 'admin';`;
 const searchUsers = `
   SELECT 
     users.*, 
@@ -63,7 +62,9 @@ const searchArticles = `
 `;
 const getImageByImageId = "SELECT * FROM images WHERE images.id = $1";
 
-
+const getCommentsByUserID =
+  "SELECT * FROM article_comments WHERE article_comments.user_id = $1";
+const deleteComment = `DELETE FROM article_comments WHERE id = $1 RETURNING *;`;
 
 module.exports = {
   getUserByUsername,
@@ -81,5 +82,7 @@ module.exports = {
   getImageByImageId,
   getUserByAuthorID,
   searchArticles,
-  getAllAdmins
+  getAllAdmins,
+  getCommentsByUserID,
+  deleteComment,
 };
