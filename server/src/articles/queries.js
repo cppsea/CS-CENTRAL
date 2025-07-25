@@ -34,6 +34,7 @@ const createComment = `INSERT INTO article_comments (article_id, user_id, conten
 const deleteComment = `DELETE FROM article_comments WHERE id = $1 RETURNING *;`;
 const getCommentsByArticleID = `
 SELECT 
+    article_comments.id,
     article_comments.content, 
     article_comments.created_at, 
     article_comments.updated_at,
