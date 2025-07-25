@@ -76,6 +76,8 @@ const processArticle = async (article) => {
   let newArticle = {
     ...article.article_body,
     isBookmarked: article.isBookmarked,
+    like_count: article.like_count,
+    comment_count: article.comment_count,
   };
   newArticle.articleBody.forEach(async (section, sectionIndex) => {
     await section.blocks.forEach(async (block, blockIndex) => {
@@ -885,6 +887,62 @@ const deleteArticle = async (req, res) => {
   }
 };
 
+const likeArticle = async (req, res) => {
+  let article_id = Number(req.params.id);
+  let user_id = req.user.id;
+
+  if (!article_id || isNaN(article_id)) {
+    return res.status(400).json({ error: "Article ID must be integer." });
+  }
+
+  try {
+    pool.query(queries.likeArticle, [user_id, article_id], (error, results) => {
+      if (error) {
+        console.error(error);
+        if (error.code == 23505)
+          return res.status(500).json({
+            error: "Already liked article.",
+          });
+        return res.status(500).json({ error: "Internal Server Error" });
+      }
+      res.status(201).json({ message: "Liked article successfully." });
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const unlikeArticle = async (req, res) => {
+  let article_id = Number(req.params.id);
+  let user_id = req.user.id;
+
+  if (!article_id || isNaN(article_id)) {
+    return res.status(400).json({ error: "Article ID must be integer." });
+  }
+
+  try {
+    pool.query(
+      queries.unlikeArticle,
+      [user_id, article_id],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        if (results.rowCount == 0) {
+          return res.status(400).json({
+            error: "Failed to unlike or article was not liked previously.",
+          });
+        }
+        res.status(201).json({ message: "Unliked article successfully." });
+      }
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getMyArticles,
   getArticles,
@@ -894,4 +952,6 @@ module.exports = {
   editArticle,
   publishArticle,
   unpublishArticle,
+  likeArticle,
+  unlikeArticle,
 };

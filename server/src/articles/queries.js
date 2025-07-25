@@ -25,6 +25,11 @@ const getAllImagesByArticleID =
   "SELECT i.* FROM article_images ai JOIN images i ON i.id = ai.image_id WHERE ai.article_id = $1";
 const deleteImages = "DELETE FROM images WHERE id = ANY ($1::int[])";
 
+const likeArticle =
+  "INSERT INTO article_likes (user_id, article_id) VALUES ($1, $2) RETURNING *;";
+const unlikeArticle =
+  "DELETE FROM article_likes WHERE user_id = $1 and article_id = $2 RETURNING *;";
+
 const auth_getArticlesById =
   'SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1) WHERE articles.id = ($2)';
 const auth_getArticles =
@@ -54,4 +59,6 @@ module.exports = {
   getAllImagesByArticleID,
   getImageByUrl,
   getUserByAuthorID,
+  likeArticle,
+  unlikeArticle,
 };

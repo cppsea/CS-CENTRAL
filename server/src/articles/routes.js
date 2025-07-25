@@ -5,38 +5,51 @@ const { upload } = require("../images/multer");
 const authorizeArticle = require("../middleware/authorizeArticle");
 const optionalAuth = require("../middleware/optionalAuth");
 const requireAuth = require("../middleware/requireAuth");
+const { likeArticle } = require("./queries");
 const router = Router();
 
-//require auth for all article routes
-router.use(optionalAuth);
+//put authorize article AFTER requireauth
+
+//routes that require auth
+router.delete("/:id", requireAuth, authorizeArticle, (req, res) =>
+  controller.deleteArticle(req, res)
+);
 
 router.get("/my-articles", requireAuth, (req, res) =>
   controller.getMyArticles(req, res)
 );
 
-router.patch("/:id/publish", requireAuth, (req, res) =>
+router.patch("/:id/publish", requireAuth, authorizeArticle, (req, res) =>
   controller.publishArticle(req, res)
 );
-router.patch("/:id/unpublish", requireAuth, (req, res) =>
+
+router.patch("/:id/unpublish", requireAuth, authorizeArticle, (req, res) =>
   controller.unpublishArticle(req, res)
 );
 
-router.get("/my-articles", (req, res) => controller.getMyArticles(req, res));
-
-router.get("/", async (req, res) => controller.getArticles(req, res));
-router.get("/:id", (req, res) => controller.getArticlesById(req, res));
-
 router.post(
   "/",
+  requireAuth,
   upload.fields([{ name: "main_image", maxCount: 1 }, { name: "images" }]),
   (req, res) => controller.addArticle(req, res)
 );
+
 router.put(
   "/:id",
+  requireAuth,
+  authorizeArticle,
   upload.fields([{ name: "main_image", maxCount: 1 }, { name: "images" }]),
   (req, res) => controller.editArticle(req, res)
 );
 
-router.delete("/:id", authorizeArticle, controller.deleteArticle);
+router.post("/:id/like", requireAuth, (req, res) =>
+  controller.likeArticle(req, res)
+);
+router.delete("/:id/unlike", requireAuth, (req, res) =>
+  controller.unlikeArticle(req, res)
+);
+//dont req auth
+router.get("/", async (req, res) => controller.getArticles(req, res));
+router.get("/:id", (req, res) => controller.getArticlesById(req, res));
 
 module.exports = router;
