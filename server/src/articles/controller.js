@@ -807,7 +807,7 @@ const publishArticle = (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -832,7 +832,7 @@ const unpublishArticle = (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -883,7 +883,7 @@ const deleteArticle = async (req, res) => {
     return res.status(200).send({ message: "Article successfully deleted" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Could not delete article." });
+    return res.status(500).json({ error: "Could not delete article." });
   }
 };
 
@@ -909,6 +909,7 @@ const likeArticle = async (req, res) => {
     });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -940,6 +941,116 @@ const unlikeArticle = async (req, res) => {
     );
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const createComment = async (req, res) => {
+  let article_id = req.params.id;
+  let user_id = req.user.id;
+
+  let content = req.body.content;
+
+  if (!content || typeof content !== "string") {
+    return res.status(400).json({ error: "Comment content must be text." });
+  }
+
+  if (!article_id || isNaN(Number(article_id))) {
+    return res.status(400).json({ error: "Article ID must be a number." });
+  }
+
+  article_id = Number(article_id);
+
+  try {
+    pool.query(
+      queries.createComment,
+      [article_id, user_id, content],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        if (results.rowCount == 0) {
+          return res.status(400).json({
+            error: "Failed to create comment.",
+          });
+        }
+        return res.status(201).json({ message: "Commented successfully." });
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const deleteComment = async (req, res) => {
+  let comment_id = req.params.id;
+  let user_id = req.user.id;
+
+  if (!comment_id || isNaN(Number(comment_id))) {
+    return res.status(400).json({ error: "Comment ID must be a number." });
+  }
+
+  comment_id = Number(comment_id);
+
+  try {
+    let commentResult = await pool.query(queries.getCommentByCommentID, [
+      comment_id,
+    ]);
+
+    if (commentResult.rowCount === 0) {
+      return res.status(400).json({ error: "Comment does not exist." });
+    }
+
+    if (commentResult.rows[0].user_id != user_id) {
+      return res
+        .status(400)
+        .json({ error: "Not allowed to delete other's comments." });
+    }
+
+    let deleteCommentResult = await pool.query(queries.deleteComment, [
+      comment_id,
+    ]);
+
+    if (deleteCommentResult.rowCount === 0) {
+      return res.status(400).json({
+        error: "Failed to delete comment.",
+      });
+    }
+    return res.status(200).json({ message: "Comment deleted successfully." });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getCommentsByArticle = async (req, res) => {
+  let article_id = req.params.id;
+
+  if (!article_id || isNaN(Number(article_id))) {
+    return res.status(400).json({ error: "Article ID must be a number." });
+  }
+
+  article_id = Number(article_id);
+
+  try {
+    pool.query(
+      queries.getCommentsByArticleID,
+      [article_id],
+      (error, results) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        return res.status(200).json({ comments: results.rows });
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -954,4 +1065,7 @@ module.exports = {
   unpublishArticle,
   likeArticle,
   unlikeArticle,
+  createComment,
+  deleteComment,
+  getCommentsByArticle,
 };

@@ -30,6 +30,23 @@ const likeArticle =
 const unlikeArticle =
   "DELETE FROM article_likes WHERE user_id = $1 and article_id = $2 RETURNING *;";
 
+const createComment = `INSERT INTO article_comments (article_id, user_id, content) VALUES ($1, $2, $3) RETURNING *;`;
+const deleteComment = `DELETE FROM article_comments WHERE id = $1 RETURNING *;`;
+const getCommentsByArticleID = `
+SELECT 
+    article_comments.content, 
+    article_comments.created_at, 
+    article_comments.updated_at,
+    users.username,
+    users.first_name || ' ' || users.last_name AS name,
+    images.url AS avatar
+FROM article_comments 
+LEFT JOIN users ON article_comments.user_id = users.id 
+LEFT JOIN images ON users.avatar_id = images.id
+WHERE article_comments.article_id = $1;
+`;
+const getCommentByCommentID = `SELECT * FROM article_comments WHERE id = $1`;
+
 const auth_getArticlesById =
   'SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1) WHERE articles.id = ($2)';
 const auth_getArticles =
@@ -61,4 +78,8 @@ module.exports = {
   getUserByAuthorID,
   likeArticle,
   unlikeArticle,
+  createComment,
+  deleteComment,
+  getCommentsByArticleID,
+  getCommentByCommentID,
 };

@@ -5,7 +5,6 @@ const { upload } = require("../images/multer");
 const authorizeArticle = require("../middleware/authorizeArticle");
 const optionalAuth = require("../middleware/optionalAuth");
 const requireAuth = require("../middleware/requireAuth");
-const { likeArticle } = require("./queries");
 const router = Router();
 
 //put authorize article AFTER requireauth
@@ -48,6 +47,17 @@ router.post("/:id/like", requireAuth, (req, res) =>
 router.delete("/:id/unlike", requireAuth, (req, res) =>
   controller.unlikeArticle(req, res)
 );
+
+router.post("/:id/comments", requireAuth, (req, res) =>
+  controller.createComment(req, res)
+);
+router.delete("/comments/:id", requireAuth, (req, res) =>
+  controller.deleteComment(req, res)
+);
+router.get("/:id/comments", requireAuth, (req, res) =>
+  controller.getCommentsByArticle(req, res)
+);
+
 //dont req auth
 router.get("/", async (req, res) => controller.getArticles(req, res));
 router.get("/:id", (req, res) => controller.getArticlesById(req, res));
