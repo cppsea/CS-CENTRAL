@@ -303,7 +303,7 @@ export default function ArticleEditorPage() {
                 />
               </div>
             </div>
-            <div className="container">
+            <div className="container" id="body-container">
               <h2 className="header">Article Body</h2>
               <div className="text-container">
                 {articleEditorData.articleBody.map(

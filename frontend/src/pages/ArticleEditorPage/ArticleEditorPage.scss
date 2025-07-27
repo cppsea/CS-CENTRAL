@@ -21,9 +21,9 @@
 
 .floating-button {
   position: sticky;
-  float: right;
-  top: calc(100vh - 70px);
-  margin-bottom: 20px;
+  top: calc(100vh - 50px);
+  left: 200vh;
+  margin-bottom: 10px;
   margin-right: 10px;
   z-index: 1000;
   color: aliceblue !important;
@@ -114,6 +114,10 @@
       }
     }
   }
+}
+
+#body-container {
+  padding-bottom: 60px;
 }
 
 #header-editor {
