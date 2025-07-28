@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 
 import { Image } from "react-bootstrap";
-import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
+import {
+  Bookmark,
+  BookmarkFill,
+  HeartFill,
+  ChatSquareTextFill,
+} from "react-bootstrap-icons";
 
 import "./RecentArticleItem.scss";
 
@@ -14,6 +19,8 @@ export default function RecentArticleItem({
   articleReadTime,
   toBeBookmarked,
   bookmarkToggler,
+  likeCount,
+  commentCount,
 }) {
   return (
     <>
@@ -44,7 +51,20 @@ export default function RecentArticleItem({
             {/* <p className="recent-article-desc my-2 fst-italic">{articleDesc}</p> */}
             <div className="recent-article-date-time-author-container">
               <p className="recent-article-author">By {articleAuthor}</p>
-              <p className="recent-article-date-time">Published {articleDatePublished}</p>
+              <p className="recent-article-date-time">
+                Published {articleDatePublished}
+              </p>
+            </div>
+
+            <div className="d-flex align-items-center gap-3 recent-article-interactions">
+              <div className="d-flex align-items-center gap-1">
+                <HeartFill className="recent-article-likes" />
+                <span className="text-muted">{likeCount}</span>
+              </div>
+              <div className="d-flex align-items-center gap-1">
+                <ChatSquareTextFill className="recent-article-comments" />
+                <span className="text-muted">{commentCount}</span>
+              </div>
             </div>
           </div>
 

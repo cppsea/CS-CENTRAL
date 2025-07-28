@@ -52,6 +52,8 @@ export default function RecentArticles({ recent_articles }) {
               // articleReadTime={article.article_read_time}
               toBeBookmarked={isBookmarkedArticles[article.id]}
               bookmarkToggler={articleToggleHandler(article.id)}
+              likeCount={article.article_like_count}
+              commentCount={article.article_comment_count}
             />
           ))}
           {/** May add onClick function to fetch more articles */}
