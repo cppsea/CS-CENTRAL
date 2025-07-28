@@ -6,11 +6,14 @@ import BodySection from "./Section/BodySection.jsx";
 import { Container, Row, Col, Stack } from "react-bootstrap";
 import "./ArticleComponents.scss";
 import "./Article.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useToggleBookmark } from "../../hooks/useToggleBookmark.jsx";
 import { useAuthContext } from "../../hooks/useAuthContext.jsx";
 import { useLoadingSpinner } from "../../context/SpinnerContext.jsx";
 import toast from "react-hot-toast";
+import Comments from "./Comments/Comments.jsx";
+import { useLikeArticle } from "../../hooks/ArticleLikes/useLikeArticle.jsx";
+import { useUnlikeArticle } from "../../hooks/ArticleLikes/useUnlikeArticle.jsx";
 //dummy data for related topics list
 const relatedTopicsList = [
   {
@@ -75,7 +78,7 @@ export default function Article({ article }) {
   let descriptionBlocks = article.description.blocks;
 
   const [articleData, setArticleData] = useState({
-    ...article
+    ...article,
   });
 
   let contentSequence = [];
@@ -116,6 +119,30 @@ export default function Article({ article }) {
     }
     hideSpinner();
   };
+
+  //handler for toggling like/unlike
+  const { likeArticle } = useLikeArticle();
+  const { unlikeArticle } = useUnlikeArticle();
+  const [isLiked, setIsLiked] = useState(article.isLiked || false);
+
+  const toggleLikeHandler = async () => {
+    const articleId = article.id;
+    const success = isLiked
+      ? await unlikeArticle({ articleId })
+      : await likeArticle({ articleId });
+
+    if (success) {
+      setIsLiked(!isLiked);
+    }
+  };
+
+  //handles scrolling down to comment section
+  const commentsRef = useRef();
+
+  const scrollToComments = () => {
+    commentsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <>
       <Container fluid className="h-100">
@@ -128,11 +155,16 @@ export default function Article({ article }) {
               date={articleData.published_at}
               isBookmarked={articleData.isBookmarked}
               bookmarkToggler={toggleBookmarkHandler}
+              isLiked={isLiked}
+              likeToggler={toggleLikeHandler}
+              likeCount={article.like_count}
+              onCommentIconClick={scrollToComments}
+              commentCount={article.comment_count}
             />
           </Col>
         </Row>
 
-        <Row className=" gx-4 gy-5">
+        <Row className=" gx-4 gy-5 pb-5">
           <Col xs={12} md={8}>
             <ArticleImage
               image={articleData.image}
@@ -171,6 +203,8 @@ export default function Article({ article }) {
             <RelatedTopicsList topicLists={relatedTopicsList} />
           </Col>
         </Row>
+        <hr ref={commentsRef} className="scroll-anchor" />
+        <Comments />
       </Container>
     </>
   );

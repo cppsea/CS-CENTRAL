@@ -2,7 +2,13 @@ import { Stack } from "react-bootstrap";
 import ArticleHeaderDesc from "./ArticleHeaderDesc";
 import ArticleHeaderTitle from "./ArticleHeaderTitle";
 import ArticleHeaderAuthorDate from "./ArticleHeaderAuthorDate";
-import { Bookmark, BookmarkFill } from "react-bootstrap-icons";
+import {
+  Bookmark,
+  BookmarkFill,
+  Heart,
+  HeartFill,
+  ChatSquareText,
+} from "react-bootstrap-icons";
 
 //Component for the article header
 /*
@@ -26,7 +32,12 @@ export default function ArticleHeader({
   date,
   isBookmarked,
   bookmarkToggler,
-  disableBookmark,
+  disableBookmark: disableArticleActions,
+  isLiked,
+  likeToggler,
+  likeCount,
+  onCommentIconClick,
+  commentCount,
 }) {
   return (
     <Stack gap={2}>
@@ -39,9 +50,9 @@ export default function ArticleHeader({
       <div className="d-inline-flex align-items-center">
         <ArticleHeaderAuthorDate author={author} date={date} />
 
-        <div className="mx-3">
-          {!disableBookmark &&
-            (isBookmarked ? (
+        {!disableArticleActions && (
+          <div className="mx-3 d-flex gap-2">
+            {isBookmarked ? (
               <BookmarkFill
                 className="article-bookmark"
                 onClick={bookmarkToggler}
@@ -51,8 +62,20 @@ export default function ArticleHeader({
                 className="article-bookmark"
                 onClick={bookmarkToggler}
               />
-            ))}
-        </div>
+            )}
+            {isLiked ? (
+              <HeartFill className="article-likes-icon" onClick={likeToggler} />
+            ) : (
+              <Heart className="article-likes-icon" onClick={likeToggler} />
+            )}
+            <span className="text-muted">{likeCount}</span>
+            <ChatSquareText
+              onClick={onCommentIconClick}
+              className="article-comment-icon"
+            />
+            <span className="text-muted">{commentCount}</span>
+          </div>
+        )}
       </div>
     </Stack>
   );

@@ -1,0 +1,34 @@
+@import "../../../scss/variables";
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "../../../scss/variables";
+
+@include color-mode(light) {
+  .item-card {
+    background-color: $article-editor-body-light;
+  }
+  hr {
+    background-color: $divider-light;
+    height: 1px;
+    opacity: 100%;
+    border: 0;
+  }
+}
+
+@include color-mode(dark) {
+  .item-card {
+    background-color: $article-editor-body-dark;
+  }
+  hr {
+    background-color: $divider-dark;
+    height: 1px;
+    opacity: 100%;
+    border: 0;
+  }
+}
+
+.scroll-anchor {
+  scroll-margin-top: 120px;
+}

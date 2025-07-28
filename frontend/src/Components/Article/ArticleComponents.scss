@@ -47,7 +47,9 @@
   }
 }
 
-.article-bookmark {
+.article-bookmark,
+.article-comment-icon,
+.article-likes-icon {
   font-size: calc(1rem + 0.5vw + 0.5vh);
 
   &:hover {
@@ -255,6 +257,12 @@
   .article-bookmark {
     color: $bookmark-bg-light;
   }
+  .article-likes-icon {
+    color: $like-bg-light;
+  }
+  .article-comment-icon {
+    color: $comment-bg-light;
+  }
 }
 
 @include color-mode(dark) {
@@ -282,5 +290,11 @@
   }
   .article-bookmark {
     color: $bookmark-bg-dark;
+  }
+  .article-likes-icon {
+    color: $like-bg-dark;
+  }
+  .article-comment-icon {
+    color: $comment-bg-dark;
   }
 }
