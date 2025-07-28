@@ -68,7 +68,11 @@ router.get("/articles/:id", requireAdminAuth, controller.getArticle);
 router.delete("/articles/:id", requireAdminAuth, controller.deleteArticle);
 router.post("/articles", requireAdminAuth, controller.searchArticles);
 
-router.get("/users/comments", requireAdminAuth, controller.getCommentsByUser);
+router.get(
+  "/users/:id/comments",
+  requireAdminAuth,
+  controller.getCommentsByUser
+);
 router.delete(
   "/users/comments/:id",
   requireAdminAuth,
