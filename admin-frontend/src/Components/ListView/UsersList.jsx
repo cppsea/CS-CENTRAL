@@ -73,7 +73,7 @@ export default function UsersList({ users, setUsers }) {
                   <Row className="align-items-center">
                     <Col xs="auto">
                       <Image
-                        src={user.avatar_id || DEFAULT_AVATAR}
+                        src={user.avatar || DEFAULT_AVATAR}
                         roundedCircle
                         width={50}
                         height={50}

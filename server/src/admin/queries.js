@@ -7,30 +7,41 @@ SELECT
   LEFT JOIN roles ON user_roles.role_id = roles.id WHERE username = $1`;
 
 const getAvatarURLByAvatarId = "SELECT * FROM images WHERE images.id = $1";
-const getUsersById = "SELECT * FROM users WHERE id = $1";
+const getUsersById = `
+  SELECT users.*, images.url AS avatar
+  FROM users
+  LEFT JOIN images ON users.avatar_id = images.id
+  WHERE users.id = $1;
+`;
 const deleteUserById = "DELETE FROM users WHERE id = $1";
 const getUserByAuthorID = `
 SELECT 
     users.*, 
-    roles.name AS role
+    roles.name AS role,
+    images.url AS avatar
   FROM users
   LEFT JOIN user_roles ON users.id = user_roles.user_id
+  LEFT JOIN images ON users.avatar_id = images.id
   LEFT JOIN roles ON user_roles.role_id = roles.id WHERE users.id = $1`;
 
 const getAllAdmins = `
 SELECT
-    users.*,
+    users.*,    
+    images.url AS avatar,
     roles.name AS role
   FROM users
   INNER JOIN user_roles ON users.id = user_roles.user_id
+  LEFT JOIN images ON users.avatar_id = images.id
   INNER JOIN roles ON user_roles.role_id = roles.id WHERE roles.name = 'admin';`;
 const searchUsers = `
   SELECT 
-    users.*, 
+    users.*,
+    images.url AS avatar, 
     roles.name AS role
   FROM users
   LEFT JOIN user_roles ON users.id = user_roles.user_id
   LEFT JOIN roles ON user_roles.role_id = roles.id
+  LEFT JOIN images ON users.avatar_id = images.id
   WHERE
     ($1::text IS NULL OR users.username ILIKE '%' || $1::text || '%')
     AND ($2::text IS NULL OR users.first_name ILIKE '%' || $2::text || '%')
