@@ -78,6 +78,7 @@ const processArticle = async (article) => {
     isBookmarked: article.isBookmarked,
     like_count: article.like_count,
     comment_count: article.comment_count,
+    isLiked: article.isLiked,
   };
   newArticle.articleBody.forEach(async (section, sectionIndex) => {
     await section.blocks.forEach(async (block, blockIndex) => {
@@ -155,9 +156,8 @@ const getArticles = async (req, res) => {
   if (req.user) {
     if (req.query.title) {
       await pool.query(
-        queries.auth_getArticlesByTitle
-          .replace("$1", req.query.title)
-          .replace("$2", req.user.id),
+        queries.auth_getArticlesByTitle,
+        [req.query.title, req.user.id],
         async (error, results) => {
           if (error) {
             console.error(error);
@@ -896,17 +896,29 @@ const likeArticle = async (req, res) => {
   }
 
   try {
-    pool.query(queries.likeArticle, [user_id, article_id], (error, results) => {
-      if (error) {
-        console.error(error);
-        if (error.code == 23505)
-          return res.status(500).json({
-            error: "Already liked article.",
-          });
-        return res.status(500).json({ error: "Internal Server Error" });
+    pool.query(
+      queries.likeArticle,
+      [user_id, article_id],
+      async (error, results) => {
+        if (error) {
+          console.error(error);
+          if (error.code == 23505)
+            return res.status(500).json({
+              error: "Already liked article.",
+            });
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+
+        const updatedLikeCount = await pool.query(queries.getUpdatedLikeCount, [
+          article_id,
+        ]);
+
+        return res.status(201).json({
+          message: "Liked article successfully.",
+          like_count: updatedLikeCount.rows[0].like_count,
+        });
       }
-      res.status(201).json({ message: "Liked article successfully." });
-    });
+    );
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -925,7 +937,7 @@ const unlikeArticle = async (req, res) => {
     pool.query(
       queries.unlikeArticle,
       [user_id, article_id],
-      (error, results) => {
+      async (error, results) => {
         if (error) {
           console.error(error);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -936,7 +948,14 @@ const unlikeArticle = async (req, res) => {
             error: "Failed to unlike or article was not liked previously.",
           });
         }
-        res.status(201).json({ message: "Unliked article successfully." });
+        const updatedLikeCount = await pool.query(queries.getUpdatedLikeCount, [
+          article_id,
+        ]);
+
+        return res.status(201).json({
+          message: "Unliked article successfully.",
+          like_count: updatedLikeCount.rows[0].like_count,
+        });
       }
     );
   } catch (err) {

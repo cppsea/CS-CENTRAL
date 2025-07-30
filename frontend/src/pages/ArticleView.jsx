@@ -12,6 +12,7 @@ export default function ArticleView() {
     const fetchArticle = async () => {
       try {
         let fetchedArticle = await getArticleByID(articleID);
+        console.log(fetchedArticle);
         if (fetchedArticle) {
           setArticle(fetchedArticle);
         }

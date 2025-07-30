@@ -30,6 +30,12 @@ const likeArticle =
 const unlikeArticle =
   "DELETE FROM article_likes WHERE user_id = $1 and article_id = $2 RETURNING *;";
 
+const getUpdatedLikeCount = `
+  SELECT articles.id, articles.like_count
+  FROM articles
+  WHERE articles.id = $1;`;
+
+
 const createComment = `INSERT INTO article_comments (article_id, user_id, content) VALUES ($1, $2, $3) RETURNING *;`;
 const deleteComment = `DELETE FROM article_comments WHERE id = $1 RETURNING *;`;
 const getCommentsByArticleID = `
@@ -48,12 +54,29 @@ WHERE article_comments.article_id = $1;
 `;
 const getCommentByCommentID = `SELECT * FROM article_comments WHERE id = $1`;
 
-const auth_getArticlesById =
-  'SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1) WHERE articles.id = ($2)';
-const auth_getArticles =
-  'SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1)';
-const auth_getArticlesByTitle =
-  "SELECT articles.*, CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS \"isBookmarked\" FROM articles LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($2) WHERE title LIKE '%$1%'";
+const auth_getArticlesById = `
+      SELECT articles.*, 
+        CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked", 
+        CASE WHEN article_likes.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isLiked" 
+        FROM articles 
+        LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1) 
+        LEFT JOIN article_likes ON article_likes.article_id = articles.id AND article_likes.user_id = ($1)
+          WHERE articles.id = ($2)`;
+const auth_getArticles = `
+      SELECT articles.*, 
+        CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked",
+        CASE WHEN article_likes.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isLiked" 
+        FROM articles 
+          LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($1)
+          LEFT JOIN article_likes ON article_likes.article_id = articles.id AND article_likes.user_id = ($1)`;
+const auth_getArticlesByTitle = `
+      SELECT articles.*, 
+          CASE WHEN bookmarks.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isBookmarked",
+          CASE WHEN article_likes.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isLiked" 
+          FROM articles 
+          LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($2) 
+          LEFT JOIN article_likes ON article_likes.article_id = articles.id AND article_likes.user_id = ($2)
+          WHERE title LIKE '%' || $1 || '%'`;
 
 const getUserByAuthorID = "SELECT * FROM users WHERE users.id = $1";
 module.exports = {
@@ -83,4 +106,5 @@ module.exports = {
   deleteComment,
   getCommentsByArticleID,
   getCommentByCommentID,
+  getUpdatedLikeCount
 };

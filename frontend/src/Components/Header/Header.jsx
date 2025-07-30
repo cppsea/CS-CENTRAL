@@ -200,7 +200,7 @@ export default function Header() {
                 >
                   <Button className=" bg-transparent border-0 p-0">
                     <Image
-                      src={user ? user.avatar : DEFAULT_AVATAR}
+                      src={user?.avatar ? user.avatar : DEFAULT_AVATAR}
                       roundedCircle
                       width={50}
                       height={50}

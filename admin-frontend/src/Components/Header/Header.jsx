@@ -142,7 +142,7 @@ export default function Header() {
                 >
                   <Button className=" bg-transparent border-0 p-0">
                     <Image
-                      src={admin ? admin.avatar : DEFAULT_AVATAR}
+                      src={admin?.avatar ? admin.avatar : DEFAULT_AVATAR}
                       roundedCircle
                       width={50}
                       height={50}

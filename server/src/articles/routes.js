@@ -59,7 +59,11 @@ router.get("/:id/comments", requireAuth, (req, res) =>
 );
 
 //dont req auth
-router.get("/", async (req, res) => controller.getArticles(req, res));
-router.get("/:id", (req, res) => controller.getArticlesById(req, res));
+router.get("/", optionalAuth, async (req, res) =>
+  controller.getArticles(req, res)
+);
+router.get("/:id", optionalAuth, (req, res) =>
+  controller.getArticlesById(req, res)
+);
 
 module.exports = router;
