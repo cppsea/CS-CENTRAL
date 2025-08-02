@@ -43,7 +43,6 @@ export default function CommentCreation({ onCommentPosted }) {
 
   return (
     <Container className="p-0">
-      <h2 className="text-uppercase mt-5">Comments</h2>
       <Card className="my-4 p-4 border-0 item-card">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">

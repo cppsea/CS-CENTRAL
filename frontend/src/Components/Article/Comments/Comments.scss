@@ -5,6 +5,10 @@
 @import "bootstrap/scss/mixins";
 @import "../../../scss/variables";
 
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 @include color-mode(light) {
   .item-card {
     background-color: $article-editor-body-light;

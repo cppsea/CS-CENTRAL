@@ -54,9 +54,6 @@ router.post("/:id/comments", requireAuth, (req, res) =>
 router.delete("/comments/:id", requireAuth, (req, res) =>
   controller.deleteComment(req, res)
 );
-router.get("/:id/comments", requireAuth, (req, res) =>
-  controller.getCommentsByArticle(req, res)
-);
 
 //dont req auth
 router.get("/", optionalAuth, async (req, res) =>
@@ -64,6 +61,9 @@ router.get("/", optionalAuth, async (req, res) =>
 );
 router.get("/:id", optionalAuth, (req, res) =>
   controller.getArticlesById(req, res)
+);
+router.get("/:id/comments", optionalAuth, (req, res) =>
+  controller.getCommentsByArticle(req, res)
 );
 
 module.exports = router;

@@ -32,9 +32,9 @@ export const useLikeArticle = () => {
       if (!response.ok) {
         setError(json.error);
         toast.error(json.error);
-        return false;
+        return { success: false, response: json };
       }
-      return true;
+      return { success: true, response: json };
     } catch (err) {
       console.log(err);
       setError("Something went wrong. Couldn't like article.");

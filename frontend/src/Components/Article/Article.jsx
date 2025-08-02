@@ -124,15 +124,21 @@ export default function Article({ article }) {
   const { likeArticle } = useLikeArticle();
   const { unlikeArticle } = useUnlikeArticle();
   const [isLiked, setIsLiked] = useState(article.isLiked || false);
+  const [likeCount, setLikeCount] = useState(article.like_count || 0);
 
   const toggleLikeHandler = async () => {
+    if (!user) {
+      toast.error("You must be logged in to like this article.");
+      return;
+    }
     const articleId = article.id;
-    const success = isLiked
+    const { success, response } = isLiked
       ? await unlikeArticle({ articleId })
       : await likeArticle({ articleId });
 
     if (success) {
       setIsLiked(!isLiked);
+      setLikeCount(response.like_count);
     }
   };
 
@@ -142,6 +148,8 @@ export default function Article({ article }) {
   const scrollToComments = () => {
     commentsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  const [commentCount, setCommentCount] = useState(article.comment_count || 0);
 
   return (
     <>
@@ -157,9 +165,9 @@ export default function Article({ article }) {
               bookmarkToggler={toggleBookmarkHandler}
               isLiked={isLiked}
               likeToggler={toggleLikeHandler}
-              likeCount={article.like_count}
+              likeCount={likeCount}
               onCommentIconClick={scrollToComments}
-              commentCount={article.comment_count}
+              commentCount={commentCount}
             />
           </Col>
         </Row>
@@ -204,7 +212,7 @@ export default function Article({ article }) {
           </Col>
         </Row>
         <hr ref={commentsRef} className="scroll-anchor" />
-        <Comments />
+        <Comments setCommentCount={setCommentCount} />
       </Container>
     </>
   );

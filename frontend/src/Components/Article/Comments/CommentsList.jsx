@@ -1,8 +1,20 @@
-import { Stack, Card, Row, Col, Container, Image } from "react-bootstrap";
+import {
+  Stack,
+  Card,
+  Row,
+  Col,
+  Container,
+  Image,
+  Dropdown,
+} from "react-bootstrap";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { ThreeDotsVertical } from "react-bootstrap-icons";
 
 const DEFAULT_AVATAR = "/default_avatar.jpg";
 
-export default function CommentsList({ comments }) {
+export default function CommentsList({ comments, onDelete }) {
+  const { user } = useAuthContext();
+
   return (
     <Container className="p-0">
       {comments.length === 0 ? (
@@ -32,6 +44,20 @@ export default function CommentsList({ comments }) {
                   </div>
                   <div>{comment.content}</div>
                 </Col>
+                {user?.username === comment.username && (
+                  <Col xs="auto" className="text-end d-flex">
+                    <Dropdown>
+                      <Dropdown.Toggle variant="link">
+                        <ThreeDotsVertical />
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={() => onDelete(comment.id)}>
+                          Delete
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Col>
+                )}
               </Row>
             </Card>
           ))}
