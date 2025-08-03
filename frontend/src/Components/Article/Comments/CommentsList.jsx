@@ -16,7 +16,7 @@ export default function CommentsList({ comments, onDelete }) {
   const { user } = useAuthContext();
 
   return (
-    <Container className="p-0">
+    <Container fluid className="p-0 comments-list">
       {comments.length === 0 ? (
         <h4 className="text-muted pb-4 fw-normal">
           No comments found. Be the first and post your own!

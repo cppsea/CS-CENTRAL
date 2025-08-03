@@ -63,7 +63,7 @@ export default function Comments({ setCommentCount }) {
 
   return (
     <>
-      <Container className="p-0">
+      <Container fluid className="p-0 comments-container">
         <Row className="mt-5">
           <Col>
             <h2 className="text-uppercase">Comments</h2>

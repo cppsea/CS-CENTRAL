@@ -42,7 +42,7 @@ export default function CommentCreation({ onCommentPosted }) {
   };
 
   return (
-    <Container className="p-0">
+    <Container fluid className="p-0 comment-creation">
       <Card className="my-4 p-4 border-0 item-card">
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">

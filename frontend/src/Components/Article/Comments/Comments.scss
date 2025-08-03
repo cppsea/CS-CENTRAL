@@ -5,6 +5,12 @@
 @import "bootstrap/scss/mixins";
 @import "../../../scss/variables";
 
+.comments-container,
+.comment-creation,
+.comments-list {
+  max-width: 1500px;
+}
+
 .dropdown-toggle::after {
   display: none !important;
 }

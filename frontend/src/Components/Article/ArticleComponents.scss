@@ -4,6 +4,11 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/mixins";
 @import "../../scss/variables";
+
+.article-container {
+  max-width: 1500px;
+}
+
 //SectionHeader, ArticleHeaderDesc marker styling
 .section-header-marker,
 .article-desc-marker {
@@ -183,7 +188,7 @@
 
 //Related Topics List
 .related-topics-heading {
-  font-size: calc(0.975rem + 0.1vw);
+  font-size: calc(0.975rem + 0.2vw);
   line-height: 2rem;
   font-weight: 600;
 }
@@ -191,7 +196,7 @@
 //Topics List
 .topic-list-title,
 .topic-link {
-  font-size: calc(0.65rem + 0.1vw);
+  font-size: calc(0.65rem + 0.2vw);
   font-weight: 600;
 }
 

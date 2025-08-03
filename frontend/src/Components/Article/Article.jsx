@@ -154,63 +154,65 @@ export default function Article({ article }) {
   return (
     <>
       <Container fluid className="h-100">
-        <Row className="mt-4 mb-4">
-          <Col>
-            <ArticleHeader
-              titleBlocks={titleBlocks}
-              descriptionBlocks={descriptionBlocks}
-              author={articleData.author}
-              date={articleData.published_at}
-              isBookmarked={articleData.isBookmarked}
-              bookmarkToggler={toggleBookmarkHandler}
-              isLiked={isLiked}
-              likeToggler={toggleLikeHandler}
-              likeCount={likeCount}
-              onCommentIconClick={scrollToComments}
-              commentCount={commentCount}
-            />
-          </Col>
-        </Row>
+        <Container fluid className="article-container">
+          <Row className="mt-4 mb-4">
+            <Col>
+              <ArticleHeader
+                titleBlocks={titleBlocks}
+                descriptionBlocks={descriptionBlocks}
+                author={articleData.author}
+                date={articleData.published_at}
+                isBookmarked={articleData.isBookmarked}
+                bookmarkToggler={toggleBookmarkHandler}
+                isLiked={isLiked}
+                likeToggler={toggleLikeHandler}
+                likeCount={likeCount}
+                onCommentIconClick={scrollToComments}
+                commentCount={commentCount}
+              />
+            </Col>
+          </Row>
 
-        <Row className=" gx-4 gy-5 pb-5">
-          <Col xs={12} md={8}>
-            <ArticleImage
-              image={articleData.image}
-              alt_text={`${articleData.header.blocks[0].data.text} image`}
-            />
-            <Stack className="gap-3">
-              <TableOfContents contentSequence={contentSequence} />
+          <Row className=" gx-4 gy-5 pb-5">
+            <Col xs={12} md={8}>
+              <ArticleImage
+                image={articleData.image}
+                alt_text={`${articleData.header.blocks[0].data.text} image`}
+              />
+              <Stack className="gap-3">
+                <TableOfContents contentSequence={contentSequence} />
 
-              {articleData.articleBody.map((bodySection, index) => {
-                //assumes that if there is a title, it will be the first block
+                {articleData.articleBody.map((bodySection, index) => {
+                  //assumes that if there is a title, it will be the first block
 
-                let currentBodySectionBlocks = [...bodySection.blocks];
+                  let currentBodySectionBlocks = [...bodySection.blocks];
 
-                //if the first block isn't a header, it will insert a dummy header
-                if (
-                  bodySection.blocks.length > 0 &&
-                  bodySection.blocks[0].type !== "header"
-                ) {
-                  currentBodySectionBlocks.splice(0, 0, {
-                    type: "header",
-                    data: { text: `Section ${index + 1}`, level: 2 },
-                  });
-                }
-                return (
-                  <BodySection
-                    id={bodySection.id}
-                    key={bodySection.id}
-                    bodySectionBlocks={currentBodySectionBlocks}
-                  />
-                );
-              })}
-            </Stack>
-          </Col>
+                  //if the first block isn't a header, it will insert a dummy header
+                  if (
+                    bodySection.blocks.length > 0 &&
+                    bodySection.blocks[0].type !== "header"
+                  ) {
+                    currentBodySectionBlocks.splice(0, 0, {
+                      type: "header",
+                      data: { text: `Section ${index + 1}`, level: 2 },
+                    });
+                  }
+                  return (
+                    <BodySection
+                      id={bodySection.id}
+                      key={bodySection.id}
+                      bodySectionBlocks={currentBodySectionBlocks}
+                    />
+                  );
+                })}
+              </Stack>
+            </Col>
 
-          <Col xs={12} md={4} className="rel-topics-container ps-3">
-            <RelatedTopicsList topicLists={relatedTopicsList} />
-          </Col>
-        </Row>
+            <Col xs={12} md={4} className="rel-topics-container ps-3">
+              <RelatedTopicsList topicLists={relatedTopicsList} />
+            </Col>
+          </Row>
+        </Container>
         <hr ref={commentsRef} className="scroll-anchor" />
         <Comments setCommentCount={setCommentCount} />
       </Container>
