@@ -74,8 +74,8 @@ const auth_getArticlesByTitle = `
           CASE WHEN article_likes.article_id IS NOT NULL THEN TRUE ELSE FALSE END AS "isLiked" 
           FROM articles 
           LEFT JOIN bookmarks ON bookmarks.article_id  = articles.id AND bookmarks.user_id = ($2) 
-          LEFT JOIN article_likes ON article_likes.article_id = articles.id 
-          WHERE title LIKE '%' || $1 || '%'`;
+          LEFT JOIN article_likes ON article_likes.article_id = articles.id AND article_likes.user_id = $2
+          WHERE LOWER(title) LIKE '%' || $1 || '%'`;
 
 const getUserByAuthorID = "SELECT * FROM users WHERE users.id = $1";
 module.exports = {
