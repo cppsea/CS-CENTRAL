@@ -260,7 +260,7 @@ export default function ArticleEditorPage() {
                   data={articleEditorData.header}
                   onChange={setHeaderData}
                   editorBlockId={"header-editor"}
-                  charLimit={50}
+                  charLimit={100}
                   hasLoadedInitialData={hasLoadedInitialData}
                 />
               </div>

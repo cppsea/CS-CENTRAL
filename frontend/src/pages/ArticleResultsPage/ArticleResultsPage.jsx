@@ -23,7 +23,7 @@ export default function ArticleResultsPage({}) {
   const [specificArticle, setSpecificArticle] = useState();
   const titleQuery = searchParams.get("title");
 
-  const { user } = useAuthContext();
+  const  user  = JSON.parse(localStorage.getItem("user"));
 
   const { toggleBookmark } = useToggleBookmark();
   //bookmark toggler creator function, returns function that toggles bookmark for certain id depending on server response
