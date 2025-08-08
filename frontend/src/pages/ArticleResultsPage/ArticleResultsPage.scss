@@ -1,0 +1,48 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "../../scss/variables";
+
+.article-results-title {
+  font-weight: 500;
+  font-size: calc(1.8rem + 0.8vw);
+  @include media-breakpoint-up(lg) {
+    padding-left: 20px;
+  }
+}
+
+.article-results-title-query {
+  color: $primary;
+}
+.side-sections-container {
+  height: fit-content;
+  padding-bottom: 20px;
+  @include media-breakpoint-down(md) {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    margin-bottom: 10px;
+  }
+  @include media-breakpoint-up(md) {
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+}
+
+@include color-mode(light) {
+  .article-results-title {
+    color: $primary-text-light;
+  }
+  .side-sections-container {
+    border-color: $divider-light;
+  }
+}
+@include color-mode(dark) {
+  .article-results-title {
+    color: $primary-text-dark;
+  }
+  .side-sections-container {
+    border-color: $divider-dark;
+  }
+}

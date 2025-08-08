@@ -1,0 +1,26 @@
+@import "../../scss/variables";
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
+
+.nav-tabs {
+  height: 75px;
+}
+
+.nav-item {
+  margin: 0px 5px;
+}
+
+.nav-tabs .nav-link {
+  color: white;
+  background-color: #79a2d2;
+  opacity: 50%;
+}
+
+.nav-tabs .nav-item .nav-link.active {
+  color: #fff !important;
+  background-color: #79a2d2 !important;
+  border-color: #007bff !important;
+  opacity: 100%;
+}

@@ -16,7 +16,9 @@
     "express": "^4.18.2",
     "firebase-admin": "^12.0.0",
     "jsonwebtoken": "^9.0.2",
+    "modules": "^0.4.0",
     "oauth": "^0.10.0",
+    "p-limit": "^6.2.0",
     "pg": "^8.11.3"
   }
 }

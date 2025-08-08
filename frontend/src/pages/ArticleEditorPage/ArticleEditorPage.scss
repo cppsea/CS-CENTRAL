@@ -1,0 +1,209 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
+@import "../../scss/variables";
+
+//create an image preview- use lightbox? or maybe modify modals
+
+@include color-mode(dark) {
+  body {
+    background-color: $primary-bg-dark;
+  }
+}
+
+.tab-contents {
+  position: sticky;
+  z-index: 1000;
+  top: var(--header-height, 164px);
+  height: 70px;
+}
+
+.floating-button {
+  position: sticky;
+  top: calc(100vh - 50px);
+  left: 200vh;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  z-index: 1000;
+  color: aliceblue !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.container {
+  margin-top: 10px;
+  padding: 10px 50px;
+
+  .header {
+    font-weight: bold;
+    font-size: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 0;
+  }
+
+  .text-container {
+    max-width: 1000px;
+    padding: 20px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    word-wrap: break-word;
+
+    .article-body-section {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      gap: 16px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid;
+        padding: 10px 0;
+      }
+
+      .body-section-editor {
+        flex-grow: 1;
+
+        .ce-block__content,
+        .ce-toolbar__content {
+          width: 100%;
+          max-width: 80ch;
+        }
+      }
+
+      .icons {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+
+        #trash-icon {
+          cursor: pointer;
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+
+        #drag-icon {
+          cursor: move;
+          transition: transform 0.2s ease;
+
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+    }
+
+    #plus-button {
+      align-self: flex-end;
+      cursor: pointer;
+      padding-top: 10px;
+      box-sizing: content-box;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+#body-container {
+  padding-bottom: 60px;
+}
+
+#header-editor {
+  .codex-editor__redactor {
+    padding-bottom: 20px !important;
+  }
+  .ce-block__content {
+    margin-left: 5px;
+    margin-right: 5px;
+    max-width: none;
+  }
+}
+
+#desc-editor {
+  .codex-editor__redactor {
+    padding-bottom: 0px !important;
+  }
+
+  .ce-block__content,
+  .ce-toolbar__content {
+    width: 100%;
+    max-width: 85ch;
+  }
+}
+
+.image-container {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  img {
+    width: 1000px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.upload-button {
+  background-color: $primary;
+  color: aliceblue;
+  margin-top: 10px;
+  padding: 5px 40px;
+  border-radius: 8px;
+  font-size: 1.15rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+// fix plus button for editorjs
+
+@include color-mode(light) {
+  .tab-contents {
+    background-color: $white;
+  }
+  .text-container {
+    background-color: $article-editor-body-light;
+  }
+}
+
+@include color-mode(dark) {
+  .tab-contents {
+    background-color: $primary-bg-dark;
+  }
+
+  .text-container {
+    background-color: $article-editor-body-dark;
+  }
+
+  .ce-toolbar__actions--opened {
+    .ce-toolbar__plus,
+    .ce-toolbar__settings-btn {
+      color: white;
+      background-color: $article-editor-body-dark;
+      border-color: $article-editor-body-dark;
+    }
+
+    .ce-toolbar__plus:hover,
+    .ce-toolbar__settings-btn:hover {
+      background-color: $primary-bg-dark;
+      border-color: $primary-bg-dark;
+    }
+  }
+}

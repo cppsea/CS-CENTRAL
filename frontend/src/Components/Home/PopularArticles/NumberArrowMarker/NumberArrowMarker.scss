@@ -1,0 +1,21 @@
+.popular-arrow-marker-point {
+  position: absolute;
+  background-color: white;
+  width: 40px;
+  height: 30px;
+  clip-path: polygon(
+    0 0,
+    0 100%,
+    50% 100%,
+    100% 50%,
+    50% 0%
+  ); // reuse Arrow Marker's styling
+}
+
+.popular-article-number {
+  position: absolute;
+  color: black;
+  font-weight: 600;
+  font-size: 1.2em;
+  left: 8px;
+}

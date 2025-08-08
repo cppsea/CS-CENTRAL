@@ -1,5 +1,3 @@
-import logo from "../../assets/logo.png";
-import avatar from "../../assets/avatar.jpg";
 import {
   Container,
   Nav,
@@ -10,26 +8,58 @@ import {
   OverlayTrigger,
   Popover,
   Button,
-  DropdownButton,
-  ButtonGroup,
-  Dropdown,
 } from "react-bootstrap";
 import SearchBar from "../SearchBar";
-import { SunFill, MoonFill } from "react-bootstrap-icons";
 
+import { SunFill, MoonFill } from "react-bootstrap-icons";
+import { useState, useEffect } from "react";
+
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 import "./Header.scss";
-import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+
+const DEFAULT_AVATAR = "/default_avatar.jpg";
 
 export default function Header() {
-  const [isDark, setIsDark] = useState(false);
+  const { user } = useAuthContext();
+  const navigate = useNavigate();
+  const { logout } = useLogout();
+  const handleLogout = () => {
+    logout();
+  };
 
+  const [theme, setTheme] = useState(() => {
+    const stored = localStorage.getItem("theme");
+    return (
+      stored ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
+  });
+
+  const checkLoggedIn = (e) => {
+    if (!user) {
+      e.preventDefault();
+      logout();
+      navigate("/signin");
+      toast.error("Please login or create an account.");
+      e.stopPropagation();
+    }
+  };
+  useEffect(() => {
+    document.documentElement.setAttribute("data-bs-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
   return (
     <>
       <Navbar expand={"lg"} fixed="top" className="sticky-top px-4 bg-header">
         <Container>
           <Stack direction="horizontal" gap={2}>
             <Nav.Link href="/">
-              <Image className="p-1" src={logo} roundedCircle width={60} />
+              <img className="p-1 cc-logo-header" src={"/cc_logo_white.png"} />
             </Nav.Link>
             <div className="header-divider"></div>
 
@@ -63,10 +93,26 @@ export default function Header() {
             </Navbar.Collapse>
           </Stack>
 
-          <Stack direction="horizontal" gap={3}>
-            <div style={{ justifyContent: "center" }}>
+          <Stack
+            direction="horizontal"
+            gap={3}
+            className="flex-grow-1 justify-content-end align-items-center header-right"
+          >
+            <div className="search-container flex-grow-1">
               <SearchBar />
             </div>
+
+            <Button
+              variant="link"
+              className="p-0 me-2 toggle-theme-button"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              {theme === "light" ? (
+                <SunFill size={24} />
+              ) : (
+                <MoonFill size={24} />
+              )}
+            </Button>
 
             <Nav variant="underline">
               <Nav.Item>
@@ -80,7 +126,7 @@ export default function Header() {
                         as="h3"
                         className="text-center bg-primary"
                       >
-                        Hello John!
+                        Hello {user ? user.first_name : "Guest"}!
                       </Popover.Header>
                       <Popover.Body className="py-2">
                         <Nav>
@@ -89,6 +135,7 @@ export default function Header() {
                               className="fw-medium"
                               href="/settings/profile-settings"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               My Profile
                             </Nav.Link>
@@ -98,6 +145,7 @@ export default function Header() {
                               className="fw-medium"
                               href="/settings/saved-articles"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               Saved Articles
                             </Nav.Link>
@@ -105,22 +153,45 @@ export default function Header() {
                           <Nav.Item>
                             <Nav.Link
                               className="fw-medium"
+                              href="/my-articles"
+                              id="dropdown_items"
+                              onClick={checkLoggedIn}
+                            >
+                              My Articles
+                            </Nav.Link>
+                          </Nav.Item>
+                          <Nav.Item>
+                            <Nav.Link
+                              className="fw-medium"
                               href="/settings"
                               id="dropdown_items"
+                              onClick={checkLoggedIn}
                             >
                               Settings
                             </Nav.Link>
                           </Nav.Item>
                           <div id="profile_menu_divider"></div>
                           <Nav.Item>
-                            <Nav.Link
-                              className="fw-medium"
-                              href="/signin"
-                              id="dropdown_items"
-                              style={{ color: "red" }}
-                            >
-                              Sign out
-                            </Nav.Link>
+                            {user ? (
+                              <Nav.Link
+                                className="fw-medium"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "red" }}
+                                onClick={handleLogout}
+                              >
+                                Sign out
+                              </Nav.Link>
+                            ) : (
+                              <Nav.Link
+                                className="fw-bold"
+                                href="/signin"
+                                id="dropdown_items"
+                                style={{ color: "lightblue" }}
+                              >
+                                Sign in
+                              </Nav.Link>
+                            )}
                           </Nav.Item>
                         </Nav>
                       </Popover.Body>
@@ -128,7 +199,12 @@ export default function Header() {
                   }
                 >
                   <Button className=" bg-transparent border-0 p-0">
-                    <Image src={avatar} roundedCircle width={40} />
+                    <Image
+                      src={user?.avatar ? user.avatar : DEFAULT_AVATAR}
+                      roundedCircle
+                      width={50}
+                      height={50}
+                    />
                   </Button>
                 </OverlayTrigger>
               </Nav.Item>
@@ -139,4 +215,3 @@ export default function Header() {
     </>
   );
 }
-

@@ -42,7 +42,7 @@
 
 //settings field header
 .settings-section-field-header {
-  font-weight: 500;
+  font-weight: 300;
 }
 
 //settings edit button
@@ -132,6 +132,23 @@
 }
 .password-checkbox-label {
   font-size: calc(0.9rem + 0.1vw);
+}
+
+.profile-avatar {
+  width: 10rem;
+  height: 10rem;
+}
+
+.avatar-edit-container {
+  top: 6.2rem;
+  left: 8.2rem;
+}
+
+.avatar-edit {
+  border-radius: 50% !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
 }
 
 //COLOR MODES

@@ -1,0 +1,39 @@
+@import "../../../scss/variables";
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../../node_modules/bootstrap/scss/grid";
+@import "../../../../node_modules//bootstrap/scss/mixins";
+
+// --------------- Color Modes ----------------------------
+$color-mode-type: data;
+
+// Dark mode
+@include color-mode(dark) {
+  .cc-logo-img {
+    content: url("logo_white.png");
+  }
+}
+
+// Light mode
+@include color-mode(light) {
+  .cc-logo-img {
+    content: url("logo_black.png");
+  }
+}
+// --------------- End of Color Modes ----------------------
+
+// Custom stylings
+.cc-logo-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0 50px 0;
+  padding: 15px 0;
+
+  @include media-breakpoint-down(md) {
+    height: 8rem;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    height: 15rem;
+  }
+}

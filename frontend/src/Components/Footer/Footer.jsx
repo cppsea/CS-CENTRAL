@@ -5,45 +5,38 @@ import logo from "../../assets/logo.png";
 export default function Footer() {
   return (
     <footer id="CS-Catalog-footer" className="footer p-4">
-      <Container fluid style={{ maxWidth: "1000px" }}>
+      <Container className="footer-container">
         <Row>
           <Col
             xs={{ span: 12 }}
             lg={{ span: 6 }}
-            className="d-flex justify-content-center justify-content-lg-start align-items-center p-0"
+            className="d-flex justify-content-center align-items-center cc-logo-footer"
           >
             <Image
-              src={logo}
+              src={"/logo_white.png"}
               id="CS-Catalog-footer-logo"
               className="footer-logo"
-              roundedCircle
             />
-            <ul
-              className="footer-socials-list d-flex flex-column align-self-stretch justify-content-evenly m-0"
-              id="footer-socials-list"
-            >
-              <li
-                className="footer-social-container"
-                id="discord-social-container"
-              >
+          </Col>
+          <Col
+            xs={{ span: 12 }}
+            lg={{ span: 6 }}
+            className="links-container"
+          >
+            <div className="social-icons-container">
+              <div>
                 <a className="social-link" target="_blank">
                   <Discord className="footer-social-icon" />
                   <span className="footer-social-name">Discord</span>
                 </a>
-              </li>
-              <li
-                className="footer-social-container"
-                id="instagram-social-container"
-              >
+              </div>
+              <div>
                 <a className="social-link" target="_blank">
                   <Instagram className="footer-social-icon" />
                   <span className="footer-social-name">Instagram</span>
                 </a>
-              </li>
-              <li
-                className="footer-social-container"
-                id="github-social-container"
-              >
+              </div>
+              <div>
                 <a
                   className="social-link"
                   href="https://github.com/cppsea/CS-Catalog"
@@ -52,59 +45,42 @@ export default function Footer() {
                   <Github className="footer-social-icon" />
                   <span className="footer-social-name">Github</span>
                 </a>
-              </li>
-            </ul>
-          </Col>
-          <Col
-            xs={{ span: 12 }}
-            lg={{ span: 6 }}
-            className="d-flex justify-content-center justify-content-lg-end align-items-center p-0"
-          >
-            <div className="d-flex flex-column justify-content-center align-items-center">
+              </div>
+            </div>
+            <div className="vertical-divider"></div>
+            <div className="social-icons-container">
               <div>
-                <h5
-                  className="footer-title d-flex align-items-center gap-2"
-                  id="CS-Catalog-footer-title"
-                >
-                  <span>CS</span> Catalog
-                </h5>
+                <a className="more-info-link" id="footer-home-link">
+                  Home
+                </a>
               </div>
-              <div className="d-flex justify-content-center">
-                <ul
-                  className="footer-more-info-links-container d-flex column-gap-5 p-0"
-                  id="more-info-links-container"
-                >
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-home-link">
-                      Home
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-feedback-link">
-                      Feedback
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-about-link">
-                      About
-                    </a>
-                  </li>
-                  <li className="footer-more-info-link-container">
-                    <a className="more-info-link" id="footer-team-link">
-                      Our team
-                    </a>
-                  </li>
-                </ul>
+              <div>
+                <a className="more-info-link" id="footer-feedback-link">
+                  Feedback
+                </a>
               </div>
-              <div className="d-flex justify-content-center">
-                <span className="footer-copyright" id="CS-Catalog-copyright">
-                  CS Catalog @ 2024 All Rights Reserved
-                </span>
+              <div>
+                <a className="more-info-link" id="footer-about-link">
+                  About
+                </a>
+              </div>
+              <div>
+                <a className="more-info-link" id="footer-team-link">
+                  Our team
+                </a>
               </div>
             </div>
           </Col>
         </Row>
       </Container>
+      <Row className="">
+        <span
+          className="footer-copyright d-flex justify-content-center"
+          id="CS-Catalog-copyright"
+        >
+          CS Catalog @ 2024 All Rights Reserved
+        </span>
+      </Row>
     </footer>
   );
 }

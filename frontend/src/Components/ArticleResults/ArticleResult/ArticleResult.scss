@@ -1,0 +1,124 @@
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/functions";
+@import "../../../scss/variables";
+/*overall article result container*/
+.article-result {
+  display: flex;
+  gap: 10px;
+  height: 100px;
+  @include media-breakpoint-up(sm) {
+    height: 150px;
+  }
+}
+
+/*image*/
+.article-result-image-container {
+  width: fit-content;
+  display: flex;
+  height: inherit;
+  justify-content: center;
+}
+
+.article-result-image {
+  object-fit: contain;
+  object-position: center top;
+  height: 100%;
+  width: 75px;
+  @include media-breakpoint-up(sm) {
+    width: 150px;
+  }
+  @include media-breakpoint-up(md) {
+    width: 200px;
+  }
+}
+.article-result-bookmark {
+  width: fit-content;
+
+  &:hover {
+    cursor: pointer;
+  }
+  &:active {
+    cursor: auto;
+  }
+}
+
+/*Text*/
+.article-result-text,
+.article-result-info {
+  display: flex;
+  flex-direction: column;
+}
+.article-result-text {
+  gap: 5px;
+}
+.article-result-info {
+  gap: 2.5px;
+}
+
+.article-result-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0 !important;
+  font-size: calc(0.8rem + 0.5vw);
+  @include media-breakpoint-up(sm) {
+    font-size: calc(1.2rem + 0.5vw);
+  }
+  /*style for clicking on article title*/
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  &:active {
+    cursor: auto;
+    position: relative;
+    top: 1px;
+    opacity: 0.8;
+  }
+}
+.article-result-author,
+.article-result-date {
+  font-weight: 300;
+  font-style: italic;
+  padding: 0 !important;
+  font-size: calc(0.8rem + 0.1vw);
+  @include media-breakpoint-up(sm) {
+    font-size: calc(0.9rem + 0.1vw);
+  }
+}
+
+//COLOR MODES
+@include color-mode(light) {
+  .article-result-text,
+  .article-result-author,
+  .article-result-date {
+    color: $primary-text-light;
+  }
+  .article-result-bookmark {
+    color: $bookmark-bg-light;
+  }
+  .article-result-likes {
+    color: $like-bg-light;
+  }
+  .article-result-comment {
+    color: $comment-bg-light;
+  }
+}
+@include color-mode(dark) {
+  .article-result-text,
+  .article-result-author,
+  .article-result-date {
+    color: $primary-text-dark;
+  }
+  .article-result-bookmark {
+    color: $bookmark-bg-dark;
+  }
+  .article-result-likes {
+    color: $like-bg-dark;
+  }
+  .article-result-comment {
+    color: $comment-bg-dark;
+  }
+}

@@ -1,0 +1,11 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
+@import "../../scss/variables";
+
+.my-articles-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}

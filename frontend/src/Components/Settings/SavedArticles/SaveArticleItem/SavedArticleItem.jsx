@@ -12,6 +12,10 @@ export default function SavedArticleItem({
       <div className="saved-article-top">
         <div className="saved-article-image-container">
           <Image src={articleImg} className="saved-article-image" />
+        </div>
+      </div>
+      <div className="saved-article-bottom">
+        <div>
           {toBeDeleted ? (
             <Bookmark
               className="saved-article-bookmark"
@@ -24,8 +28,6 @@ export default function SavedArticleItem({
             />
           )}
         </div>
-      </div>
-      <div className="saved-article-bottom">
         <span className="saved-article-title">{articleTitle}</span>
       </div>
     </div>

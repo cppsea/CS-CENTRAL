@@ -1,7 +1,7 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 
-import Home from "./pages/Home.jsx";
-import ArticleList from "./pages/ArticleList.jsx";
+import Home from "./pages/HomePage/Home.jsx";
+import ArticleResultsPage from "./pages/ArticleResultsPage/ArticleResultsPage.jsx";
 import ArticleView from "./pages/ArticleView.jsx";
 import Signup from "./pages/SignPages/Signup.jsx";
 import Signin from "./pages/SignPages/Signin.jsx";
@@ -12,8 +12,14 @@ import ProfileEdit from "./Components/Settings/Profile/ProfileEdit.jsx";
 import SavedArticles from "./Components/Settings/SavedArticles/SavedArticles.jsx";
 import CustomizationsEdit from "./Components/Settings/Customizations/CustomizationsEdit.jsx";
 import SignWelcome from "./pages/SignPages/SignWelcome.jsx";
-
+import ArticleEditorPage from "./pages/ArticleEditorPage/ArticleEditorPage.jsx";
+import MyArticlesPage from "./pages/MyArticlesPage/MyArticlesPage.jsx";
+import toast, { Toaster } from "react-hot-toast";
+import { useLoadingSpinner } from "./context/SpinnerContext.jsx";
+import LoadingSpinner from "./Components/LoadingSpinner/LoadingSpinner.jsx";
 function App() {
+  const { spinnerIsShowing } = useLoadingSpinner();
+
   return (
     <>
       <Routes>
@@ -23,13 +29,19 @@ function App() {
           <Route path="signin" element={<Signin />} />
           <Route path="signup" element={<Signup />} />
           <Route path="article_search_results">
-            <Route index element={<ArticleList />} />
-            <Route path=":id" element={<ArticleList />} />
+            <Route index element={<ArticleResultsPage />} />
+            <Route path=":id" element={<ArticleResultsPage />} />
           </Route>
           <Route path="article_view">
             <Route index element={<ArticleView />} />
-            <Route path=":name" element={<ArticleView />} />
+            <Route path=":articleID" element={<ArticleView />} />
           </Route>
+          <Route path="article-editor" element={<ArticleEditorPage />} />
+          <Route
+            path="article-editor/:articleID"
+            element={<ArticleEditorPage />}
+          />
+          <Route path="my-articles" element={<MyArticlesPage />} />
           <Route path="settings" element={<SettingsPage />}>
             <Route index element={<ProfileEdit />} />
             <Route path="profile-settings" element={<ProfileEdit />} />
@@ -42,6 +54,8 @@ function App() {
           />
         </Route>
       </Routes>
+      {spinnerIsShowing && <LoadingSpinner />}
+      <Toaster />
     </>
   );
 }

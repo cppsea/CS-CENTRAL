@@ -1,0 +1,24 @@
+@import "../../scss/variables";
+
+@import "bootstrap/scss/bootstrap-grid.scss";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/mixins";
+
+.home-main-article-container {
+  @media (min-width: 1000px) {
+    max-width: 1000px !important;
+  }
+}
+
+// Dark mode
+@include color-mode(dark) {
+  .home-page {
+    background-color: $primary-bg-dark;
+  }
+}
+
+@include color-mode(light) {
+  .home-page {
+    background-color: $primary-bg-light;
+  }
+}

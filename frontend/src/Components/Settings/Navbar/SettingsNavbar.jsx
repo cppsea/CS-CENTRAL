@@ -23,7 +23,7 @@ export default function SettingsNavbar() {
           }`}
           onClick={(e) => handleNavLinkClick("profile-settings", e)}
         >
-          <span className="settings-nav-link-text">
+          <span className="text-uppercase text-end settings-nav-link-text">
             Profile
             {window.location.pathname === "/settings/profile-settings" && (
               <span className={"settings-nav-link-active-highlight"}></span>
@@ -43,7 +43,7 @@ export default function SettingsNavbar() {
           }`}
           onClick={(e) => handleNavLinkClick("saved-articles", e)}
         >
-          <span className="settings-nav-link-text">
+          <span className="text-uppercase text-end settings-nav-link-text">
             Saved Articles
             {window.location.pathname === "/settings/saved-articles" && (
               <span className={"settings-nav-link-active-highlight"}></span>
@@ -63,7 +63,7 @@ export default function SettingsNavbar() {
           }`}
           onClick={(e) => handleNavLinkClick("customizations", e)}
         >
-          <span className="settings-nav-link-text">
+          <span className="text-uppercase text-end settings-nav-link-text">
             Customizations
             {window.location.pathname === "/settings/customizations" && (
               <span className={"settings-nav-link-active-highlight"}></span>

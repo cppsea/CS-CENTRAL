@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { Card, Form, Button, InputGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Form, Button, InputGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import "./Signup.scss";
 import "../SignForm.scss";
-
+import { useSignup } from "../../../hooks/useSignup";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
 
 export default function SignupCard() {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [formVal, setFormVal] = useState({
     username: "",
     fname: "",
@@ -18,15 +21,17 @@ export default function SignupCard() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
 
-  //whether form has run through validation yet
+  // Whether form has run through validation yet
   const [isValidated, setValidated] = useState(false);
 
-  // error messages
+  // Error messages
   const [errorMessages, setErrorMessages] = useState({});
 
-  // handle input entered
+  // Import the useSignup hook
+  const { signup, isLoading, error } = useSignup();
+
+  // Handle input entered
   const handleInput = (e) => {
     const { name, value } = e.target;
 
@@ -44,25 +49,18 @@ export default function SignupCard() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  //does not work because state is not manipulated instantly, so this can potentially be checking before errors are being pushed here
   const isValidationPassed = () => {
-    return Object.keys(errorMessages).length === 0 ? true : false;
+    return Object.keys(errorMessages).length === 0;
   };
 
-  useEffect(() => {
-    // might add API endpoints to handle backend authentication here
-    if (isValidated && isValidationPassed()) {
-      navigate("/signin");
-    }
-  }, [isValidationPassed]);
-
-  // handle submit
-  const handleSubmit = (e) => {
+  // Handle submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     const newErrMessages = {};
     const formValidation = auth.formValidation;
 
-    for (const fieldName in formValidation) {
+    for (const fieldName in formVal) {
       const validationFuncs = formValidation[fieldName];
 
       validationFuncs.forEach((validationFunc) => {
@@ -80,6 +78,18 @@ export default function SignupCard() {
 
     setValidated(true);
     setErrorMessages(newErrMessages);
+    // Call the signup function if no validation errors
+    if (Object.keys(newErrMessages).length === 0) {
+      showSpinner();
+      await signup({
+        first_name: formVal.fname,
+        last_name: formVal.lname,
+        username: formVal.username,
+        password: formVal.password,
+        email: formVal.email,
+      });
+      hideSpinner();
+    }
   };
 
   return (
@@ -89,7 +99,9 @@ export default function SignupCard() {
       onSubmit={handleSubmit}
       className="sign-form"
     >
-      <h2 className="sign-page-title text-center fs-2 fw-bold">Sign Up</h2>
+      <h2 className="text-uppercase sign-page-title text-center fs-2 fw-bold">
+        Sign Up
+      </h2>
       <div className="d-flex justify-content-between gap-2">
         <Form.Group className="my-4">
           <Form.Control
@@ -204,10 +216,11 @@ export default function SignupCard() {
           </Form.Control.Feedback>
         </InputGroup>
       </Form.Group>
+      {error && <div className="text-danger text-center mb-3">{error}</div>}
       <div className="d-grid">
-        <Button type="submit">
+        <Button type="submit" disabled={isLoading}>
           <span className="text-uppercase text-white fw-semibold sign-action-text">
-            Register
+            {isLoading ? "Registering..." : "Register"}
           </span>
         </Button>
       </div>
