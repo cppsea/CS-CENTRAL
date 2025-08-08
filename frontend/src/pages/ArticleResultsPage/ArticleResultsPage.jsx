@@ -4,61 +4,80 @@ import RelatedTags from "../../Components/ArticleResults/SideSections/RelatedTop
 import ArticleResultsList from "../../Components/ArticleResults/ArticleResultsList.jsx";
 import { Col, Container, Row } from "react-bootstrap";
 import "./ArticleResultsPage.scss";
+import { useLoadingSpinner } from "../../context/SpinnerContext.jsx";
+import { useToggleBookmark } from "../../hooks/useToggleBookmark.jsx";
+import { useAuthContext } from "../../hooks/useAuthContext.jsx";
+import toast from "react-hot-toast";
 const dummy_topic_tags = [
   { label: "Deep Learning" },
   { label: "Artifical Intelligence" },
   { label: "Computer Vision" },
   { label: "Data Science" },
 ];
-const dummmy_articles = [
-  {
-    id: 1,
-    image:
-      "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg",
-    title: "Machine Learning in Business and Marketing",
-    author: "Jeff",
-    date: "October 24, 2023",
-    isBookmarked: true,
-  },
-];
 
 export default function ArticleResultsPage({}) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   const [articles, setArticles] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [specificArticle, setSpecificArticle] = useState();
   const titleQuery = searchParams.get("title");
 
-  //bookmark toggler creator function, returns function that toggles bookmark for certain id
-  const bookmarkTogglerCreator = (id) => () => {
-    let articleIndex = articles.findIndex((article) => article.id === id);
-    if (articleIndex !== -1) {
-      const newArticles = [...articles];
-      newArticles[articleIndex].isBookmarked =
-        !newArticles[articleIndex].isBookmarked;
-      setArticles(newArticles);
+  const  user  = JSON.parse(localStorage.getItem("user"));
+
+  const { toggleBookmark } = useToggleBookmark();
+  //bookmark toggler creator function, returns function that toggles bookmark for certain id depending on server response
+  const bookmarkTogglerCreator = (id) => async () => {
+    if (!user) {
+      toast.error("You must be logged in to bookmark articles.");
+      return;
     }
+    let articleIndex = articles.findIndex((article) => article.id === id);
+    if (articleIndex == -1) return;
+
+    let bookmarkArticle = articles[articleIndex];
+
+    showSpinner();
+    let result = await toggleBookmark(
+      bookmarkArticle.id,
+      bookmarkArticle.isBookmarked
+    );
+    await ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))(250);
+    if (!result.error) {
+      setArticles((prev) =>
+        prev.map((currArticle) =>
+          currArticle.id === id
+            ? { ...currArticle, isBookmarked: !currArticle.isBookmarked }
+            : currArticle
+        )
+      );
+    }
+    hideSpinner();
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3002/api/articles/?title=${titleQuery}`)
-      .then((res) =>
-        res.json().then((data) => {
-          let dataCopy = [...data];
+    const apiUrl = import.meta.env.VITE_API_URL;
 
-          //we dont have author names, date, bookmarked, or image, so just inserting default in for now
-          dataCopy.forEach((articleObject) => {
-            articleObject.image =
-              "https://emeritus.org/in/wp-content/uploads/sites/3/2023/03/types-of-machine-learning.jpg.optimal.jpg";
-            articleObject.author = "jeff";
-            articleObject.date = "October 24, 2023";
-            articleObject.isBookmarked = false;
-          });
-          setArticles(dataCopy);
-        })
-      )
-      .catch((error) => {
-        console.error("error fetching data");
-      });
+    const fetchArticles = async () => {
+      try {
+        showSpinner();
+        let res = await fetch(`${apiUrl}/api/articles/?title=${titleQuery}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: user ? `Bearer ${user?.token}` : "",
+          },
+        });
+        res = await res.json();
+        let dataCopy = [...res];
+        setArticles(dataCopy);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        hideSpinner();
+      }
+    };
+    fetchArticles();
   }, [titleQuery, setSearchParams]);
 
   return (

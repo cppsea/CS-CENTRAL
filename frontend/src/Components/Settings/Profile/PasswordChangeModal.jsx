@@ -4,8 +4,19 @@ import { useNavigate } from "react-router-dom";
 import * as auth from "../../auth/auth";
 import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { EyeFill, EyeSlashFill } from "react-bootstrap-icons";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
+import { useChangePassword } from "../../../hooks/useChangePassword";
 import "../Settings.scss";
-export default function PasswordChangeModal({ show, onHide, className }) {
+export default function PasswordChangeModal({
+  show,
+  onHide,
+  className,
+  userId,
+}) {
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
+  const { changePassword } = useChangePassword();
+
   const [showPassword, setShowPassword] = useState({
     oldPassword: false,
     newPassword: false,
@@ -47,15 +58,8 @@ export default function PasswordChangeModal({ show, onHide, className }) {
     return Object.keys(errorMessages).length === 0 ? true : false;
   };
 
-  useEffect(() => {
-    // might add API endpoints to handle backend authentication here
-    if (isValidated && isValidationPassed()) {
-      window.location.reload();
-    }
-  }, [isValidationPassed]);
-
   // handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const newErrMessages = {};
@@ -83,9 +87,18 @@ export default function PasswordChangeModal({ show, onHide, className }) {
       }
     }
 
-    console.log(errorMessages);
     if (Object.keys(newErrMessages).length === 0) {
       setValidated(true);
+
+      showSpinner();
+      let result = await changePassword({
+        id: userId,
+        oldPassword: passwordData.oldPassword,
+        newPassword: passwordData.newPassword,
+      });
+      if (result && !result.error) {
+      }
+      hideSpinner();
     }
     setErrorMessages(newErrMessages);
   };

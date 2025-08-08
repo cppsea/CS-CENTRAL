@@ -74,7 +74,8 @@
 }
 
 //bookmark
-.recent-article-bookmark {
+.recent-article-bookmark,
+.recent-article-interactions {
   &:hover {
     cursor: pointer;
   }
@@ -260,6 +261,14 @@
   .recent-article-bookmark {
     color: $bookmark-bg-dark;
   }
+
+  .recent-article-likes {
+    color: $like-bg-dark;
+  }
+
+  .recent-article-comments {
+    color: $comment-bg-dark;
+  }
 }
 
 @include color-mode(light) {
@@ -283,5 +292,13 @@
 
   .recent-article-bookmark {
     color: $bookmark-bg-light;
+  }
+
+  .recent-article-likes {
+    color: $like-bg-light;
+  }
+
+  .recent-article-comments {
+    color: $comment-bg-light;
   }
 }

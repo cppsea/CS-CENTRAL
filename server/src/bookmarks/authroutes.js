@@ -1,15 +1,15 @@
 const { Router } = require("express");
 const controller = require("./controller");
-const requireAuth = require('../middleware/requireAuth');
+const requireAuth = require("../middleware/requireAuth");
 
 const router = Router();
 
-router.use(requireAuth)
+router.use(requireAuth);
 
-router.post("/", controller.addBookmarks);
+router.post("/", controller.addBookmark);
 router.get("/", controller.getBookmarks);
-router.delete("/:id", controller.deleteBookmarks);
+router.delete("/:id", controller.deleteBookmark);
+router.delete("/", controller.deleteMultipleBookmarks);
 //router.put("/", controller.updateBookmarks);
-
 
 module.exports = router;

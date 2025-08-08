@@ -1,0 +1,17 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid.scss";
+@import "../../../node_modules/bootstrap/scss/grid";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules//bootstrap/scss/mixins";
+@import "../../scss/variables";
+.preview-container {
+  max-width: 1000px;
+  padding-bottom: 30px;
+
+  .article-image {
+    max-width: 100%;
+    width: 1000px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
+}

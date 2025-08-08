@@ -1,0 +1,18 @@
+.preview-container {
+  max-width: 1000px;
+  padding-bottom: 30px;
+
+  .article-image {
+    max-width: 100%;
+    width: 1000px;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+  }
+
+  img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

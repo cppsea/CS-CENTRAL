@@ -1,57 +1,58 @@
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 
 export const useSignup = () => {
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const { dispatch } = useAuthContext();
-    const navigate = useNavigate();
-    const apiUrl = import.meta.env.VITE_API_URL;
-    // const api = process.env.REACT_APP_API_URL
-    
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    console.log("API URL from environment:", apiUrl); // Debug log
+  const { dispatch } = useAuthContext();
+  const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
+  // const api = process.env.REACT_APP_API_URL
 
-    const signup = async (username, user_password) => {
-        setIsLoading(true);
-        setError(null);
+  const signup = async (user) => {
+    setIsLoading(true);
+    setError(null);
+    console.log(user);
+    try {
+      const response = await fetch(`${apiUrl}/api/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
 
-        try {
-            const response = await fetch(`${apiUrl}/api/users`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, user_password })
-            });
+      let json;
+      try {
+        json = await response.json();
+      } catch (err) {
+        setError("Invalid response from server");
+        setIsLoading(false);
+        return;
+      }
 
-            let json;
-            try {
-                json = await response.json();
-            } catch (err) {
-                setError("Invalid response from server");
-                setIsLoading(false);
-                return;
-            }
+      if (!response.ok) {
+        setError(json.error);
+        toast.error(json.error);
+        setIsLoading(false);
+        return;
+      }
 
-            if (!response.ok) {
-                setError(json.error);
-                setIsLoading(false);
-                return;
-            }
+      // Save user to local storage
+      localStorage.setItem("user", JSON.stringify(json));
 
-            // Save user to local storage
-            localStorage.setItem('user', JSON.stringify(json));
+      // Update auth context
+      dispatch({ type: "LOGIN", payload: json });
 
-            // Update auth context
-            dispatch({ type: 'LOGIN', payload: json });
+      navigate("/signin");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
 
-            navigate("/signin");
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
-            setIsLoading(false);
-        }
-    };
+      setIsLoading(false);
+    }
+  };
 
-    return { signup, isLoading, error };
+  return { signup, isLoading, error };
 };

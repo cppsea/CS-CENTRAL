@@ -5,31 +5,19 @@ import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import ArrowMarker from "../../ArrowMarker/ArrowMarker";
 import "../Settings.scss";
 import SavedArticlesSearchBar from "./SearchBar/SavedArticlesSearchBar";
-const test_articles = [
-  {
-    id: 0,
-    image:
-      "https://builtin.com/cdn-cgi/image/f=auto,quality=80,width=752,height=435/https://builtin.com/sites/www.builtin.com/files/styles/byline_image/public/2021-12/machine-learning-examples-applications.png",
-    title: "Supervised, Unsupervised, and Reinforcement Learning Techniques",
-    description: "Brief description about this topic...",
-  },
-  {
-    id: 1,
-    image:
-      "https://imageio.forbes.com/specials-images/dam/imageserve/966248982/960x0.jpg?height=456&width=711&fit=bounds",
-    title: "Supervised, Unsupervised, and Reinforcement Learning Techniques",
-    description: "Brief description about this topic...",
-  },
-  {
-    id: 2,
-    image:
-      "https://imageio.forbes.com/specials-images/dam/imageserve/966248982/960x0.jpg?height=456&width=711&fit=bounds",
-    title: "Machine Learning in Business and Marketing",
-    description: "Brief description about this topic...",
-  },
-];
+import { useGetBookmarks } from "../../../hooks/useGetBookmarks";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+import { useDeleteMultipleBookmarks } from "../../../hooks/useDeleteMultipleBookmarks";
+import toast from "react-hot-toast";
+import { useLoadingSpinner } from "../../../context/SpinnerContext";
 
 export default function SavedArticles() {
+  const { user } = useAuthContext();
+
+  const { getBookmarks } = useGetBookmarks();
+  const { deleteMultipleBookmarks } = useDeleteMultipleBookmarks();
+  const { showSpinner, hideSpinner } = useLoadingSpinner();
+
   //array all the articles currently not deleted
   const [articles, setArticles] = useState([]);
 
@@ -53,14 +41,19 @@ export default function SavedArticles() {
   };
 
   //use effect to get articles upon page load once, also init selected state of every article as false
-  //just simulating retrieving articles
   useEffect(() => {
     let initArticles = async () => {
-      let retrieved_articles = await test_articles;
-      setArticles(retrieved_articles);
+      let result = await getBookmarks();
+
+      if (result.error) {
+        return;
+      }
+
+      let resultArticles = result.articles;
+      setArticles(resultArticles);
 
       let initIsDeletedArticles = {};
-      retrieved_articles.forEach(({ id }) => {
+      resultArticles.forEach(({ id }) => {
         initIsDeletedArticles[id] = false;
       });
       setIsDeletedArticles(initIsDeletedArticles);
@@ -71,8 +64,31 @@ export default function SavedArticles() {
 
   //submit handler (the yes button in modal does not trigger submit event)
   //simply removed the selected articles from the displayed articles state
-  //insert backend actions here
-  const submitHandler = () => {
+
+  const submitHandler = async () => {
+    if (!user) {
+      toast.error("You must be logged in to delete bookmarks.");
+      return;
+    }
+
+    let deleteArticleIDs = [];
+    for (const [articleId, isDelete] of Object.entries(isDeletedArticles)) {
+      if (isDelete) {
+        deleteArticleIDs.push(articleId);
+      }
+    }
+
+    showSpinner();
+
+    let result = await deleteMultipleBookmarks(deleteArticleIDs);
+    await ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))(250);
+
+    if (result.error) {
+      return;
+    }
+
+    toast.success("Bookmarks successfully deleted.");
+
     //filter out kept articles, replace articles state with them
     let keptArticles = articles.filter(
       (article) => !isDeletedArticles[article.id]
@@ -85,6 +101,8 @@ export default function SavedArticles() {
       initIsDeletedArticles[id] = false;
     });
     setIsDeletedArticles(initIsDeletedArticles);
+
+    hideSpinner();
   };
 
   //state for whether delete confirmation modal is displayed or now
@@ -118,7 +136,9 @@ export default function SavedArticles() {
                 <div className="settings-arrow-marker-container">
                   <ArrowMarker />
                 </div>
-                <h4 className="text-uppercase settings-section-header">My Bookmarks</h4>
+                <h4 className="text-uppercase settings-section-header">
+                  My Bookmarks
+                </h4>
               </div>
             </Col>
             <Col
@@ -136,11 +156,12 @@ export default function SavedArticles() {
         </Container>
 
         <div className="d-flex flex-wrap gap-4 p-0 pt-4">
+          {!user && <span>Log in to access bookmarked articles.</span>}
           {articles.map((article) => (
             <SavedArticleItem
               key={article.id}
               articleImg={article.image}
-              articleTitle={article.title}
+              articleTitle={article.header.blocks[0].data.text}
               toBeDeleted={isDeletedArticles[article.id]}
               deleteToggler={articleToggleHandler(article.id)}
             />

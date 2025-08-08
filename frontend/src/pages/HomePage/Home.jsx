@@ -33,6 +33,8 @@ export default function Home() {
       article_desc: "The world's first AI Software Engineer",
       article_date: "March 20, 2024",
       article_read_time: "10 min read",
+      article_like_count: 0,
+      article_comment_count: 0,
     },
     {
       id: 1,
@@ -42,6 +44,8 @@ export default function Home() {
       article_desc: "Learn more about deep learning and its applications",
       article_date: "March 21, 2024",
       article_read_time: "15 min read",
+      article_like_count: 1,
+      article_comment_count: 0,
     },
     {
       id: 2,
@@ -51,6 +55,8 @@ export default function Home() {
       article_desc: "Explore some methods used in Machine Learning and AI",
       article_date: "March 22, 2024",
       article_read_time: "20 min read",
+      article_like_count: 3,
+      article_comment_count: 1,
     },
     {
       id: 3,
@@ -61,6 +67,8 @@ export default function Home() {
         "Deep dive into the application of Machine Learning in Business and Marketing",
       article_date: "March 18, 2024",
       article_read_time: "15 min read",
+      article_like_count: 6,
+      article_comment_count: 4,
     },
     {
       id: 4,
@@ -71,6 +79,8 @@ export default function Home() {
         "Curious about what quantum computing is about. Here is an article for you!",
       article_date: "March 20, 2024",
       article_read_time: "12 min read",
+      article_like_count: 10,
+      article_comment_count: 3,
     },
   ];
 

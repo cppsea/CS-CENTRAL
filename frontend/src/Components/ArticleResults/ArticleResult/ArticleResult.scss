@@ -99,6 +99,12 @@
   .article-result-bookmark {
     color: $bookmark-bg-light;
   }
+  .article-result-likes {
+    color: $like-bg-light;
+  }
+  .article-result-comment {
+    color: $comment-bg-light;
+  }
 }
 @include color-mode(dark) {
   .article-result-text,
@@ -108,5 +114,11 @@
   }
   .article-result-bookmark {
     color: $bookmark-bg-dark;
+  }
+  .article-result-likes {
+    color: $like-bg-dark;
+  }
+  .article-result-comment {
+    color: $comment-bg-dark;
   }
 }
