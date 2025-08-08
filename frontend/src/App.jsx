@@ -48,7 +48,6 @@ function App() {
             <Route path="saved-articles" element={<SavedArticles />} />
             <Route path="customizations" element={<CustomizationsEdit />} />
           </Route>
-
           <Route
             path="*"
             element={<h1 className="text-center">404 - Page Not Found</h1>}
